@@ -8,10 +8,10 @@
                 "hide": false,
                 "iconColor": "#e0752d",
                 "limit": 100,
-                "name": "PMM Annotations",
+                "name": "SSM Annotations",
                 "showIn": 0,
                 "tags": [
-                    "pmm_annotation"
+                    "ssm_annotation"
                 ],
                 "type": "tags"
             },
@@ -132,7 +132,7 @@
                 "PMM"
             ],
             "targetBlank": false,
-            "title": "PMM",
+            "title": "SSM",
             "type": "dashboards"
         }
     ],

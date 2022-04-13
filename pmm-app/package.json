@@ -1,7 +1,7 @@
 {
   "name": "pmm-qan-app",
   "version": "1.0.0",
-  "description": "PMM app for Grafana",
+  "description": "SSM app for Grafana",
   "main": "module.js",
   "scripts": {
     "prebuild": "rm -rf dist/; mkdir dist/; cp -RH src/* dist/",

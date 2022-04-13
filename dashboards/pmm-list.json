@@ -114,7 +114,7 @@
                 "PMM"
             ],
             "targetBlank": false,
-            "title": "PMM",
+            "title": "SSM",
             "type": "dashboards"
         }
     ],
@@ -181,7 +181,7 @@
         ]
     },
     "timezone": "browser",
-    "title": "_PMM Amazon RDS and Remote Instances",
+    "title": "_SSM Amazon RDS and Remote Instances",
     "uid": "pmm-list",
     "version": 1
 }

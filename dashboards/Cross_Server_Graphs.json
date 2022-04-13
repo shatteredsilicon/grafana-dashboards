@@ -8,10 +8,10 @@
                 "hide": false,
                 "iconColor": "#e0752d",
                 "limit": 100,
-                "name": "PMM Annotations",
+                "name": "SSM Annotations",
                 "showIn": 0,
                 "tags": [
-                    "pmm_annotation"
+                    "ssm_annotation"
                 ],
                 "type": "tags"
             },
@@ -132,7 +132,7 @@
                 "PMM"
             ],
             "targetBlank": false,
-            "title": "PMM",
+            "title": "SSM",
             "type": "dashboards"
         }
     ],
@@ -144,7 +144,7 @@
             "dashes": false,
             "datasource": "Prometheus",
             "decimals": 2,
-            "description": "**Load Average**\n\nOn Linux, this is the number of processes which are in \u201crunning\u201d state or in \u201cuninterruptible sleep\u201d state which typically corresponds to disk IO. You can also map LoadAvg to VMSTAT output \u2013 it is something like moving average of sum of \u201cr\u201d and \u201cb\u201d columns from VMSTAT.\n\nThis chart is best used for trends. If you notice the load average rising, it may be due to innefficient queries. In that case, it is a good idea to look at PMM's Query Analytics.",
+            "description": "**Load Average**\n\nOn Linux, this is the number of processes which are in \u201crunning\u201d state or in \u201cuninterruptible sleep\u201d state which typically corresponds to disk IO. You can also map LoadAvg to VMSTAT output \u2013 it is something like moving average of sum of \u201cr\u201d and \u201cb\u201d columns from VMSTAT.\n\nThis chart is best used for trends. If you notice the load average rising, it may be due to innefficient queries. In that case, it is a good idea to look at SSM's Query Analytics.",
             "editable": true,
             "error": false,
             "fill": 2,
@@ -173,8 +173,8 @@
             "links": [
                 {
                     "dashUri": "db/_pmm-query-analytics",
-                    "dashboard": "_PMM Query Analytics",
-                    "title": "PMM Query Analytics",
+                    "dashboard": "_SSM Query Analytics",
+                    "title": "SSM Query Analytics",
                     "type": "dashboard",
                     "url": "/qan/"
                 },

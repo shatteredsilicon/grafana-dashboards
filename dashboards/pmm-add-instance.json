@@ -105,7 +105,7 @@
                 "PMM"
             ],
             "targetBlank": false,
-            "title": "PMM",
+            "title": "SSM",
             "type": "dashboards"
         }
     ],
@@ -127,7 +127,7 @@
                             "refId": "A"
                         }
                     ],
-                    "title": "PMM Add Instance",
+                    "title": "SSM Add Instance",
                     "type": "pmm-add-instance-app-panel"
                 }
             ],
@@ -179,6 +179,6 @@
         ]
     },
     "timezone": "browser",
-    "title": "_PMM Add Instance",
+    "title": "_SSM Add Instance",
     "version": 2
 }

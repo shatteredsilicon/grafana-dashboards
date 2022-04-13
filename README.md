@@ -50,10 +50,10 @@ This is a set of Grafana dashboards for database and system monitoring using Pro
  * Summary Dashboard
  * System Overview
  * Trends Dashboard
- * _PMM Add Instance
- * _PMM Amazon RDS and Remote Instances
- * _PMM Query Analytics Settings
- * _PMM System Summary
+ * _SSM Add Instance
+ * _SSM Amazon RDS and Remote Instances
+ * _SSM Query Analytics Settings
+ * _SSM System Summary
 
 
 

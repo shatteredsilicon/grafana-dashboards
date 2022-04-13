@@ -89,7 +89,7 @@ def add_links(dashboard):
     user_input = raw_input(prompt)
     if user_input:
         if user_input == 'Yes':
-            setOfLinks = ['QAN', 'OS', 'MySQL', 'MongoDB', 'PostgreSQL', 'HA', 'Cloud', 'Insight', 'PMM']
+            setOfLinks = ['QAN', 'OS', 'MySQL', 'MongoDB', 'PostgreSQL', 'HA', 'Cloud', 'Insight', 'SSM']
             for link in copy.deepcopy(dashboard['links']):
                 dashboard['links'].remove(link)
 
@@ -214,9 +214,9 @@ def set_hide_timepicker(dashboard):
 
 
 def add_annotation(dashboard):
-    """Add PMM annotation."""
-    tag = "pmm_annotation"
-    prompt = 'Add default PMM annotation (conventional: **Yes**) [%s]: ' % (
+    """Add SSM annotation."""
+    tag = "ssm_annotation"
+    prompt = 'Add default SSM annotation (conventional: **Yes**) [%s]: ' % (
         "No",
     )
     user_input = raw_input(prompt)
@@ -231,7 +231,7 @@ def add_annotation(dashboard):
                 'hide': False,
                 'iconColor': "#e0752d",
                 'limit': 100,
-                'name': "PMM Annotations",
+                'name': "SSM Annotations",
                 'showIn': 0,
                 'tags': [ tag ],
                 'type': "tags"
