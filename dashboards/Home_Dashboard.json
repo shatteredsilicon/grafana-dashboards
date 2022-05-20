@@ -164,11 +164,11 @@
             "id": 1341,
             "panels": [],
             "repeat": null,
-            "title": "General information",
+            "title": "General Information",
             "type": "row"
         },
         {
-            "content": "**Overview**  \nShattered Silicon Monitoring (SSM) is a free and open-source platform for managing and monitoring MySQL and MongoDB performance, and provides time-based analysis to ensure that your data works as efficiently as possible. It is a fork of [PMM 1.x](https://github.com/percona/pmm/tree/1.x) containing various improvements and bug-fixes.  \n\n**Documentation** \nFor now, please consult the official PMM documentation as all if it applies to SSM at this time. Also of interest are the Release notes and FAQ for common questions about SSM.  \n\n**Community and Blogs**  \nIf you think you have encountered a bug in SSM, please raise an issue on [github](https://github.com/shatteredsilicon/ssm/issues). We will publish SSM announcements and use cases on the [Shattered Silicon Blog](//shatteredsilicon.net/blog)  \n\n**Get Help from Shattered Silicon**  \nAre you looking for assistance that comes with a response-time guarantee? Let our [Support team](https://shatteredsilicon.net/mariadb-mysql-support/) help you!  \n\n\n\n",
+            "content": "**Overview**  \nShattered Silicon Monitoring (SSM) is a free and open-source platform for managing and monitoring MySQL, MariaDB, MongoDB, ProxySQL and Linux performance, and provides time-based analysis to ensure that your database works as efficiently as possible. It is a fork of [PMM 1.x](https://github.com/percona/pmm/tree/1.x) and containing various fixes and improvements.  \n\n**Documentation** \nFor now, please consult the official [PMM documentation](https://www.percona.com/doc/percona-monitoring-and-management/1.x/index.html) as all if it applies to SSM at this time. \n\n**Community and Blogs**  \nIf you think you have encountered a bug in SSM, please raise an issue on [github](https://github.com/shatteredsilicon/ssm/issues). We will publish SSM announcements and use cases on the [Shattered Silicon Blog](https://shatteredsilicon.net/blog)  \n\n**Get Help from Shattered Silicon**  \nAre you looking for assistance that comes with response-time guarantees? Let our [Support team](https://shatteredsilicon.net/mariadb-mysql-support/) help you!  \n\n\n\n",
             "gridPos": {
                 "h": 9,
                 "w": 12,
@@ -201,7 +201,7 @@
             "search": false,
             "starred": true,
             "tags": [],
-            "title": "Starred and Recently used Dashboards",
+            "title": "Starred and Recently Used Dashboards",
             "type": "dashlist"
         },
         {
@@ -280,7 +280,7 @@
                 }
             ],
             "thresholds": "",
-            "title": "Systems under monitoring",
+            "title": "Systems Under Monitoring",
             "transparent": false,
             "type": "singlestat",
             "valueFontSize": "100%",
