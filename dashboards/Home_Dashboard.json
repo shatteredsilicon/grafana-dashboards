@@ -115,7 +115,7 @@
                 "PMM"
             ],
             "targetBlank": false,
-            "title": "PMM",
+            "title": "SSM",
             "type": "dashboards"
         }
     ],
@@ -135,7 +135,7 @@
             "type": "row"
         },
         {
-            "content": "<br>\n<div class=\"text-center dashboard-header\">\n<img src=\"public/img/pmm-logo.svg\" height=\"60px\" width=\"60px\">\n  <span>Percona Monitoring and Management</span>\n</div>",
+            "content": "<br>\n<div class=\"text-center dashboard-header\">\n<img src=\"public/img/ssm-logo.png\" height=\"60px\" width=\"60px\">\n  <span style=\"border-image: linear-gradient(90deg,rgba(102, 204, 255, .7) 0,rgba(3, 131, 145,.7) 50%,rgba(35, 43, 52,.7));border-image-slice: 1;\">Shattered Silicon Monitoring</span>\n</div>",
             "datasource": "Prometheus",
             "editable": true,
             "gridPos": {
@@ -164,11 +164,11 @@
             "id": 1341,
             "panels": [],
             "repeat": null,
-            "title": "General information",
+            "title": "General Information",
             "type": "row"
         },
         {
-            "content": "**Overview**  \n[Percona Monitoring and Management (PMM)](https://www.percona.com/pmm) is a free and open-source platform for managing and monitoring MySQL and MongoDB performance, and provides time-based analysis to ensure that your data works as efficiently as possible. \n\n**Documentation**  \nPlease consult the official [PMM documentation](https://www.percona.com/doc/percona-monitoring-and-management/index.html) to learn more about PMM. Also of interest are the [Release notes](https://www.percona.com/doc/percona-monitoring-and-management/release-notes/index.html) and [FAQ](https://www.percona.com/doc/percona-monitoring-and-management/faq.html) for common questions about PMM.\n\n**Community and Blogs**  \nOn the [PMM Community Forums](https://www.percona.com/forums/questions-discussions/percona-monitoring-and-management) you will find help from Perconians and the Community at large.  Further, we publish PMM announcements and use cases regularly on the [Percona Database Performance Blog](https://www.percona.com/blog/category/percona-monitoring-and-management/)  \n\n**Get Help from Percona**  \nAre you looking for assistance that comes with a response-time guarantee? Let our [Support team](https://www.percona.com/services/support?utm_source=pmm&utm_medium=web&utm_campaign=support_link)  help you!\nAlready a customer? Log in to your [Percona Support Portal](https://customers.percona.com) \n\n\n\n",
+            "content": "**Overview**  \nShattered Silicon Monitoring (SSM) is a free and open-source platform for managing and monitoring MySQL, MariaDB, MongoDB, ProxySQL and Linux performance, and provides time-based analysis to ensure that your database works as efficiently as possible. It is a fork of [PMM 1.x](https://github.com/percona/pmm/tree/1.x) and containing various fixes and improvements.  \n\n**Documentation** \nFor now, please consult the official [PMM documentation](https://www.percona.com/doc/percona-monitoring-and-management/1.x/index.html) as all if it applies to SSM at this time. \n\n**Community and Blogs**  \nIf you think you have encountered a bug in SSM, please raise an issue on [github](https://github.com/shatteredsilicon/ssm/issues). We will publish SSM announcements and use cases on the [Shattered Silicon Blog](https://shatteredsilicon.net/blog)  \n\n**Get Help from Shattered Silicon**  \nAre you looking for assistance that comes with response-time guarantees? Let our [Support team](https://shatteredsilicon.net/mariadb-mysql-support/) help you!  \n\n\n\n",
             "gridPos": {
                 "h": 9,
                 "w": 12,
@@ -201,7 +201,7 @@
             "search": false,
             "starred": true,
             "tags": [],
-            "title": "Starred and Recently used Dashboards",
+            "title": "Starred and Recently Used Dashboards",
             "type": "dashlist"
         },
         {
@@ -280,7 +280,7 @@
                 }
             ],
             "thresholds": "",
-            "title": "Systems under monitoring",
+            "title": "Systems Under Monitoring",
             "transparent": false,
             "type": "singlestat",
             "valueFontSize": "100%",

@@ -8,10 +8,10 @@
                 "hide": false,
                 "iconColor": "#e0752d",
                 "limit": 100,
-                "name": "PMM Annotations",
+                "name": "SSM Annotations",
                 "showIn": 0,
                 "tags": [
-                    "pmm_annotation"
+                    "ssm_annotation"
                 ],
                 "type": "tags"
             },
@@ -132,7 +132,7 @@
                 "PMM"
             ],
             "targetBlank": false,
-            "title": "PMM",
+            "title": "SSM",
             "type": "dashboards"
         }
     ],
@@ -229,7 +229,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "(sum(rate(process_cpu_seconds_total{job=\"prometheus\"}[$interval])) by () or sum(irate(process_cpu_seconds_total{job=\"prometheus\"}[5m])) by ()) / count(node_cpu{mode=\"user\", instance=\"pmm-server\"})*100",
+                    "expr": "(sum(rate(process_cpu_seconds_total{job=\"prometheus\"}[$interval])) by () or sum(irate(process_cpu_seconds_total{job=\"prometheus\"}[5m])) by ()) / count(node_cpu{mode=\"user\", instance=\"ssm-server\"})*100",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -314,7 +314,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "100*sum(go_memstats_alloc_bytes{job=\"prometheus\"}+go_memstats_stack_inuse_bytes{job=\"prometheus\"}) by () / \nsum(node_memory_MemTotal{instance=\"pmm-server\"}) by ()",
+                    "expr": "100*sum(go_memstats_alloc_bytes{job=\"prometheus\"}+go_memstats_stack_inuse_bytes{job=\"prometheus\"}) by () / \nsum(node_memory_MemTotal{instance=\"ssm-server\"}) by ()",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -820,7 +820,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "(sum(rate(prometheus_tsdb_head_samples_appended_total[15m])) by () *10800*3) / ((sum(node_memory_MemTotal{instance=\"pmm-server\"}) by ()-419430400)*0.35)*100",
+                    "expr": "(sum(rate(prometheus_tsdb_head_samples_appended_total[15m])) by () *10800*3) / ((sum(node_memory_MemTotal{instance=\"ssm-server\"}) by ()-419430400)*0.35)*100",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -916,7 +916,7 @@
                             "step": 60
                         },
                         {
-                            "expr": "count(node_cpu{mode=\"user\", instance=\"pmm-server\"})",
+                            "expr": "count(node_cpu{mode=\"user\", instance=\"ssm-server\"})",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -925,7 +925,7 @@
                             "step": 40
                         },
                         {
-                            "expr": "count(node_cpu{mode=\"user\", instance=\"pmm-server\"})*0.75",
+                            "expr": "count(node_cpu{mode=\"user\", instance=\"ssm-server\"})*0.75",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -1063,7 +1063,7 @@
                             "step": 60
                         },
                         {
-                            "expr": "node_memory_MemTotal{instance=\"pmm-server\"}",
+                            "expr": "node_memory_MemTotal{instance=\"ssm-server\"}",
                             "format": "time_series",
                             "hide": false,
                             "interval": "$interval",
@@ -1163,7 +1163,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "(node_filesystem_size{instance=\"pmm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \nnode_filesystem_size{instance=\"pmm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} ) - \n(node_filesystem_free{instance=\"pmm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \nnode_filesystem_free{instance=\"pmm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"})",
+                            "expr": "(node_filesystem_size{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \nnode_filesystem_size{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} ) - \n(node_filesystem_free{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \nnode_filesystem_free{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"})",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -1171,7 +1171,7 @@
                             "refId": "A"
                         },
                         {
-                            "expr": "node_filesystem_free{instance=\"pmm-server\", mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \nnode_filesystem_free{instance=\"pmm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}",
+                            "expr": "node_filesystem_free{instance=\"ssm-server\", mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \nnode_filesystem_free{instance=\"ssm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}",
                             "format": "time_series",
                             "hide": false,
                             "interval": "$interval",
@@ -1180,7 +1180,7 @@
                             "refId": "B"
                         },
                         {
-                            "expr": "node_filesystem_size{instance=\"pmm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \nnode_filesystem_size{instance=\"pmm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}",
+                            "expr": "node_filesystem_size{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \nnode_filesystem_size{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}",
                             "format": "time_series",
                             "hide": false,
                             "interval": "$interval",
@@ -1272,7 +1272,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "node_filesystem_free{instance=\"pmm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}/\nclamp_min((node_filesystem_free{instance=\"pmm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} - \npredict_linear(node_filesystem_free{instance=\"pmm-server\", mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600)),0)\nor\nnode_filesystem_free{instance=\"pmm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}/\nclamp_min((node_filesystem_free{instance=\"pmm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} - \npredict_linear(node_filesystem_free{instance=\"pmm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600)),0)",
+                            "expr": "node_filesystem_free{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}/\nclamp_min((node_filesystem_free{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} - \npredict_linear(node_filesystem_free{instance=\"ssm-server\", mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600)),0)\nor\nnode_filesystem_free{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}/\nclamp_min((node_filesystem_free{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} - \npredict_linear(node_filesystem_free{instance=\"ssm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600)),0)",
                             "format": "time_series",
                             "hide": false,
                             "interval": "$interval",
@@ -3514,7 +3514,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "(sum(prometheus_target_interval_length_seconds{instance=\"pmm-server\",interval=\"1s\",job=\"prometheus\",quantile=\"0.99\"}) by () - sum(prometheus_target_interval_length_seconds{instance=\"pmm-server\",interval=\"1s\",job=\"prometheus\",quantile=\"0.01\"}) by ())/1",
+                            "expr": "(sum(prometheus_target_interval_length_seconds{instance=\"ssm-server\",interval=\"1s\",job=\"prometheus\",quantile=\"0.99\"}) by () - sum(prometheus_target_interval_length_seconds{instance=\"ssm-server\",interval=\"1s\",job=\"prometheus\",quantile=\"0.01\"}) by ())/1",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -3524,7 +3524,7 @@
                             "step": 60
                         },
                         {
-                            "expr": "(sum(prometheus_target_interval_length_seconds{instance=\"pmm-server\",interval=\"5s\",job=\"prometheus\",quantile=\"0.99\"}) by () - sum(prometheus_target_interval_length_seconds{instance=\"pmm-server\",interval=\"5s\",job=\"prometheus\",quantile=\"0.01\"}) by ())/5",
+                            "expr": "(sum(prometheus_target_interval_length_seconds{instance=\"ssm-server\",interval=\"5s\",job=\"prometheus\",quantile=\"0.99\"}) by () - sum(prometheus_target_interval_length_seconds{instance=\"ssm-server\",interval=\"5s\",job=\"prometheus\",quantile=\"0.01\"}) by ())/5",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -3532,7 +3532,7 @@
                             "refId": "B"
                         },
                         {
-                            "expr": "(sum(prometheus_target_interval_length_seconds{instance=\"pmm-server\",interval=\"1m0s\",job=\"prometheus\",quantile=\"0.99\"}) by () - sum(prometheus_target_interval_length_seconds{instance=\"pmm-server\",interval=\"1m0s\",job=\"prometheus\",quantile=\"0.01\"}) by ())/60",
+                            "expr": "(sum(prometheus_target_interval_length_seconds{instance=\"ssm-server\",interval=\"1m0s\",job=\"prometheus\",quantile=\"0.99\"}) by () - sum(prometheus_target_interval_length_seconds{instance=\"ssm-server\",interval=\"1m0s\",job=\"prometheus\",quantile=\"0.01\"}) by ())/60",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -4595,7 +4595,7 @@
                             "dashboard": "System Overview",
                             "includeVars": true,
                             "keepTime": true,
-                            "params": "var-host=pmm-server",
+                            "params": "var-host=ssm-server",
                             "targetBlank": true,
                             "title": "System Overview",
                             "type": "dashboard"
@@ -4640,7 +4640,7 @@
                             "calculatedInterval": "10m",
                             "datasourceErrors": {},
                             "errors": {},
-                            "expr": "clamp_max(avg by (instance) (sum by (mode) ( (clamp_max(rate(node_cpu{instance=\"pmm-server\",mode!='idle',mode!=\"iowait\"}[$interval]),1)) or  (clamp_max(irate(node_cpu{instance=\"pmm-server\",mode!='idle',mode!=\"iowait\"}[5m]),1)) )),1) *100",
+                            "expr": "clamp_max(avg by (instance) (sum by (mode) ( (clamp_max(rate(node_cpu{instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[$interval]),1)) or  (clamp_max(irate(node_cpu{instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[5m]),1)) )),1) *100",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -4728,7 +4728,7 @@
                             "calculatedInterval": "10m",
                             "datasourceErrors": {},
                             "errors": {},
-                            "expr": "(node_memory_MemAvailable{instance=\"pmm-server\"} or (node_memory_MemFree{instance=\"pmm-server\"} + node_memory_Buffers{instance=\"pmm-server\"} + node_memory_Cached{instance=\"pmm-server\"})) / node_memory_MemTotal{instance=\"pmm-server\"} * 100",
+                            "expr": "(node_memory_MemAvailable{instance=\"ssm-server\"} or (node_memory_MemFree{instance=\"ssm-server\"} + node_memory_Buffers{instance=\"ssm-server\"} + node_memory_Cached{instance=\"ssm-server\"})) / node_memory_MemTotal{instance=\"ssm-server\"} * 100",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -4782,7 +4782,7 @@
                             "dashboard": "Disk Performance",
                             "includeVars": true,
                             "keepTime": true,
-                            "params": "var-host=pmm-server",
+                            "params": "var-host=ssm-server",
                             "targetBlank": true,
                             "title": "Disk Performance",
                             "type": "dashboard"
@@ -4825,7 +4825,7 @@
                             "calculatedInterval": "10m",
                             "datasourceErrors": {},
                             "errors": {},
-                            "expr": "rate(node_vmstat_pgpgin{instance=\"pmm-server\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{instance=\"pmm-server\"}[5m]) * 1024",
+                            "expr": "rate(node_vmstat_pgpgin{instance=\"ssm-server\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{instance=\"ssm-server\"}[5m]) * 1024",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -4911,7 +4911,7 @@
                             "calculatedInterval": "10m",
                             "datasourceErrors": {},
                             "errors": {},
-                            "expr": "rate(node_vmstat_pgpgout{instance=\"pmm-server\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{instance=\"pmm-server\"}[5m]) * 1024",
+                            "expr": "rate(node_vmstat_pgpgout{instance=\"ssm-server\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{instance=\"ssm-server\"}[5m]) * 1024",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -4997,7 +4997,7 @@
                             "calculatedInterval": "10m",
                             "datasourceErrors": {},
                             "errors": {},
-                            "expr": "(sum(rate(node_network_receive_bytes{instance=\"pmm-server\", device!=\"lo\"}[$interval]) or irate(node_network_receive_bytes{instance=\"pmm-server\", device!=\"lo\"}[5m]))) + (sum(rate(node_network_transmit_bytes{instance=\"pmm-server\", device!=\"lo\"}[$interval]) or irate(node_network_transmit_bytes{instance=\"pmm-server\", device!=\"lo\"}[5m])))",
+                            "expr": "(sum(rate(node_network_receive_bytes{instance=\"ssm-server\", device!=\"lo\"}[$interval]) or irate(node_network_receive_bytes{instance=\"ssm-server\", device!=\"lo\"}[5m]))) + (sum(rate(node_network_transmit_bytes{instance=\"ssm-server\", device!=\"lo\"}[$interval]) or irate(node_network_transmit_bytes{instance=\"ssm-server\", device!=\"lo\"}[5m])))",
                             "format": "time_series",
                             "interval": "$interval",
                             "intervalFactor": 1,
@@ -5083,7 +5083,7 @@
                             "calculatedInterval": "10m",
                             "datasourceErrors": {},
                             "errors": {},
-                            "expr": "node_time{instance=\"pmm-server\"} - node_boot_time{instance=\"pmm-server\"}",
+                            "expr": "node_time{instance=\"ssm-server\"} - node_boot_time{instance=\"ssm-server\"}",
                             "format": "time_series",
                             "interval": "5m",
                             "intervalFactor": 1,
@@ -5132,7 +5132,7 @@
                 }
             ],
             "repeat": null,
-            "title": "PMM Server Logs",
+            "title": "SSM Server Logs",
             "type": "row"
         }
     ],
@@ -5212,8 +5212,8 @@
                 "allValue": null,
                 "current": {
                     "selected": true,
-                    "text": "pmm-server",
-                    "value": "pmm-server"
+                    "text": "ssm-server",
+                    "value": "ssm-server"
                 },
                 "hide": 2,
                 "includeAll": false,
@@ -5223,11 +5223,11 @@
                 "options": [
                     {
                         "selected": true,
-                        "text": "pmm-server",
-                        "value": "pmm-server"
+                        "text": "ssm-server",
+                        "value": "ssm-server"
                     }
                 ],
-                "query": "pmm-server",
+                "query": "ssm-server",
                 "type": "custom"
             }
         ]

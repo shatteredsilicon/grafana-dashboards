@@ -12,11 +12,11 @@ pack:
 	tar czf pmm-app.tar.gz pmm-app
 
 install:
-	docker exec pmm-server supervisorctl stop grafana
-	docker exec pmm-server bash -c 'rm -rf /var/lib/grafana/plugins/pmm-*'
-	docker cp pmm-app.tar.gz  pmm-server:/var/lib/grafana/plugins/
-	docker exec pmm-server bash -c 'cd /var/lib/grafana/plugins/ && tar xzf pmm-app.tar.gz'
-	docker exec pmm-server supervisorctl start grafana
+	docker exec ssm-server supervisorctl stop grafana
+	docker exec ssm-server bash -c 'rm -rf /var/lib/grafana/plugins/pmm-*'
+	docker cp pmm-app.tar.gz  ssm-server:/var/lib/grafana/plugins/
+	docker exec ssm-server bash -c 'cd /var/lib/grafana/plugins/ && tar xzf pmm-app.tar.gz'
+	docker exec ssm-server supervisorctl start grafana
 
 disable:
 	curl -X POST 'http://admin:admin@localhost/graph/api/plugins/pmm-app/settings' -d 'enabled=false'

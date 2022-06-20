@@ -105,7 +105,7 @@
                 "PMM"
             ],
             "targetBlank": false,
-            "title": "PMM",
+            "title": "SSM",
             "type": "dashboards"
         }
     ],
@@ -127,7 +127,7 @@
                             "refId": "A"
                         }
                     ],
-                    "title": "PMM Query Analytics Settings",
+                    "title": "SSM Query Analytics Settings",
                     "type": "pmm-qan-settings-app-panel"
                 }
             ],
@@ -157,7 +157,7 @@
                 "multi": false,
                 "name": "host",
                 "options": [],
-                "query": "SELECT `name` FROM `pmm`.`instances` WHERE `subsystem_id` IN (3, 4) AND (`deleted` IS NULL OR `deleted` < '1971-01-01 00:00:01');",
+                "query": "SELECT `name` FROM `ssm`.`instances` WHERE `subsystem_id` IN (3, 4) AND (`deleted` IS NULL OR `deleted` < '1971-01-01 00:00:01');",
                 "refresh": 1,
                 "regex": "",
                 "sort": 1,
@@ -200,6 +200,6 @@
         ]
     },
     "timezone": "browser",
-    "title": "_PMM Query Analytics Settings",
+    "title": "_SSM Query Analytics Settings",
     "version": 2
 }

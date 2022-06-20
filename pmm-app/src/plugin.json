@@ -1,6 +1,6 @@
 {
   "type": "app",
-  "name": "PMM",
+  "name": "SSM",
   "id": "pmm-app",
 
   "info": {
@@ -14,8 +14,8 @@
       {"name": "AGPL-3 License",  "url": "https://github.com/percona/qan-app/blob/master/LICENSE"}
     ],
     "logos": {
-      "small": "img/pmm-logo.png",
-      "large": "img/pmm-logo.png"
+      "small": "img/ssm-logo.png",
+      "large": "img/ssm-logo.png"
     },
     "version": "1.0.3",
     "updated": "2018-02-02"
