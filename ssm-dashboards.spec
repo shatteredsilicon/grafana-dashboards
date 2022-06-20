@@ -31,12 +31,8 @@ Dashboards are also a part of Percona Monitoring and Management project.
 
 
 %build
-tar -zxf qan-app-node_modules-1.8.0.tar.gz
-
 pushd pmm-app
-    ln -s ../node_modules node_modules
     npm run build
-    rm node_modules
 popd
 
 

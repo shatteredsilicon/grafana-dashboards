@@ -1,7 +1,6 @@
 .idea
 .DS_Store
 dashboards/PMM_Demo.json
-package-lock.json
 /export-dash.py
 /import-dash.py
 .env/
