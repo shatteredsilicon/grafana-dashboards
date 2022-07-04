@@ -103,7 +103,7 @@ def add_links(dashboard):
                         'targetBlank': False,
                         'title': 'Query Analytics',
                         'type': 'link',
-                        'url': '/graph/dashboard/db/_pmm-query-analytics'
+                        'url': '/graph/dashboard/db/_ssm-query-analytics'
                     }
                 else:
                     add_item = {
