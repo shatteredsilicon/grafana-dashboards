@@ -45,7 +45,7 @@
             "targetBlank": false,
             "title": "Query Analytics",
             "type": "link",
-            "url": "/graph/dashboard/db/_pmm-query-analytics"
+            "url": "/graph/dashboard/db/_ssm-query-analytics"
         },
         {
             "asDropdown": true,
@@ -172,7 +172,7 @@
             "linewidth": 2,
             "links": [
                 {
-                    "dashUri": "db/_pmm-query-analytics",
+                    "dashUri": "db/_ssm-query-analytics",
                     "dashboard": "_SSM Query Analytics",
                     "title": "SSM Query Analytics",
                     "type": "dashboard",
