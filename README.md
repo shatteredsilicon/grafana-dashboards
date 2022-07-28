@@ -51,7 +51,7 @@ This is a set of Grafana dashboards for database and system monitoring using Pro
  * System Overview
  * Trends Dashboard
  * _SSM Add Instance
- * _SSM Amazon RDS and Remote Instances
+ * _SSM Monitored Instances
  * _SSM Query Analytics Settings
  * _SSM System Summary
 

@@ -181,7 +181,7 @@
         ]
     },
     "timezone": "browser",
-    "title": "_SSM Amazon RDS and Remote Instances",
+    "title": "_SSM Monitored Instances",
     "uid": "pmm-list",
     "version": 1
 }
