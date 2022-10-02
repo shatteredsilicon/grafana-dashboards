@@ -1366,7 +1366,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "avg(node_time{instance=~\"$host\"} - node_boot_time{instance=~\"$host\"})",
+                    "expr": "avg((node_time{instance=~\"$host\"} - node_boot_time{instance=~\"$host\"}) or rdsosmetrics_uptime{instance=~\"$host\"})",
                     "format": "time_series",
                     "instant": true,
                     "interval": "5m",
@@ -2452,7 +2452,7 @@
                     "calculatedInterval": "10m",
                     "datasourceErrors": {},
                     "errors": {},
-                    "expr": "node_time{instance=~\"$host\"} - node_boot_time{instance=~\"$host\"}",
+                    "expr": "(node_time{instance=~\"$host\"} - node_boot_time{instance=~\"$host\"}) or rdsosmetrics_uptime{instance=~\"$host\"}",
                     "format": "time_series",
                     "interval": "5m",
                     "intervalFactor": 1,
