@@ -219,7 +219,7 @@
                     "calculatedInterval": "10m",
                     "datasourceErrors": {},
                     "errors": {},
-                    "expr": "(node_time{instance=~\"$host\"} - node_boot_time{instance=~\"$host\"}) or (time() - node_boot_time{instance=~\"$host\"})",
+                    "expr": "(node_time{instance=~\"$host\"} - node_boot_time{instance=~\"$host\"}) or (time() - node_boot_time{instance=~\"$host\"}) or rdsosmetrics_uptime{instance=~\"$host\"}",
                     "format": "time_series",
                     "hide": false,
                     "interval": "5m",
