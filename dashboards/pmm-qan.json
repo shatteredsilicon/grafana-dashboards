@@ -193,7 +193,7 @@
                     "refId": "A"
                 },
                 {
-                    "expr": "((rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) or rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=\"rdsdev\"}[$interval])) + (rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) or rate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=\"rdsdev\"}[$interval]))) * 1024 or \n((irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) or irate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=\"rdsdev\"}[5m])) + (irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) or irate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=\"rdsdev\"}[5m]))) * 1024",
+                    "expr": "((rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) or rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval])) + (rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) or rate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]))) * 1024 or \n((irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) or irate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m])) + (irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) or irate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=~\"rdsdev|rdstemp\"}[5m]))) * 1024",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
