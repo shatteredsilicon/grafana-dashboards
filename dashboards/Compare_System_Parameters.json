@@ -1558,7 +1558,7 @@
             "steppedLine": false,
             "targets": [
                 {
-                    "expr": "max(node_memory_MemTotal{instance=~\"$host\"}) without(job) - \n(max(node_memory_MemFree{instance=~\"$host\"}) without(job) + \nmax(node_memory_Buffers{instance=~\"$host\"}) without(job) + \n(max(node_memory_Cached{instance=~\"$host\",job=~\"rds-enhanced|linux\"}) without (job) or \nmax(node_memory_Cached{instance=~\"$host\",job=\"rds-basic\"}) without (job)))",
+                    "expr": "max(node_memory_MemTotal{instance=~\"$host\"}) without(job) - \n(max(node_memory_MemFree{instance=~\"$host\"}) without(job) + \nmax(node_memory_Buffers{instance=~\"$host\"}) without(job) + \n(max(node_memory_Cached{instance=~\"$host\",job=~\"rds-enhanced|linux|snmp\"}) without (job) or \nmax(node_memory_Cached{instance=~\"$host\",job=\"rds-basic\"}) without (job)))",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -1582,7 +1582,7 @@
                     "refId": "C"
                 },
                 {
-                    "expr": "max(node_memory_Cached{instance=~\"$host\",job=~\"rds-enhanced|linux\"}) without (job) or \nmax(node_memory_Cached{instance=~\"$host\",job=~\"rds-basic\"}) without (job)",
+                    "expr": "max(node_memory_Cached{instance=~\"$host\",job=~\"rds-enhanced|linux|snmp\"}) without (job) or \nmax(node_memory_Cached{instance=~\"$host\",job=~\"rds-basic\"}) without (job)",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
