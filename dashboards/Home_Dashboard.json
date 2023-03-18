@@ -1597,7 +1597,7 @@
                     "calculatedInterval": "10m",
                     "datasourceErrors": {},
                     "errors": {},
-                    "expr": "clamp_max(avg by (instance) \n(sum by (cpu) ( (clamp_max(rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]),1)) or\n(clamp_max(irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]),1)) )),1) *100 or\nsum by () (\navg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\", mode!=\"total\", mode!=\"\",job=~\"rds-enhanced|snmp\"}[$interval]) or \navg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\",job=~\"rds-enhanced|snmp\"}[5m]))",
+                    "expr": "clamp_max(avg by (instance) \n(sum by (cpu) ( (clamp_max(rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]),1)) or\n(clamp_max(irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]),1)) )),1) *100 or\nsum by () (\navg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\", mode!=\"total\", mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[$interval]) or \navg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[5m]))",
                     "format": "time_series",
                     "hide": false,
                     "interval": "$interval",
