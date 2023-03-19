@@ -522,6 +522,7 @@
             ],
             "datasource": "Prometheus",
             "format": "percent",
+            "error": false,
             "gauge": {
                 "maxValue": 100,
                 "minValue": 0,
