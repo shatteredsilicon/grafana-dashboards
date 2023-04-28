@@ -1689,7 +1689,7 @@
                 "h": 7,
                 "w": 12,
                 "x": 12,
-                "y": 48
+                "y": 42
             },
             "id": 41,
             "legend": {
@@ -1715,8 +1715,9 @@
             "renderer": "flot",
             "seriesOverrides": [
                 {
-                    "alias": "Disk Reads",
-                    "yaxis": 2
+                    "alias": "Cache Hit Rate",
+                    "yaxis": 2,
+                    "nullPointMode": "null as zero"
                 }
             ],
             "spaceLength": 10,
@@ -1733,7 +1734,8 @@
                     "legendFormat": "Read Requests",
                     "metric": "",
                     "refId": "A",
-                    "step": 300
+                    "step": 300,
+                    "format": "time_series"
                 },
                 {
                     "calculatedInterval": "2m",
@@ -1745,7 +1747,8 @@
                     "legendFormat": "Write Requests",
                     "metric": "",
                     "refId": "B",
-                    "step": 300
+                    "step": 300,
+                    "format": "time_series"
                 },
                 {
                     "calculatedInterval": "2m",
@@ -1757,7 +1760,17 @@
                     "legendFormat": "Disk Reads",
                     "metric": "",
                     "refId": "C",
-                    "step": 300
+                    "step": 300,
+                    "format": "time_series"
+                },
+                {
+                    "refId": "D",
+                    "expr": "(1 - ((rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[5m]))  /\n(rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[5m])))) * 100",
+                    "intervalFactor": 1,
+                    "format": "time_series",
+                    "legendFormat": "Cache Hit Rate",
+                    "interval": "$interval",
+                    "hide": false
                 }
             ],
             "thresholds": [],
@@ -1781,23 +1794,26 @@
             "yaxes": [
                 {
                     "format": "short",
-                    "logBase": 1,
+                    "logBase": 2,
                     "max": null,
                     "min": 0,
-                    "show": true
+                    "show": true,
+                    "label": ""
                 },
                 {
                     "format": "short",
                     "logBase": 1,
-                    "max": null,
+                    "max": "100",
                     "min": 0,
-                    "show": true
+                    "show": true,
+                    "label": ""
                 }
             ],
             "yaxis": {
                 "align": false,
                 "alignLevel": null
-            }
+            },
+            "timeRegions": []
         },
         {
             "aliasColors": {
