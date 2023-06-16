@@ -8,7 +8,7 @@
 
 Name:		ssm-dashboards
 Version:	%{_version}
-Release:	1%{?dist}
+Release:	%{_release}
 Summary:	Grafana dashboards for MySQL and MongoDB monitoring using Prometheus
 
 License:	AGPLv3
