@@ -39,7 +39,7 @@ popd
 %install
 install -d %{buildroot}%{_datadir}/%{name}/ssm-app
 cp -pa ./pmm-app/dist %{buildroot}%{_datadir}/%{name}/ssm-app
-echo %{version} > %{buildroot}%{_datadir}/%{name}/VERSION
+echo '%{version}-%{release}' > %{buildroot}%{_datadir}/%{name}/VERSION
 
 
 %files
