@@ -387,7 +387,7 @@
                     "calculatedInterval": "2m",
                     "datasourceErrors": {},
                     "errors": {},
-                    "expr": "mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}*0 + on (instance) mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"}",
+                    "expr": "(mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})*0 + on (instance) mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"}",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -397,7 +397,7 @@
                     "step": 300
                 },
                 {
-                    "expr": "mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} - mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"}",
+                    "expr": "(mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"}) - (mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"})",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
