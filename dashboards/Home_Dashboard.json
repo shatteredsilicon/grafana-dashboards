@@ -166,7 +166,7 @@
             "showLineNumbers": false,
             "showMiniMap": false
           },
-          "content": "<br>\n<div class=\"text-center dashboard-header\">\n<img src=\"public/img/ssm-logo.png\" height=\"60px\" width=\"60px\">\n  <span style=\"border-image: linear-gradient(90deg,rgba(102, 204, 255, .7) 0,rgba(3, 131, 145,.7) 50%,rgba(35, 43, 52,.7));border-image-slice: 1;\">Shattered Silicon Monitoring</span>\n</div>",
+          "content": "<br>\n<div class=\"text-center dashboard-header\">\n<img src=\"/graph/public/img/ssm-logo.png\" height=\"60px\" width=\"60px\">\n  <span style=\"border-image: linear-gradient(90deg,rgba(102, 204, 255, .7) 0,rgba(3, 131, 145,.7) 50%,rgba(35, 43, 52,.7));border-image-slice: 1;\">Shattered Silicon Monitoring</span>\n</div>",
           "mode": "html"
         },
         "pluginVersion": "9.5.7",
