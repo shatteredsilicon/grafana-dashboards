@@ -1722,7 +1722,7 @@
     },
     "timezone": "browser",
     "title": "CPU Utilization Details (Cores)",
-    "uid": "hCWR9oimz",
+    "uid": "pmm-cpu-utilization-details-cores",
     "version": 1,
     "weekStart": ""
   }

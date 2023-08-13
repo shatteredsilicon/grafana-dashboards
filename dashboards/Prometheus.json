@@ -4637,7 +4637,7 @@
               {
                 "targetBlank": true,
                 "title": "System Overview",
-                "url": "dashboard/db/system-overview?$__url_time_range&$__all_variables&var-host=ssm-server"
+                "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables&var-host=ssm-server"
               }
             ],
             "mappingType": 1,
@@ -4834,7 +4834,7 @@
               {
                 "targetBlank": true,
                 "title": "Disk Performance",
-                "url": "dashboard/db/disk-performance?$__url_time_range&$__all_variables&var-host=ssm-server"
+                "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables&var-host=ssm-server"
               }
             ],
             "maxDataPoints": 100,
@@ -5285,7 +5285,7 @@
     },
     "timezone": "browser",
     "title": "Prometheus",
-    "uid": "SK8vJ2Hiz",
+    "uid": "pmm-prometheus",
     "version": 1,
     "weekStart": ""
   }

@@ -3085,7 +3085,7 @@
     },
     "timezone": "browser",
     "title": "MySQL MyRocks Metrics",
-    "uid": "G1z9wGNmk",
+    "uid": "mysql-myrocks-metrics",
     "version": 1,
     "weekStart": ""
   }

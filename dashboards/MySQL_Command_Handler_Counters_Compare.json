@@ -738,7 +738,7 @@
     },
     "timezone": "browser",
     "title": "MySQL Command/Handler Counters Compare",
-    "uid": "000000170",
+    "uid": "pmm-mysql-command-handler-counters",
     "version": 1,
     "weekStart": ""
   }

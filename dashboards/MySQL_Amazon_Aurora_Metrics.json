@@ -1151,7 +1151,7 @@
     },
     "timezone": "browser",
     "title": "MySQL Amazon Aurora Metrics",
-    "uid": "SokrwMHmz",
+    "uid": "pmm-mysql-amazon-aurora-metrics",
     "version": 1,
     "weekStart": ""
   }

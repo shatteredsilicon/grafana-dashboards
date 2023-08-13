@@ -2796,7 +2796,7 @@
     },
     "timezone": "browser",
     "title": "Network Overview",
-    "uid": "000000193",
+    "uid": "pmm-network-overview",
     "version": 1,
     "weekStart": ""
   }

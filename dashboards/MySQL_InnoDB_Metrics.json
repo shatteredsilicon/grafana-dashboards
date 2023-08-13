@@ -338,7 +338,7 @@
         "links": [
           {
             "title": "Query Analytics",
-            "url": "dashboard/db/_ssm-query-analytics"
+            "url": "d/pmm-qan/ssm-query-analytics"
           }
         ],
         "nullPointMode": "null",
@@ -2516,7 +2516,7 @@
     },
     "timezone": "browser",
     "title": "MySQL InnoDB Metrics",
-    "uid": "giGgrTimz",
+    "uid": "pmm-mysql-innodb-metrics",
     "version": 1,
     "weekStart": ""
   }

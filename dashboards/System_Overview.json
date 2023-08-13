@@ -714,7 +714,7 @@
           {
             "targetBlank": true,
             "title": "Disk Space",
-            "url": "dashboard/db/disk-space?$__url_time_range&$__all_variables"
+            "url": "d/pmm-disk-space/disk-space?$__url_time_range&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
@@ -2084,7 +2084,7 @@
           {
             "targetBlank": true,
             "title": "Disk Performance",
-            "url": "dashboard/db/disk-performance?$__url_time_range&$__all_variables"
+            "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
           }
         ],
         "nullPointMode": "null",
@@ -2489,7 +2489,7 @@
           {
             "targetBlank": true,
             "title": "Disk Performance",
-            "url": "dashboard/db/disk-performance?$__url_time_range&$__all_variables"
+            "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
           }
         ],
         "nullPointMode": "null",
@@ -3279,7 +3279,7 @@
     },
     "timezone": "browser",
     "title": "System Overview",
-    "uid": "qyzrQGHmk",
+    "uid": "pmm-system-overview",
     "version": 1,
     "weekStart": ""
   }

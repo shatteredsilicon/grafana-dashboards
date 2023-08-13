@@ -1632,7 +1632,7 @@
     },
     "timezone": "browser",
     "title": "MySQL InnoDB Compression",
-    "uid": "CnOxqWGmz",
+    "uid": "pmm-mysql-innodb-compression",
     "version": 1,
     "weekStart": ""
   }

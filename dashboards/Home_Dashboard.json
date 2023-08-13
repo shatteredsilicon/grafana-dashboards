@@ -502,7 +502,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "dashboard/db/system-overview?$__url_time_range"
+            "url": "d/pmm-system-overview/system-overview?$__url_time_range"
           }
         ],
         "options": {
@@ -561,7 +561,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "dashboard/db/system-overview?$__url_time_range"
+            "url": "d/pmm-system-overview/system-overview?$__url_time_range"
           }
         ],
         "mappingType": 1,
@@ -779,7 +779,7 @@
           {
             "targetBlank": true,
             "title": "Disk Performance",
-            "url": "dashboard/db/disk-performance?$__url_time_range"
+            "url": "d/pmm-disk-performance/disk-performance?$__url_time_range"
           }
         ],
         "maxDataPoints": 100,
@@ -1032,12 +1032,12 @@
           {
             "targetBlank": true,
             "title": "MySQL Overview",
-            "url": "dashboard/db/mysql-overview?$__url_time_range"
+            "url": "d/pmm-mysql-overview/mysql-overview?$__url_time_range"
           },
           {
             "targetBlank": true,
             "title": "MongoDB Overview",
-            "url": "dashboard/db/mongodb-overview?$__url_time_range"
+            "url": "d/pmm-mongodb-overview/mongodb-overview?$__url_time_range"
           }
         ],
         "maxDataPoints": 100,
@@ -1517,7 +1517,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "dashboard/db/system-overview?$__url_time_range&$__all_variables"
+            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 12,
@@ -1568,7 +1568,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "dashboard/db/system-overview?$__url_time_range&$__all_variables"
+            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
         "mappingType": 1,
@@ -1785,7 +1785,7 @@
           {
             "targetBlank": true,
             "title": "Disk Performance",
-            "url": "dashboard/db/disk-performance?$__url_time_range&$__all_variables"
+            "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
@@ -2045,12 +2045,12 @@
           {
             "targetBlank": true,
             "title": "MySQL Overview",
-            "url": "dashboard/db/mysql-overview?$__url_time_range&$__all_variables"
+            "url": "d/pmm-mysql-overview/mysql-overview?$__url_time_range&$__all_variables"
           },
           {
             "targetBlank": true,
             "title": "MongoDB Overview",
-            "url": "dashboard/db/mongodb-overview?$__url_time_range&$__all_variables"
+            "url": "d/pmm-mongodb-overview/mongodb-overview?$__url_time_range&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
@@ -2652,7 +2652,7 @@
     },
     "timezone": "browser",
     "title": "Home Dashboard",
-    "uid": "Fxvd1timk",
+    "uid": "pmm-home-dashboard",
     "version": 1,
     "weekStart": ""
   }
