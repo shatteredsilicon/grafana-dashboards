@@ -25,24 +25,13 @@ export class PanelCtrl extends MetricsPanelCtrl {
 
     link($scope, elem) {
         const frame = elem.find('iframe');
-        const panel = elem.find('div.panel-container');
-        const panelContent = elem.find('div.panel-content');
-        panel.css({
-            'background-color': 'transparent',
-            'border': 'none'
-        });
 
         $scope.ctrl.calculatePanelHeight = () => {
-            const h = frame.contents().find('body').height() || 400;
-            const documentH = (elem && elem[0]) ? elem[0].ownerDocument.height : h;
+            const panel = frame.closest('[class$=-panel-container]');
+            const h = frame.contents().find('body').height() || 730;
 
-            $scope.ctrl.containerHeight = documentH;
-            $scope.ctrl.height = documentH - 100;
-
-            frame.height(`${h + 100}px`);
-            panel.height(`${h + 150}px`);
-
-            panelContent.height(`inherit`);
+            frame.height(`${h + 32}px`);
+            panel.height(`${h + 94}px`);
         };
 
         this.disableGrafanaPerfectScroll(elem);
@@ -50,7 +39,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
 
         frame.on('load', () => {
             $scope.ctrl.calculatePanelHeight();
-            frame.contents().bind('DOMSubtreeModified', () => setTimeout(() => $scope.ctrl.calculatePanelHeight(), 10));
+            frame.contents().bind('DOMCharacterDataModified', () => setTimeout(() => $scope.ctrl.calculatePanelHeight(), 10));
         });
     }
 

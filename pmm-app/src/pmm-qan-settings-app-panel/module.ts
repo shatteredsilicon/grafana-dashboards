@@ -9,7 +9,8 @@ export class PanelCtrl extends MetricsPanelCtrl {
 		<iframe ng-src="{{ trustSrc(url) }}"
 			style="width: 100%; height: 400px; border: 0;" scrolling="no" />
 	`;
-  base_url = '/qan/settings?var-host=';
+
+    base_url = '/qan/settings?var-host=';
 
 	constructor($scope, $injector, templateSrv, $sce, $http) {
 		super($scope, $injector);
@@ -29,34 +30,22 @@ export class PanelCtrl extends MetricsPanelCtrl {
 
 	link($scope, elem) {
         const frame = elem.find('iframe');
-        const panel = elem.find('div.panel-container');
-        const panelContent = elem.find('div.panel-content');
-
-        panel.css({
-            'background-color': 'transparent',
-            'border': 'none'
-        });
 
         this.disableGrafanaPerfectScroll(elem);
         this.fixMenuVisibility(elem);
 
         $scope.ctrl.calculatePanelHeight = () => {
-            const h = frame.contents().find('body').height() || 400;
-            const documentH = (elem && elem[0]) ? elem[0].ownerDocument.height : h;
+            const panel = frame.closest('[class$=-panel-container]');
+            const h = frame.contents().find('body').height() || 730;
 
-            $scope.ctrl.containerHeight = documentH;
-            $scope.ctrl.height = documentH - 100;
-
-            frame.height(`${h + 100}px`);
-            panel.height(`${h + 150}px`);
-
-            panelContent.height(`inherit`);
+            frame.height(`${h + 62}px`);
+            panel.height(`${h + 94}px`);
         };
 
         frame.on('load', () => {
             $scope.ctrl.calculatePanelHeight();
             frame.contents().bind('click', () => setTimeout(() => $scope.ctrl.calculatePanelHeight(), 10));
-            frame.contents().bind('DOMSubtreeModified', () => setTimeout(() => $scope.ctrl.calculatePanelHeight(), 10));
+            frame.contents().bind('DOMCharacterDataModified', () => setTimeout(() => $scope.ctrl.calculatePanelHeight(), 10));
         });
     }
 
