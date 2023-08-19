@@ -36,32 +36,20 @@ export class PanelCtrl extends MetricsPanelCtrl {
 
     link($scope, elem, $location, $window) {
         const frame = elem.find('iframe');
-        const panel = elem.find('div.panel-container');
-        const panelContent = elem.find('div.panel-content');
         // TODO: investigate this workaround. Inside $window - CtrlPanel
         const location = $window.$injector.get('$location');
         const window = $window.$injector.get('$window');
         window.document.addEventListener('showSuccessNotification', () => { AppEvents.emit('alert-success', ['Content has been copied to clipboard']); }, false);
-        panel.css({
-            'background-color': 'transparent',
-            'border': 'none'
-        });
 
         this.disableGrafanaPerfectScroll(elem);
         this.fixMenuVisibility(elem);
 
         $scope.ctrl.calculatePanelHeight = () => {
-            const h = frame.contents().find('body').height() || 400;
-            const documentH = (elem && elem[0]) ? elem[0].ownerDocument.height : h;
+            const panel = frame.closest('[class$=-panel-container]');
+            const h = frame.contents().find('body').height() || 730;
 
-            $scope.ctrl.containerHeight = documentH;
-            $scope.ctrl.height = documentH - 100;
-
-            frame.height(`${h + 100}px`);
-            panel.height(`${h + 150}px`);
-
-            panelContent.height(`inherit`);
-            panelContent[0].style.padding = '0 0 10px';
+            frame.height(`${h + 62}px`);
+            panel.height(`${h + 94}px`);
         };
         // init url
         // updated url
@@ -89,8 +77,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
                 }
             });
 
-            frame.contents().bind('DOMSubtreeModified', () => setTimeout(() => $scope.ctrl.calculatePanelHeight(), 10));
-
+            frame.contents().bind('DOMCharacterDataModified', () => setTimeout(() => $scope.ctrl.calculatePanelHeight(), 10));
         });
     }
 

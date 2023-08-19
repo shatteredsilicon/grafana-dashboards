@@ -403,7 +403,6 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
     var panel = ctrl.panel;
     var templateSrv = this.templateSrv;
     var data, linkInfo;
-    var $panelContainer = elem.find('.panel-container');
     elem = elem.find('.pmm-singlestat-panel');
 
     function applyColoringThresholds(value, valueString) {
@@ -643,6 +642,7 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
         return;
       }
       data = ctrl.data;
+      const $panelContainer = elem.closest('[class$=-panel-container]');
 
       // get thresholds
       data.thresholds = panel.thresholds.split(',').map(function(strVale) {

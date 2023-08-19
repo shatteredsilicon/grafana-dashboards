@@ -27,7 +27,7 @@
             "targetBlank": false,
             "title": "Query Analytics",
             "type": "link",
-            "url": "/graph/dashboard/db/_ssm-query-analytics"
+            "url": "/graph/d/pmm-qan/ssm-query-analytics"
         },
         {
             "asDropdown": true,

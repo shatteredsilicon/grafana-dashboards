@@ -33,7 +33,7 @@
             "targetBlank": false,
             "title": "Query Analytics",
             "type": "link",
-            "url": "/graph/dashboard/db/_ssm-query-analytics"
+            "url": "/graph/d/pmm-qan/ssm-query-analytics"
         },
         {
             "asDropdown": true,
@@ -528,6 +528,6 @@
     },
     "timezone": "browser",
     "title": "_SSM Query Analytics",
-    "uid": "7w6Q3PJmz",
+    "uid": "pmm-qan",
     "version": 2
 }
