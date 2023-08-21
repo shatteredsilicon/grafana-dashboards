@@ -902,6 +902,112 @@
         "title": "Top Tables by Auto Increment Usage",
         "transform": "table",
         "type": "table-old"
+      },
+      {
+        "collapsed": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 44
+        },
+        "id": 60,
+        "panels": [],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "Least Used Indexes",
+        "type": "row"
+      },
+      {
+        "columns": [
+          {
+            "text": "Current",
+            "value": "current"
+          }
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "editable": true,
+        "error": false,
+        "fontSize": "100%",
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 45
+        },
+        "height": "",
+        "hideTimeOverride": true,
+        "id": 53,
+        "links": [],
+        "scroll": false,
+        "showHeader": true,
+        "sort": {
+          "col": 1,
+          "desc": true
+        },
+        "styles": [
+          {
+            "alias": "",
+            "align": "auto",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "mappingType": 1,
+            "pattern": "Time",
+            "thresholds": [],
+            "type": "date",
+            "unit": "dateTimeAsIso"
+          },
+          {
+            "align": "auto",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "/.*/",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          }
+        ],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "sort(sum(mysql_info_schema_index_statistics_rows_read_total{instance=~\"$host\"}) by (schema, table, index))",
+            "instant": true,
+            "format": "table",
+            "interval": "5m",
+            "intervalFactor": 1,
+            "refId": "A",
+            "step": 300
+          }
+        ],
+        "timeFrom": "5m",
+        "title": "Least Used Indexes by Rows Read",
+        "transform": "timeseries_to_rows",
+        "type": "ssm-filtertable-panel",
+        "filterKey": "schema",
+        "maxRows": 50,
+        "filterIgnore": "mysql,information_schema,performance_schema"
       }
     ],
     "refresh": "1m",
