@@ -217,6 +217,7 @@
               "type": "prometheus"
             },
             "expr": "topk(10, sum(mysql_info_schema_table_rows{instance=~\"$host\"}) by (schema, table)) > 0",
+            "instant": true,
             "interval": "5m",
             "intervalFactor": 1,
             "legendFormat": "{{ schema }}.{{ table }}",
@@ -279,6 +280,7 @@
               "type": "prometheus"
             },
             "expr": "topk(10, sum(mysql_info_schema_table_size{instance=~\"$host\", component!=\"data_free\"}) by (schema, table)) > 0",
+            "instant": true,
             "interval": "5m",
             "intervalFactor": 1,
             "legendFormat": "{{ schema }}.{{ table }}",
@@ -482,6 +484,7 @@
               "type": "prometheus"
             },
             "expr": "topk(5, sum(mysql_info_schema_table_size{instance=~\"$host\", component=\"data_free\"}) by (schema, table)) > 0",
+            "instant": true,
             "interval": "5m",
             "intervalFactor": 1,
             "legendFormat": "{{ schema }}.{{ table }}",
@@ -890,6 +893,7 @@
               "type": "prometheus"
             },
             "expr": "topk(10, mysql_info_schema_auto_increment_column{instance=~\"$host\"} / mysql_info_schema_auto_increment_column_max{instance=~\"$host\"})",
+            "instant": true,
             "format": "table",
             "interval": "5m",
             "intervalFactor": 1,
