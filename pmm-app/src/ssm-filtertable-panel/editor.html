@@ -1,0 +1,33 @@
+<div class="editor-row">
+  <div class="section gf-form-group">
+    <h5 class="section-heading">Filter</h5>
+
+    <div class="gf-form">
+      <label class="gf-form-label width-3">Key
+        <tip>The key used to filter rows</tip>
+      </label>
+      <input type="text" class="gf-form-input width-18" placeholder="filter key" data-placement="right"
+             ng-model="ctrl.panel.filterKey" ng-change="ctrl.refresh()" ng-model-onblur>
+    </div>
+
+    <div class="gf-form">
+      <label class="gf-form-label width-4">Ignore
+        <tip>Rows with one of these values of that fileter key will be ignored</tip>
+      </label>
+      <input type="text" class="gf-form-input width-18" placeholder="filter ignore, split by comma" data-placement="right"
+             ng-model="ctrl.panel.filterIgnore" ng-change="ctrl.refresh()" ng-model-onblur>
+    </div>
+  </div>
+
+  <div class="section gf-form-group">
+    <h5 class="section-heading">Table</h5>
+
+    <div class="gf-form">
+      <label class="gf-form-label width-6">Max rows
+        <tip>Maximum number of rows to show</tip>
+      </label>
+      <input type="number" class="gf-form-input width-6" placeholder="max rows" data-placement="right"
+             ng-model="ctrl.panel.maxRows" ng-change="ctrl.refresh()" ng-model-onblur>
+    </div>
+  </div>
+</div>
