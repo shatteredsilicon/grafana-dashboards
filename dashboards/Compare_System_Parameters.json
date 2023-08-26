@@ -1676,7 +1676,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "max(node_memory_MemTotal{instance=~\"$host\"}) without(job) - \n(max(node_memory_MemFree{instance=~\"$host\"}) without(job) + \nmax(node_memory_Buffers{instance=~\"$host\"}) without(job) + \n(max(node_memory_Cached{instance=~\"$host\",job=~\"rds-enhanced|linux|snmp\"}) without (job) or \nmax(node_memory_Cached{instance=~\"$host\",job=\"rds-basic\"}) without (job)))",
+            "expr": "max(node_memory_MemUsed{instance=~\"$host\"}) without(job) or (max(node_memory_MemTotal{instance=~\"$host\"}) without(job) - \n(max(node_memory_MemFree{instance=~\"$host\"}) without(job) + \nmax(node_memory_Buffers{instance=~\"$host\"}) without(job) + \n(max(node_memory_Cached{instance=~\"$host\",job=~\"rds-enhanced|linux|snmp\"}) without (job) or \nmax(node_memory_Cached{instance=~\"$host\",job=\"rds-basic\"}) without (job))))",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1687,7 +1687,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "node_memory_MemFree{instance=~\"$host\"}",
+            "expr": "node_memory_MemFree{instance=~\"$host\"} or node_memory_MemAvailable{instance=~\"$host\"}",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
