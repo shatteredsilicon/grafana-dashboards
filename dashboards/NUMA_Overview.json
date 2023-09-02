@@ -2962,7 +2962,7 @@
           "multiFormat": "regex values",
           "name": "mountpoint",
           "options": [],
-          "query": "label_values(node_filesystem_avail{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}, mountpoint)",
+          "query": "label_values(node_filesystem_size{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}, mountpoint)",
           "refresh": 2,
           "refresh_on_load": false,
           "regex": "",

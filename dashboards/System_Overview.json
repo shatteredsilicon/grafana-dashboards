@@ -321,7 +321,8 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(count(node_cpu{instance=~\"$host\",mode=~\"user\"}) or (1-absent(node_cpu{instance=~\"$host\",mode=~\"user\"}))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) or sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
+            "expr": "(count(node_cpu{instance=~\"$host\",mode=~\"user\"}) or (1-absent(node_cpu{instance=~\"$host\",mode=~\"user\"}))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
+            "instant": true,
             "format": "time_series",
             "interval": "5m",
             "intervalFactor": 1,
@@ -491,7 +492,8 @@
             "interval": "5m",
             "intervalFactor": 1,
             "refId": "A",
-            "step": 300
+            "step": 300,
+            "instant": true
           }
         ],
         "title": "RAM",
@@ -563,7 +565,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(node_memory_MemAvailable{instance=~\"$host\"} or (node_memory_MemFree{instance=~\"$host\"} + node_memory_Buffers{instance=~\"$host\"} + node_memory_Cached{instance=~\"$host\"})) / node_memory_MemTotal{instance=~\"$host\"} * 100",
+            "expr": "(node_memory_MemAvailable{instance=~\"$host\"} or (node_memory_MemFree{instance=~\"$host\"} + (node_memory_Buffers{instance=~\"$host\"} or up * 0) + (node_memory_Cached{instance=~\"$host\"} or up * 0))) / node_memory_MemTotal{instance=~\"$host\"} * 100",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -652,12 +654,13 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "node_memory_MemTotal{instance=~\"$host\"}+node_memory_SwapTotal{instance=~\"$host\"}",
+            "expr": "(node_memory_MemTotal{instance=~\"$host\"}+node_memory_SwapTotal{instance=~\"$host\"}) or node_memory_MemVirtual{instance=\"$host\"}",
             "format": "time_series",
             "interval": "5m",
             "intervalFactor": 1,
             "refId": "A",
-            "step": 300
+            "step": 300,
+            "instant": true
           }
         ],
         "title": "Virtual Memory",
@@ -738,7 +741,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(avg(node_filesystem_size{instance=~\"$host\",fstype=~\"(ext.|xfs|vfat)\"}) without (mountpoint)) without (device,fstype)",
+            "expr": "sum(avg(node_filesystem_size{instance=~\"$host\",fstype=~\"(ext.|xfs|vfat|unknown)\"}) without (mountpoint)) without (device,fstype)",
             "format": "time_series",
             "interval": "5m",
             "intervalFactor": 1,
@@ -1496,7 +1499,8 @@
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Total",
-            "refId": "C"
+            "refId": "C",
+            "instant": true
           },
           {
             "calculatedInterval": "2s",
@@ -1505,7 +1509,7 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "node_memory_MemFree{instance=~\"$host\"}",
+            "expr": "node_memory_MemFree{instance=~\"$host\"} or node_memory_MemAvailable{instance=~\"$host\"}",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1556,7 +1560,7 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "node_memory_MemTotal{instance=~\"$host\"} - (node_memory_MemFree{instance=~\"$host\"} + node_memory_Buffers{instance=~\"$host\"} + node_memory_Cached{instance=~\"$host\"})",
+            "expr": "node_memory_MemUsed{instance=~\"$host\"} or (node_memory_MemTotal{instance=~\"$host\"} - (node_memory_MemFree{instance=~\"$host\"} + node_memory_Buffers{instance=~\"$host\"} + node_memory_Cached{instance=~\"$host\"}))",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1564,7 +1568,8 @@
             "metric": "",
             "refId": "A",
             "step": 300,
-            "target": ""
+            "target": "",
+            "instant": true
           }
         ],
         "thresholds": [],
@@ -1680,7 +1685,8 @@
             "metric": "",
             "refId": "C",
             "step": 300,
-            "target": ""
+            "target": "",
+            "instant": true
           },
           {
             "calculatedInterval": "2s",
@@ -1697,7 +1703,8 @@
             "metric": "",
             "refId": "B",
             "step": 300,
-            "target": ""
+            "target": "",
+            "instant": true
           },
           {
             "datasource": {
@@ -1708,7 +1715,8 @@
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Used",
-            "refId": "A"
+            "refId": "A",
+            "instant": true
           }
         ],
         "thresholds": [],
