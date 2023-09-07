@@ -908,6 +908,122 @@
         "type": "table-old"
       },
       {
+        "transformations": [
+          {
+            "id": "merge",
+            "options": {}
+          },
+          {
+            "id": "prepareTimeSeries",
+            "options": {
+              "format": "wide"
+            }
+          }
+        ],
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "decimals": 2,
+        "editable": true,
+        "error": false,
+        "fill": 2,
+        "grid": {
+          "leftLogBase": 1,
+          "leftMin": 0,
+          "rightLogBase": 1,
+          "rightMin": 0
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 0,
+          "y": 44
+        },
+        "legend": {
+          "alignAsTable": true,
+          "avg": true,
+          "current": false,
+          "max": true,
+          "min": true,
+          "rightSide": false,
+          "show": true,
+          "sort": "avg",
+          "sortDesc": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 2,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 1,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": true,
+        "targets": [
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "topk(1, mysql_info_schema_auto_increment_column{instance=~\"$host\"} / mysql_info_schema_auto_increment_column_max{instance=~\"$host\"})",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Max",
+            "metric": "",
+            "refId": "B",
+            "step": 300
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "Max Auto Increment Usage",
+        "tooltip": {
+          "msResolution": false,
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "x-axis": true,
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "y-axis": true,
+        "y_formats": [
+          "percentunit",
+          "short"
+        ],
+        "yaxes": [
+          {
+            "format": "percentunit",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
         "collapsed": false,
         "datasource": {
           "type": "prometheus"
@@ -916,7 +1032,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 44
+          "y": 51
         },
         "id": 60,
         "panels": [],
@@ -948,7 +1064,7 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 45
+          "y": 52
         },
         "height": "",
         "hideTimeOverride": true,
