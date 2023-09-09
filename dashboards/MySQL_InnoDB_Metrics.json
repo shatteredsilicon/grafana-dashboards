@@ -2373,6 +2373,162 @@
         "yaxis": {
           "align": false
         }
+      },
+      {
+        "collapsed": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 77
+        },
+        "panels": [],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "InnoDB I/O Thread",
+        "type": "row"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "decimals": 2,
+        "editable": true,
+        "error": false,
+        "fill": 2,
+        "grid": {},
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 78
+        },
+        "legend": {
+          "alignAsTable": true,
+          "avg": true,
+          "current": false,
+          "max": true,
+          "min": true,
+          "rightSide": false,
+          "show": true,
+          "sort": "avg",
+          "sortDesc": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 2,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [
+          {
+            "alias": "/^Disk I/O Utilization/",
+            "yaxis": 2
+          }
+        ],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "rate(mysql_engine_innodb_pending_normal_aio_reads{instance=~\"$host\"}[$interval]) or irate(mysql_engine_innodb_pending_normal_aio_reads{instance=~\"$host\"}[5m])",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Pending AIO Reads - {{ index }}",
+            "metric": "",
+            "refId": "A",
+            "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "rate(mysql_engine_innodb_pending_normal_aio_writes{instance=~\"$host\"}[$interval]) or irate(mysql_engine_innodb_pending_normal_aio_writes{instance=~\"$host\"}[5m])",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Pending AIO Writes - {{ index }}",
+            "metric": "",
+            "refId": "B",
+            "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or \nirate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or \nsum by (host) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]))/100",
+            "format": "time_series",
+            "hide": false,
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Disk I/O Utilization - {{ device }}",
+            "metric": "",
+            "refId": "C",
+            "step": 300,
+            "target": ""
+          }
+        ],
+        "thresholds": [],
+        "title": "InnoDB I/O Thread Utilisation",
+        "tooltip": {
+          "msResolution": true,
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          },
+          {
+            "format": "percentunit",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
       }
     ],
     "refresh": "1m",

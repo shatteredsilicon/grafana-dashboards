@@ -735,6 +735,13 @@
               "mode": "fixed"
             },
             "decimals": 1,
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "Disk Performance",
+                "url": "d/pmm-disk-performance/disk-performance?$__url_time_range"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -1002,6 +1009,13 @@
               "fixedColor": "rgb(31, 120, 193)",
               "mode": "fixed"
             },
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "MySQL Overview",
+                "url": "d/pmm-mysql-overview/mysql-overview?$__url_time_range"
+              }
+            ],
             "mappings": [],
             "thresholds": {
               "mode": "absolute",
@@ -1741,6 +1755,13 @@
               "mode": "fixed"
             },
             "decimals": 1,
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "Disk Performance",
+                "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
+              }
+            ],
             "mappings": [
               {
                 "options": {
@@ -2005,6 +2026,13 @@
               "fixedColor": "rgb(31, 120, 193)",
               "mode": "fixed"
             },
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "MySQL Overview",
+                "url": "d/pmm-mysql-overview/mysql-overview?$__url_time_range&$__all_variables"
+              }
+            ],
             "mappings": [
               {
                 "options": {
