@@ -2454,11 +2454,11 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_engine_innodb_pending_normal_aio_reads{instance=~\"$host\"}[$interval]) or irate(mysql_engine_innodb_pending_normal_aio_reads{instance=~\"$host\"}[5m])",
+            "expr": "max_over_time(mysql_engine_innodb_pending_reads{instance=~\"$host\"}[$interval]) or max_over_time(mysql_engine_innodb_pending_reads{instance=~\"$host\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
-            "legendFormat": "Pending AIO Reads - {{ index }}",
+            "legendFormat": "InnoDB Pending Reads",
             "metric": "",
             "refId": "A",
             "step": 300
@@ -2470,11 +2470,11 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_engine_innodb_pending_normal_aio_writes{instance=~\"$host\"}[$interval]) or irate(mysql_engine_innodb_pending_normal_aio_writes{instance=~\"$host\"}[5m])",
+            "expr": "max_over_time(mysql_engine_innodb_pending_writes{instance=~\"$host\"}[$interval]) or max_over_time(mysql_engine_innodb_pending_writes{instance=~\"$host\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
-            "legendFormat": "Pending AIO Writes - {{ index }}",
+            "legendFormat": "InnoDB Pending Writes",
             "metric": "",
             "refId": "B",
             "step": 300
@@ -2521,6 +2521,148 @@
           },
           {
             "format": "percentunit",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "decimals": 2,
+        "editable": true,
+        "error": false,
+        "fill": 2,
+        "grid": {},
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 85
+        },
+        "legend": {
+          "alignAsTable": true,
+          "avg": true,
+          "current": false,
+          "max": true,
+          "min": true,
+          "rightSide": false,
+          "show": true,
+          "sort": "avg",
+          "sortDesc": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 2,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "max_over_time(mysql_engine_innodb_pending_reads{instance=~\"$host\"}[$interval]) or max_over_time(mysql_engine_innodb_pending_reads{instance=~\"$host\"}[5m])",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Pending Reads",
+            "metric": "",
+            "refId": "A",
+            "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "max_over_time(mysql_engine_innodb_pending_writes{instance=~\"$host\"}[$interval]) or max_over_time(mysql_engine_innodb_pending_writes{instance=~\"$host\"}[5m])",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Pending Writes",
+            "metric": "",
+            "refId": "B",
+            "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "max_over_time(mysql_engine_innodb_pending_log_flushes{instance=~\"$host\"}[$interval]) or max_over_time(mysql_engine_innodb_pending_log_flushes{instance=~\"$host\"}[5m])",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Pending Log Flushes",
+            "metric": "",
+            "refId": "C",
+            "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "max_over_time(mysql_engine_innodb_pending_checkpoint_writes{instance=~\"$host\"}[$interval]) or max_over_time(mysql_engine_innodb_pending_checkpoint_writes{instance=~\"$host\"}[5m])",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Pending Checkpoint Writes",
+            "metric": "",
+            "refId": "D",
+            "step": 300
+          }
+        ],
+        "thresholds": [],
+        "title": "InnoDB Pending I/Os",
+        "tooltip": {
+          "msResolution": true,
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          },
+          {
+            "format": "short",
             "logBase": 1,
             "min": 0,
             "show": true
