@@ -60,6 +60,7 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
     thresholds: '',
     colorBackground: false,
     colorValue: false,
+    exactThreshold: false,
     colors: ['#299c46', 'rgba(237, 129, 40, 0.89)', '#d44a3a'],
     sparkline: {
       show: false,
@@ -127,9 +128,10 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
   seriesHandler(seriesData) {
     var series = new TimeSeries({
       datapoints: seriesData.datapoints || [],
-      alias: seriesData.target,
+      alias: seriesData.target
     });
 
+    series.refId = seriesData.refId;
     series.flotpairs = series.getFlotPairs(this.panel.nullPointMode);
     return series;
   }
@@ -283,17 +285,6 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
   setValues(data) {
     data.flotpairs = [];
 
-    if (this.series.length > 1) {
-      var error: any = new Error();
-      error.message = 'Multiple Series Error';
-      error.data =
-        'Metric query returns ' +
-        this.series.length +
-        ' series. Single Stat Panel expects a single series.\n\nResponse:\n' +
-        JSON.stringify(this.series);
-      throw error;
-    }
-
     if (this.series && this.series.length > 0) {
       var lastPoint = _.last(this.series[0].datapoints);
       var lastValue = _.isArray(lastPoint) ? lastPoint[0] : null;
@@ -410,7 +401,7 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
         return valueString;
       }
 
-      var color = getColorForValue(data, value);
+      var color = getColorForValue(data, getColorCompareValue(value), panel.exactThreshold);
       if (color) {
         return '<span style="color:' + color + '">' + valueString + '</span>';
       }
@@ -523,7 +514,7 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
               width: thresholdMarkersWidth,
             },
             value: {
-              color: panel.colorValue ? getColorForValue(data, data.valueRounded) : null,
+              color: panel.colorValue ? getColorForValue(data, getColorCompareValue(data.valueRounded), panel.exactThreshold) : null,
               formatter: function() {
                 return getValueText();
               },
@@ -648,12 +639,20 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
       data.thresholds = panel.thresholds.split(',').map(function(strVale) {
         return Number(strVale.trim());
       });
+      if (panel.queryThresholds) {
+        data.thresholds = [];
+        panel.queryThresholds.split(',').forEach(queryName => {
+          const s = ctrl.series.find(series => series.refId === queryName);
+          const thresholdPoint =  s ? _.last(s.datapoints) : null;
+          thresholdPoint && _.isArray(thresholdPoint) && data.thresholds.push(thresholdPoint[0]);
+        });
+      }
       data.colorMap = panel.colors;
 
       var body = panel.gauge.show ? '' : getBigValueHtml();
 
       if (panel.colorBackground) {
-        var color = getColorForValue(data, data.value);
+        var color = getColorForValue(data, getColorCompareValue(data.value), panel.exactThreshold);
         if (color) {
           $panelContainer.css('background-color', color);
           if (scope.fullscreen) {
@@ -684,6 +683,20 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
       } else {
         linkInfo = null;
       }
+    }
+
+    function getColorCompareValue(value) {
+      if (!panel.thresholdQuery) {
+        return value
+      }
+
+      const s = ctrl.series.find(series => series.refId === panel.thresholdQuery);
+      const thresholdPoint =  s ? _.last(s.datapoints) : null;
+      if (thresholdPoint && _.isArray(thresholdPoint)) {
+        return thresholdPoint[0];
+      }
+
+      return value;
     }
 
     function hookupDrilldownLinkTooltip() {
@@ -743,12 +756,12 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
   }
 }
 
-function getColorForValue(data, value) {
+function getColorForValue(data, value, exactThreshold: boolean = false) {
   if (!_.isFinite(value)) {
     return null;
   }
   for (var i = data.thresholds.length; i > 0; i--) {
-    if (value >= data.thresholds[i - 1]) {
+    if (exactThreshold ? value === data.thresholds[i - 1]: value >= data.thresholds[i - 1]) {
       return data.colorMap[i];
     }
   }

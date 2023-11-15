@@ -82,6 +82,32 @@
                placeholder="50,80">
       </div>
     </div>
+    <div class="gf-form-inline">
+      <div class="gf-form max-width-21">
+        <label class="gf-form-label width-8">Q thresholds
+          <tip>
+            Set threshold values from these query results (only works for time series queries)
+          </tip>
+        </label>
+        <input type="text" class="gf-form-input" ng-model="ctrl.panel.queryThresholds" ng-blur="ctrl.render()"
+               placeholder="B,C">
+      </div>
+    </div>
+    <div class="gf-form-inline">
+      <div class="gf-form max-width-21">
+        <label class="gf-form-label width-8">Threshold query
+          <tip>
+            Result from this query will be used to compare for thresholds (only works for time series queries)
+          </tip>
+        </label>
+        <input type="text" class="gf-form-input" ng-model="ctrl.panel.thresholdQuery" ng-blur="ctrl.render()"
+               placeholder="A">
+      </div>
+    </div>
+    <div class="gf-form-inline">
+      <gf-form-switch class="gf-form" label-class="width-8" label="Exact Threshold" checked="ctrl.panel.exactThreshold"
+                      on-change="ctrl.render()"></gf-form-switch>
+    </div>
     <div class="gf-form">
       <label class="gf-form-label width-8">Colors</label>
       <span class="gf-form-label" ng-repeat="color in ctrl.panel.colors track by $index">

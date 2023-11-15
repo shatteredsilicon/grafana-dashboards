@@ -129,6 +129,7 @@ declare module 'app/core/time_series2' {
         alias: string;
         valueFormater: any;
         flotpairs: any;
+        refId: string;
         getFlotPairs(fillStyle);
 
         constructor(opts)
