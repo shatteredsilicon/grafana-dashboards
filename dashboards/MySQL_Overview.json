@@ -1182,7 +1182,12 @@
         "pointradius": 5,
         "points": false,
         "renderer": "flot",
-        "seriesOverrides": [],
+        "seriesOverrides": [
+          {
+            "alias": "Temporary Table Memory Fit Rate",
+            "yaxis": 2
+          }
+        ],
         "spaceLength": 10,
         "stack": false,
         "steppedLine": false,
@@ -1231,6 +1236,21 @@
             "metric": "",
             "refId": "C",
             "step": 20
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "(1 - (mysql_global_status_created_tmp_disk_tables{instance=\"$host\"}/mysql_global_status_created_tmp_tables{instance=\"$host\"})) or on() vector(0)",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Temporary Table Memory Fit Rate",
+            "metric": "",
+            "refId": "D",
+            "step": 20
           }
         ],
         "thresholds": [],
@@ -1255,7 +1275,7 @@
             "show": true
           },
           {
-            "format": "short",
+            "format": "percentunit",
             "logBase": 1,
             "min": 0,
             "show": true
