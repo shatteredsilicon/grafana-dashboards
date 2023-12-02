@@ -78,6 +78,11 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
       thresholdLabels: false,
     },
     tableColumn: '',
+    showTip: false,
+    tipSeries: '',
+    tipPrefix: '',
+    tipPostfix: '',
+    tipFontsize: '50%'
   };
 
   /** @ngInject */
@@ -430,6 +435,11 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
         body += getSpan('singlestat-panel-postfix', panel.postfixFontSize, postfix);
       }
 
+      if (panel.showTip) {
+        body += '<br />'
+        body += getSpan('singlestat-panel-tip', panel.tipFontsize, panel.tipPrefix+data.tipValue+panel.tipPostfix);
+      }
+
       body += '</div>';
 
       return body;
@@ -646,6 +656,11 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
           const thresholdPoint =  s ? _.last(s.datapoints) : null;
           thresholdPoint && _.isArray(thresholdPoint) && data.thresholds.push(thresholdPoint[0]);
         });
+      }
+      if (panel.tipSeries) {
+        const s = ctrl.series.find(series => series.refId === panel.tipSeries);
+        const lastPoint = s ? _.last(s.datapoints) : null;
+        if (lastPoint && _.isArray(lastPoint)) data.tipValue = lastPoint[0];
       }
       data.colorMap = panel.colors;
 
