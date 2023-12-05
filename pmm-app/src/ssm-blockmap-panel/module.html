@@ -1,0 +1,86 @@
+<style>
+  .ssm-blockmap-panel-container {
+    display: flex;
+    height: 100%;
+  }
+
+  .ssm-blockmap-panel-titles {
+    display: flex;
+    flex-direction: column;
+    margin-right: 16px;
+  }
+
+  .ssm-blockmap-panel-title {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    position: relative;
+  }
+
+  .ssm-blockmap-panel-title .tip {
+    z-index: 1;
+    position: absolute;
+    left: 100%;
+    padding: 4px 8px;
+    font-size: 14px;
+    visibility: hidden;
+    margin-left: 4px;
+    background-color: #333;
+  }
+
+  .ssm-blockmap-panel-title:hover .tip {
+    visibility: visible;
+    text-wrap: nowrap;
+  }
+
+  .ssm-blockmap-panel-title span {
+    width: 8px;
+    height: 8px;
+    margin-left: 2px;
+    opacity: 0.4;
+  }
+
+  .ssm-blockmap-panel-map {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap-reverse;
+    align-content: flex-start;
+  }
+
+  .ssm-blockmap-panel-block {
+    width: 10px;
+    height: 10px;
+    margin-bottom: 2px;
+    margin-right: 2px;
+  }
+
+  .ssm-blockmap-panel-series {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    opacity: 0.4;
+    width: 100%;
+  }
+</style>
+<div class="ssm-blockmap-panel-container">
+  <div class="ssm-blockmap-panel-titles">
+    <div ng-repeat="series in ctrl.extraSeries" class="ssm-blockmap-panel-title">
+      {{ series.name }}
+      <span ng-style="{'background-color': series.color}"></span>
+
+      <div class="tip">{{ series.text }}</div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column-reverse;">
+    <div class="ssm-blockmap-panel-map">
+      <div ng-repeat="column in [].constructor(ctrl.blockCount) track by $index" class="ssm-blockmap-panel-block" ng-style="{'background-color': 'rgba(36, 112, 33, 0.97)'}">
+      </div>
+
+      <div ng-if="!ctrl.panel.hideSeriesLines" ng-repeat="series in ctrl.extraSeries" class="ssm-blockmap-panel-series" ng-style="{'height': series.value/ctrl.seriesValueTotal*100+'%', 'background-color': series.color}">
+      </div>
+    </div>
+  </div>
+</div>
