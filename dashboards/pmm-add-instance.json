@@ -102,7 +102,7 @@
             "includeVars": true,
             "keepTime": true,
             "tags": [
-                "PMM"
+                "SSM"
             ],
             "targetBlank": false,
             "title": "SSM",
@@ -142,7 +142,7 @@
     "schemaVersion": 14,
     "style": "dark",
     "tags": [
-        "PMM",
+        "SSM",
         "Percona"
     ],
     "templating": {

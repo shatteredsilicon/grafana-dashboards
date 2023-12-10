@@ -111,7 +111,7 @@
             "includeVars": true,
             "keepTime": true,
             "tags": [
-                "PMM"
+                "SSM"
             ],
             "targetBlank": false,
             "title": "SSM",
@@ -145,7 +145,7 @@
     "style": "dark",
     "tags": [
         "Percona",
-        "PMM"
+        "SSM"
     ],
     "templating": {
         "list": []
