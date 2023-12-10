@@ -527,7 +527,7 @@
         ]
     },
     "timezone": "browser",
-    "title": "_SSM Query Analytics",
+    "title": "SSM Query Analytics",
     "uid": "pmm-qan",
     "version": 2
 }

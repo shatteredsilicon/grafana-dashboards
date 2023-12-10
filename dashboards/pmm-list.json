@@ -181,7 +181,7 @@
         ]
     },
     "timezone": "browser",
-    "title": "_SSM Monitored Instances",
+    "title": "SSM Monitored Instances",
     "uid": "pmm-list",
     "version": 1
 }
