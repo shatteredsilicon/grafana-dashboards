@@ -52,7 +52,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -525,7 +525,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
@@ -632,7 +632,7 @@
           {
             "targetBlank": true,
             "title": "CPU Utilization Details (Cores)",
-            "url": "d/pmm-cpu-utilization-details-cores/cpu-utilization-details-cores?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-cpu-utilization-details-cores/cpu-utilization-details-cores?$__url_time_range&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
@@ -743,7 +743,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
@@ -848,7 +848,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -998,7 +998,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables&panelId=18&fullscreen"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables&panelId=18&fullscreen"
           }
         ],
         "maxPerRow": 6,
@@ -1190,7 +1190,7 @@
           {
             "targetBlank": true,
             "title": "CPU Utilization Details (Cores)",
-            "url": "d/pmm-cpu-utilization-details-cores/cpu-utilization-details-cores?$__url_time_range&$__all_variables&&panelId=22&fullscreen"
+            "url": "/graph/d/ssm-cpu-utilization-details-cores/cpu-utilization-details-cores?$__url_time_range&$__all_variables&&panelId=22&fullscreen"
           }
         ],
         "maxPerRow": 6,
@@ -1332,7 +1332,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables&panelId=28&fullscreen"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables&panelId=28&fullscreen"
           }
         ],
         "maxPerRow": 6,
@@ -1460,7 +1460,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables&panelId=27&fullscreen"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables&panelId=27&fullscreen"
           }
         ],
         "maxPerRow": 6,
@@ -1646,7 +1646,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables&panelId=34&fullscreen"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables&panelId=34&fullscreen"
           }
         ],
         "maxPerRow": 6,
@@ -1813,7 +1813,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -1979,7 +1979,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -2157,7 +2157,7 @@
           {
             "targetBlank": true,
             "title": "Disk Space",
-            "url": "d/pmm-disk-space/disk-space?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -2280,7 +2280,7 @@
           {
             "targetBlank": true,
             "title": "Disk Space",
-            "url": "d/pmm-disk-space/disk-space?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -2455,7 +2455,7 @@
           {
             "targetBlank": true,
             "title": "Disk Performance",
-            "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -2597,7 +2597,7 @@
           {
             "targetBlank": true,
             "title": "Disk Performance",
-            "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -2730,7 +2730,7 @@
           {
             "targetBlank": false,
             "title": "Disk Performance",
-            "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -2863,7 +2863,7 @@
           {
             "targetBlank": true,
             "title": "Disk Performance",
-            "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -3311,7 +3311,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -3439,7 +3439,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
         "maxPerRow": 6,
@@ -3640,7 +3640,7 @@
     },
     "timezone": "browser",
     "title": "Compare System Parameters",
-    "uid": "pmm-compare-system-parameters",
+    "uid": "ssm-compare-system-parameters",
     "version": 1,
     "weekStart": ""
   }

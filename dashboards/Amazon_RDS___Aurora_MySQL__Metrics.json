@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -2369,7 +2369,7 @@
     },
     "timezone": "browser",
     "title": "Amazon RDS / Aurora MySQL  Metrics",
-    "uid": "pmm-amazon-rds-aurora-mysql-metrics",
+    "uid": "ssm-amazon-rds-aurora-mysql-metrics",
     "version": 1,
     "weekStart": ""
   }

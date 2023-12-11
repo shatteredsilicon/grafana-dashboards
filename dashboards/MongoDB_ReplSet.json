@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -2006,7 +2006,7 @@
     },
     "timezone": "browser",
     "title": "MongoDB ReplSet",
-    "uid": "pmm-mongodb-replset",
+    "uid": "ssm-mongodb-replset",
     "version": 1,
     "weekStart": ""
   }

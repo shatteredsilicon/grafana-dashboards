@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -1722,7 +1722,7 @@
     },
     "timezone": "browser",
     "title": "CPU Utilization Details (Cores)",
-    "uid": "pmm-cpu-utilization-details-cores",
+    "uid": "ssm-cpu-utilization-details-cores",
     "version": 1,
     "weekStart": ""
   }

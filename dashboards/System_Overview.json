@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -717,7 +717,7 @@
           {
             "targetBlank": true,
             "title": "Disk Space",
-            "url": "d/pmm-disk-space/disk-space?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
@@ -2092,7 +2092,7 @@
           {
             "targetBlank": true,
             "title": "Disk Performance",
-            "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
           }
         ],
         "nullPointMode": "null",
@@ -2497,7 +2497,7 @@
           {
             "targetBlank": true,
             "title": "Disk Performance",
-            "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
           }
         ],
         "nullPointMode": "null",
@@ -3287,7 +3287,7 @@
     },
     "timezone": "browser",
     "title": "System Overview",
-    "uid": "pmm-system-overview",
+    "uid": "ssm-system-overview",
     "version": 1,
     "weekStart": ""
   }

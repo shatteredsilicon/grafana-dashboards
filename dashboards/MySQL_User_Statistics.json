@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -923,7 +923,7 @@
     },
     "timezone": "browser",
     "title": "MySQL User Statistics",
-    "uid": "pmm-mysql-user-statistics",
+    "uid": "ssm-mysql-user-statistics",
     "version": 1,
     "weekStart": ""
   }

@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -6566,7 +6566,7 @@
               {
                 "targetBlank": true,
                 "title": "Disk Performance",
-                "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
+                "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
               }
             ],
             "nullPointMode": "null",
@@ -6957,7 +6957,7 @@
     },
     "timezone": "browser",
     "title": "MySQL TokuDB Metrics",
-    "uid": "pmm-mysql-tokudb-metrics",
+    "uid": "ssm-mysql-tokudb-metrics",
     "version": 1,
     "weekStart": ""
   }

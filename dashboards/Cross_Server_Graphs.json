@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -1324,7 +1324,7 @@
     },
     "timezone": "browser",
     "title": "Cross Server Graphs",
-    "uid": "pmm-cross-server-graphs",
+    "uid": "ssm-cross-server-graphs",
     "version": 1,
     "weekStart": ""
   }

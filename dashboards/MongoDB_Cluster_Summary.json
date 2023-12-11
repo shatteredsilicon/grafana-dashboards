@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -2018,7 +2018,7 @@
     },
     "timezone": "browser",
     "title": "MongoDB Cluster Summary",
-    "uid": "pmm-mongodb-cluster-summary",
+    "uid": "ssm-mongodb-cluster-summary",
     "version": 1,
     "weekStart": ""
   }

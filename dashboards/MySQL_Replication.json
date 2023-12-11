@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -2016,7 +2016,7 @@
     },
     "timezone": "browser",
     "title": "MySQL Replication",
-    "uid": "pmm-mysql-replication",
+    "uid": "ssm-mysql-replication",
     "version": 1,
     "weekStart": ""
   }

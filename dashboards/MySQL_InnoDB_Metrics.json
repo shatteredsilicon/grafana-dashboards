@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -338,7 +338,7 @@
         "links": [
           {
             "title": "Query Analytics",
-            "url": "d/pmm-qan/ssm-query-analytics"
+            "url": "/graph/d/ssm-qan/ssm-query-analytics"
           }
         ],
         "nullPointMode": "null",
@@ -2814,7 +2814,7 @@
     },
     "timezone": "browser",
     "title": "MySQL InnoDB Metrics",
-    "uid": "pmm-mysql-innodb-metrics",
+    "uid": "ssm-mysql-innodb-metrics",
     "version": 1,
     "weekStart": ""
   }
