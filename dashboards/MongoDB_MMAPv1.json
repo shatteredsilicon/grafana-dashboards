@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -134,7 +134,7 @@
         "includeVars": true,
         "keepTime": true,
         "tags": [
-          "PMM"
+          "SSM"
         ],
         "targetBlank": false,
         "title": "SSM",
@@ -2049,7 +2049,7 @@
     },
     "timezone": "browser",
     "title": "MongoDB MMAPv1",
-    "uid": "pmm-mongodb-mmapv1",
+    "uid": "ssm-mongodb-mmapv1",
     "version": 1,
     "weekStart": ""
   }

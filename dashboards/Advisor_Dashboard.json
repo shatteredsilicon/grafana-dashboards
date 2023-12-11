@@ -50,7 +50,7 @@
       "targetBlank": false,
       "title": "Query Analytics",
       "type": "link",
-      "url": "/graph/d/pmm-qan/ssm-query-analytics"
+      "url": "/graph/d/ssm-qan/ssm-query-analytics"
     },
     {
       "asDropdown": true,
@@ -4210,7 +4210,7 @@
   "schemaVersion": 38,
   "style": "dark",
   "tags": [
-    "SS",
+    "Silicon",
     "Insight"
   ],
   "templating": {

@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -134,7 +134,7 @@
         "includeVars": true,
         "keepTime": true,
         "tags": [
-          "PMM"
+          "SSM"
         ],
         "targetBlank": false,
         "title": "SSM",
@@ -4637,7 +4637,7 @@
               {
                 "targetBlank": true,
                 "title": "System Overview",
-                "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables&var-host=ssm-server"
+                "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables&var-host=ssm-server"
               }
             ],
             "mappingType": 1,
@@ -4834,7 +4834,7 @@
               {
                 "targetBlank": true,
                 "title": "Disk Performance",
-                "url": "d/pmm-disk-performance/disk-performance?$__url_time_range&$__all_variables&var-host=ssm-server"
+                "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&$__all_variables&var-host=ssm-server"
               }
             ],
             "maxDataPoints": 100,
@@ -5285,7 +5285,7 @@
     },
     "timezone": "browser",
     "title": "Prometheus",
-    "uid": "pmm-prometheus",
+    "uid": "ssm-prometheus",
     "version": 1,
     "weekStart": ""
   }

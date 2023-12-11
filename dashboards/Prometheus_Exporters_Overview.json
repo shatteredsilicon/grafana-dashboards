@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -134,7 +134,7 @@
         "includeVars": true,
         "keepTime": true,
         "tags": [
-          "PMM"
+          "SSM"
         ],
         "targetBlank": false,
         "title": "SSM",
@@ -1046,7 +1046,7 @@
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "d/pmm-system-overview/system-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
         "mode": "markdown",
@@ -1102,7 +1102,7 @@
           {
             "targetBlank": true,
             "title": "Prometheus Exporter Status",
-            "url": "d/pmm-prometheus-exporter-status/prometheus-exporter-status?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-prometheus-exporter-status/prometheus-exporter-status?$__url_time_range&$__all_variables"
           }
         ],
         "mappingType": 1,
@@ -1218,7 +1218,7 @@
           {
             "targetBlank": true,
             "title": "Prometheus Exporter Status",
-            "url": "d/pmm-prometheus-exporter-status/prometheus-exporter-status?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-prometheus-exporter-status/prometheus-exporter-status?$__url_time_range&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
@@ -1313,7 +1313,7 @@
           {
             "targetBlank": true,
             "title": "Prometheus Exporter Status",
-            "url": "d/pmm-prometheus-exporter-status/prometheus-exporter-status?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-prometheus-exporter-status/prometheus-exporter-status?$__url_time_range&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
@@ -1676,7 +1676,7 @@
     },
     "timezone": "browser",
     "title": "Prometheus Exporters Overview",
-    "uid": "pmm-prometheus-exporters-overview",
+    "uid": "ssm-prometheus-exporters-overview",
     "version": 1,
     "weekStart": ""
   }

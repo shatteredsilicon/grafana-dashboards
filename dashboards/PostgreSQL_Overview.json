@@ -52,7 +52,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -136,7 +136,7 @@
         "includeVars": true,
         "keepTime": true,
         "tags": [
-          "PMM"
+          "SSM"
         ],
         "targetBlank": false,
         "title": "SSM",
@@ -4777,7 +4777,7 @@
     },
     "timezone": "browser",
     "title": "PostgreSQL Overview",
-    "uid": "pmm-postgresql-overview",
+    "uid": "ssm-postgresql-overview",
     "version": 1,
     "weekStart": ""
   }

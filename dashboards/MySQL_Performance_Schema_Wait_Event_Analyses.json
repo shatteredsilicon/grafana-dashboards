@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -134,7 +134,7 @@
         "includeVars": true,
         "keepTime": true,
         "tags": [
-          "PMM"
+          "SSM"
         ],
         "targetBlank": false,
         "title": "SSM",
@@ -646,7 +646,7 @@
     },
     "timezone": "browser",
     "title": "MySQL Performance Schema Wait Event Analyses",
-    "uid": "pmm-mysql-performance-schema-wait-event",
+    "uid": "ssm-mysql-performance-schema-wait-event",
     "version": 1,
     "weekStart": ""
   }

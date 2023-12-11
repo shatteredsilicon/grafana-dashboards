@@ -18,7 +18,7 @@
             "targetBlank": false,
             "title": "Query Analytics",
             "type": "link",
-            "url": "/graph/d/pmm-qan/ssm-query-analytics"
+            "url": "/graph/d/ssm-qan/ssm-query-analytics"
         },
         {
             "asDropdown": true,
@@ -102,7 +102,7 @@
             "includeVars": true,
             "keepTime": true,
             "tags": [
-                "PMM"
+                "SSM"
             ],
             "targetBlank": false,
             "title": "SSM",
@@ -142,7 +142,7 @@
     "schemaVersion": 14,
     "style": "dark",
     "tags": [
-        "PMM",
+        "SSM",
         "Percona"
     ],
     "templating": {
@@ -200,6 +200,6 @@
         ]
     },
     "timezone": "browser",
-    "title": "_SSM System Summary",
+    "title": "SSM System Summary",
     "version": 2
 }

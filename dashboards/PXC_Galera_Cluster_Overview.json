@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -134,7 +134,7 @@
         "includeVars": true,
         "keepTime": true,
         "tags": [
-          "PMM"
+          "SSM"
         ],
         "targetBlank": false,
         "title": "SSM",
@@ -1796,7 +1796,7 @@
     },
     "timezone": "browser",
     "title": "PXC/Galera Cluster Overview",
-    "uid": "pmm-pxc-galera-cluster-overview",
+    "uid": "ssm-pxc-galera-cluster-overview",
     "version": 1,
     "weekStart": ""
   }

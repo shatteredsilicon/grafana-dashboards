@@ -52,7 +52,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -136,7 +136,7 @@
         "includeVars": true,
         "keepTime": true,
         "tags": [
-          "PMM"
+          "SSM"
         ],
         "targetBlank": false,
         "title": "SSM",
@@ -2796,7 +2796,7 @@
     },
     "timezone": "browser",
     "title": "Network Overview",
-    "uid": "pmm-network-overview",
+    "uid": "ssm-network-overview",
     "version": 1,
     "weekStart": ""
   }

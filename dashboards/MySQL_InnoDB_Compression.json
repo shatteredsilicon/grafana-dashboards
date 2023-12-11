@@ -50,7 +50,7 @@
         "targetBlank": false,
         "title": "Query Analytics",
         "type": "link",
-        "url": "/graph/d/pmm-qan/ssm-query-analytics"
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
       },
       {
         "asDropdown": true,
@@ -134,7 +134,7 @@
         "includeVars": true,
         "keepTime": true,
         "tags": [
-          "PMM"
+          "SSM"
         ],
         "targetBlank": false,
         "title": "SSM",
@@ -1632,7 +1632,7 @@
     },
     "timezone": "browser",
     "title": "MySQL InnoDB Compression",
-    "uid": "pmm-mysql-innodb-compression",
+    "uid": "ssm-mysql-innodb-compression",
     "version": 1,
     "weekStart": ""
   }
