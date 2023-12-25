@@ -990,7 +990,7 @@
           "refId": "A"
         }
       ],
-      "title": "innodb_log_file_size",
+      "title": "innodb_redo_log_capacity/innodb_log_file_size",
       "type": "row"
     },
     {
@@ -1142,7 +1142,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} or mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1159,7 +1159,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp((mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} and on() (max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s]) < (mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}) * 0.75)) or on() (2^(floor(log2(max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s])))+1)), 1048576, 549755813888)",
+          "expr": "clamp((mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} and on() (max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s]) < mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} * 0.75)) or on() (2^(floor(log2(max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s])))+1) and on() (mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"})), 104857600, 137438953472) or clamp((mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} and on() (max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s]) < ((mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}) or mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}) * 0.75)) or on() (2^(floor(log2(max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s])))+1) / on() group_left() (mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} or vector(1))), 1048576, scalar(549755813888 / (mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} or vector(1))))",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1205,7 +1205,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp((mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} and on() (max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s]) < (mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}) * 0.75)) or on() (2^(floor(log2(max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s])))+1)), 1048576, 549755813888)",
+          "expr": "clamp((mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} and on() (max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s]) < mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} * 0.75)) or on() (2^(floor(log2(max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s])))+1) and on() (mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"})), 104857600, 137438953472) or clamp((mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} and on() (max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s]) < ((mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}) or mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}) * 0.75)) or on() (2^(floor(log2(max_over_time((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"}-mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"})[1w:1s])))+1) / on() group_left() (mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} or vector(1))), 1048576, scalar(549755813888 / (mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} or vector(1))))",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1222,7 +1222,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} or mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
