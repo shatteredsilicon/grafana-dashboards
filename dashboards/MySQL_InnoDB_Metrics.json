@@ -1743,7 +1743,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(1 - ((rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[5m]))  /\n(rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[5m])))) * 100",
+            "expr": "max((vector(100) and on() ((rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[5m])) <= 0)) or on() ((1 - ((rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[5m]))/(rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[5m])))) * 100))",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -1780,7 +1780,6 @@
             "label": "",
             "logBase": 1,
             "max": "100",
-            "min": 0,
             "show": true
           }
         ],
