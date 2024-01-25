@@ -3757,7 +3757,7 @@
           {
             "format": "percentunit",
             "logBase": 1,
-            "min": 0,
+            "max": 1,
             "show": true
           }
         ],
