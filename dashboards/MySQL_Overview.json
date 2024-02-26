@@ -2404,6 +2404,18 @@
             "legendFormat": "TokuDB Cache Size",
             "refId": "I",
             "step": 20
+          },
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "mysql_info_schema_processlist_memory_used{instance=~\"$host\"}",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Total Session Memory Usage",
+            "refId": "J",
+            "step": 20
           }
         ],
         "thresholds": [],
