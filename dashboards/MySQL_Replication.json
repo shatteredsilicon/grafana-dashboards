@@ -189,7 +189,6 @@
           "overrides": []
         },
         "hideTimeOverride": false,
-        "id": 26,
         "interval": "$interval",
         "links": [
           {
@@ -296,7 +295,6 @@
           "x": 6,
           "y": 0
         },
-        "id": 17,
         "interval": "$interval",
         "links": [
           {
@@ -400,7 +398,6 @@
           "x": 12,
           "y": 0
         },
-        "id": 39,
         "interval": "$interval",
         "links": [
           {
@@ -499,7 +496,6 @@
           "x": 18,
           "y": 0
         },
-        "id": 27,
         "interval": "$interval",
         "links": [
           {
@@ -567,7 +563,6 @@
           "y": 3
         },
         "hiddenSeries": false,
-        "id": 16,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -669,6 +664,121 @@
         "datasource": {
           "type": "prometheus"
         },
+        "decimals": 0,
+        "description": "An approximation of replication lag, see also:",
+        "editable": true,
+        "error": false,
+        "fill": 2,
+        "fillGradient": 0,
+        "grid": {},
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 10
+        },
+        "hiddenSeries": false,
+        "legend": {
+          "alignAsTable": true,
+          "avg": true,
+          "current": false,
+          "max": true,
+          "min": true,
+          "rightSide": true,
+          "show": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 2,
+        "links": [
+          {
+            "targetBlank": true,
+            "title": "SHOW SLAVE STATUS Syntax",
+            "url": "https://dev.mysql.com/doc/refman/5.7/en/show-slave-status.html"
+          },
+          {
+            "targetBlank": true,
+            "title": "Improving replication performance",
+            "url": "https://dev.mysql.com/doc/refman/5.7/en/replication-solutions-performance.html"
+          },
+          {
+            "targetBlank": true,
+            "title": "Replication Slave Options and Variables",
+            "url": "https://dev.mysql.com/doc/refman/5.7/en/replication-options-slave.html"
+          }
+        ],
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "9.5.7",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "((((max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[$interval]) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval])) unless on() max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval])) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval])) / ((((max_over_time(mysql_slave_status_relay_log_space{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[$interval]) or max_over_time(mysql_slave_status_relay_log_space{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval])) unless on() max_over_time(mysql_slave_status_relay_log_space{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval])) or max_over_time(mysql_slave_status_relay_log_space{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval])) / (1024*1024*1024))) or ((((max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[5m]) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m])) unless on() max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m])) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m])) / ((((max_over_time(mysql_slave_status_relay_log_space{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[5m]) or max_over_time(mysql_slave_status_relay_log_space{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m])) unless on() max_over_time(mysql_slave_status_relay_log_space{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m])) or max_over_time(mysql_slave_status_relay_log_space{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m])) / (1024*1024*1024)))",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": " {{ connection_name }} {{ channel_name }} ",
+            "metric": "",
+            "refId": "A",
+            "step": 300
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "MySQL Replication Lag",
+        "tooltip": {
+          "msResolution": false,
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus"
+        },
         "description": "Shows the overall size of the binary log files, which can exist on both Masters and Slaves. The binary log (also known as the binlog) contains events that describe database changes: CREATE TABLE, ALTER TABLE, updates, inserts, deletes and other statements or database changes. The binlog is the file that is read by Slaves via their IO Thread process in order to replicate database changes modification on the data and on the table structures. There can be more than one binlog file present depending on the binlog rotation policy adopted (for example using the configuration variables **max_binlog_size** and **expire_logs_days**).\n\nSee also:",
         "editable": true,
         "error": false,
@@ -679,10 +789,9 @@
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 10
+          "y": 17
         },
         "hiddenSeries": false,
-        "id": 33,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -796,10 +905,9 @@
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 10
+          "y": 17
         },
         "hiddenSeries": false,
-        "id": 35,
         "legend": {
           "alignAsTable": false,
           "avg": false,
@@ -903,10 +1011,9 @@
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 17
+          "y": 24
         },
         "hiddenSeries": false,
-        "id": 34,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -1020,10 +1127,9 @@
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 17
+          "y": 24
         },
         "hiddenSeries": false,
-        "id": 36,
         "legend": {
           "alignAsTable": false,
           "avg": false,
@@ -1126,9 +1232,8 @@
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 24
+          "y": 31
         },
-        "id": 37,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -1226,9 +1331,8 @@
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 24
+          "y": 31
         },
-        "id": 38,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -1326,7 +1430,7 @@
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 31
+          "y": 38
         },
         "legend": {
           "alignAsTable": true,
@@ -1481,7 +1585,7 @@
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 31
+          "y": 38
         },
         "legend": {
           "alignAsTable": true,
@@ -1598,7 +1702,7 @@
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 38
+          "y": 45
         },
         "legend": {
           "alignAsTable": true,
@@ -1753,7 +1857,7 @@
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 38
+          "y": 45
         },
         "legend": {
           "alignAsTable": true,
