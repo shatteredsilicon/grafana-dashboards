@@ -740,7 +740,7 @@
         ],
         "thresholds": [],
         "timeRegions": [],
-        "title": "MySQL Replication Lag",
+        "title": "MySQL Relay Lag",
         "tooltip": {
           "msResolution": false,
           "shared": true,
