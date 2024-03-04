@@ -34,7 +34,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
         this.fixMenuVisibility(elem);
 
         $scope.ctrl.calculatePanelHeight = () => {
-            const panel = frame.closest('[class$=-panel-container]');
+            const panel = frame.closest('[class=panel-container]');
             const h = frame.contents().find('body').height() || 730;
 
             frame.height(`${h + 62}px`);

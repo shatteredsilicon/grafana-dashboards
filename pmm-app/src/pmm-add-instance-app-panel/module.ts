@@ -26,7 +26,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
         const frame = elem.find('iframe');
 
         $scope.ctrl.calculatePanelHeight = () => {
-            const panel = frame.closest('[class$=-panel-container]');
+            const panel = frame.closest('[class=panel-container]');
             const h = frame.contents().find('body').height() || 730;
 
             frame.height(`${h + 62}px`);
@@ -36,7 +36,10 @@ export class PanelCtrl extends MetricsPanelCtrl {
         this.disableGrafanaPerfectScroll(elem);
         this.fixMenuVisibility(elem);
 
-        frame[0].onload = () => frame.contents().bind("DOMCharacterDataModified", () => { setTimeout($scope.ctrl.calculatePanelHeight, 100)});
+        frame.on('load', () => {
+            $scope.ctrl.calculatePanelHeight();
+            frame.contents().bind("DOMCharacterDataModified", () => { setTimeout($scope.ctrl.calculatePanelHeight, 100)});
+        });
     }
 
     /**

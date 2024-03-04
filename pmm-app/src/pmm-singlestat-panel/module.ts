@@ -643,7 +643,7 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
         return;
       }
       data = ctrl.data;
-      const $panelContainer = elem.closest('[class$=-panel-container]');
+      const $panelContainer = elem.closest('[class=panel-container]');
 
       // get thresholds
       data.thresholds = panel.thresholds.split(',').map(function(strVale) {
