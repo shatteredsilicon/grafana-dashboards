@@ -185,7 +185,7 @@
             "steppedLine": false,
             "targets": [
                 {
-                    "expr": "clamp_max(sum by () ((avg by (mode) ( (clamp_max(rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or \n(clamp_max(irate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )) *100 or \n(max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[$interval]) or \nmax_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[5m]))),100)",
+                    "expr": "avg(clamp_max(sum by () ((avg by (mode) ( (clamp_max(rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or \n(clamp_max(irate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )) *100 or \n(max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[$interval]) or \nmax_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[5m]))),100))",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -193,7 +193,7 @@
                     "refId": "A"
                 },
                 {
-                    "expr": "((rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) or rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval])) + (rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) or rate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]))) * 1024 or \n((irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) or irate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m])) + (irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) or irate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=~\"rdsdev|rdstemp\"}[5m]))) * 1024",
+                    "expr": "avg(((rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) or rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval])) + (rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) or rate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]))) * 1024 or \n((irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) or irate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m])) + (irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) or irate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=~\"rdsdev|rdstemp\"}[5m]))) * 1024)",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -201,7 +201,7 @@
                     "refId": "B"
                 },
                 {
-                    "expr": "(sum(rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]))) + \n(sum(rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m])))",
+                    "expr": "avg((sum(rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]))) + \n(sum(rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))))",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -308,7 +308,7 @@
             "steppedLine": false,
             "targets": [
                 {
-                    "expr": "(max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) or \nmax_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) or\n(max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[$interval]) or\nmax_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[5m])) or\n(max_over_time(pg_stat_database_numbackends{instance=~\"$host\",datname=\"postgres\"}[$interval]) or \nmax_over_time(pg_stat_database_numbackends{instance=~\"$host\",datname=\"postgres\"}[5m]))",
+                    "expr": "avg((max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) or \nmax_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) or\n(max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[$interval]) or\nmax_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[5m])) or\n(max_over_time(pg_stat_database_numbackends{instance=~\"$host\",datname=\"postgres\"}[$interval]) or \nmax_over_time(pg_stat_database_numbackends{instance=~\"$host\",datname=\"postgres\"}[5m])))",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -316,7 +316,7 @@
                     "refId": "A"
                 },
                 {
-                    "expr": "max_over_time(mysql_global_status_threads_running{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_global_status_threads_running{instance=~\"$host\"}[5m])",
+                    "expr": "avg(max_over_time(mysql_global_status_threads_running{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_global_status_threads_running{instance=~\"$host\"}[5m]))",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -324,7 +324,7 @@
                     "refId": "B"
                 },
                 {
-                    "expr": "(rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) or \nirate(mysql_global_status_queries{instance=~\"$host\"}[5m])) or \n(sum(rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval])) or \nsum(irate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[5m]))) or\n(sum(rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) + rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) + irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m])))",
+                    "expr": "avg((rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) or \nirate(mysql_global_status_queries{instance=~\"$host\"}[5m])) or \n(sum(rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval])) or \nsum(irate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[5m]))) or\n(sum(rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) + rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) + irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]))))",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -424,7 +424,7 @@
                 "hide": 0,
                 "includeAll": false,
                 "label": "Host",
-                "multi": false,
+                "multi": true,
                 "name": "host",
                 "options": [],
                 "query": "SELECT `name` FROM `ssm`.`instances` WHERE `subsystem_id` IN (3, 4) AND (`deleted` IS NULL OR `deleted` < '1971-01-01 00:00:01');",
