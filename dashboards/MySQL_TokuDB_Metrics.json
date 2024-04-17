@@ -6327,7 +6327,7 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "clamp_max(((avg by (mode) ( (clamp_max(rate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[$interval]),1)) or (clamp_max(irate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[5m]),1)) ))*100 or (avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[$interval]) or avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[5m]))),100)",
+                "expr": "clamp_max(((avg by (mode) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\"}[$interval]),1)) or (clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\"}[5m]),1)) ))*100 or (avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[$interval]) or avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[5m]))),100)",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6338,7 +6338,7 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "clamp_max(max by () (sum  by (cpu) ( (clamp_max(rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or (clamp_max(irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )),1)",
+                "expr": "clamp_max(max by () (sum  by (cpu) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or (clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )),1)",
                 "format": "time_series",
                 "hide": true,
                 "interval": "$interval",
@@ -6449,7 +6449,7 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "(avg_over_time(node_procs_running{instance=~\"$host\"}[$interval])-1) / scalar(count(node_cpu{mode=\"user\", instance=~\"$host\"})) or (avg_over_time(node_procs_running{instance=~\"$host\"}[5m])-1) / scalar(count(node_cpu{mode=\"user\", instance=~\"$host\"}))",
+                "expr": "(avg_over_time(node_procs_running{instance=~\"$host\"}[$interval])-1) / scalar(count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"})) or (avg_over_time(node_procs_running{instance=~\"$host\"}[5m])-1) / scalar(count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"}))",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -6467,7 +6467,7 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "clamp_max(max by () (sum  by (cpu) ( (clamp_max(rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or (clamp_max(irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )),1)",
+                "expr": "clamp_max(max by () (sum  by (cpu) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or (clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )),1)",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6750,7 +6750,7 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "sum(rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval])) or sum(irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m])) or sum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or sum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m])) ",
+                "expr": "sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or sum(irate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or sum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or sum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m])) ",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6767,7 +6767,7 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "sum(rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval])) or sum(irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or sum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))",
+                "expr": "sum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or sum(irate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or sum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,

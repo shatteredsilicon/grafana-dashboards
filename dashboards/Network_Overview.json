@@ -235,7 +235,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_network_receive_bytes{device!=\"lo\",instance=~\"$host\"}[1h]) or rate(rdsosmetrics_network_rx{instance=~\"$host\"}[1h]))",
+            "expr": "sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", device!=\"lo\",instance=~\"$host\"}[1h]) or rate(rdsosmetrics_network_rx{instance=~\"$host\"}[1h]))",
             "format": "time_series",
             "intervalFactor": 1,
             "legendFormat": "",
@@ -311,7 +311,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_network_transmit_bytes{device!=\"lo\",instance=~\"$host\"}[1h]) or rate(rdsosmetrics_network_tx{instance=~\"$host\"}[1h]))",
+            "expr": "sum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", device!=\"lo\",instance=~\"$host\"}[1h]) or rate(rdsosmetrics_network_tx{instance=~\"$host\"}[1h]))",
             "format": "time_series",
             "intervalFactor": 1,
             "refId": "A"
@@ -390,7 +390,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(increase(node_network_receive_errs{instance=~\"$host\", device!=\"lo\"}[1h])) +\nsum(increase(node_network_transmit_errs{instance=~\"$host\", device!=\"lo\"}[1h])) +\nsum(increase(node_network_receive_drop{instance=~\"$host\", device!=\"lo\"}[1h])) +\nsum(increase(node_network_transmit_drop{instance=~\"$host\", device!=\"lo\"}[1h]))",
+            "expr": "sum(increase({__name__=~\"node_network_receive_errs|node_network_receive_errs_total\", instance=~\"$host\", device!=\"lo\"}[1h])) +\nsum(increase({__name__=~\"node_network_transmit_errs|node_network_transmit_errs_total\", instance=~\"$host\", device!=\"lo\"}[1h])) +\nsum(increase({__name__=~\"node_network_receive_drop|node_network_receive_drop_total\", instance=~\"$host\", device!=\"lo\"}[1h])) +\nsum(increase({__name__=~\"node_network_transmit_drop|node_network_transmit_drop_total\", instance=~\"$host\", device!=\"lo\"}[1h]))",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -566,7 +566,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m])) ",
+            "expr": "sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m])) ",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -577,7 +577,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))",
+            "expr": "sum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -672,7 +672,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(increase(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[1h]))",
+            "expr": "sum(increase({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[1h]))",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,
@@ -686,7 +686,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(increase(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[1h]))",
+            "expr": "sum(increase({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[1h]))",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,
@@ -810,7 +810,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_network_receive_packets{instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate(node_network_receive_packets{instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "rate({__name__=~\"node_network_receive_packets|node_network_receive_packets_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate({__name__=~\"node_network_receive_packets|node_network_receive_packets_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -821,7 +821,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_network_transmit_packets{instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate(node_network_transmit_packets{instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "rate({__name__=~\"node_network_transmit_packets|node_network_transmit_packets_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate({__name__=~\"node_network_transmit_packets|node_network_transmit_packets_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -906,7 +906,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_network_receive_errs{instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate(node_network_receive_errs{instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "rate({__name__=~\"node_network_receive_errs|node_network_receive_errs_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate({__name__=~\"node_network_receive_errs|node_network_receive_errs_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -917,7 +917,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_network_transmit_errs{instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate(node_network_transmit_errs{instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "rate({__name__=~\"node_network_transmit_errs|node_network_transmit_errs_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate({__name__=~\"node_network_transmit_errs|node_network_transmit_errs_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -999,7 +999,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_network_receive_drop{instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate(node_network_receive_drop{instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "rate({__name__=~\"node_network_receive_drop|node_network_receive_drop_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate({__name__=~\"node_network_receive_drop|node_network_receive_drop_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1010,7 +1010,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_network_transmit_drop{instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate(node_network_transmit_drop{instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "rate({__name__=~\"node_network_transmit_drop|node_network_transmit_drop_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate({__name__=~\"node_network_transmit_drop|node_network_transmit_drop_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1092,7 +1092,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_network_receive_multicast{instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate(node_network_receive_multicast{instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "rate({__name__=~\"node_network_receive_multicast|node_network_receive_multicast_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate({__name__=~\"node_network_receive_multicast|node_network_receive_multicast_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1103,7 +1103,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_network_transmit_multicast{instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate(node_network_transmit_multicast{instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "rate({__name__=~\"node_network_transmit_multicast|node_network_transmit_multicast_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate({__name__=~\"node_network_transmit_multicast|node_network_transmit_multicast_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2725,7 +2725,7 @@
           "multi": false,
           "name": "host",
           "options": [],
-          "query": "label_values(node_boot_time, instance)",
+          "query": "label_values({__name__=~\"node_boot_time|node_boot_time_seconds\"}, instance)",
           "refresh": 2,
           "regex": "",
           "skipUrlSync": false,
@@ -2751,7 +2751,7 @@
           "multi": true,
           "name": "device",
           "options": [],
-          "query": "label_values(node_network_receive_packets{instance=~\"$host\"},device)",
+          "query": "label_values({__name__=~\"node_network_receive_packets|node_network_receive_packets_total\", instance=~\"$host\"},device)",
           "refresh": 2,
           "regex": "",
           "skipUrlSync": false,

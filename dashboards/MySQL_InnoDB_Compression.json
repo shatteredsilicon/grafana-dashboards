@@ -925,7 +925,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(sum(rate(mysql_info_schema_innodb_cmp_compress_time_seconds_total{instance=~\"$host\"}[$interval])) by (instance) or\nsum(irate(mysql_info_schema_innodb_cmp_compress_time_seconds_total{instance=~\"$host\"}[5m])) by (instance)) /\ncount(node_cpu{mode=\"user\", instance=~\"$host\"}) by (instance) *100",
+            "expr": "(sum(rate(mysql_info_schema_innodb_cmp_compress_time_seconds_total{instance=~\"$host\"}[$interval])) by (instance) or\nsum(irate(mysql_info_schema_innodb_cmp_compress_time_seconds_total{instance=~\"$host\"}[5m])) by (instance)) /\ncount({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"}) by (instance) *100",
             "format": "time_series",
             "hide": false,
             "interval": "1h",
@@ -1023,7 +1023,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(sum(rate(mysql_info_schema_innodb_cmp_uncompress_time_seconds_total{instance=~\"$host\"}[$interval])) by (instance) or\nsum(irate(mysql_info_schema_innodb_cmp_uncompress_time_seconds_total{instance=~\"$host\"}[5m])) by (instance)) /\ncount(node_cpu{mode=\"user\", instance=~\"$host\"}) by (instance) * 100",
+            "expr": "(sum(rate(mysql_info_schema_innodb_cmp_uncompress_time_seconds_total{instance=~\"$host\"}[$interval])) by (instance) or\nsum(irate(mysql_info_schema_innodb_cmp_uncompress_time_seconds_total{instance=~\"$host\"}[5m])) by (instance)) /\ncount({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"}) by (instance) * 100",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,
@@ -1331,7 +1331,7 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "mysql_info_schema_innodb_cmpmem_pages_used_total{instance=~\"$host\",buffer=~\"$buffer\"}",
+                "expr": "mysql_info_schema_innodb_cmpmem_pages_used_total{instance=~\"$host\",buffer=~\"$buffer\"} or mysql_info_schema_innodb_cmpmem_pages_used_total{instance=~\"$host\",buffer_pool=~\"$buffer\"}",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1417,7 +1417,7 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "mysql_info_schema_innodb_cmpmem_pages_free_total{instance=~\"$host\",buffer=\"$buffer\"}",
+                "expr": "mysql_info_schema_innodb_cmpmem_pages_free_total{instance=~\"$host\",buffer=\"$buffer\"} or mysql_info_schema_innodb_cmpmem_pages_free_total{instance=~\"$host\",buffer_pool=\"$buffer\"}",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1582,7 +1582,7 @@
           "multi": true,
           "name": "buffer",
           "options": [],
-          "query": "label_values(mysql_info_schema_innodb_cmpmem_pages_used_total,buffer)",
+          "query": "label_values(mysql_info_schema_innodb_cmpmem_pages_used_total,buffer_pool)",
           "refresh": 2,
           "regex": "/./",
           "skipUrlSync": false,

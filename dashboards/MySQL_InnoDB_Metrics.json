@@ -2485,7 +2485,7 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or \nirate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or \nsum by (host) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]))/100",
+            "expr": "rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or \nirate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) or \nirate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) or \nsum by (host) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]))/100",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",

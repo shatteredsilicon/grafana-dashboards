@@ -1508,7 +1508,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "avg_over_time(mysql_global_status_wsrep_evs_repl_latency{aggregator=\"Average\"}[$interval]) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
+            "expr": "(avg_over_time(mysql_global_status_wsrep_evs_repl_latency{aggregator=\"Average\"}[$interval]) or avg_over_time(mysql_wsrep_evs_repl_latency_avg_seconds{}[$interval])) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1590,7 +1590,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "max_over_time(mysql_global_status_wsrep_evs_repl_latency{aggregator=\"Maximum\"}[$interval]) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
+            "expr": "(max_over_time(mysql_global_status_wsrep_evs_repl_latency{aggregator=\"Maximum\"}[$interval]) or max_over_time(mysql_wsrep_evs_repl_latency_max_seconds{}[$interval])) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

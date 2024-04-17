@@ -753,7 +753,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "max_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Maximum\"}[$interval]) or\nmax_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Maximum\"}[5m])",
+            "expr": "max_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Maximum\"}[$interval]) or\nmax_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Maximum\"}[5m]) or max_over_time(mysql_wsrep_evs_repl_latency_max_seconds{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_wsrep_evs_repl_latency_max_seconds{instance=~\"$host\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -765,7 +765,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "avg_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Standard Deviation\"}[$interval]) or\navg_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Standard Deviation\"}[5m])",
+            "expr": "avg_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Standard Deviation\"}[$interval]) or\navg_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Standard Deviation\"}[5m]) or avg_over_time(mysql_wsrep_evs_repl_latency_stdev{instance=~\"$host\"}[$interval]) or\navg_over_time(mysql__wsrep_evs_repl_latency_stdev{instance=~\"$host\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -777,7 +777,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "avg_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Average\"}[$interval]) or\navg_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Average\"}[5m])",
+            "expr": "avg_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Average\"}[$interval]) or\navg_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Average\"}[5m]) or avg_over_time(mysql_wsrep_evs_repl_latency_avg_seconds{instance=~\"$host\"}[$interval]) or\navg_over_time(mysql_wsrep_evs_repl_latency_avg_seconds{instance=~\"$host\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -789,7 +789,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "min_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Minimum\"}[$interval]) or\nmin_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Minimum\"}[5m])",
+            "expr": "min_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Minimum\"}[$interval]) or\nmin_over_time(mysql_global_status_wsrep_evs_repl_latency{instance=~\"$host\", aggregator=\"Minimum\"}[5m]) or min_over_time(mysql_wsrep_evs_repl_latency_min_seconds{instance=~\"$host\"}[$interval]) or\nmin_over_time(mysql_wsrep_evs_repl_latency_min_seconds{instance=~\"$host\"}[5m])",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
