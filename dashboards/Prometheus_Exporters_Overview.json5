@@ -245,7 +245,23 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "avg((sum(rate(process_cpu_seconds_total{job!=\"prometheus\",job!=\"grafana\",instance=~\"$host\"}[$interval])) by (instance) or sum(irate(process_cpu_seconds_total{job!=\"prometheus\",instance=~\"$host\"}[5m])) by (instance)) / count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\",instance=~\"$host\"}) by (instance)) by ()*100",
+            "expr": "\
+avg( \n\
+  ( \n\
+    sum( \n\
+      rate(process_cpu_seconds_total{job!=\"prometheus\",job!=\"grafana\",instance=~\"$host\"}[$interval]) \n\
+    ) by (instance) \n\
+    or \n\
+    sum( \n\
+      irate(process_cpu_seconds_total{job!=\"prometheus\",instance=~\"$host\"}[5m]) \n\
+    ) by (instance) \n\
+  ) / count( \n\
+    node_cpu{mode=\"user\",instance=~\"$host\"} \n\
+    or \n\
+    node_cpu_seconds_total{mode=\"user\",instance=~\"$host\"} \n\
+  ) by (instance) \n\
+) by () * 100 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -623,7 +639,21 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(sum(rate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[$interval])) by (instance) or sum(irate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[5m])) by (instance)) / count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"}) by (instance) *100",
+            "expr": "\
+( \n\
+  sum( \n\
+    rate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[$interval]) \n\
+  ) by (instance) \n\
+  or \n\
+  sum( \n\
+    irate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[5m]) \n\
+  ) by (instance) \n\
+) / count( \n\
+  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
+  or \n\
+  node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
+) by (instance) * 100 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

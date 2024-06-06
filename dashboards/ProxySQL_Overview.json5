@@ -452,7 +452,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[$interval]) or irate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[5m])",
+            "expr": "\
+rate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[$interval]) \n\
+or \n\
+rate(proxysql_mysql_status_questions_total{instance=\"$proxysql\"}[$interval]) \n\
+or \n\
+irate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[5m]) \n\
+or \n\
+irate(proxysql_mysql_status_questions_total{instance=\"$proxysql\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -821,7 +829,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(proxysql_connection_pool_conn_err{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) or irate(proxysql_connection_pool_conn_err{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m])",
+            "expr": "\
+rate(proxysql_connection_pool_conn_err{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) \n\
+or \n\
+rate(proxysql_connection_pool_conn_err_total{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) \n\
+or \n\
+irate(proxysql_connection_pool_conn_err{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m]) \n\
+or \n\
+irate(proxysql_connection_pool_conn_err_total{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -937,7 +953,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(proxysql_connection_pool_queries{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) or irate(proxysql_connection_pool_queries{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m])",
+            "expr": "\
+rate(proxysql_connection_pool_queries{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) \n\
+or \n\
+rate(proxysql_connection_pool_queries_total{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) \n\
+or \n\
+irate(proxysql_connection_pool_queries{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m]) \n\
+or \n\
+irate(proxysql_connection_pool_queries_total{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1032,7 +1056,25 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(proxysql_mysql_status_query_processor_time_nsec{instance=\"$proxysql\"}[$interval]) or irate(proxysql_mysql_status_query_processor_time_nsec{instance=\"$proxysql\"}[5m]))/(rate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[$interval]) or irate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[5m]))",
+            "expr": "\
+( \n\
+  rate(proxysql_mysql_status_query_processor_time_nsec{instance=\"$proxysql\"}[$interval]) \n\
+  or \n\
+  rate(proxysql_mysql_status_query_processor_time_nsec_total{instance=\"$proxysql\"}[$interval]) \n\
+  or \n\
+  irate(proxysql_mysql_status_query_processor_time_nsec{instance=\"$proxysql\"}[5m]) \n\
+  or \n\
+  irate(proxysql_mysql_status_query_processor_time_nsec_total{instance=\"$proxysql\"}[5m]) \n\
+) / ( \n\
+  rate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[$interval]) \n\
+  or \n\
+  rate(proxysql_mysql_status_questions_total{instance=\"$proxysql\"}[$interval]) \n\
+  or \n\
+  irate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[5m]) \n\
+  or \n\
+  irate(proxysql_mysql_status_questions_total{instance=\"$proxysql\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "",
@@ -1045,7 +1087,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(proxysql_mysql_status_query_processor_time_nsec{instance=\"$proxysql\"}[$interval]) or irate(proxysql_mysql_status_query_processor_time_nsec{instance=\"$proxysql\"}[5m]))",
+            "expr": "\
+rate(proxysql_mysql_status_query_processor_time_nsec{instance=\"$proxysql\"}[$interval]) \n\
+or \n\
+rate(proxysql_mysql_status_query_processor_time_nsec_total{instance=\"$proxysql\"}[$interval]) \n\
+or \n\
+irate(proxysql_mysql_status_query_processor_time_nsec{instance=\"$proxysql\"}[5m]) \n\
+or \n\
+irate(proxysql_mysql_status_query_processor_time_nsec_total{instance=\"$proxysql\"}[5m]) \n\
+",
             "format": "time_series",
             "hide": true,
             "intervalFactor": 1,
@@ -1057,7 +1107,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[$interval]) or irate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[5m]))",
+            "expr": "\
+rate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[$interval]) \n\
+or \n\
+rate(proxysql_mysql_status_questions_total{instance=\"$proxysql\"}[$interval]) \n\
+or \n\
+irate(proxysql_mysql_status_questions{instance=\"$proxysql\"}[5m]) \n\
+or \n\
+irate(proxysql_mysql_status_questions_total{instance=\"$proxysql\"}[5m]) \n\
+",
             "format": "time_series",
             "intervalFactor": 1,
             "legendFormat": "Questions",
@@ -1478,7 +1536,31 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "((rate(proxysql_mysql_status_query_cache_count_get_ok{instance=\"$proxysql\"}[$interval]) + rate(proxysql_mysql_status_query_cache_count_get_ok{instance=\"$proxysql\"}[$interval])) or (irate(proxysql_mysql_status_query_cache_count_get_ok{instance=\"$proxysql\"}[5m]) + irate(proxysql_mysql_status_query_cache_count_get_ok{instance=\"$proxysql\"}[5m]))/(rate(proxysql_mysql_status_query_cache_count_get{instance=\"$proxysql\"}[$interval]) + rate(proxysql_mysql_status_query_cache_count_get{instance=\"$proxysql\"}[$interval])) or (irate(proxysql_mysql_status_query_cache_count_get{instance=\"$proxysql\"}[5m]) + irate(proxysql_mysql_status_query_cache_count_get{instance=\"$proxysql\"}[5m])))        ",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(proxysql_mysql_status_query_cache_count_get_ok{instance=\"$proxysql\"}[$interval]) * 2 \n\
+    or \n\
+    rate(proxysql_mysql_status_query_cache_count_get_ok_total{instance=\"$proxysql\"}[$interval]) * 2 \n\
+  ) \n\
+  or \n\
+  ( \n\
+    irate(proxysql_mysql_status_query_cache_count_get_ok{instance=\"$proxysql\"}[5m]) * 2 \n\
+    or \n\
+    irate(proxysql_mysql_status_query_cache_count_get_ok_total{instance=\"$proxysql\"}[5m]) * 2 \n\
+  ) / ( \n\
+    rate(proxysql_mysql_status_query_cache_count_get{instance=\"$proxysql\"}[$interval]) * 2 \n\
+    or \n\
+    rate(proxysql_mysql_status_query_cache_count_get_total{instance=\"$proxysql\"}[$interval]) * 2 \n\
+  ) \n\
+  or \n\
+  ( \n\
+    irate(proxysql_mysql_status_query_cache_count_get{instance=\"$proxysql\"}[5m]) * 2 \n\
+    or \n\
+    irate(proxysql_mysql_status_query_cache_count_get_total{instance=\"$proxysql\"}[5m]) * 2 \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1491,7 +1573,31 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "((rate(proxysql_mysql_status_query_cache_bytes_out{instance=\"$proxysql\"}[$interval]) + rate(proxysql_mysql_status_query_cache_bytes_out{instance=\"$proxysql\"}[$interval])) or (irate(proxysql_mysql_status_query_cache_bytes_out{instance=\"$proxysql\"}[5m]) + irate(proxysql_mysql_status_query_cache_bytes_out{instance=\"$proxysql\"}[5m]))/(rate(proxysql_mysql_status_query_cache_bytes_in{instance=\"$proxysql\"}[$interval]) + rate(proxysql_mysql_status_query_cache_bytes_in{instance=\"$proxysql\"}[$interval])) or (irate(proxysql_mysql_status_query_cache_bytes_in{instance=\"$proxysql\"}[5m]) + irate(proxysql_mysql_status_query_cache_bytes_in{instance=\"$proxysql\"}[5m])))        ",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(proxysql_mysql_status_query_cache_bytes_out{instance=\"$proxysql\"}[$interval]) * 2 \n\
+    or \n\
+    rate(proxysql_mysql_status_query_cache_bytes_out_total{instance=\"$proxysql\"}[$interval]) * 2 \n\
+  ) \n\
+  or \n\
+  ( \n\
+    irate(proxysql_mysql_status_query_cache_bytes_out{instance=\"$proxysql\"}[5m]) * 2 \n\
+    or \n\
+    irate(proxysql_mysql_status_query_cache_bytes_out_total{instance=\"$proxysql\"}[5m]) * 2 \n\
+  ) / ( \n\
+    rate(proxysql_mysql_status_query_cache_bytes_in{instance=\"$proxysql\"}[$interval]) * 2 \n\
+    or \n\
+    rate(proxysql_mysql_status_query_cache_bytes_in_total{instance=\"$proxysql\"}[$interval]) * 2 \n\
+  ) \n\
+  or \n\
+  ( \n\
+    irate(proxysql_mysql_status_query_cache_bytes_in{instance=\"$proxysql\"}[5m]) * 2 \n\
+    or \n\
+    irate(proxysql_mysql_status_query_cache_bytes_in{instance=\"$proxysql\"}[5m]) * 2 \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "",
             "intervalFactor": 2,
@@ -1606,7 +1712,31 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(proxysql_connection_pool_bytes_data_recv{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) + rate(proxysql_connection_pool_bytes_data_sent{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval])) or (irate(proxysql_connection_pool_bytes_data_recv{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m]) + irate(proxysql_connection_pool_bytes_data_sent{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m]))",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(proxysql_connection_pool_bytes_data_recv{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) \n\
+    or \n\
+    rate(proxysql_connection_pool_bytes_data_recv_total{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) \n\
+  ) + ( \n\
+    rate(proxysql_connection_pool_bytes_data_sent{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) \n\
+    or \n\
+    rate(proxysql_connection_pool_bytes_data_sent_total{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    irate(proxysql_connection_pool_bytes_data_recv{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m]) \n\
+    or \n\
+    irate(proxysql_connection_pool_bytes_data_recv_total{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m]) \n\
+  ) + ( \n\
+    irate(proxysql_connection_pool_bytes_data_sent{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m]) \n\
+    or \n\
+    irate(proxysql_connection_pool_bytes_data_sent_total{instance=\"$proxysql\", hostgroup=~\"$hostgroup\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

@@ -201,7 +201,31 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "topk(5, (rate(mysql_info_schema_user_statistics_total_ssl_connections_total{instance=~\"$host\"}[$interval]) + rate(mysql_info_schema_user_statistics_total_connections{instance=~\"$host\"}[$interval]))>0) or topk(5, (irate(mysql_info_schema_user_statistics_total_ssl_connections_total{instance=~\"$host\"}[5m]) + irate(mysql_info_schema_user_statistics_total_connections{instance=~\"$host\"}[5m]))>0)",
+            "expr": "\
+topk( \n\
+  5, \n\
+  ( \n\
+    rate(mysql_info_schema_user_statistics_total_ssl_connections_total{instance=~\"$host\"}[$interval]) \n\
+    + ( \n\
+      rate(mysql_info_schema_user_statistics_total_connections{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      rate(mysql_info_schema_user_statistics_total_connections_total{instance=~\"$host\"}[$interval]) \n\
+    ) \n\
+  ) > 0 \n\
+) \n\
+or \n\
+topk( \n\
+  5, \n\
+  ( \n\
+    irate(mysql_info_schema_user_statistics_total_ssl_connections_total{instance=~\"$host\"}[5m]) \n\
+    + ( \n\
+      irate(mysql_info_schema_user_statistics_total_connections{instance=~\"$host\"}[5m]) \n\
+      or \n\
+      irate(mysql_info_schema_user_statistics_total_connections_total{instance=~\"$host\"}[5m]) \n\
+    ) \n\
+  ) > 0 \n\
+) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{ user }}",

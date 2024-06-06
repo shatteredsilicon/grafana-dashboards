@@ -232,7 +232,21 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(sum(rate(process_cpu_seconds_total{instance=~\"$host\",job=\"linux\"}[$interval])) by () or sum(irate(process_cpu_seconds_total{instance=~\"$host\",job=\"linux\"}[5m])) by ()) / count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"})*100",
+            "expr": "\
+( \n\
+  sum( \n\
+    rate(process_cpu_seconds_total{instance=~\"$host\",job=\"linux\"}[$interval]) \n\
+  ) by () \n\
+  or \n\
+  sum( \n\
+    irate(process_cpu_seconds_total{instance=~\"$host\",job=\"linux\"}[5m]) \n\
+  ) by () \n\
+) / count( \n\
+  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
+  or \n\
+  node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
+) * 100 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -790,7 +804,21 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(sum(rate(process_cpu_seconds_total{instance=~\"$host\",job=\"mysql\"}[$interval])) by () or sum(irate(process_cpu_seconds_total{instance=~\"$host\",job=\"mysql\"}[5m])) by ()) / count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"})*100",
+            "expr": "\
+( \n\
+  sum( \n\
+    rate(process_cpu_seconds_total{instance=~\"$host\",job=\"mysql\"}[$interval]) \n\
+  ) by () \n\
+  or \n\
+  sum( \n\
+    irate(process_cpu_seconds_total{instance=~\"$host\",job=\"mysql\"}[5m]) \n\
+  ) by () \n\
+) / count( \n\
+  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
+  or \n\
+  node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
+) * 100 \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -1568,7 +1596,21 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "(sum(rate(process_cpu_seconds_total{instance=~\"$host\",job=\"mongodb\"}[$interval])) by () or sum(irate(process_cpu_seconds_total{instance=~\"$host\",job=\"mongodb\"}[5m])) by ()) / count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"})*100",
+                "expr": "\
+( \n\
+  sum( \n\
+    rate(process_cpu_seconds_total{instance=~\"$host\",job=\"mongodb\"}[$interval]) \n\
+  ) by () \n\
+  or \n\
+  sum( \n\
+    irate(process_cpu_seconds_total{instance=~\"$host\",job=\"mongodb\"}[5m]) \n\
+  ) by () \n\
+) / count( \n\
+  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
+  or \n\
+  node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
+) * 100 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2305,7 +2347,21 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "(sum(rate(process_cpu_seconds_total{instance=~\"$host\",job=\"proxysql\"}[$interval])) by () or sum(irate(process_cpu_seconds_total{instance=~\"$host\",job=\"proxysql\"}[5m])) by ()) / count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"})*100",
+                "expr": "\
+( \n\
+  sum( \n\
+    rate(process_cpu_seconds_total{instance=~\"$host\",job=\"proxysql\"}[$interval]) \n\
+  ) by () \n\
+  or \n\
+  sum( \n\
+    irate(process_cpu_seconds_total{instance=~\"$host\",job=\"proxysql\"}[5m]) \n\
+  ) by () \n\
+) / count( \n\
+  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
+  or \n\
+  node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
+) * 100 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -3072,7 +3128,21 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(sum(rate(process_cpu_seconds_total{instance=~\"$host\",job=\"postgresql\"}[$interval])) by () or \nsum(irate(process_cpu_seconds_total{instance=~\"$host\",job=\"postgresql\"}[5m])) by ()) / \ncount({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"})*100",
+            "expr": "\
+( \n\
+  sum( \n\
+    rate(process_cpu_seconds_total{instance=~\"$host\",job=\"postgresql\"}[$interval]) \n\
+  ) by () \n\
+  or \n\
+  sum( \n\
+    irate(process_cpu_seconds_total{instance=~\"$host\",job=\"postgresql\"}[5m]) \n\
+  ) by () \n\
+) / count( \n\
+  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
+  or \n\
+  node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
+) * 100 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

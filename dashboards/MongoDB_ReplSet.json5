@@ -1320,7 +1320,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_metrics_repl_network_getmores_total_milliseconds{instance=~\"$host\"}[$interval]) or irate(mongodb_mongod_metrics_repl_network_getmores_total_milliseconds{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_metrics_repl_network_getmores_total_milliseconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_metrics_repl_network_getmores_total_milliseconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_metrics_repl_network_getmores_total_milliseconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_metrics_repl_network_getmores_total_milliseconds_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{instance}}",
@@ -1539,7 +1547,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_metrics_repl_preload_docs_total_milliseconds{instance=~\"$host\"}[$interval]) or irate(mongodb_mongod_metrics_repl_preload_docs_total_milliseconds{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_metrics_repl_preload_docs_total_milliseconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_metrics_repl_preload_docs_total_milliseconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_metrics_repl_preload_docs_total_milliseconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_metrics_repl_preload_docs_total_milliseconds_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Document Preload",
@@ -1550,7 +1566,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds{instance=~\"$host\"}[$interval]) or irate(mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Index Preload",
@@ -1562,7 +1586,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_metrics_repl_apply_batches_total_milliseconds{instance=~\"$host\"}[$interval]) or irate(mongodb_mongod_metrics_repl_apply_batches_total_milliseconds{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_metrics_repl_apply_batches_total_milliseconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_metrics_repl_apply_batches_total_milliseconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_metrics_repl_apply_batches_total_milliseconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_metrics_repl_apply_batches_total_milliseconds_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Batch Apply",

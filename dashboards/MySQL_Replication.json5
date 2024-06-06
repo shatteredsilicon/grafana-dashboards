@@ -1472,7 +1472,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[$interval]) or\nirate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_binlog_cache_use_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_binlog_cache_use_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1486,7 +1494,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[$interval]) or\nirate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_binlog_cache_disk_use_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_binlog_cache_disk_use_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1499,7 +1515,39 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[$interval]))/\n(rate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[$interval])+\nrate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[$interval])) or\n(irate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[5m]))/\n(irate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[5m])+\nirate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[5m]))",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_binlog_cache_use_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  ( \n\
+    rate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_binlog_cache_use_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_binlog_cache_disk_use_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_binlog_cache_use_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  ( \n\
+    irate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_binlog_cache_use_total{instance=~\"$host\"}[5m]) \n\
+  ) + ( \n\
+    irate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_binlog_cache_disk_use_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1622,7 +1670,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_variables_binlog_cache_size{instance=~\"$host\"}[$interval]) or\nirate(mysql_global_variables_binlog_cache_size{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_variables_binlog_cache_size{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_variables_binlog_cache_size_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_variables_binlog_cache_size{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_variables_binlog_cache_size_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1744,7 +1800,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[$interval]) or\nirate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_binlog_stmt_cache_use_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_binlog_stmt_cache_use_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1758,7 +1822,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[$interval]) or\nirate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_binlog_stmt_cache_disk_use_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_binlog_stmt_cache_disk_use_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1771,7 +1843,39 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[$interval]))/\n(rate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[$interval])+\nrate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[$interval])) or\n(irate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[5m]))/\n(irate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[5m])+\nirate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[5m]))",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_binlog_stmt_cache_use_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  ( \n\
+    rate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_binlog_stmt_cache_use_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_binlog_stmt_cache_disk_use_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_binlog_stmt_cache_use_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  ( \n\
+    irate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_binlog_stmt_cache_use_total{instance=~\"$host\"}[5m]) \n\
+  ) + ( \n\
+    irate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_binlog_stmt_cache_disk_use_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1894,7 +1998,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"}[$interval]) or\nirate(mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_variables_binlog_stmt_cache_size_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_variables_binlog_stmt_cache_size_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

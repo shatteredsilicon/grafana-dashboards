@@ -235,7 +235,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", device!=\"lo\",instance=~\"$host\"}[1h]) or rate(rdsosmetrics_network_rx{instance=~\"$host\"}[1h]))",
+            "expr": "\
+sum( \n\
+  rate(node_network_receive_bytes{device!=\"lo\",instance=~\"$host\"}[1h]) \n\
+  or \n\
+  rate(node_network_receive_bytes_total{device!=\"lo\",instance=~\"$host\"}[1h]) \n\
+  or \n\
+  avg_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[1h]) \n\
+) \n\
+",
             "format": "time_series",
             "intervalFactor": 1,
             "legendFormat": "",
@@ -311,7 +319,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", device!=\"lo\",instance=~\"$host\"}[1h]) or rate(rdsosmetrics_network_tx{instance=~\"$host\"}[1h]))",
+            "expr": "\
+sum( \n\
+  rate(node_network_transmit_bytes{device!=\"lo\",instance=~\"$host\"}[1h]) \n\
+  or \n\
+  rate(node_network_transmit_bytes_total{device!=\"lo\",instance=~\"$host\"}[1h]) \n\
+  or \n\
+  avg_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[1h]) \n\
+) \n\
+",
             "format": "time_series",
             "intervalFactor": 1,
             "refId": "A"
@@ -471,7 +487,23 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Tcp_RetransSegs{instance=~\"$host\"}[1h]) * 100 / (rate(node_netstat_Tcp_OutSegs{instance=~\"$host\"}[1h]) + rate(node_netstat_Tcp_InSegs{instance=~\"$host\"}[1h]))",
+            "expr": "\
+( \n\
+  rate(node_netstat_Tcp_RetransSegs{instance=~\"$host\"}[1h]) \n\
+  or \n\
+  rate(node_netstat_Tcp_RetransSegs_total{instance=~\"$host\"}[1h]) \n\
+) * 100 / ( \n\
+  ( \n\
+    rate(node_netstat_Tcp_OutSegs{instance=~\"$host\"}[1h]) \n\
+    or \n\
+    rate(node_netstat_Tcp_OutSegs_total{instance=~\"$host\"}[1h]) \n\
+  ) + ( \n\
+    rate(node_netstat_Tcp_InSegs{instance=~\"$host\"}[1h]) \n\
+    or \n\
+    rate(node_netstat_Tcp_InSegs_total{instance=~\"$host\"}[1h]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -566,7 +598,27 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m])) ",
+            "expr": "\
+sum( \n\
+  rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+  or \n\
+  rate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+  or \n\
+  irate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -577,7 +629,27 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+  or \n\
+  rate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+  or \n\
+  irate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -810,7 +882,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate({__name__=~\"node_network_receive_packets|node_network_receive_packets_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate({__name__=~\"node_network_receive_packets|node_network_receive_packets_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "\
+rate(node_network_receive_packets{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+rate(node_network_receive_packets_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+irate(node_network_receive_packets{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+or \n\
+irate(node_network_receive_packets_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -821,7 +901,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate({__name__=~\"node_network_transmit_packets|node_network_transmit_packets_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate({__name__=~\"node_network_transmit_packets|node_network_transmit_packets_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "\
+rate(node_network_transmit_packets{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+rate(node_network_transmit_packets_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+irate(node_network_transmit_packets{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+or \n\
+irate(node_network_transmit_packets_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -906,7 +994,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate({__name__=~\"node_network_receive_errs|node_network_receive_errs_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate({__name__=~\"node_network_receive_errs|node_network_receive_errs_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "\
+rate(node_network_receive_errs{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+rate(node_network_receive_errs_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+irate(node_network_receive_errs{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+or \n\
+irate(node_network_receive_errs_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -917,7 +1013,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate({__name__=~\"node_network_transmit_errs|node_network_transmit_errs_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate({__name__=~\"node_network_transmit_errs|node_network_transmit_errs_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "\
+rate(node_network_transmit_errs{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+rate(node_network_transmit_errs_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+irate(node_network_transmit_errs{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+or \n\
+irate(node_network_transmit_errs_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -999,7 +1103,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate({__name__=~\"node_network_receive_drop|node_network_receive_drop_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate({__name__=~\"node_network_receive_drop|node_network_receive_drop_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "\
+rate(node_network_receive_drop{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+rate(node_network_receive_drop_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+irate(node_network_receive_drop{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+or \n\
+irate(node_network_receive_drop_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1010,7 +1122,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate({__name__=~\"node_network_transmit_drop|node_network_transmit_drop_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate({__name__=~\"node_network_transmit_drop|node_network_transmit_drop_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "\
+rate(node_network_transmit_drop{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+rate(node_network_transmit_drop_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+irate(node_network_transmit_drop{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+or \n\
+irate(node_network_transmit_drop_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1092,7 +1212,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate({__name__=~\"node_network_receive_multicast|node_network_receive_multicast_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate({__name__=~\"node_network_receive_multicast|node_network_receive_multicast_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "\
+rate(node_network_receive_multicast{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+rate(node_network_receive_multicast_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+irate(node_network_receive_multicast{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+or \n\
+irate(node_network_receive_multicast_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1103,7 +1231,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate({__name__=~\"node_network_transmit_multicast|node_network_transmit_multicast_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate({__name__=~\"node_network_transmit_multicast|node_network_transmit_multicast_total\", instance=~\"$host\", device!=\"lo\"}[5m])",
+            "expr": "\
+rate(node_network_transmit_multicast{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+rate(node_network_transmit_multicast_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+or \n\
+irate(node_network_transmit_multicast{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+or \n\
+irate(node_network_transmit_multicast_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1596,7 +1732,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Tcp_InCsumErrors{instance=~\"$host\"}[$interval]) or irate(node_netstat_Tcp_InCsumErrors{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Tcp_InCsumErrors{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Tcp_InCsumErrors_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Tcp_InCsumErrors{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Tcp_InCsumErrors_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1607,7 +1751,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Tcp_InErrs{instance=~\"$host\"}[$interval]) or irate(node_netstat_Tcp_InErrs{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Tcp_InErrs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Tcp_InErrs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Tcp_InErrs{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Tcp_InErrs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1618,7 +1770,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Tcp_InSegs{instance=~\"$host\"}[$interval]) or irate(node_netstat_Tcp_InSegs{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Tcp_InSegs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Tcp_InSegs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Tcp_InSegs{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Tcp_InSegs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1629,7 +1789,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Tcp_OutRsts{instance=~\"$host\"}[$interval]) or irate(node_netstat_Tcp_OutRsts{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Tcp_OutRsts{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Tcp_OutRsts_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Tcp_OutRsts{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Tcp_OutRsts_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1640,7 +1808,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Tcp_OutSegs{instance=~\"$host\"}[$interval]) or irate(node_netstat_Tcp_OutSegs{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Tcp_OutSegs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Tcp_OutSegs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Tcp_OutSegs{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Tcp_OutSegs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1651,7 +1827,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Tcp_RetransSegs{instance=~\"$host\"}[$interval]) or irate(node_netstat_Tcp_RetransSegs{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Tcp_RetransSegs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Tcp_RetransSegs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Tcp_RetransSegs{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Tcp_RetransSegs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1769,7 +1953,17 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_netstat_Udp_InDatagrams{instance=~\"$host\"}[$interval]) or irate(node_netstat_Udp_InDatagrams{instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(node_netstat_Udp_InDatagrams{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(node_netstat_Udp_InDatagrams_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(node_netstat_Udp_InDatagrams{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(node_netstat_Udp_InDatagrams_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1783,7 +1977,17 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_netstat_Udp_InErrors{instance=~\"$host\"}[$interval]) or irate(node_netstat_Udp_InErrors{instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(node_netstat_Udp_InErrors{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(node_netstat_Udp_InErrors_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(node_netstat_Udp_InErrors{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(node_netstat_Udp_InErrors_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1796,7 +2000,17 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_netstat_Udp_OutDatagrams{instance=~\"$host\"}[$interval]) or irate(node_netstat_Udp_OutDatagrams{instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(node_netstat_Udp_OutDatagrams{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(node_netstat_Udp_OutDatagrams_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(node_netstat_Udp_OutDatagrams{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(node_netstat_Udp_OutDatagrams_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1809,7 +2023,17 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_netstat_Udp_NoPorts{instance=~\"$host\"}[$interval]) or irate(node_netstat_Udp_NoPorts{instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(node_netstat_Udp_NoPorts{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(node_netstat_Udp_NoPorts_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(node_netstat_Udp_NoPorts{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(node_netstat_Udp_NoPorts_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1822,7 +2046,17 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_netstat_Udp_InCsumErrors{instance=~\"$host\"}[$interval]) or irate(node_netstat_Udp_InCsumErrors{instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(node_netstat_Udp_InCsumErrors{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(node_netstat_Udp_InCsumErrors_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(node_netstat_Udp_InCsumErrors{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(node_netstat_Udp_InCsumErrors_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1835,7 +2069,17 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_netstat_Udp_RcvbufErrors{instance=~\"$host\"}[$interval]) or irate(node_netstat_Udp_RcvbufErrors{instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(node_netstat_Udp_RcvbufErrors{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(node_netstat_Udp_RcvbufErrors_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(node_netstat_Udp_RcvbufErrors{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(node_netstat_Udp_RcvbufErrors_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1848,7 +2092,17 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate(node_netstat_Udp_SndbufErrors{instance=~\"$node\"}[$interval]) or irate(node_netstat_Udp_SndbufErrors{instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(node_netstat_Udp_SndbufErrors{instance=~\"$node\"}[$interval]) \n\
+  or \n\
+  rate(node_netstat_Udp_SndbufErrors_total{instance=~\"$node\"}[$interval]) \n\
+  or \n\
+  irate(node_netstat_Udp_SndbufErrors{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(node_netstat_Udp_SndbufErrors_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1938,7 +2192,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_UdpLite_InDatagrams{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_UdpLite_InDatagrams{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_UdpLite_InDatagrams{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_UdpLite_InDatagrams_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_UdpLite_InDatagrams{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_UdpLite_InDatagrams_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1949,7 +2211,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_UdpLite_OutDatagrams{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_UdpLite_OutDatagrams{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_UdpLite_OutDatagrams{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_UdpLite_OutDatagrams_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_UdpLite_OutDatagrams{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_UdpLite_OutDatagrams_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1960,7 +2230,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_UdpLite_InCsumErrors{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_UdpLite_InCsumErrors{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_UdpLite_InCsumErrors{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_UdpLite_InCsumErrors_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_UdpLite_InCsumErrors{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_UdpLite_InCsumErrors_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1971,7 +2249,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_UdpLite_InErrors{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_UdpLite_InErrors{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_UdpLite_InErrors{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_UdpLite_InErrors_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_UdpLite_InErrors{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_UdpLite_InErrors_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1982,7 +2268,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_UdpLite_RcvbufErrors{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_UdpLite_RcvbufErrors{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_UdpLite_RcvbufErrors{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_UdpLite_RcvbufErrors_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_UdpLite_RcvbufErrors{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_UdpLite_RcvbufErrors_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1993,7 +2287,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_UdpLite_SndbufErrors{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_UdpLite_SndbufErrors{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_UdpLite_SndbufErrors{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_UdpLite_SndbufErrors_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_UdpLite_SndbufErrors{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_UdpLite_SndbufErrors_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2004,7 +2306,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_UdpLite_NoPorts{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_UdpLite_NoPorts{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_UdpLite_NoPorts{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_UdpLite_NoPorts_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_UdpLite_NoPorts{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_UdpLite_NoPorts_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2117,7 +2427,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InErrors{instance=~\"$host\"}[$interval]) \nor irate(node_netstat_Icmp_InErrors{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InErrors{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InErrors_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InErrors{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InErrors_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2128,7 +2446,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_OutErrors{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_OutErrors{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_OutErrors{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_OutErrors_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_OutErrors{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutErrors_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2139,7 +2465,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InDestUnreachs{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InDestUnreachs{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InDestUnreachs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InDestUnreachs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InDestUnreachs{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InDestUnreachs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2150,7 +2484,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_OutDestUnreachs{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_OutDestUnreachs{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_OutDestUnreachs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_OutDestUnreachs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_OutDestUnreachs{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutDestUnreachs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2161,7 +2503,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_IcmpMsg_InType3{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_IcmpMsg_InType3{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_IcmpMsg_InType3{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_IcmpMsg_InType3_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_IcmpMsg_InType3{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_IcmpMsg_InType3_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2172,7 +2522,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "irate(node_netstat_IcmpMsg_OutType3{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_IcmpMsg_OutType3{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_IcmpMsg_OutType3{instance=~\"$host\"}[$interval])\ \n\
+or \n\
+rate(node_netstat_IcmpMsg_OutType3_total{instance=~\"$host\"}[$interval])\ \n\
+or \n\
+irate(node_netstat_IcmpMsg_OutType3{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_IcmpMsg_OutType3_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2183,7 +2541,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InCsumErrors{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InCsumErrors{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InCsumErrors{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InCsumErrors_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InCsumErrors{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InCsumErrors_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2194,7 +2560,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InTimeExcds{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InTimeExcds{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InTimeExcds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InTimeExcds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InTimeExcds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InTimeExcds_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2283,7 +2657,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InMsgs{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InMsgs{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InMsgs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InMsgs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InMsgs{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InMsgs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2294,7 +2676,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InRedirects{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InRedirects{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InRedirects{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InRedirects_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InRedirects{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InRedirects_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2305,7 +2695,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_OutMsgs{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_OutMsgs{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_OutMsgs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_OutMsgs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_OutMsgs{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutMsgs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2316,7 +2714,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_OutRedirects{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_OutRedirects{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_OutRedirects{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_OutRedirects_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_OutRedirects{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutRedirects_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2405,7 +2811,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InEchoReps{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InEchoReps{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InEchoReps{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InEchoReps_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InEchoReps{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InEchoReps_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2416,7 +2830,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InEchos{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InEchos{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InEchos{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InEchos_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InEchos{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InEchos_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2427,7 +2849,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_OutEchoReps{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_OutEchoReps{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_OutEchoReps{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_OutEchoReps_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_OutEchoReps{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutEchoReps_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2438,7 +2868,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_OutEchos{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_OutEchos{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_OutEchos{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_OutEchos_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_OutEchos{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutEchos_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2528,7 +2966,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InAddrMaskReps{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InAddrMaskReps{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InAddrMaskReps{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InAddrMaskReps_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InAddrMaskReps{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InAddrMaskReps_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2539,7 +2985,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InAddrMasks{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InAddrMasks{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InAddrMasks{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InAddrMasks_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InAddrMasks{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InAddrMasks_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2550,7 +3004,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_OutAddrMaskReps{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_OutAddrMaskReps{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_OutAddrMaskReps{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_OutAddrMaskReps_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_OutAddrMaskReps{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutAddrMaskReps_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2561,7 +3023,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_OutAddrMasks{instance=~\"$host\"}[5m]) or\nirate(node_netstat_Icmp_OutAddrMasks{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_OutAddrMasks{instance=~\"$host\"}[5m]) \n\
+or \n\
+rate(node_netstat_Icmp_OutAddrMasks_total{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutAddrMasks{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutAddrMasks_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2572,7 +3042,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InTimestampReps{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InTimestampReps{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InTimestampReps{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InTimestampReps_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InTimestampReps{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InTimestampReps_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2583,7 +3061,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_InTimestamps{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_InTimestamps{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_InTimestamps{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_InTimestamps_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_InTimestamps{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_InTimestamps_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2594,7 +3080,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_OutTimestampReps{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_OutTimestampReps{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_OutTimestampReps{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_OutTimestampReps_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_OutTimestampReps{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutTimestampReps_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2605,7 +3099,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_netstat_Icmp_OutTimestamps{instance=~\"$host\"}[$interval]) or\nirate(node_netstat_Icmp_OutTimestamps{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(node_netstat_Icmp_OutTimestamps{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(node_netstat_Icmp_OutTimestamps_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_netstat_Icmp_OutTimestamps{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(node_netstat_Icmp_OutTimestamps_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

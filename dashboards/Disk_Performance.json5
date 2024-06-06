@@ -240,7 +240,43 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "((rate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) or rate(node_disk_read_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval])*1000) / \nrate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", device=~\"$device\", instance=~\"$host\"}[$interval])) or \n((irate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) or irate(node_disk_read_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m])*1000) / \nirate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", device=~\"$device\", instance=~\"$host\"}[5m])) or\navg_over_time(aws_rds_read_latency_average{instance=~\"$host\"}[$interval]) or \navg_over_time(aws_rds_read_latency_average{instance=~\"$host\"}[5m]) or\navg_over_time(rdsosmetrics_diskIO_readLatency{instance=~\"$host\"}[$interval]) or \navg_over_time(rdsosmetrics_diskIO_readLatency{instance=~\"$host\"}[5m])",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_read_time_ms_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_read_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval]) * 1000 \n\
+  ) / ( \n\
+    rate(node_disk_reads_completed{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_reads_completed_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    irate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(node_disk_read_time_ms_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(node_disk_read_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) * 1000 \n\
+  ) / ( \n\
+    irate(node_disk_reads_completed{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(node_disk_reads_completed_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+or \n\
+avg_over_time(aws_rds_read_latency_average{instance=~\"$host\"}[$interval]) \n\
+or \n\
+avg_over_time(aws_rds_read_latency_average{instance=~\"$host\"}[5m]) \n\
+or \n\
+avg_over_time(rdsosmetrics_diskIO_readLatency{instance=~\"$host\"}[$interval]) \n\
+or \n\
+avg_over_time(rdsosmetrics_diskIO_readLatency{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -257,7 +293,47 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "((rate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) or rate(node_disk_write_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval])*1000) / \nrate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", device=~\"$device\", instance=~\"$host\"}[$interval])) or \n((irate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) or irate(node_disk_write_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m])*1000) / \nirate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", device=~\"$device\", instance=~\"$host\"}[5m])) or \n(avg_over_time(aws_rds_write_latency_average{instance=~\"$host\"}[$interval]) or \navg_over_time(aws_rds_write_latency_average{instance=~\"$host\"}[5m])) or\n(avg_over_time(rdsosmetrics_diskIO_writeLatency{instance=~\"$host\"}[$interval]) or \navg_over_time(rdsosmetrics_diskIO_writeLatency{instance=~\"$host\"}[5m]))",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_write_time_ms_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_write_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval]) * 1000 \n\
+  ) / ( \n\
+    rate(node_disk_writes_completed{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_writes_completed_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    irate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(node_disk_write_time_ms_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(node_disk_write_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) * 1000 \n\
+  ) / ( \n\
+    irate(node_disk_writes_completed{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(node_disk_writes_completed_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  avg_over_time(aws_rds_write_latency_average{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  avg_over_time(aws_rds_write_latency_average{instance=~\"$host\"}[5m]) \n\
+) \n\
+or \n\
+( \n\
+  avg_over_time(rdsosmetrics_diskIO_writeLatency{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_writeLatency{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -362,7 +438,23 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", device=~\"$device\", instance=~\"$host\"}[$interval]) or \nirate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", device=~\"$device\", instance=~\"$host\"}[5m])) or\n(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) or\nmax_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m])) ",
+            "expr": "\
+( \n\
+  rate(node_disk_reads_completed{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(node_disk_reads_completed_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(node_disk_reads_completed{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(node_disk_reads_completed_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+) \n\
+or \n\
+( \n\
+  avg_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -379,7 +471,23 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", device=~\"$device\", instance=~\"$host\"}[$interval]) or \nirate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", device=~\"$device\", instance=~\"$host\"}[5m])) or\n(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) or\nmax_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m])) ",
+            "expr": "\
+( \n\
+  rate(node_disk_writes_completed{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(node_disk_writes_completed_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(node_disk_writes_completed{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(node_disk_writes_completed_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+) \n\
+or \n\
+( \n\
+  avg_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -479,7 +587,23 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate({__name__=~\"node_disk_bytes_read|node_disk_read_bytes_total\", instance=~\"$host\",device=~\"$device\"}[$interval]) or \nirate({__name__=~\"node_disk_bytes_read|node_disk_read_bytes_total\", instance=~\"$host\",device=~\"$device\"}[5m])) or \n(rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\"}[$interval]) or \nirate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\"}[5m])) * 1024",
+            "expr": "\
+( \n\
+  rate(node_disk_bytes_read{instance=~\"$host\",device=~\"$device\"}[$interval]) \n\
+  or \n\
+  rate(node_disk_read_bytes_total{instance=~\"$host\",device=~\"$device\"}[$interval]) \n\
+  or \n\
+  irate(node_disk_bytes_read{instance=~\"$host\",device=~\"$device\"}[5m]) \n\
+  or \n\
+  irate(node_disk_read_bytes_total{instance=~\"$host\",device=~\"$device\"}[5m]) \n\
+) \n\
+or \n\
+( \n\
+  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\"}[5m]) \n\
+) * 1024 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -496,7 +620,23 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate({__name__=~\"node_disk_bytes_written|node_disk_written_bytes_total\", instance=~\"$host\",device=~\"$device\"}[$interval]) or \nirate({__name__=~\"node_disk_bytes_written|node_disk_written_bytes_total\", instance=~\"$host\",device=~\"$device\"}[5m])) or \n(rate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\"}[$interval]) or \nirate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\"}[5m])) * 1024",
+            "expr": "\
+( \n\
+  rate(node_disk_bytes_written{instance=~\"$host\",device=~\"$device\"}[$interval]) \n\
+  or \n\
+  rate(node_disk_written_bytes_total{instance=~\"$host\",device=~\"$device\"}[$interval]) \n\
+  or \n\
+  irate(node_disk_bytes_written{instance=~\"$host\",device=~\"$device\"}[5m]) \n\
+  or \n\
+  irate(node_disk_written_bytes_total{instance=~\"$host\",device=~\"$device\"}[5m]) \n\
+) \n\
+or \n\
+( \n\
+  avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\"}[5m]) \n\
+) * 1024 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -595,7 +735,25 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval])/1000 or irate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[5m])/1000 or rate(node_disk_read_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval]) or irate(node_disk_read_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) or sum(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) or \nmax_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]))",
+            "expr": "\
+rate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) / 1000 \n\
+or \n\
+rate(node_disk_read_time_ms_total{device=~\"$device\", instance=~\"$host\"}[$interval]) / 1000 \n\
+or \n\
+irate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) / 1000 \n\
+or \n\
+irate(node_disk_read_time_ms_total{device=~\"$device\", instance=~\"$host\"}[5m]) / 1000 \n\
+or \n\
+rate(node_disk_read_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_disk_read_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Read: {{ device }}",
@@ -611,7 +769,25 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval])/1000 or irate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[5m])/1000 or rate(node_disk_write_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval]) or irate(node_disk_write_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) or sum(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) or \nmax_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]))",
+            "expr": "\
+rate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) / 1000 \n\
+or \n\
+rate(node_disk_write_time_ms_total{device=~\"$device\", instance=~\"$host\"}[$interval]) / 1000 \n\
+or \n\
+irate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) / 1000 \n\
+or \n\
+irate(node_disk_write_time_ms_total{device=~\"$device\", instance=~\"$host\"}[5m]) / 1000 \n\
+or \n\
+rate(node_disk_write_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_disk_write_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Write: {{ device }}",
@@ -711,7 +887,25 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(node_disk_io_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval])/1000 or \nirate(node_disk_io_time_ms{device=~\"$device\", instance=~\"$host\"}[5m])/1000 or rate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval]) or \nirate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) or \nsum by (host) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]))/100",
+            "expr": "\
+rate(node_disk_io_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) / 1000 \n\
+or \n\
+rate(node_disk_io_time_ms_total{device=~\"$device\", instance=~\"$host\"}[$interval]) / 1000 \n\
+or \n\
+irate(node_disk_io_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) / 1000 \n\
+or \n\
+irate(node_disk_io_time_ms_total{device=~\"$device\", instance=~\"$host\"}[5m]) / 1000 \n\
+or \n\
+rate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+or \n\
+sum by (host) ( \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+) / 100 \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -811,7 +1005,43 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(1 + rate({__name__=~\"node_disk_reads_merged|node_disk_reads_merged_total\", device=~\"$device\", instance=~\"$host\"}[$interval]) / rate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", device=~\"$device\", instance=~\"$host\"}[$interval])) or \n(1 + irate({__name__=~\"node_disk_reads_merged|node_disk_reads_merged_total\", device=~\"$device\", instance=~\"$host\"}[5m]) / irate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", device=~\"$device\", instance=~\"$host\"}[5m])) or \n(1 + rate(rdsosmetrics_diskIO_rrqmPS{instance=~\"$host\"}[$interval]) / rate(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval])) or \n(1 + irate(rdsosmetrics_diskIO_rrqmPS{instance=~\"$host\"}[5m]) / irate(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]))",
+            "expr": "\
+( \n\
+  1 + ( \n\
+    rate(node_disk_reads_merged{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_reads_merged_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+  ) / ( \n\
+    rate(node_disk_reads_completed{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_reads_completed_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  1 + ( \n\
+    irate(node_disk_reads_merged{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(node_disk_reads_merged_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+  ) / ( \n\
+    irate(node_disk_reads_completed{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(node_disk_reads_completed_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  1 + ( \n\
+    avg_over_time(rdsosmetrics_diskIO_rrqmPS{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    avg_over_time(rdsosmetrics_diskIO_rrqmPS{instance=~\"$host\"}[5m]) \n\
+  ) / ( \n\
+    avg_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    avg_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Read Ratio: {{ device }}",
@@ -827,7 +1057,43 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(1 + rate({__name__=~\"node_disk_writes_merged|node_disk_writes_merged_total\", device=~\"$device\", instance=~\"$host\"}[$interval]) / rate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", device=~\"$device\", instance=~\"$host\"}[$interval])) or \n(1 + irate({__name__=~\"node_disk_writes_merged|node_disk_writes_merged_total\", device=~\"$device\", instance=~\"$host\"}[5m]) / irate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", device=~\"$device\", instance=~\"$host\"}[5m])) or \n(1 + rate(rdsosmetrics_diskIO_wrqmPS{instance=~\"$host\"}[$interval]) / rate(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval])) or \n(1 + irate(rdsosmetrics_diskIO_wrqmPS{instance=~\"$host\"}[5m]) / irate(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]))",
+            "expr": "\
+( \n\
+  1 + ( \n\
+    rate(node_disk_writes_merged{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_writes_merged_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+  ) / ( \n\
+    rate(node_disk_writes_completed{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_writes_completed_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  1 + ( \n\
+    irate(node_disk_writes_merged{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(node_disk_writes_merged_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+  ) / ( \n\
+    irate(node_disk_writes_completed{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(node_disk_writes_completed_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  1 + ( \n\
+    avg_over_time(rdsosmetrics_diskIO_wrqmPS{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    avg_over_time(rdsosmetrics_diskIO_wrqmPS{instance=~\"$host\"}[5m]) \n\
+  ) / ( \n\
+    avg_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    avg_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Write Ratio: {{ device }}",
@@ -928,7 +1194,45 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "((rate(node_disk_sectors_read{instance=~\"$host\", device=~\"$device\"}[$interval]) * 512 or rate(node_disk_read_bytes_total{instance=~\"$host\", device=~\"$device\"}[$interval])) / rate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\", device=~\"$device\"}[$interval]) or \n(irate(node_disk_sectors_read{instance=~\"$host\", device=~\"$device\"}[5m]) * 512 or irate(node_disk_read_bytes_total{instance=~\"$host\", device=~\"$device\"}[5m])) / irate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\", device=~\"$device\"}[5m])) or \n(rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\"}[$interval])/rate(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval])*1024 or rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\"}[5m])/rate(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m])*1024)",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(node_disk_sectors_read{instance=~\"$host\", device=~\"$device\"}[$interval]) * 512 \n\
+    or \n\
+    rate(node_disk_sectors_read_total{instance=~\"$host\", device=~\"$device\"}[$interval]) * 512 \n\
+    or \n\
+    rate(node_disk_read_bytes_total{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
+  ) / ( \n\
+    rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
+    or \n\
+    rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    irate(node_disk_sectors_read{instance=~\"$host\", device=~\"$device\"}[5m]) * 512 \n\
+    or \n\
+    irate(node_disk_sectors_read_total{instance=~\"$host\", device=~\"$device\"}[5m]) * 512 \n\
+    or \n\
+    irate(node_disk_read_bytes_total{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
+  ) / ( \n\
+    irate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
+    or \n\
+    irate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\"}[5m]) \n\
+  ) / ( \n\
+    avg_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    avg_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+  ) * 1024 \n\
+) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Read size: {{ device }}",
@@ -944,7 +1248,43 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(node_disk_sectors_written{instance=~\"$host\", device=~\"$device\"}[$interval]) * 512 or rate(node_disk_written_bytes_total{instance=~\"$host\", device=~\"$device\"}[$interval])) / rate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\", device=~\"$device\"}[$interval]) or \n(irate(node_disk_sectors_written{instance=~\"$host\", device=~\"$device\"}[5m]) * 512 or irate(node_disk_written_bytes_total{instance=~\"$host\", device=~\"$device\"}[5m])) / irate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\", device=~\"$device\"}[5m]) or \n(rate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\"}[$interval])/rate(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval])*1024 or rate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\"}[5m])/rate(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m])*1024)",
+            "expr": "\
+( \n\
+  rate(node_disk_sectors_written{instance=~\"$host\", device=~\"$device\"}[$interval]) * 512 \n\
+  or \n\
+  rate(node_disk_sectors_written_total{instance=~\"$host\", device=~\"$device\"}[$interval]) * 512 \n\
+  or \n\
+  rate(node_disk_written_bytes_total{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
+) / ( \n\
+  rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
+  or \n\
+  rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
+) \n\
+or \n\
+( \n\
+  irate(node_disk_sectors_written{instance=~\"$host\", device=~\"$device\"}[5m]) * 512 \n\
+  or \n\
+  irate(node_disk_sectors_written_total{instance=~\"$host\", device=~\"$device\"}[5m]) * 512 \n\
+  or \n\
+  irate(node_disk_written_bytes_total{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
+) / ( \n\
+  irate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
+  or \n\
+  irate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\"}[5m]) \n\
+  ) / ( \n\
+    avg_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    avg_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+  ) * 1024 \n\
+) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Write size: {{ device }}",

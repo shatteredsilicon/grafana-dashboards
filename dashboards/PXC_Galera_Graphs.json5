@@ -1106,7 +1106,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_wsrep_flow_control_recv{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_flow_control_recv{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_wsrep_flow_control_recv{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_wsrep_flow_control_recv_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_wsrep_flow_control_recv{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_wsrep_flow_control_recv_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1122,7 +1130,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_wsrep_flow_control_sent{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_flow_control_sent{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_wsrep_flow_control_sent{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_wsrep_flow_control_sent_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_wsrep_flow_control_sent{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_wsrep_flow_control_sent_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1139,7 +1155,17 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(mysql_global_status_wsrep_flow_control_paused_ns{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_flow_control_paused_ns{instance=~\"$host\"}[5m]))/1000000000",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_wsrep_flow_control_paused_ns{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_wsrep_flow_control_paused_ns_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_flow_control_paused_ns{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_flow_control_paused_ns_total{instance=~\"$host\"}[5m]) \n\
+) / 1000000000 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1359,7 +1385,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_wsrep_local_cert_failures{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_local_cert_failures{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_wsrep_local_cert_failures{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_wsrep_local_cert_failures_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_wsrep_local_cert_failures{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_wsrep_local_cert_failures_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Local Cert Failures",
@@ -1374,7 +1408,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_wsrep_local_bf_aborts{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_local_bf_aborts{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_wsrep_local_bf_aborts{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_wsrep_local_bf_aborts_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_wsrep_local_bf_aborts{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_wsrep_local_bf_aborts_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Local Bf Aborts",
@@ -1474,7 +1516,19 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "mysql_galera_gcache_size_bytes{instance=~\"$host\"} /\n(rate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[1h])+rate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[1h]))",
+            "expr": "\
+mysql_galera_gcache_size_bytes{instance=~\"$host\"} / ( \n\
+  ( \n\
+    rate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[1h]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_replicated_bytes_total{instance=~\"$host\"}[1h]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[1h]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_received_bytes_total{instance=~\"$host\"}[1h]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,
@@ -1487,7 +1541,27 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "mysql_galera_gcache_size_bytes{instance=~\"$host\"} /\n((rate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[5m])) + \n(rate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[5m])))",
+            "expr": "\
+mysql_galera_gcache_size_bytes{instance=~\"$host\"} / ( \n\
+  ( \n\
+    rate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_replicated_bytes_total{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_replicated_bytes_total{instance=~\"$host\"}[5m]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_received_bytes_total{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_received_bytes_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1577,7 +1651,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_wsrep_received{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_received{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_wsrep_received{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_wsrep_received_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_wsrep_received{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_wsrep_received_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Transactions Received",
@@ -1592,7 +1674,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_wsrep_replicated{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_replicated{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_wsrep_replicated{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_wsrep_replicated_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_wsrep_replicated{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_wsrep_replicated_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Transactions Replicated",
@@ -1685,7 +1775,27 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[$interval]) / rate(mysql_global_status_wsrep_received{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[5m]) / irate(mysql_global_status_wsrep_received{instance=~\"$host\"}[5m])",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_wsrep_received_bytes_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  rate(mysql_global_status_wsrep_received{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_wsrep_received_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_received_bytes_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  irate(mysql_global_status_wsrep_received{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_received_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Incoming Transaction Size",
@@ -1700,7 +1810,27 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[$interval]) / rate(mysql_global_status_wsrep_replicated{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[5m]) / irate(mysql_global_status_wsrep_replicated{instance=~\"$host\"}[5m])",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_wsrep_replicated_bytes_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  rate(mysql_global_status_wsrep_replicated{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_wsrep_replicated_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_replicated_bytes_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  irate(mysql_global_status_wsrep_replicated{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_replicated_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Replicating Transaction Size",
@@ -1792,7 +1922,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_wsrep_received_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_wsrep_received_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_wsrep_received_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Inbound",
@@ -1807,7 +1945,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_wsrep_replicated_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_wsrep_replicated_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_wsrep_replicated_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Outbound",

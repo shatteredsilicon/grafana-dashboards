@@ -1366,7 +1366,43 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "((rate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\"}[5m])) or sum by (instance) (max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]))) + ((rate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\"}[5m])) or sum by (instance) (max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m])))",
+          "expr": "\
+( \n\
+  ( \n\
+    max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+    or \n\
+    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+    or \n\
+    max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+    or \n\
+    max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+  ) \n\
+  or \n\
+  sum by (instance) ( \n\
+    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
++ \n\
+( \n\
+  ( \n\
+    max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+    or \n\
+    max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+    or \n\
+    max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+    or \n\
+    max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+  ) \n\
+  or \n\
+  sum by (instance) ( \n\
+    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1382,7 +1418,25 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or \nirate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) or \nirate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) or \nsum by (instance) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]))/100",
+          "expr": "\
+max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+or \n\
+max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+or \n\
+max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+or \n\
+max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+or \n\
+max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+or \n\
+max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+or \n\
+sum by (instance) ( \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+) / 100 \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1442,7 +1496,147 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp((mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} and on() (scalar(mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}) == 2^(floor(log2(avg_over_time(((((rate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\"}[5m])) or (max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]))) + ((rate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\"}[5m])) or (max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m])))) / on() group_left() (rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) or irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) or sum by (instance) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m])) / 100) * 0.75 >= 0)[1w:1m])))))) or on() (2^(floor(log2(avg_over_time(((((rate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\"}[5m])) or (max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]))) + ((rate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\"}[5m])) or (max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m])))) / on() group_left() (rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) or irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) or sum by (instance) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m])) / 100) * 0.75 >= 0)[1w:1m]))))), 2000, 18446744073709551615)",
+          "expr": "\
+clamp( \n\
+  ( \n\
+    mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      scalar(mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}) == 2^( \n\
+        floor( \n\
+          log2( \n\
+            avg_over_time( \n\
+              ( \n\
+                ( \n\
+                  ( \n\
+                    ( \n\
+                      max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                      or \n\
+                      max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+                    ) \n\
+                    or \n\
+                    ( \n\
+                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+                      or \n\
+                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+                    ) \n\
+                  ) + ( \n\
+                    ( \n\
+                      max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                      or \n\
+                      max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+                    ) \n\
+                    or \n\
+                    ( \n\
+                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                      or \n\
+                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+                    ) \n\
+                  ) \n\
+                ) / on() group_left() ( \n\
+                  max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+                  or \n\
+                  max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+                  or \n\
+                  max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+                  or \n\
+                  max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+                  or \n\
+                  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+                  or \n\
+                  max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+                  or \n\
+                  sum by (instance) ( \n\
+                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                    or \n\
+                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+                  ) / 100 \n\
+                ) * 0.75 >= 0 \n\
+              )[1w:1m] \n\
+            ) \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    2^( \n\
+      floor( \n\
+        log2( \n\
+          avg_over_time( \n\
+            ( \n\
+              ( \n\
+                ( \n\
+                  ( \n\
+                    max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    ( \n\
+                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+                      or \n\
+                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+                    ) \n\
+                  ) + ( \n\
+                    ( \n\
+                      max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                      or \n\
+                      max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+                    ) \n\
+                    or \n\
+                    ( \n\
+                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                      or \n\
+                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+                    ) \n\
+                  ) \n\
+                ) / on() group_left() ( \n\
+                  max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+                  or \n\
+                  max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+                  or \n\
+                  max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+                  or \n\
+                  max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+                  or \n\
+                  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+                  or \n\
+                  max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+                  or \n\
+                  sum by (instance) ( \n\
+                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                    or \n\
+                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+                  ) / 100 \n\
+                ) * 0.75 >= 0 \n\
+              )[1w:1m] \n\
+            ) \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  2000, \n\
+  18446744073709551615 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1487,7 +1681,147 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp((mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} and on() (scalar(mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}) == 2^(floor(log2(avg_over_time(((((rate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\"}[5m])) or (max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]))) + ((rate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\"}[5m])) or (max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m])))) / on() group_left() (rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) or irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) or sum by (instance) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m])) / 100) * 0.75 >= 0)[1w:1m])))))) or on() (2^(floor(log2(avg_over_time(((((rate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\"}[5m])) or (max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]))) + ((rate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_disk_writes_completed|node_disk_writes_completed_total\", instance=~\"$host\"}[5m])) or (max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m])))) / on() group_left() (rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or sum by (instance) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m])) / 100) * 0.75 >= 0)[1w:1m]))))), 2000, 18446744073709551615)",
+          "expr": "\
+clamp( \n\
+  ( \n\
+    mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      scalar(mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}) == 2^( \n\
+        floor( \n\
+          log2( \n\
+            avg_over_time( \n\
+              ( \n\
+                ( \n\
+                  ( \n\
+                    ( \n\
+                      max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                      or \n\
+                      max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+                    ) \n\
+                    or \n\
+                    ( \n\
+                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+                      or \n\
+                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+                    ) \n\
+                  ) + ( \n\
+                    ( \n\
+                      max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                      or \n\
+                      max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+                    ) \n\
+                    or \n\
+                    ( \n\
+                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                      or \n\
+                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+                    ) \n\
+                  ) \n\
+                ) / on() group_left() ( \n\
+                  max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+                  or \n\
+                  max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+                  or \n\
+                  max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+                  or \n\
+                  max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+                  or \n\
+                  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+                  or \n\
+                  max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+                  or \n\
+                  sum by (instance) ( \n\
+                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                    or \n\
+                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+                  ) / 100 \n\
+                ) * 0.75 >= 0 \n\
+              )[1w:1m] \n\
+            ) \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    2^( \n\
+      floor( \n\
+        log2( \n\
+          avg_over_time( \n\
+            ( \n\
+              ( \n\
+                ( \n\
+                  ( \n\
+                    max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    ( \n\
+                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+                      or \n\
+                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+                    ) \n\
+                  ) + ( \n\
+                    ( \n\
+                      max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                      or \n\
+                      max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+                    ) \n\
+                    or \n\
+                    ( \n\
+                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                      or \n\
+                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+                    ) \n\
+                  ) \n\
+                ) / on() group_left() ( \n\
+                  max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+                  or \n\
+                  max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+                  or \n\
+                  max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+                  or \n\
+                  max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+                  or \n\
+                  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+                  or \n\
+                  max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+                  or \n\
+                  sum by (instance) ( \n\
+                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                    or \n\
+                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+                  ) / 100 \n\
+                ) * 0.75 >= 0 \n\
+              )[1w:1m] \n\
+            ) \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  2000, \n\
+  18446744073709551615 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1927,7 +2261,25 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) or irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) or \nsum by (instance) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]))/100",
+          "expr": "\
+max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+or \n\
+max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+or \n\
+max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+or \n\
+max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+or \n\
+max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+or \n\
+max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+or \n\
+sum by (instance) ( \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+) / 100 \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1987,7 +2339,53 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp((mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} and on() (max_over_time((mysql_engine_innodb_pending_reads{instance=~\"$host\"} and on() ((max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) or irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]))/100) or on() vector(0))[1w:2m]) < 1)) or on() (2^(floor(log2(mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}))+1)), 1, 64)",
+          "expr": "\
+clamp( \n\
+  ( \n\
+    mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        ( \n\
+          mysql_engine_innodb_pending_reads{instance=~\"$host\"} \n\
+          and \n\
+          on() ( \n\
+            ( \n\
+              max( \n\
+                rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 \n\
+                or \n\
+                rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])/1000 \n\
+                or \n\
+                irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 \n\
+                or \n\
+                irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])/1000 \n\
+                or \n\
+                rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) \n\
+                or \n\
+                irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
+                or \n\
+                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+              ) / 100 \n\
+            ) \n\
+            or \n\
+            on() vector(0) \n\
+          ) \n\
+        )[1w:2m] \n\
+      ) < 1 \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    2^( \n\
+      floor( \n\
+        log2(mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}) \n\
+      )+1 \n\
+    ) \n\
+  ), \n\
+  1, \n\
+  64 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -2208,7 +2606,25 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) or irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) or \nsum by (instance) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]))/100",
+          "expr": "\
+max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+or \n\
+max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+or \n\
+max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+or \n\
+max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+or \n\
+max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+or \n\
+max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+or \n\
+sum by (instance) ( \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+)/100 \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2458,7 +2874,41 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "(rate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[$interval]))/\n(rate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[$interval])+\nrate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[$interval]) > 0) or\n(irate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[5m]))/\n(irate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[5m])+\nirate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[5m]) > 0) or on() vector(0)",
+          "expr": "\
+( \n\
+  rate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_binlog_cache_use_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  ( \n\
+    rate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_binlog_cache_use_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_binlog_cache_disk_use_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_binlog_cache_use_count{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  ( \n\
+    irate(mysql_global_status_binlog_cache_use{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_binlog_cache_use_count{instance=~\"$host\"}[5m]) \n\
+  ) + ( \n\
+    irate(mysql_global_status_binlog_cache_disk_use{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_binlog_cache_disk_use_count{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+or \n\
+on() vector(0) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -2708,7 +3158,41 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "(rate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[$interval]))/\n(rate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[$interval])+\nrate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[$interval]) > 0) or\n(irate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[5m]))/\n(irate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[5m])+\nirate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[5m]) > 0) or on() vector(0)",
+          "expr": "\
+( \n\
+  rate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_binlog_stmt_cache_use_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  ( \n\
+    rate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_binlog_stmt_cache_use_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_binlog_stmt_cache_disk_use_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_binlog_stmt_cache_use_count{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  ( \n\
+    irate(mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_binlog_stmt_cache_use_count{instance=~\"$host\"}[5m]) \n\
+  ) + ( \n\
+    irate(mysql_global_status_binlog_stmt_cache_disk_use{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_binlog_stmt_cache_disk_use_count{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+or \n\
+on() vector(0) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3209,7 +3693,41 @@
           "datasource": {
             "type": "prometheus"
           },
-          "expr": "(rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[$interval]) or\nirate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[5m])) / (rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[$interval])+\nrate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[$interval])+\nrate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[$interval])+\nrate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[$interval])+\nrate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[$interval])+rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[$interval]) or\nirate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[5m])+\nirate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[5m])+\nirate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[5m])+\nirate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[5m])+\nirate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[5m])+irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[5m]))",
+          "expr": "\
+( \n\
+  rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  ( \n\
+    rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[$interval]) \n\
+    + \n\
+    rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[$interval]) \n\
+    + \n\
+    rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[$interval]) \n\
+    + \n\
+    rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[$interval]) \n\
+    + \n\
+    rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[$interval]) \n\
+    + \n\
+    rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[5m]) \n\
+    + \n\
+    irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[5m]) \n\
+    + \n\
+    irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[5m]) \n\
+    + \n\
+    irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[5m]) \n\
+    + \n\
+    irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[5m]) \n\
+    + \n\
+    irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,

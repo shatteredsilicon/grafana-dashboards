@@ -229,7 +229,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_auroradb_commits{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_auroradb_commits{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_auroradb_commits{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_auroradb_commits_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_auroradb_commits{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_auroradb_commits_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -245,7 +253,27 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_auroradb_commit_latency{instance=~\"$host\"}[$interval])/rate(mysql_global_status_auroradb_commits{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_auroradb_commit_latency{instance=~\"$host\"}[5m])/irate(mysql_global_status_auroradb_commits{instance=~\"$host\"}[5m])",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_auroradb_commit_latency{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_auroradb_commit_latency_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  rate(mysql_global_status_auroradb_commits{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_auroradb_commits_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_auroradb_commit_latency{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_auroradb_commit_latency_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  irate(mysql_global_status_auroradb_commits{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_auroradb_commits_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -360,7 +388,19 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_auroradb_commit_latency{instance=~\"$host\"}[$interval])/1000000 or irate(mysql_global_status_auroradb_commit_latency{instance=~\"$host\"}[5m])/1000000",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_auroradb_commit_latency{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_auroradb_commit_latency_total{instance=~\"$host\"}[$interval]) \n\
+) / 1000000 \n\
+or \n\
+( \n\
+  irate(mysql_global_status_auroradb_commit_latency{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_auroradb_commit_latency_total{instance=~\"$host\"}[5m]) \n\
+) / 1000000 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -373,7 +413,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_auroradb_ddl_stmt_duration{instance=~\"$host\"}[$interval])/1000000 or irate(mysql_global_status_auroradb_ddl_stmt_duration{instance=~\"$host\"}[5m])/1000000",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_auroradb_ddl_stmt_duration{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_auroradb_ddl_stmt_duration_total{instance=~\"$host\"}[$interval]) \n\
+) / 1000000 \n\
+or \n\
+( \n\
+  irate(mysql_global_status_auroradb_ddl_stmt_duration{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_auroradb_ddl_stmt_duration_total{instance=~\"$host\"}[5m]) \n\
+) / 1000000 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -384,7 +436,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_auroradb_select_stmt_duration{instance=~\"$host\"}[$interval])/1000000 or irate(mysql_global_status_auroradb_select_stmt_duration{instance=~\"$host\"}[5m])/1000000",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_auroradb_select_stmt_duration{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_auroradb_select_stmt_duration_total{instance=~\"$host\"}[$interval]) \n\
+) / 1000000 \n\
+or \n\
+( \n\
+  irate(mysql_global_status_auroradb_select_stmt_duration{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_auroradb_select_stmt_duration_total{instance=~\"$host\"}[5m]) \n\
+) / 1000000 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -395,7 +459,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_auroradb_insert_stmt_duration{instance=~\"$host\"}[$interval])/1000000 or irate(mysql_global_status_auroradb_insert_stmt_duration{instance=~\"$host\"}[5m])/1000000",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_auroradb_insert_stmt_duration{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_auroradb_insert_stmt_duration_total{instance=~\"$host\"}[$interval]) \n\
+) / 1000000 \n\
+or \n\
+( \n\
+  irate(mysql_global_status_auroradb_insert_stmt_duration{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_auroradb_insert_stmt_duration_total{instance=~\"$host\"}[5m]) \n\
+) / 1000000 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -406,7 +482,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_auroradb_update_stmt_duration{instance=~\"$host\"}[$interval])/1000000 or irate(mysql_global_status_auroradb_update_stmt_duration{instance=~\"$host\"}[5m])/1000000",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_auroradb_update_stmt_duration{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_auroradb_update_stmt_duration_total{instance=~\"$host\"}[$interval]) \n\
+) / 1000000 \n\
+or \n\
+( \n\
+  irate(mysql_global_status_auroradb_update_stmt_duration{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_auroradb_update_stmt_duration_total{instance=~\"$host\"}[5m]) \n\
+) / 1000000 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -417,7 +505,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_auroradb_delete_stmt_duration{instance=~\"$host\"}[$interval])/1000000 or irate(mysql_global_status_auroradb_delete_stmt_duration{instance=~\"$host\"}[5m])/1000000",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_auroradb_delete_stmt_duration{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_auroradb_delete_stmt_duration_total{instance=~\"$host\"}[$interval]) \n\
+) / 1000000 \n\
+or \n\
+( \n\
+  irate(mysql_global_status_auroradb_delete_stmt_duration{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_auroradb_delete_stmt_duration_total{instance=~\"$host\"}[5m]) \n\
+) / 1000000 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -664,7 +764,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(mysql_global_status_auroradb_ddl_stmt_duration{instance=~\"$host\"}[$interval])/ (sum(rate(mysql_global_status_commands_total{instance=~\"$host\",command=~'alter_table|create_index|drop_index|drop_table'}[$interval])) without(command)))",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_auroradb_ddl_stmt_duration{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_auroradb_ddl_stmt_duration_total{instance=~\"$host\"}[$interval]) \n\
+  ) / ( \n\
+    sum( \n\
+      rate(mysql_global_status_commands_total{instance=~\"$host\",command=~'alter_table|create_index|drop_index|drop_table'}[$interval]) \n\
+    ) without (command) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -676,7 +788,23 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(mysql_global_status_auroradb_select_stmt_duration{instance=~\"$host\"}[$interval])/ (sum(rate(mysql_global_status_commands_total{instance=~\"$host\",command='select'}[$interval])) without(command))+rate(mysql_global_status_qcache_hits{instance=~\"$host\"}[$interval]))",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_auroradb_select_stmt_duration{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_auroradb_select_stmt_duration_total{instance=~\"$host\"}[$interval]) \n\
+  ) / ( \n\
+    sum( \n\
+      rate(mysql_global_status_commands_total{instance=~\"$host\",command='select'}[$interval]) \n\
+    ) without (command) \n\
+  ) + ( \n\
+    rate(mysql_global_status_qcache_hits{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_qcache_hits_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -688,7 +816,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(mysql_global_status_auroradb_insert_stmt_duration{instance=~\"$host\"}[$interval])/ (sum(rate(mysql_global_status_commands_total{instance=~\"$host\",command=~'insert|insert_select'}[$interval])) without(command)))",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_auroradb_insert_stmt_duration{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_auroradb_insert_stmt_duration_total{instance=~\"$host\"}[$interval]) \n\
+  ) / ( \n\
+    sum( \n\
+      rate(mysql_global_status_commands_total{instance=~\"$host\",command=~'insert|insert_select'}[$interval]) \n\
+    ) without (command) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -700,7 +840,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(mysql_global_status_auroradb_update_stmt_duration{instance=~\"$host\"}[$interval])/ (sum(rate(mysql_global_status_commands_total{instance=~\"$host\",command=~'update|update_multi'}[$interval])) without(command)))",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_auroradb_update_stmt_duration{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_auroradb_update_stmt_duration_total{instance=~\"$host\"}[$interval]) \n\
+  ) / ( \n\
+    sum( \n\
+      rate(mysql_global_status_commands_total{instance=~\"$host\",command=~'update|update_multi'}[$interval]) \n\
+    ) without (command) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -712,7 +864,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(mysql_global_status_auroradb_delete_stmt_duration{instance=~\"$host\"}[$interval])/ (sum(rate(mysql_global_status_commands_total{instance=~\"$host\",command=~'delete|delete_multi'}[$interval])) without(command)))",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_auroradb_delete_stmt_duration{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_auroradb_delete_stmt_duration_total{instance=~\"$host\"}[$interval]) \n\
+  ) / ( \n\
+    sum( \n\
+      rate(mysql_global_status_commands_total{instance=~\"$host\",command=~'delete|delete_multi'}[$interval]) \n\
+    ) without (command) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -945,7 +1109,11 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_auroradb_thread_deadlocks{instance=~\"$host\"}[$interval])",
+            "expr": "\
+rate(mysql_global_status_auroradb_thread_deadlocks{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_auroradb_thread_deadlocks_total{instance=~\"$host\"}[$interval]) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -957,7 +1125,11 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_aurora_missing_history_on_replica_incidents{instance=~\"$host\"}[$interval])",
+            "expr": "\
+rate(mysql_global_status_aurora_missing_history_on_replica_incidents{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_aurora_missing_history_on_replica_incidents_total{instance=~\"$host\"}[$interval]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -968,7 +1140,11 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_aurora_reserved_mem_exceeded_incidents{instance=~\"$host\"}[$interval])",
+            "expr": "\
+rate(mysql_global_status_aurora_reserved_mem_exceeded_incidents{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_aurora_reserved_mem_exceeded_incidents_total{instance=~\"$host\"}[$interval]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

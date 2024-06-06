@@ -1337,7 +1337,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_innodb_max_trx_id{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_max_trx_id{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_max_trx_id{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_max_trx_id_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_max_trx_id{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_max_trx_id_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1927,7 +1935,23 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_info_schema_innodb_metrics_transaction_trx_rw_commits_total{instance=~\"$host\"}[$interval])/rate(mysql_global_status_innodb_log_writes{instance=~\"$host\"}[$interval]) or irate(mysql_info_schema_innodb_metrics_transaction_trx_rw_commits_total{instance=~\"$host\"}[5m])/irate(mysql_global_status_innodb_log_writes{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_info_schema_innodb_metrics_transaction_trx_rw_commits_total{instance=~\"$host\"}[$interval]) \n\
+/ \n\
+( \n\
+  rate(mysql_global_status_innodb_log_writes{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_innodb_log_writes_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+irate(mysql_info_schema_innodb_metrics_transaction_trx_rw_commits_total{instance=~\"$host\"}[5m]) \n\
+/ \n\
+( \n\
+  irate(mysql_global_status_innodb_log_writes{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_log_writes_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2626,7 +2650,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_onlineddl_rowlog_pct_used{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_onlineddl_rowlog_pct_used{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_onlineddl_rowlog_pct_used{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_onlineddl_rowlog_pct_used_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_onlineddl_rowlog_pct_used{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_onlineddl_rowlog_pct_used_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2642,7 +2674,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_onlineddl_rowlog_rows{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_onlineddl_rowlog_rows{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_onlineddl_rowlog_rows{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_onlineddl_rowlog_rows_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_onlineddl_rowlog_rows{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_onlineddl_rowlog_rows_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2757,7 +2797,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_defragment_compression_failures{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_defragment_compression_failures{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_defragment_compression_failures{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_defragment_compression_failures_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_defragment_compression_failures{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_defragment_compression_failures_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2773,7 +2821,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_defragment_failures{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_defragment_failures{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_defragment_failures{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_defragment_failures_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_defragment_failures{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_defragment_failures_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

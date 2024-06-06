@@ -367,7 +367,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_max_trx_id{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_max_trx_id{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_max_trx_id{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_max_trx_id_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_max_trx_id{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_max_trx_id_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -632,7 +640,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_row_lock_waits{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_row_lock_waits{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_row_lock_waits{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_row_lock_waits_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_row_lock_waits{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_row_lock_waits_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -645,7 +661,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_innodb_row_lock_time{instance=~\"$host\"}[$interval])/1000 or irate(mysql_global_status_innodb_row_lock_time{instance=~\"$host\"}[5m])/1000",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_innodb_row_lock_time{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_innodb_row_lock_time_total{instance=~\"$host\"}[$interval]) \n\
+) / 1000 \n\
+or \n\
+( \n\
+  irate(mysql_global_status_innodb_row_lock_time{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_row_lock_time_total{instance=~\"$host\"}[5m]) \n\
+) / 1000 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -658,7 +686,27 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_innodb_row_lock_time{instance=~\"$host\"}[$interval])/rate(mysql_global_status_innodb_row_lock_waits{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_row_lock_time{instance=~\"$host\"}[5m])/irate(mysql_global_status_innodb_row_lock_waits{instance=~\"$host\"}[5m])",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_innodb_row_lock_time{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_innodb_row_lock_time_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  rate(mysql_global_status_innodb_row_lock_waits{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_innodb_row_lock_waits_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_innodb_row_lock_time{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_row_lock_time_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  irate(mysql_global_status_innodb_row_lock_waits{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_row_lock_waits_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -790,7 +838,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_data_reads{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_data_reads{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_data_reads{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_data_reads_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_data_reads{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_data_reads_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -806,7 +862,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_data_writes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_data_writes{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_data_writes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_data_writes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_data_writes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_data_writes_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -822,7 +886,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_data_fsyncs{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_data_fsyncs{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_data_fsyncs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_data_fsyncs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_data_fsyncs{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_data_fsyncs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -838,7 +910,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_log_writes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_log_writes{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_log_writes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_log_writes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_log_writes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_log_writes_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1087,7 +1167,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1103,7 +1191,21 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} or mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"})/(rate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[5m]))",
+            "expr": "\
+( \n\
+  mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+  or \n\
+  mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+) / ( \n\
+  rate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1116,7 +1218,19 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"})/(rate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[5m]))",
+            "expr": "\
+( \n\
+  mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"} \n\
+) / ( \n\
+  rate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1240,7 +1354,23 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(mysql_global_status_innodb_deadlocks{instance=~\"$host\"}[$interval]) or rate(mysql_info_schema_innodb_metrics_lock_lock_deadlocks_total{instance=~\"$host\"}[$interval])) or (irate(mysql_global_status_innodb_deadlocks{instance=~\"$host\"}[5m]) or irate(mysql_info_schema_innodb_metrics_lock_lock_deadlocks_total{instance=~\"$host\"}[5m]))",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_innodb_deadlocks{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_innodb_deadlocks_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_info_schema_innodb_metrics_lock_lock_deadlocks_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_innodb_deadlocks{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_deadlocks_total{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_info_schema_innodb_metrics_lock_lock_deadlocks_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1698,7 +1828,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1714,7 +1852,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_buffer_pool_write_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_write_requests{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_buffer_pool_write_requests{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_buffer_pool_write_requests_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_write_requests{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_write_requests_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1730,7 +1876,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[5m]) ",
+            "expr": "\
+rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_buffer_pool_reads_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_reads_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1743,7 +1897,49 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "max((vector(100) and on() ((rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[5m])) <= 0)) or on() ((1 - ((rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[5m]))/(rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[5m])))) * 100))",
+            "expr": "\
+max( \n\
+  ( \n\
+    vector(100) \n\
+    and \n\
+    on() ( \n\
+      ( \n\
+        rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[$interval]) \n\
+        or \n\
+        rate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"$host\"}[$interval]) \n\
+        or \n\
+        irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[5m]) \n\
+        or \n\
+        irate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"$host\"}[5m]) \n\
+      ) <= 0 \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    ( \n\
+      1 - ( \n\
+        ( \n\
+          rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[$interval]) \n\
+          or \n\
+          rate(mysql_global_status_innodb_buffer_pool_reads_total{instance=~\"$host\"}[$interval]) \n\
+          or \n\
+          irate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"$host\"}[5m]) \n\
+          or \n\
+          irate(mysql_global_status_innodb_buffer_pool_reads_total{instance=~\"$host\"}[5m]) \n\
+        ) / ( \n\
+          rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[$interval]) \n\
+          or \n\
+          rate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"$host\"}[$interval]) \n\
+          or \n\
+          irate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"$host\"}[5m]) \n\
+          or \n\
+          irate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"$host\"}[5m]) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -1864,7 +2060,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_pages_created{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_pages_created{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_pages_created{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_pages_created_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_pages_created{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_pages_created_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Pages Created",
@@ -1879,7 +2083,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_pages_read{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_pages_read{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_pages_read{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_pages_read_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_pages_read{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_pages_read_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Pages Read",
@@ -1894,7 +2106,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_pages_written{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_pages_written{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_pages_written{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_pages_written_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_pages_written{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_pages_written_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Pages Written",
@@ -2002,7 +2222,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_buffer_pool_read_ahead_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_read_ahead_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2018,7 +2246,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2031,7 +2267,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2044,7 +2288,35 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=~\"$host\"}[5m])) / ((rate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[5m])) + (rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[5m])))",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  ( \n\
+    rate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_innodb_buffer_pool_read_ahead_total{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    irate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_innodb_buffer_pool_read_ahead_total{instance=~\"$host\"}[5m]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd_total{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2056,7 +2328,35 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "((rate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[5m]))+(rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[5m])))/(rate(mysql_global_status_innodb_pages_read{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_pages_read{instance=~\"$host\"}[5m])\n)",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_innodb_buffer_pool_read_ahead_total{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    irate(mysql_global_status_innodb_buffer_pool_read_ahead{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_innodb_buffer_pool_read_ahead_total{instance=~\"$host\"}[5m]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd_total{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_innodb_buffer_pool_read_ahead_rnd_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) / ( \n\
+  rate(mysql_global_status_innodb_pages_read{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_innodb_pages_read_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_pages_read{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_innodb_pages_read_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2287,7 +2587,19 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_ibuf_merges{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_ibuf_merges{instance=~\"$host\"}[5m]) or rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_total{instance=~\"$host\"}[$interval]) or irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_total{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_ibuf_merges{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_ibuf_merges_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_ibuf_merges{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_ibuf_merges_total{instance=~\"$host\"}[5m]) \n\
+or \n\
+rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Merges",
@@ -2302,7 +2614,19 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_ibuf_merged_inserts{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_ibuf_merged_inserts{instance=~\"$host\"}[5m]) or rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_insert_total{instance=~\"$host\"}[$interval]) or irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_insert_total{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_ibuf_merged_inserts{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_ibuf_merged_inserts_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_ibuf_merged_inserts{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_ibuf_merged_inserts_total{instance=~\"$host\"}[5m]) \n\
+or \n\
+rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_insert_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_insert_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Merged Inserts",
@@ -2317,7 +2641,19 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_ibuf_merged_deletes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_ibuf_merged_deletes{instance=~\"$host\"}[5m]) or rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_total{instance=~\"$host\"}[$interval]) or irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_total{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_ibuf_merged_deletes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_ibuf_merged_deletes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_ibuf_merged_deletes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_ibuf_merged_deletes_total{instance=~\"$host\"}[5m]) \n\
+or \n\
+rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Merged Deletes",
@@ -2332,7 +2668,19 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_ibuf_merged_delete_marks{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_ibuf_merged_delete_marks{instance=~\"$host\"}[5m]) or rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_mark_total{instance=~\"$host\"}[$interval]) or irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_mark_total{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_ibuf_merged_delete_marks{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_innodb_ibuf_merged_delete_marks_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_innodb_ibuf_merged_delete_marks{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_innodb_ibuf_merged_delete_marks_total{instance=~\"$host\"}[5m]) \n\
+or \n\
+rate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_mark_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_mark_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Merged Delete Marks",
@@ -2485,7 +2833,25 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 or \nirate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 or rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) or \nirate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) or \nsum by (host) (max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) or max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]))/100",
+            "expr": "\
+rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]) / 1000 \n\
+or \n\
+rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]) / 1000 \n\
+or \n\
+irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]) / 1000 \n\
+or \n\
+irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]) / 1000 \n\
+or \n\
+rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
+or \n\
+sum by (host) ( \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+) / 100 \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",

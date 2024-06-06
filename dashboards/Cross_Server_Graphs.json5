@@ -428,7 +428,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_connections{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_connections{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_connections{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_connections_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_connections{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_connections_total{instance=~\"$host\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{ instance }}",
@@ -534,7 +542,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_queries{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_queries{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -637,7 +653,35 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(mysql_global_status_bytes_received{instance=~\"$host\"}[$interval]) + rate(mysql_global_status_bytes_sent{instance=~\"$host\"}[$interval])) or (irate(mysql_global_status_bytes_received{instance=~\"$host\"}[5m]) + irate(mysql_global_status_bytes_sent{instance=~\"$host\"}[5m]))",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_bytes_received{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_bytes_received_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+  + \n\
+  ( \n\
+    rate(mysql_global_status_bytes_sent{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_bytes_sent_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    irate(mysql_global_status_bytes_received{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_bytes_received_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+  + \n\
+  ( \n\
+    irate(mysql_global_status_bytes_sent{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_bytes_sent_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -740,7 +784,47 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) + rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) by (instance) or sum(irate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m]) + irate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) by (instance) or\nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) + max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) by (instance) or sum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) + max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m])) by (instance)",
+            "expr": "\
+sum( \n\
+  ( \n\
+    rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+    or \n\
+    rate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+  ) \n\
+  + \n\
+  ( \n\
+    rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+    or \n\
+    rate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+  ) \n\
+) by (instance) \n\
+or \n\
+sum( \n\
+  ( \n\
+    irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+    or \n\
+    irate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+  ) \n\
+  + \n\
+  ( \n\
+    irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+    or \n\
+    irate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+  ) \n\
+) by (instance) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
+  + \n\
+  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
+) by (instance) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
+  + \n\
+  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
+) by (instance) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

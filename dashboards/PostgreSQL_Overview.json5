@@ -1151,7 +1151,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_tup_fetched{datname=~\"$db\",instance=~\"$host\"}[$interval])) or \nsum(irate(pg_stat_database_tup_fetched{datname=~\"$db\",instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_tup_fetched{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_tup_fetched_total{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_tup_fetched{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_tup_fetched_total{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1162,7 +1174,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_tup_returned{datname=~\"$db\",instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_tup_returned{datname=~\"$db\",instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_tup_returned{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_tup_returned_total{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_tup_returned{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_tup_returned_total{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1173,7 +1197,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_tup_inserted{datname=~\"$db\",instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_tup_inserted{datname=~\"$db\",instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_tup_inserted{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_tup_inserted_total{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_tup_inserted{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_tup_inserted_total{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1184,7 +1220,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_tup_updated{datname=~\"$db\",instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_tup_updated{datname=~\"$db\",instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_tup_updated{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_tup_updated_total{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_tup_updated{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_tup_updated_total{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1195,7 +1243,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_tup_deleted{datname=~\"$db\",instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_tup_deleted{datname=~\"$db\",instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_tup_deleted{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_tup_deleted_total{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_tup_deleted{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_tup_deleted_total{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1280,7 +1340,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_tup_returned{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_tup_returned{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_tup_returned{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_tup_returned_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_tup_returned{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_tup_returned_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1293,7 +1365,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_tup_fetched{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_tup_fetched{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_tup_fetched{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_tup_fetched_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_tup_fetched{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_tup_fetched_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1380,7 +1464,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_tup_inserted{instance=~\"$host\"}[1m])) or\nsum(irate(pg_stat_database_tup_inserted{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_tup_inserted{instance=~\"$host\"}[1m]) \n\
+  or \n\
+  rate(pg_stat_database_tup_inserted_total{instance=~\"$host\"}[1m]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_tup_inserted{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_tup_inserted_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1393,7 +1489,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_tup_updated{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_tup_updated{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_tup_updated{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_tup_updated_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_tup_updated{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_tup_updated_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1406,7 +1514,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_tup_deleted{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_tup_deleted{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_tup_deleted{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_tup_deleted_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_tup_deleted{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_tup_deleted_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1518,7 +1638,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval])) or \nsum(irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1531,7 +1663,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1833,7 +1977,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(pg_stat_database_temp_bytes{instance=~\"$host\",datname!~\"template.*\"}[$interval]) or\nirate(pg_stat_database_temp_bytes{instance=~\"$host\",datname!~\"template.*\"}[5m])",
+                "expr": "\
+rate(pg_stat_database_temp_bytes{instance=~\"$host\",datname!~\"template.*\"}[$interval]) \n\
+or \n\
+rate(pg_stat_database_temp_bytes_total{instance=~\"$host\",datname!~\"template.*\"}[$interval]) \n\
+or \n\
+irate(pg_stat_database_temp_bytes{instance=~\"$host\",datname!~\"template.*\"}[5m]) \n\
+or \n\
+irate(pg_stat_database_temp_bytes_total{instance=~\"$host\",datname!~\"template.*\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": true,
                 "interval": "$interval",
@@ -1961,7 +2113,19 @@
               "type": "prometheus"
             },
             "dsType": "prometheus",
-            "expr": "sum(rate(pg_stat_database_deadlocks{datname=~\"$db\",instance=~\"$host\"}[$interval])) or \nsum(irate(pg_stat_database_deadlocks{datname=~\"$db\",instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(pg_stat_database_deadlocks{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_deadlocks_total{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_deadlocks{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_deadlocks_total{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "groupBy": [
               {
@@ -2017,7 +2181,19 @@
               "type": "prometheus"
             },
             "dsType": "prometheus",
-            "expr": "sum(rate(pg_stat_database_conflicts{datname=~\"$db\",instance=~\"$host\"}[$interval])) or \nsum(irate(pg_stat_database_conflicts{datname=~\"$db\",instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(pg_stat_database_conflicts{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_conflicts_total{datname=~\"$db\",instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_conflicts{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_conflicts_total{datname=~\"$db\",instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "groupBy": [
               {
@@ -2299,7 +2475,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(pg_stat_database_blk_read_time{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[$interval]) or\nirate(pg_stat_database_blk_read_time{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[5m])",
+                "expr": "\
+rate(pg_stat_database_blk_read_time{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[$interval]) \n\
+or \n\
+rate(pg_stat_database_blk_read_time_total{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[$interval]) \n\
+or \n\
+irate(pg_stat_database_blk_read_time{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[5m]) \n\
+or \n\
+irate(pg_stat_database_blk_read_time_total{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2310,7 +2494,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(pg_stat_database_blk_write_time{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[$interval]) or\nirate(pg_stat_database_blk_write_time{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[5m])",
+                "expr": "\
+rate(pg_stat_database_blk_write_time{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[$interval]) \n\
+or \n\
+rate(pg_stat_database_blk_write_time_total{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[$interval]) \n\
+or \n\
+irate(pg_stat_database_blk_write_time{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[5m]) \n\
+or \n\
+irate(pg_stat_database_blk_write_time_total{datname=~\"$db\",instance=~\"$host\",datname!~\"template.*|postgres\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2406,7 +2598,15 @@
                   "type": "prometheus"
                 },
                 "dsType": "prometheus",
-                "expr": "rate(pg_stat_bgwriter_buffers_alloc{instance='$host'}[$interval]) or \nirate(pg_stat_bgwriter_buffers_alloc{instance='$host'}[5m])",
+                "expr": "\
+rate(pg_stat_bgwriter_buffers_alloc{instance='$host'}[$interval]) \n\
+or \n\
+rate(pg_stat_bgwriter_buffers_alloc_total{instance='$host'}[$interval]) \n\
+or \n\
+irate(pg_stat_bgwriter_buffers_alloc{instance='$host'}[5m]) \n\
+or \n\
+irate(pg_stat_bgwriter_buffers_alloc_total{instance='$host'}[5m]) \n\
+",
                 "format": "time_series",
                 "groupBy": [
                   {
@@ -2462,7 +2662,15 @@
                   "type": "prometheus"
                 },
                 "dsType": "prometheus",
-                "expr": "rate(pg_stat_bgwriter_buffers_backend_fsync{instance='$host'}[$interval]) or\nirate(pg_stat_bgwriter_buffers_backend_fsync{instance='$host'}[5m])",
+                "expr": "\
+rate(pg_stat_bgwriter_buffers_backend_fsync{instance='$host'}[$interval]) \n\
+or \n\
+rate(pg_stat_bgwriter_buffers_backend_fsync_total{instance='$host'}[$interval]) \n\
+or \n\
+irate(pg_stat_bgwriter_buffers_backend_fsync{instance='$host'}[5m]) \n\
+or \n\
+irate(pg_stat_bgwriter_buffers_backend_fsync_total{instance='$host'}[5m]) \n\
+",
                 "format": "time_series",
                 "groupBy": [
                   {
@@ -2518,7 +2726,15 @@
                   "type": "prometheus"
                 },
                 "dsType": "prometheus",
-                "expr": "rate(pg_stat_bgwriter_buffers_backend{instance='$host'}[$interval]) or\nirate(pg_stat_bgwriter_buffers_backend{instance='$host'}[5m])",
+                "expr": "\
+rate(pg_stat_bgwriter_buffers_backend{instance='$host'}[$interval]) \n\
+or \n\
+rate(pg_stat_bgwriter_buffers_backend_total{instance='$host'}[$interval]) \n\
+or \n\
+irate(pg_stat_bgwriter_buffers_backend{instance='$host'}[5m]) \n\
+or \n\
+irate(pg_stat_bgwriter_buffers_backend_total{instance='$host'}[5m]) \n\
+",
                 "format": "time_series",
                 "groupBy": [
                   {
@@ -2574,7 +2790,15 @@
                   "type": "prometheus"
                 },
                 "dsType": "prometheus",
-                "expr": "rate(pg_stat_bgwriter_buffers_clean{instance='$host'}[$interval]) or \nirate(pg_stat_bgwriter_buffers_clean{instance='$host'}[5m])",
+                "expr": "\
+rate(pg_stat_bgwriter_buffers_clean{instance='$host'}[$interval]) \n\
+or \n\
+rate(pg_stat_bgwriter_buffers_clean_total{instance='$host'}[$interval]) \n\
+or \n\
+irate(pg_stat_bgwriter_buffers_clean{instance='$host'}[5m]) \n\
+or \n\
+irate(pg_stat_bgwriter_buffers_clean_total{instance='$host'}[5m]) \n\
+",
                 "format": "time_series",
                 "groupBy": [
                   {
@@ -2630,7 +2854,15 @@
                   "type": "prometheus"
                 },
                 "dsType": "prometheus",
-                "expr": "rate(pg_stat_bgwriter_buffers_checkpoint{instance='$host'}[5m]) or\nirate(pg_stat_bgwriter_buffers_checkpoint{instance='$host'}[5m])",
+                "expr": "\
+rate(pg_stat_bgwriter_buffers_checkpoint{instance='$host'}[5m]) \n\
+or \n\
+rate(pg_stat_bgwriter_buffers_checkpoint_total{instance='$host'}[5m]) \n\
+or \n\
+irate(pg_stat_bgwriter_buffers_checkpoint{instance='$host'}[5m]) \n\
+or \n\
+irate(pg_stat_bgwriter_buffers_checkpoint_total{instance='$host'}[5m]) \n\
+",
                 "format": "time_series",
                 "groupBy": [
                   {
@@ -2785,7 +3017,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_conflicts_confl_bufferpin{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_conflicts_confl_bufferpin{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_conflicts_confl_bufferpin{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_conflicts_confl_bufferpin_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_conflicts_confl_bufferpin{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_conflicts_confl_bufferpin_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2798,7 +3042,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_conflicts_confl_deadlock{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_conflicts_confl_deadlock{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_conflicts_confl_deadlock{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_conflicts_confl_deadlock_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_conflicts_confl_deadlock{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_conflicts_confl_deadlock_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2811,7 +3067,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_conflicts_confl_lock{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_conflicts_confl_lock{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_conflicts_confl_lock{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_conflicts_confl_lock_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_conflicts_confl_lock{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_conflicts_confl_lock_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2824,7 +3092,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_conflicts_confl_snapshot{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_conflicts_confl_snapshot{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_conflicts_confl_snapshot{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_conflicts_confl_snapshot_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_conflicts_confl_snapshot{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_conflicts_confl_snapshot_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2837,7 +3117,19 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "sum(rate(pg_stat_database_conflicts_confl_tablespace{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_conflicts_confl_tablespace{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(pg_stat_database_conflicts_confl_tablespace{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(pg_stat_database_conflicts_confl_tablespace_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(pg_stat_database_conflicts_confl_tablespace{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(pg_stat_database_conflicts_confl_tablespace_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -3018,7 +3310,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(pg_stat_bgwriter_checkpoint_sync_time{instance='$host'}[$interval]) or\nirate(pg_stat_bgwriter_checkpoint_sync_time{instance='$host'}[5m])",
+                "expr": "\
+rate(pg_stat_bgwriter_checkpoint_sync_time{instance='$host'}[$interval]) \n\
+or \n\
+rate(pg_stat_bgwriter_checkpoint_sync_time_total{instance='$host'}[$interval]) \n\
+or \n\
+irate(pg_stat_bgwriter_checkpoint_sync_time{instance='$host'}[5m]) \n\
+or \n\
+irate(pg_stat_bgwriter_checkpoint_sync_time_total{instance='$host'}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3032,7 +3332,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(pg_stat_bgwriter_checkpoint_write_time{instance='$host'}[$interval]) or\nirate(pg_stat_bgwriter_checkpoint_write_time{instance='$host'}[5m])",
+                "expr": "\
+rate(pg_stat_bgwriter_checkpoint_write_time{instance='$host'}[$interval]) \n\
+or \n\
+rate(pg_stat_bgwriter_checkpoint_write_time_total{instance='$host'}[$interval]) \n\
+or \n\
+irate(pg_stat_bgwriter_checkpoint_write_time{instance='$host'}[5m]) \n\
+or \n\
+irate(pg_stat_bgwriter_checkpoint_write_time_total{instance='$host'}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3197,7 +3505,37 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "clamp_max(((avg by (mode) ( (clamp_max(rate(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"\"}[$interval]),1)) or (clamp_max(irate(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"\"}[5m]),1)) ))*100 or (avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[$interval]) or \navg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[5m]))),100)",
+            "expr": "\
+avg by () ( \n\
+  ( \n\
+    sum by (instance,cpu) ( \n\
+      ( \n\
+        clamp_max( \n\
+          rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
+          or \n\
+          rate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        clamp_max( \n\
+          irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
+          or \n\
+          irate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ) * 100 \n\
+  or \n\
+  sum by () ( \n\
+    avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"total\",mode!=\"idle\",mode!=\"\"}[$interval]) \n\
+    or \n\
+    avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"total\",mode!=\"idle\",mode!=\"\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -3314,7 +3652,32 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "clamp_max(max by () (sum  by (cpu) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or (clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )),1)",
+            "expr": "\
+clamp_max( \n\
+  max by () ( \n\
+    sum by (cpu) ( \n\
+      ( \n\
+        clamp_max( \n\
+          rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
+          or \n\
+          rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        clamp_max( \n\
+          irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+          or \n\
+          irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  1 \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -3424,7 +3787,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024",
+            "expr": "\
+rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -3435,7 +3806,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024)",
+            "expr": "\
+rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) * 1024 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -3446,7 +3825,25 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 ) + \n(rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024)",
+            "expr": "\
+( \n\
+  rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
+) + ( \n\
+  rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) * 1024 \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -3457,7 +3854,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_vmstat_pswpin{instance=~\"$host\"}[$interval]) * 4096 or irate(node_vmstat_pswpin{instance=~\"$host\"}[5m]) * 4096",
+            "expr": "\
+rate(node_vmstat_pswpin{instance=~\"$host\"}[$interval]) * 4096 \n\
+or \n\
+rate(node_vmstat_pswpin_total{instance=~\"$host\"}[$interval]) * 4096 \n\
+or \n\
+irate(node_vmstat_pswpin{instance=~\"$host\"}[5m]) * 4096 \n\
+or \n\
+irate(node_vmstat_pswpin_total{instance=~\"$host\"}[5m]) * 4096 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -3468,7 +3873,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(node_vmstat_pswpout{instance=~\"$host\"}[$interval]) * 4096 or \nirate(node_vmstat_pswpout{instance=~\"$host\"}[5m]) * 4096",
+            "expr": "\
+rate(node_vmstat_pswpout{instance=~\"$host\"}[$interval]) * 4096 \n\
+or \n\
+rate(node_vmstat_pswpout_total{instance=~\"$host\"}[$interval]) * 4096 \n\
+or \n\
+irate(node_vmstat_pswpout{instance=~\"$host\"}[5m]) * 4096 \n\
+or \n\
+irate(node_vmstat_pswpout_total{instance=~\"$host\"}[5m]) * 4096 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -3556,7 +3969,27 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m])) ",
+            "expr": "\
+sum( \n\
+  rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+  or \n\
+  rate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+  or \n\
+  irate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -3567,7 +4000,27 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or sum(irate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or sum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+  or \n\
+  rate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+  or \n\
+  irate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

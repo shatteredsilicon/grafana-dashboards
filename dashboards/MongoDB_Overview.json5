@@ -993,7 +993,23 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_metrics_get_last_error_wtime_total_milliseconds{instance=~\"$host\"}[$interval]) or \nirate(mongodb_mongod_metrics_get_last_error_wtime_total_milliseconds{instance=~\"$host\"}[5m]) or\nrate(mongodb_mongos_metrics_get_last_error_wtime_total_milliseconds{instance=~\"$host\"}[$interval]) or \nirate(mongodb_mongos_metrics_get_last_error_wtime_total_milliseconds{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_metrics_get_last_error_wtime_total_milliseconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_metrics_get_last_error_wtime_total_milliseconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_metrics_get_last_error_wtime_total_milliseconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_metrics_get_last_error_wtime_total_milliseconds_total{instance=~\"$host\"}[5m]) \n\
+or \n\
+rate(mongodb_mongos_metrics_get_last_error_wtime_total_milliseconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongos_metrics_get_last_error_wtime_total_milliseconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongos_metrics_get_last_error_wtime_total_milliseconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mongodb_mongos_metrics_get_last_error_wtime_total_milliseconds_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",

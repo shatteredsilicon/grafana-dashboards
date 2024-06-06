@@ -1718,7 +1718,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\", level=~\"$level\", type=~\"read.*\"}[$interval]) or irate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\", level=~\"$level\", type=~\"read.*\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\", level=~\"$level\", type=~\"read.*\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_rocksdb_compaction_bytes_per_second_total{instance=~\"$host\", level=~\"$level\", type=~\"read.*\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\", level=~\"$level\", type=~\"read.*\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_rocksdb_compaction_bytes_per_second_total{instance=~\"$host\", level=~\"$level\", type=~\"read.*\"}[5m]) \n\
+",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1818,7 +1826,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\", level=~\"$level\", type=~\"write.*\"}[$interval]) or irate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\", level=~\"$level\", type=~\"write.*\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\", level=~\"$level\", type=~\"write.*\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_rocksdb_compaction_bytes_per_second_total{instance=~\"$host\", level=~\"$level\", type=~\"write.*\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\", level=~\"$level\", type=~\"write.*\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_rocksdb_compaction_bytes_per_second_total{instance=~\"$host\", level=~\"$level\", type=~\"write.*\"}[5m]) \n\
+",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2554,7 +2570,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\",level=~\"$level\"}[$interval]) or irate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\",level=~\"$level\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\",level=~\"$level\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_rocksdb_compaction_bytes_per_second_total{instance=~\"$host\",level=~\"$level\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_rocksdb_compaction_bytes_per_second{instance=~\"$host\",level=~\"$level\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_rocksdb_compaction_bytes_per_second_total{instance=~\"$host\",level=~\"$level\"}[5m]) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{level}}_{{type}}",

@@ -956,7 +956,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_durability_journaled_megabytes{instance=~\"$host\"}[$interval]) or irate(mongodb_mongod_durability_journaled_megabytes{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_durability_journaled_megabytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_durability_journaled_megabytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_durability_journaled_megabytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_durability_journaled_megabytes_total{instance=~\"$host\"}[5m]) \n\
+",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,
@@ -969,7 +977,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_durability_write_to_data_files_megabytes{instance=~\"$host\"}[$interval]) or irate(mongodb_mongod_durability_write_to_data_files_megabytes{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_durability_write_to_data_files_megabytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_durability_write_to_data_files_megabytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_durability_write_to_data_files_megabytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_durability_write_to_data_files_megabytes_total{instance=~\"$host\"}[5m]) \n\
+",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1057,7 +1073,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_durability_commits{instance=~\"$host\"}[$interval]) or irate(mongodb_mongod_durability_commits{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_durability_commits{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_durability_commits_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_durability_commits{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_durability_commits_total{instance=~\"$host\"}[5m]) \n\
+",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1323,7 +1347,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_background_flushing_average_milliseconds{instance=~\"$host\"}[$interval]) or irate(mongodb_mongod_background_flushing_average_milliseconds{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_background_flushing_average_milliseconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongod_background_flushing_average_milliseconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mongodb_mongod_background_flushing_average_milliseconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mongodb_mongod_background_flushing_average_milliseconds_total{instance=~\"$host\"}[5m]) \n\
+",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,

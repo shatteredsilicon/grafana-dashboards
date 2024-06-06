@@ -265,7 +265,21 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(sum(rate(process_cpu_seconds_total{job=\"prometheus\"}[$interval])) by () or sum(irate(process_cpu_seconds_total{job=\"prometheus\"}[5m])) by ()) / count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=\"ssm-server\"})*100",
+            "expr": "\
+( \n\
+  sum( \n\
+    rate(process_cpu_seconds_total{job=\"prometheus\"}[$interval]) \n\
+  ) by () \n\
+  or \n\
+  sum( \n\
+    irate(process_cpu_seconds_total{job=\"prometheus\"}[5m]) \n\
+  ) by () \n\
+) / count( \n\
+  node_cpu{mode=\"user\", instance=\"ssm-server\"} \n\
+  or \n\
+  node_cpu_seconds_total{mode=\"user\", instance=\"ssm-server\"} \n\
+) * 100 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -4681,7 +4695,32 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "clamp_max(avg by (instance) (sum by (mode) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[$interval]),1)) or  (clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[5m]),1)) )),1) *100",
+                "expr": "\
+clamp_max( \n\
+  avg by (instance) ( \n\
+    sum by (mode) ( \n\
+      ( \n\
+        clamp_max( \n\
+          rate(node_cpu{instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
+          or \n\
+          rate(node_cpu_seconds_total{instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        clamp_max( \n\
+          irate(node_cpu{instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
+          or \n\
+          irate(node_cpu_seconds_total{instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  1 \n\
+) * 100 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -4861,7 +4900,15 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "rate(node_vmstat_pgpgin{instance=\"ssm-server\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{instance=\"ssm-server\"}[5m]) * 1024",
+                "expr": "\
+rate(node_vmstat_pgpgin{instance=\"ssm-server\"}[$interval]) * 1024 \n\
+or \n\
+rate(node_vmstat_pgpgin_total{instance=\"ssm-server\"}[$interval]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgin{instance=\"ssm-server\"}[5m]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgin_total{instance=\"ssm-server\"}[5m]) * 1024 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -4939,7 +4986,15 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "rate(node_vmstat_pgpgout{instance=\"ssm-server\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{instance=\"ssm-server\"}[5m]) * 1024",
+                "expr": "\
+rate(node_vmstat_pgpgout{instance=\"ssm-server\"}[$interval]) * 1024 \n\
+or \n\
+rate(node_vmstat_pgpgout_total{instance=\"ssm-server\"}[$interval]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgout{instance=\"ssm-server\"}[5m]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgout_total{instance=\"ssm-server\"}[5m]) * 1024 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -5013,7 +5068,29 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "(sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=\"ssm-server\", device!=\"lo\"}[$interval]) or irate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=\"ssm-server\", device!=\"lo\"}[5m]))) + (sum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=\"ssm-server\", device!=\"lo\"}[$interval]) or irate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=\"ssm-server\", device!=\"lo\"}[5m])))",
+                "expr": "\
+( \n\
+  sum( \n\
+    rate(node_network_receive_bytes{instance=\"ssm-server\", device!=\"lo\"}[$interval]) \n\
+    or \n\
+    rate(node_network_receive_bytes_total{instance=\"ssm-server\", device!=\"lo\"}[$interval]) \n\
+    or \n\
+    irate(node_network_receive_bytes{instance=\"ssm-server\", device!=\"lo\"}[5m]) \n\
+    or \n\
+    irate(node_network_receive_bytes_total{instance=\"ssm-server\", device!=\"lo\"}[5m]) \n\
+  ) \n\
+) + ( \n\
+  sum( \n\
+    rate(node_network_transmit_bytes{instance=\"ssm-server\", device!=\"lo\"}[$interval]) \n\
+    or \n\
+    rate(node_network_transmit_bytes_total{instance=\"ssm-server\", device!=\"lo\"}[$interval]) \n\
+    or \n\
+    irate(node_network_transmit_bytes{instance=\"ssm-server\", device!=\"lo\"}[5m]) \n\
+    or \n\
+    irate(node_network_transmit_bytes_total{instance=\"ssm-server\", device!=\"lo\"}[5m]) \n\
+  ) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,

@@ -889,7 +889,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_txn_begin{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_txn_begin{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_txn_begin{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_txn_begin_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_txn_begin{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_txn_begin_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -902,7 +910,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_txn_begin_read_only{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_txn_begin_read_only{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_txn_begin_read_only{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_txn_begin_read_only_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_txn_begin_read_only{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_txn_begin_read_only_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -915,7 +931,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_txn_commits{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_txn_commits{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_txn_commits{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_txn_commits_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_txn_commits{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_txn_commits_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -928,7 +952,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_txn_aborts{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_txn_aborts{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_txn_aborts{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_txn_aborts_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_txn_aborts{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_txn_aborts_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1026,7 +1058,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_messages_injected_at_root{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_messages_injected_at_root{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_messages_injected_at_root{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_messages_injected_at_root_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_messages_injected_at_root{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_messages_injected_at_root_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1039,7 +1079,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_broadcase_messages_injected_at_root{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_broadcase_messages_injected_at_root{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_broadcase_messages_injected_at_root{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_broadcase_messages_injected_at_root_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_broadcase_messages_injected_at_root{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_broadcase_messages_injected_at_root_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1052,7 +1100,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_messages_injected_at_root_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_messages_injected_at_root_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_messages_injected_at_root_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_messages_injected_at_root_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_messages_injected_at_root_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_messages_injected_at_root_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1065,7 +1121,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_messages_flushed_from_h1_to_leaves_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_messages_flushed_from_h1_to_leaves_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_messages_flushed_from_h1_to_leaves_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_messages_flushed_from_h1_to_leaves_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_messages_flushed_from_h1_to_leaves_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_messages_flushed_from_h1_to_leaves_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1162,7 +1226,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_compression_to_memory_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_compression_to_memory_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_compression_to_memory_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_compression_to_memory_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_compression_to_memory_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_compression_to_memory_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1175,7 +1247,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_decompression_to_memory_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_decompression_to_memory_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_decompression_to_memory_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_decompression_to_memory_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_decompression_to_memory_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_decompression_to_memory_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1188,7 +1268,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_serialization_to_memory_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_serialization_to_memory_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_serialization_to_memory_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_serialization_to_memory_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_serialization_to_memory_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_serialization_to_memory_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1201,7 +1289,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_deserialization_to_memory_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_deserialization_to_memory_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_deserialization_to_memory_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_deserialization_to_memory_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_deserialization_to_memory_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_deserialization_to_memory_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1213,7 +1309,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_compression_to_memory_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_compression_to_memory_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_compression_to_memory_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_compression_to_memory_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_compression_to_memory_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_compression_to_memory_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1224,7 +1328,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_decompression_to_memory_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_decompression_to_memory_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_decompression_to_memory_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_decompression_to_memory_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_decompression_to_memory_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_decompression_to_memory_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1235,7 +1347,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_serialization_to_memory_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_serialization_to_memory_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_serialization_to_memory_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_serialization_to_memory_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_serialization_to_memory_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_serialization_to_memory_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1246,7 +1366,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_deserialization_to_memory_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_deserialization_to_memory_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_deserialization_to_memory_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_deserialization_to_memory_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_deserialization_to_memory_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_deserialization_to_memory_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1336,7 +1464,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_promotion_injections_at_depth_0{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_promotion_injections_at_depth_0{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_promotion_injections_at_depth_0{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_promotion_injections_at_depth_0_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_injections_at_depth_0{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_injections_at_depth_0_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1349,7 +1485,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_promotion_injections_at_depth_1{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_promotion_injections_at_depth_1{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_promotion_injections_at_depth_1{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_promotion_injections_at_depth_1_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_injections_at_depth_1{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_injections_at_depth_1_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1362,7 +1506,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_promotion_injections_at_depth_2{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_promotion_injections_at_depth_2{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_promotion_injections_at_depth_2{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_promotion_injections_at_depth_2_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_injections_at_depth_2{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_injections_at_depth_2_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1375,7 +1527,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_promotion_injections_at_depth_3{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_promotion_injections_at_depth_3{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_promotion_injections_at_depth_3{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_promotion_injections_at_depth_3_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_injections_at_depth_3{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_injections_at_depth_3_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1388,7 +1548,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_promotion_injections_lower_than_depth_3{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_promotion_injections_lower_than_depth_3{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_promotion_injections_lower_than_depth_3{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_promotion_injections_lower_than_depth_3_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_injections_lower_than_depth_3{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_injections_lower_than_depth_3_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1478,7 +1646,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_promotion_stopped_nonempty_buffer{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_promotion_stopped_nonempty_buffer{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_promotion_stopped_nonempty_buffer{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_promotion_stopped_nonempty_buffer_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_stopped_nonempty_buffer{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_stopped_nonempty_buffer_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1490,7 +1666,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_promotion_stopped_at_height_1{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_promotion_stopped_at_height_1{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_promotion_stopped_at_height_1{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_promotion_stopped_at_height_1_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_stopped_at_height_1{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_stopped_at_height_1_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1502,7 +1686,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_promotion_stopped_child_locked_or_not_in_memory{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_promotion_stopped_child_locked_or_not_in_memory{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_promotion_stopped_child_locked_or_not_in_memory{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_promotion_stopped_child_locked_or_not_in_memory_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_stopped_child_locked_or_not_in_memory{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_stopped_child_locked_or_not_in_memory_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1514,7 +1706,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_promotion_stopped_child_not_fully_in_memory{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_promotion_stopped_child_not_fully_in_memory{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_promotion_stopped_child_not_fully_in_memory{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_promotion_stopped_child_not_fully_in_memory_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_stopped_child_not_fully_in_memory{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_stopped_child_not_fully_in_memory_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1526,7 +1726,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_promotion_stopped_after_locking_child{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_promotion_stopped_after_locking_child{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_promotion_stopped_after_locking_child{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_promotion_stopped_after_locking_child_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_stopped_after_locking_child{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_promotion_stopped_after_locking_child_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1620,7 +1828,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_nodes_created{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_nodes_created{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_nodes_created{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_nodes_created_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_created{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_created_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1633,7 +1849,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_nodes_created{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_nodes_created{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_nodes_created{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_nodes_created_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_created{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_created_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1646,7 +1870,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_nodes_destroyed{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_nodes_destroyed{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_nodes_destroyed{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_nodes_destroyed_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_destroyed{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_destroyed_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1659,7 +1891,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_nodes_destroyed{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_nodes_destroyed{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_nodes_destroyed{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_nodes_destroyed_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_destroyed{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_destroyed_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1758,7 +1998,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_messages_ignored_by_leaf_due_to_msn{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_messages_ignored_by_leaf_due_to_msn{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_messages_ignored_by_leaf_due_to_msn{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_messages_ignored_by_leaf_due_to_msn_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_messages_ignored_by_leaf_due_to_msn{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_messages_ignored_by_leaf_due_to_msn_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1771,7 +2019,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_cursor_skip_deleted_leaf_entry{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_cursor_skip_deleted_leaf_entry{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_cursor_skip_deleted_leaf_entry{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_cursor_skip_deleted_leaf_entry_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cursor_skip_deleted_leaf_entry{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cursor_skip_deleted_leaf_entry_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1784,7 +2040,17 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "1-rate(mysql_global_status_tokudb_leaf_entry_apply_gc_bytes_out{instance=~\"$host\"}[1h])/rate(mysql_global_status_tokudb_leaf_entry_apply_gc_bytes_in{instance=~\"$host\"}[1h])",
+                "expr": "\
+1 - ( \n\
+  rate(mysql_global_status_tokudb_leaf_entry_apply_gc_bytes_out{instance=~\"$host\"}[1h]) \n\
+  or \n\
+  rate(mysql_global_status_tokudb_leaf_entry_apply_gc_bytes_out_total{instance=~\"$host\"}[1h]) \n\
+) / ( \n\
+  rate(mysql_global_status_tokudb_leaf_entry_apply_gc_bytes_in{instance=~\"$host\"}[1h]) \n\
+  or \n\
+  rate(mysql_global_status_tokudb_leaf_entry_apply_gc_bytes_in_total{instance=~\"$host\"}[1h]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2372,7 +2638,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_cachetable_evictions{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_cachetable_evictions{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_cachetable_evictions{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_cachetable_evictions_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_evictions{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_evictions_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2384,7 +2658,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_cachetable_miss{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_cachetable_miss{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_cachetable_miss{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_cachetable_miss_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_miss{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_miss_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2395,7 +2677,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_cachetable_miss_time{instance=~\"$host\"}[$interval])/1000000 or irate(mysql_global_status_tokudb_cachetable_miss_time{instance=~\"$host\"}[5m])/100000",
+                "expr": "\
+rate(mysql_global_status_tokudb_cachetable_miss_time{instance=~\"$host\"}[$interval]) / 1000000 \n\
+or \n\
+rate(mysql_global_status_tokudb_cachetable_miss_time_total{instance=~\"$host\"}[$interval]) / 1000000 \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_miss_time{instance=~\"$host\"}[5m]) / 100000 \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_miss_time_total{instance=~\"$host\"}[5m]) / 100000 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2406,7 +2696,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_cachetable_prefetches{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_cachetable_prefetches{instance=~\"$host\"}[$interval])",
+                "expr": "\
+rate(mysql_global_status_tokudb_cachetable_prefetches{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_cachetable_prefetches_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_prefetches{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_prefetches_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2511,7 +2809,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_node_partial_evictions{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_node_partial_evictions{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_node_partial_evictions{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_node_partial_evictions_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_node_partial_evictions{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_node_partial_evictions_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2523,7 +2829,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_node_partial_evictions{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_node_partial_evictions{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_node_partial_evictions{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_node_partial_evictions_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_node_partial_evictions{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_node_partial_evictions_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2534,7 +2848,31 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_leaf_node_partial_evictions_bytes{instance=~\"$host\"}[$interval]) + rate(mysql_global_status_tokudb_nonleaf_node_partial_evictions_bytes{instance=~\"$host\"}[$interval])) or (irate(mysql_global_status_tokudb_leaf_node_partial_evictions_bytes{instance=~\"$host\"}[5m]) + irate(mysql_global_status_tokudb_nonleaf_node_partial_evictions_bytes{instance=~\"$host\"}[5m]))",
+                "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_leaf_node_partial_evictions_bytes{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_leaf_node_partial_evictions_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_tokudb_nonleaf_node_partial_evictions_bytes{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_nonleaf_node_partial_evictions_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    irate(mysql_global_status_tokudb_leaf_node_partial_evictions_bytes{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_tokudb_leaf_node_partial_evictions_bytes_total{instance=~\"$host\"}[5m]) \n\
+  ) + ( \n\
+    irate(mysql_global_status_tokudb_nonleaf_node_partial_evictions_bytes{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_tokudb_nonleaf_node_partial_evictions_bytes_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -2640,7 +2978,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_node_full_evictions{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_node_full_evictions{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_node_full_evictions{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_node_full_evictions_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_node_full_evictions{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_node_full_evictions_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2653,7 +2999,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_node_full_evictions{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_node_full_evictions{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_node_full_evictions{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_node_full_evictions_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_node_full_evictions{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_node_full_evictions_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2665,7 +3019,31 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_leaf_node_full_evictions_bytes{instance=~\"$host\"}[$interval]) + rate(mysql_global_status_tokudb_nonleaf_node_full_evictions_bytes{instance=~\"$host\"}[$interval])) or (irate(mysql_global_status_tokudb_leaf_node_full_evictions_bytes{instance=~\"$host\"}[5m]) + irate(mysql_global_status_tokudb_nonleaf_node_full_evictions_bytes{instance=~\"$host\"}[5m]))",
+                "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_leaf_node_full_evictions_bytes{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_leaf_node_full_evictions_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_tokudb_nonleaf_node_full_evictions_bytes{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_nonleaf_node_full_evictions_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    irate(mysql_global_status_tokudb_leaf_node_full_evictions_bytes{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_tokudb_leaf_node_full_evictions_bytes_total{instance=~\"$host\"}[5m]) \n\
+  ) + ( \n\
+    irate(mysql_global_status_tokudb_nonleaf_node_full_evictions_bytes{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_tokudb_nonleaf_node_full_evictions_bytes_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2797,7 +3175,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_checkpoint_taken_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_checkpoint_taken_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2810,7 +3196,11 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_checkpoint_duration{instance=~\"$host\"}[1h])",
+                "expr": "\
+rate(mysql_global_status_tokudb_checkpoint_duration{instance=~\"$host\"}[1h]) \n\
+or \n\
+rate(mysql_global_status_tokudb_checkpoint_duration_total{instance=~\"$host\"}[1h]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2823,7 +3213,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_checkpoint_begin_time{instance=~\"$host\"}[$interval])/1000000 or irate(mysql_global_status_tokudb_checkpoint_begin_time{instance=~\"$host\"}[5m])/1000000",
+                "expr": "\
+rate(mysql_global_status_tokudb_checkpoint_begin_time{instance=~\"$host\"}[$interval])/1000000 \n\
+or \n\
+rate(mysql_global_status_tokudb_checkpoint_begin_time_total{instance=~\"$host\"}[$interval])/1000000 \n\
+or \n\
+irate(mysql_global_status_tokudb_checkpoint_begin_time{instance=~\"$host\"}[5m])/1000000 \n\
+or \n\
+irate(mysql_global_status_tokudb_checkpoint_begin_time_total{instance=~\"$host\"}[5m])/1000000 \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2835,7 +3233,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_checkpoint_end_time{instance=~\"$host\"}[$interval])/1000000 or irate(mysql_global_status_tokudb_checkpoint_end_time{instance=~\"$host\"}[5m])/1000000",
+                "expr": "\
+rate(mysql_global_status_tokudb_checkpoint_end_time{instance=~\"$host\"}[$interval])/1000000 \n\
+or \n\
+rate(mysql_global_status_tokudb_checkpoint_end_time_total{instance=~\"$host\"}[$interval])/1000000 \n\
+or \n\
+irate(mysql_global_status_tokudb_checkpoint_end_time{instance=~\"$host\"}[5m])/1000000 \n\
+or \n\
+irate(mysql_global_status_tokudb_checkpoint_end_time_total{instance=~\"$host\"}[5m])/1000000 \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2847,7 +3253,31 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds{instance=~\"$host\"}[$interval])+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds{instance=~\"$host\"}[$interval])) or (irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds{instance=~\"$host\"}[5m])+irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds{instance=~\"$host\"}[5m]))",
+                "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds_total{instance=~\"$host\"}[5m]) \n\
+  ) + ( \n\
+    irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2961,7 +3391,31 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_checkpoint_begin_time{instance=~\"$host\"}[$interval])/1000000/rate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[$interval])) or (irate(mysql_global_status_tokudb_checkpoint_begin_time{instance=~\"$host\"}[5m])/1000000/irate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[5m]))",
+                "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_checkpoint_begin_time{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_checkpoint_begin_time_total{instance=~\"$host\"}[$interval]) \n\
+  ) / 1000000 / ( \n\
+    rate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_checkpoint_taken_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    irate(mysql_global_status_tokudb_checkpoint_begin_time{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_tokudb_checkpoint_begin_time_total{instance=~\"$host\"}[5m]) \n\
+  ) / 1000000 / ( \n\
+    irate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_tokudb_checkpoint_taken_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2973,7 +3427,31 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_checkpoint_end_time{instance=~\"$host\"}[$interval])/1000000/rate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[$interval])) or ((irate(mysql_global_status_tokudb_checkpoint_end_time{instance=~\"$host\"}[5m])/1000000/irate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[5m])))",
+                "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_checkpoint_end_time{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_checkpoint_end_time_total{instance=~\"$host\"}[$interval]) \n\
+  ) / 1000000 / ( \n\
+    rate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_checkpoint_taken_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    irate(mysql_global_status_tokudb_checkpoint_end_time{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_tokudb_checkpoint_end_time_total{instance=~\"$host\"}[5m]) \n\
+  ) / 1000000 / ( \n\
+    irate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_tokudb_checkpoint_taken_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2985,7 +3463,23 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[1h])+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[1h]))/rate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[1h])",
+                "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[1h]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes_total{instance=~\"$host\"}[1h]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[1h]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes_total{instance=~\"$host\"}[1h]) \n\
+  ) \n\
+) / ( \n\
+  rate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[1h]) \n\
+  or \n\
+  rate(mysql_global_status_tokudb_checkpoint_taken_total{instance=~\"$host\"}[1h]) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -2997,7 +3491,23 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_uncompressed_bytes{instance=~\"$host\"}[1h])+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_uncompressed_by{instance=~\"$host\"}[1h]))/rate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[1h])",
+                "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_uncompressed_bytes{instance=~\"$host\"}[1h]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_uncompressed_bytes_total{instance=~\"$host\"}[1h]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_uncompressed_by{instance=~\"$host\"}[1h]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_uncompressed_by_total{instance=~\"$host\"}[1h]) \n\
+  ) \n\
+) / ( \n\
+  rate(mysql_global_status_tokudb_checkpoint_taken{instance=~\"$host\"}[1h]) \n\
+  or \n\
+  rate(mysql_global_status_tokudb_checkpoint_taken_total{instance=~\"$host\"}[1h]) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3094,7 +3604,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -3106,7 +3624,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -3118,7 +3644,25 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[5m])) + (rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[5m]))",
+                "expr": "\
+( \n\
+  rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes_total{instance=~\"$host\"}[5m]) \n\
+) + ( \n\
+  rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -3213,7 +3757,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3226,7 +3778,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3239,7 +3799,25 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes{instance=~\"$host\"}[5m])) + (rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes{instance=~\"$host\"}[5m]))",
+                "expr": "\
+( \n\
+  rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes_total{instance=~\"$host\"}[5m]) \n\
+) + ( \n\
+  rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3341,7 +3919,29 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[$interval])+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes{instance=~\"$host\"}[$interval]))/(rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint{instance=~\"$host\"}[$interval])+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint{instance=~\"$host\"}[$interval]))",
+                "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) / ( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3354,7 +3954,29 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[$interval])+rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes{instance=~\"$host\"}[$interval]))/(rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint{instance=~\"$host\"}[$interval])+rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint{instance=~\"$host\"}[$interval]))",
+                "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_bytes_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) / ( \n\
+  ( \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_total{instance=~\"$host\"}[$interval]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_total{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3461,7 +4083,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_flushed_checkpoint_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3474,7 +4104,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_checkpoint_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3487,7 +4125,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_leaf_nodes_flushed_not_checkpoint_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3499,7 +4145,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_nonleaf_nodes_flushed_to_disk_not_checkpoint_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -3614,7 +4268,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_pivots_fetched_for_query_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_pivots_fetched_for_query_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_pivots_fetched_for_query_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_pivots_fetched_for_query_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_query_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_query_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3627,7 +4289,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3640,7 +4310,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_pivots_fetched_for_write_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_pivots_fetched_for_write_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_pivots_fetched_for_write_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_pivots_fetched_for_write_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_write_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_write_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3733,7 +4411,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_pivots_fetched_for_query_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_pivots_fetched_for_query_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_pivots_fetched_for_query_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_pivots_fetched_for_query_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_query_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_query_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3746,7 +4432,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_prefetch_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3759,7 +4453,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_pivots_fetched_for_write_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_pivots_fetched_for_write_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_pivots_fetched_for_write_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_pivots_fetched_for_write_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_write_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_pivots_fetched_for_write_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3857,7 +4559,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_basements_fetched_target_query_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_basements_fetched_target_query_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_basements_fetched_target_query_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_basements_fetched_target_query_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_target_query_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_target_query_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3870,7 +4580,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_basements_fetched_prefetch_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_basements_fetched_prefetch_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_basements_fetched_prefetch_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_basements_fetched_prefetch_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_prefetch_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_prefetch_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3883,7 +4601,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_basements_fetched_for_write_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_basements_fetched_for_write_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_basements_fetched_for_write_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_basements_fetched_for_write_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_for_write_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_for_write_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3896,7 +4622,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_basements_fetched_prelocked_range_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_basements_fetched_prelocked_range_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_basements_fetched_prelocked_range_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_basements_fetched_prelocked_range_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_prelocked_range_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_prelocked_range_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -3996,7 +4730,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_basements_fetched_target_query_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_basements_fetched_target_query_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_basements_fetched_target_query_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_basements_fetched_target_query_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_target_query_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_target_query_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4009,7 +4751,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_basements_fetched_prefetch_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_basements_fetched_prefetch_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_basements_fetched_prefetch_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_basements_fetched_prefetch_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_prefetch_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_prefetch_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4022,7 +4772,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_basements_fetched_for_write_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_basements_fetched_for_write_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_basements_fetched_for_write_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_basements_fetched_for_write_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_for_write_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_for_write_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4035,7 +4793,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_basements_fetched_prelocked_range_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_basements_fetched_prelocked_range_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_basements_fetched_prelocked_range_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_basements_fetched_prelocked_range_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_prelocked_range_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_basements_fetched_prelocked_range_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4134,7 +4900,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_buffers_fetched_target_query_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_buffers_fetched_target_query_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_buffers_fetched_target_query_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_buffers_fetched_target_query_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_target_query_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_target_query_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4147,7 +4921,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_buffers_fetched_prefetch_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_buffers_fetched_prefetch_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_buffers_fetched_prefetch_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_buffers_fetched_prefetch_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_prefetch_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_prefetch_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4160,7 +4942,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_buffers_fetched_for_write_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_buffers_fetched_for_write_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_buffers_fetched_for_write_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_buffers_fetched_for_write_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_for_write_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_for_write_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4173,7 +4963,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4276,7 +5074,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_buffers_fetched_target_query_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_buffers_fetched_target_query_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_buffers_fetched_target_query_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_buffers_fetched_target_query_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_target_query_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_target_query_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4289,7 +5095,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_buffers_fetched_prefetch_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_buffers_fetched_prefetch_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_buffers_fetched_prefetch_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_buffers_fetched_prefetch_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_prefetch_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_prefetch_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4302,7 +5116,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_buffers_fetched_for_write_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_buffers_fetched_for_write_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_buffers_fetched_for_write_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_buffers_fetched_for_write_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_for_write_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_for_write_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4315,7 +5137,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_buffers_fetched_prelocked_range_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4445,7 +5275,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_logger_writes_bytes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_logger_writes_bytes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_logger_writes_bytes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_logger_writes_bytes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_logger_writes_bytes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_logger_writes_bytes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -4457,7 +5295,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_logger_writes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_logger_writes{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_logger_writes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_logger_writes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_logger_writes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_logger_writes_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -4469,7 +5315,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_filesystem_fsync_num{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_filesystem_fsync_num{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_filesystem_fsync_num{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_filesystem_fsync_num_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_filesystem_fsync_num{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_filesystem_fsync_num_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -4563,7 +5417,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_logger_writes_seconds{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_logger_writes_seconds{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_logger_writes_seconds{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_logger_writes_seconds_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_logger_writes_seconds{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_logger_writes_seconds_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4576,7 +5438,11 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[$interval])/1000000  or irate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[5m])/1000000",
+                "expr": "\
+rate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[$interval])/1000000  or irate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[5m])/1000000 \n\
+or \n\
+rate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[$interval])/1000000  or irate(mysql_global_status_tokudb_filesystem_fsync_time_total{instance=~\"$host\"}[5m])/1000000 \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4588,7 +5454,27 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[$interval])/rate(mysql_global_status_tokudb_filesystem_fsync_num{instance=~\"$host\"}[$interval])/1000000  or irate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[5m])/irate(mysql_global_status_tokudb_filesystem_fsync_num{instance=~\"$host\"}[5m])/1000000 ",
+                "expr": "\
+( \n\
+  rate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_tokudb_filesystem_fsync_time_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  rate(mysql_global_status_tokudb_filesystem_fsync_num{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_tokudb_filesystem_fsync_num_total{instance=~\"$host\"}[$interval]) \n\
+) / 1000000 \n\
+or \n\
+( \n\
+  irate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_tokudb_filesystem_fsync_time_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  irate(mysql_global_status_tokudb_filesystem_fsync_num{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_tokudb_filesystem_fsync_num_total{instance=~\"$host\"}[5m]) \n\
+) / 1000000 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -4864,7 +5750,13 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_locktree_wait_time{instance=~\"$host\"}[$interval])/1000000 or irate(mysql_global_status_tokudb_locktree_wait_count{instance=~\"$host\"}[5m])/1000000",
+                "expr": "\
+rate(mysql_global_status_tokudb_locktree_wait_time{instance=~\"$host\"}[$interval])/1000000 \n\
+or \n\
+rate(mysql_global_status_tokudb_locktree_wait_time_total{instance=~\"$host\"}[$interval])/1000000 \n\
+or \n\
+irate(mysql_global_status_tokudb_locktree_wait_count{instance=~\"$host\"}[5m])/1000000 \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -5381,7 +6273,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_cachetable_cleaner_executions{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_cachetable_cleaner_executions{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_cachetable_cleaner_executions{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_cachetable_cleaner_executions_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_cleaner_executions{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_cleaner_executions_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -5393,7 +6293,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_cachetable_pool_client_total_items_processed{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_cachetable_pool_client_total_items_processed{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_cachetable_pool_client_total_items_processed{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_cachetable_pool_client_total_items_processed_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_pool_client_total_items_processed{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_pool_client_total_items_processed_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -5405,7 +6313,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_cachetable_pool_cachetable_total_items_processed{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_cachetable_pool_cachetable_total_items_processed{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_cachetable_pool_cachetable_total_items_processed{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_cachetable_pool_cachetable_total_items_processed_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_pool_cachetable_total_items_processed{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_pool_cachetable_total_items_processed_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -5416,7 +6332,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_tokudb_cachetable_pool_checkpoint_total_items_processed{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_tokudb_cachetable_pool_checkpoint_total_items_processed{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_tokudb_cachetable_pool_checkpoint_total_items_processed{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_tokudb_cachetable_pool_checkpoint_total_items_processed_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_pool_checkpoint_total_items_processed{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_tokudb_cachetable_pool_checkpoint_total_items_processed_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -5828,7 +6752,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_questions{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_questions{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_questions{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_questions_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_questions{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_questions_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -5839,7 +6771,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(mysql_global_status_connections{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_connections{instance=~\"$host\"}[5m])",
+                "expr": "\
+rate(mysql_global_status_connections{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_connections_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_connections{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_connections_total{instance=~\"$host\"}[5m]) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6327,7 +7267,38 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "clamp_max(((avg by (mode) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\"}[$interval]),1)) or (clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\"}[5m]),1)) ))*100 or (avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[$interval]) or avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[5m]))),100)",
+                "expr": "\
+clamp_max( \n\
+  ( \n\
+    avg by (mode) ( \n\
+      ( \n\
+        clamp_max( \n\
+          rate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[$interval]) \n\
+          or \n\
+          rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[$interval]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        clamp_max( \n\
+          irate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[5m]) \n\
+          or \n\
+          irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[5m]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ) * 100 \n\
+  or \n\
+  ( \n\
+    avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[$interval]) \n\
+    or \n\
+    avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[5m]) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6338,7 +7309,32 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "clamp_max(max by () (sum  by (cpu) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or (clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )),1)",
+                "expr": "\
+clamp_max( \n\
+  max by () ( \n\
+    sum by (cpu) ( \n\
+      ( \n\
+        clamp_max( \n\
+          rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
+          or \n\
+          rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        clamp_max( \n\
+          irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+          or \n\
+          irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  1 \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": true,
                 "interval": "$interval",
@@ -6467,7 +7463,32 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "clamp_max(max by () (sum  by (cpu) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or (clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )),1)",
+                "expr": "\
+clamp_max( \n\
+  max by () ( \n\
+    sum  by (cpu) ( \n\
+      ( \n\
+        clamp_max( \n\
+          rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
+          or \n\
+          rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        clamp_max( \n\
+          irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+          or \n\
+          irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  1 \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6600,7 +7621,19 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 or rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 or irate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024",
+                "expr": "\
+rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
+or \n\
+avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+or \n\
+avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6617,7 +7650,19 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "(rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024) or rate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 or irate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024",
+                "expr": "\
+rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) * 1024 \n\
+or \n\
+avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+or \n\
+avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6631,7 +7676,33 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "(rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 or rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 or irate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024) + (rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 or rate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 or irate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024)",
+                "expr": "\
+( \n\
+  rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+) + ( \n\
+  rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6642,7 +7713,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(node_vmstat_pswpin{instance=~\"$host\"}[$interval]) * 4096 or irate(node_vmstat_pswpin{instance=~\"$host\"}[5m]) * 4096",
+                "expr": "\
+rate(node_vmstat_pswpin{instance=~\"$host\"}[$interval]) * 4096 \n\
+or \n\
+rate(node_vmstat_pswpin_total{instance=~\"$host\"}[$interval]) * 4096 \n\
+or \n\
+irate(node_vmstat_pswpin{instance=~\"$host\"}[5m]) * 4096 \n\
+or \n\
+irate(node_vmstat_pswpin_total{instance=~\"$host\"}[5m]) * 4096 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6653,7 +7732,15 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "rate(node_vmstat_pswpout{instance=~\"$host\"}[$interval]) * 4096 or irate(node_vmstat_pswpout{instance=~\"$host\"}[5m]) * 4096",
+                "expr": "\
+rate(node_vmstat_pswpout{instance=~\"$host\"}[$interval]) * 4096 \n\
+or \n\
+rate(node_vmstat_pswpout_total{instance=~\"$host\"}[$interval]) * 4096 \n\
+or \n\
+irate(node_vmstat_pswpout{instance=~\"$host\"}[5m]) * 4096 \n\
+or \n\
+irate(node_vmstat_pswpout_total{instance=~\"$host\"}[5m]) * 4096 \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6750,7 +7837,27 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or sum(irate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or sum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or sum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m])) ",
+                "expr": "\
+sum( \n\
+  rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+  or \n\
+  rate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+  or \n\
+  irate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -6767,7 +7874,27 @@
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "sum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or sum(irate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or sum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))",
+                "expr": "\
+sum( \n\
+  rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+  or \n\
+  rate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+  or \n\
+  irate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+sum( \n\
+  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,

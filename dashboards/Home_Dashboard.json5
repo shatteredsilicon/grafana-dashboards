@@ -605,7 +605,37 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "avg by () ((sum by (instance,cpu) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]),1)) or  \n(clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]),1)) ))*100 or \nsum by () (avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\", mode!=\"total\",mode!=\"idle\", mode!=\"\"}[$interval]) or \navg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"idle\",mode!=\"\"}[5m])))",
+            "expr": "\
+avg by () ( \n\
+  ( \n\
+    sum by (instance,cpu) ( \n\
+      ( \n\
+        clamp_max( \n\
+          rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
+          or \n\
+          rate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        clamp_max( \n\
+          irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
+          or \n\
+          irate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ) * 100 \n\
+  or \n\
+  sum by () ( \n\
+    avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\"}[$interval]) \n\
+    or \n\
+    avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -813,7 +843,21 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "sum by () (rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 or rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 or irate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024)",
+            "expr": "\
+sum by () ( \n\
+  rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -902,7 +946,21 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "sum by () (rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 or rate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 or irate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024)",
+            "expr": "\
+sum by () ( \n\
+  rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -986,7 +1044,33 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\",device!=\"lo\"}[$interval]) \nor irate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\",device!=\"lo\"}[5m]) \nor max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \nor max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]))\n+\nsum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\",device!=\"lo\"}[$interval]) \nor irate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\",device!=\"lo\"}[5m])\nor max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \nor max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))",
+            "expr": "\
+sum( \n\
+  rate(node_network_receive_bytes{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
+  or \n\
+  rate(node_network_receive_bytes_total{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
+  or \n\
+  irate(node_network_receive_bytes{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
+  or \n\
+  irate(node_network_receive_bytes_total{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
+) + sum( \n\
+  rate(node_network_transmit_bytes{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
+  or \n\
+  rate(node_network_transmit_bytes_total{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
+  or \n\
+  irate(node_network_transmit_bytes{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
+  or \n\
+  irate(node_network_transmit_bytes_total{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1153,7 +1237,55 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "sum by () (\n(rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) or \nirate(mysql_global_status_queries{instance=~\"$host\"}[5m])) or \n(sum(rate(mongodb_mongod_op_counters_total{instance=~\"$host\",type!=\"command\"}[$interval])) or \nsum(irate(mongodb_mongod_op_counters_total{instance=~\"$host\",type!=\"command\"}[5m]))) or\n(sum(rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) + rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) + irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m])))\n)",
+            "expr": "\
+sum by () ( \n\
+  ( \n\
+    rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    irate(mysql_global_status_queries{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    sum( \n\
+      rate(mongodb_mongod_op_counters_total{instance=~\"$host\",type!=\"command\"}[$interval]) \n\
+    ) \n\
+    or \n\
+    sum( \n\
+      irate(mongodb_mongod_op_counters_total{instance=~\"$host\",type!=\"command\"}[5m]) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    sum( \n\
+      ( \n\
+        rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) \n\
+        or \n\
+        rate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[$interval]) \n\
+      ) + ( \n\
+        rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
+        or \n\
+        rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
+      ) \n\
+    ) \n\
+    or \n\
+    sum( \n\
+      ( \n\
+        irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) \n\
+        or \n\
+        irate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[5m]) \n\
+      ) + ( \n\
+        irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]) \n\
+        or \n\
+        irate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[5m]) \n\
+      ) \n\
+    ) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1626,7 +1758,38 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "clamp_max(avg by (instance) \n(sum by (cpu) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]),1)) or\n(clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]),1)) )),1) *100 or\nsum by () (\navg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\", mode!=\"total\", mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[$interval]) or \navg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[5m]))",
+            "expr": "\
+clamp_max( \n\
+  avg by (instance) ( \n\
+    sum by (cpu) ( \n\
+      ( \n\
+        clamp_max( \n\
+          rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
+          or \n\
+          rate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        clamp_max( \n\
+          irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
+          or \n\
+          irate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
+          1 \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  1 \n\
+) * 100 \n\
+or \n\
+sum by () ( \n\
+  avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\", mode!=\"total\", mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[$interval]) \n\
+  or \n\
+  avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -1833,7 +1996,19 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 or \nrate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 or irate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024",
+            "expr": "\
+rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
+or \n\
+avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+or \n\
+avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1921,7 +2096,19 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 or rate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 or irate(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024",
+            "expr": "\
+rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 \n\
+or \n\
+irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) * 1024 \n\
+or \n\
+avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+or \n\
+avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2004,7 +2191,45 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or\nirate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]))) + \n(sum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval]) or \nirate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or \nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))) ",
+            "expr": "\
+( \n\
+  sum( \n\
+    rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+    or \n\
+    rate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+    or \n\
+    irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+    or \n\
+    irate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+  ) \n\
+  or \n\
+  sum( \n\
+    max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+  or \n\
+  sum( \n\
+    max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) + ( \n\
+  sum( \n\
+    rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+    or \n\
+    rate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+    or \n\
+    irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+    or \n\
+    irate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+  ) \n\
+  or \n\
+  sum( \n\
+    max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
+  ) \n\
+  or \n\
+  sum( \n\
+    max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2189,7 +2414,55 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "sum((rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) or \nirate(mysql_global_status_queries{instance=~\"$host\"}[5m])) or \n(sum(rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval])) or \nsum(irate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[5m]))) or\n(sum(rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) + rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) + irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]))))",
+            "expr": "\
+sum( \n\
+  ( \n\
+    rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    irate(mysql_global_status_queries{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    sum( \n\
+      rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
+    ) \n\
+    or \n\
+    sum( \n\
+      irate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[5m]) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    sum( \n\
+      ( \n\
+        rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) \n\
+        or \n\
+        rate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[$interval]) \n\
+      ) + ( \n\
+        rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
+        or \n\
+        rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
+      ) \n\
+    ) \n\
+    or \n\
+    sum( \n\
+      ( \n\
+        irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) \n\
+        or \n\
+        irate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[5m]) \n\
+      ) + ( \n\
+        irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]) \n\
+        or \n\
+        irate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[5m]) \n\
+      ) \n\
+    ) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,

@@ -241,7 +241,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_key_reads{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_key_reads{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_key_reads{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_key_reads_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_key_reads{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_key_reads_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -257,7 +265,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_key_read_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_key_read_requests{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_key_read_requests{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_key_read_requests_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_key_read_requests{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_key_read_requests_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -273,7 +289,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_key_writes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_key_writes{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_key_writes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_key_writes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_key_writes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_key_writes_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -289,7 +313,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_key_write_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_key_write_requests{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_key_write_requests{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_key_write_requests_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_key_write_requests{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_key_write_requests_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -409,7 +441,27 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_key_reads{instance=~\"$host\"}[$interval]) / rate(mysql_global_status_key_read_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_key_reads{instance=~\"$host\"}[5m]) / irate(mysql_global_status_key_read_requests{instance=~\"$host\"}[5m])",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_key_reads{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_key_reads_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  rate(mysql_global_status_key_read_requests{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_key_read_requests_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_key_reads{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_key_reads_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  irate(mysql_global_status_key_read_requests{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_key_read_requests_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -425,7 +477,27 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_key_writes{instance=~\"$host\"}[$interval]) / rate(mysql_global_status_key_write_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_key_writes{instance=~\"$host\"}[5m]) / irate(mysql_global_status_key_write_requests{instance=~\"$host\"}[5m])",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_key_writes{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_key_writes_total{instance=~\"$host\"}[$interval]) \n\
+) / ( \n\
+  rate(mysql_global_status_key_write_requests{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_key_write_requests_total{instance=~\"$host\"}[$interval]) \n\
+) \n\
+or \n\
+( \n\
+  irate(mysql_global_status_key_writes{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_key_writes_total{instance=~\"$host\"}[5m]) \n\
+) / ( \n\
+  irate(mysql_global_status_key_write_requests{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(mysql_global_status_key_write_requests_total{instance=~\"$host\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -693,7 +765,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_aria_pagecache_write_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_aria_pagecache_write_requests{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_aria_pagecache_write_requests{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_aria_pagecache_write_requests_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_aria_pagecache_write_requests{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_aria_pagecache_write_requests_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -709,7 +789,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_aria_pagecache_read_requests{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_aria_pagecache_read_requests{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_aria_pagecache_read_requests{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_aria_pagecache_read_requests_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_aria_pagecache_read_requests{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_aria_pagecache_read_requests_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -725,7 +813,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_aria_pagecache_reads{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_aria_pagecache_reads{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_aria_pagecache_reads{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_aria_pagecache_reads_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_aria_pagecache_reads{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_aria_pagecache_reads_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -741,7 +837,15 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_aria_pagecache_writes{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_aria_pagecache_writes{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_aria_pagecache_writes{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_aria_pagecache_writes_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_aria_pagecache_writes{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_aria_pagecache_writes_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -875,7 +979,15 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mysql_global_status_aria_transaction_log_syncs{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_aria_transaction_log_syncs{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_aria_transaction_log_syncs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mysql_global_status_aria_transaction_log_syncs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+irate(mysql_global_status_aria_transaction_log_syncs{instance=~\"$host\"}[5m]) \n\
+or \n\
+irate(mysql_global_status_aria_transaction_log_syncs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "intervalFactor": 1,
             "legendFormat": "Aria Transaction Log Syncs",

@@ -306,7 +306,20 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "clamp_max((rate(mysql_global_status_wsrep_flow_control_paused_ns[$interval]) or irate(mysql_global_status_wsrep_flow_control_paused_ns[5m]))/1000000000 * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"},1)",
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    rate(mysql_global_status_wsrep_flow_control_paused_ns[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_flow_control_paused_ns_total[$interval]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_flow_control_paused_ns[5m]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_flow_control_paused_ns_total[5m]) \n\
+  ) / 1000000000 * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}, \n\
+  1 \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -406,7 +419,17 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(mysql_global_status_wsrep_flow_control_sent[$interval]) or irate(mysql_global_status_wsrep_flow_control_sent[5m])) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_wsrep_flow_control_sent[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_wsrep_flow_control_sent_total[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_flow_control_sent[5m]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_flow_control_sent_total[5m]) \n\
+) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"} \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{ instance }}",
@@ -504,7 +527,17 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(mysql_global_status_wsrep_received_bytes[$interval]) or irate(mysql_global_status_wsrep_received_bytes[5m])) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_wsrep_received_bytes[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_wsrep_received_bytes_total[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_received_bytes[5m]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_received_bytes_total[5m]) \n\
+) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"} \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{ instance }}",
@@ -602,7 +635,17 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(mysql_global_status_wsrep_replicated_bytes[$interval]) or irate(mysql_global_status_wsrep_replicated_bytes[5m])) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_wsrep_replicated_bytes[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_wsrep_replicated_bytes_total[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_replicated_bytes[5m]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_replicated_bytes_total[5m]) \n\
+) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"} \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{ instance }}",
@@ -873,7 +916,17 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(mysql_global_status_wsrep_received[$interval]) or irate(mysql_global_status_wsrep_received[5m])) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_wsrep_received[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_wsrep_received_total[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_received[5m]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_received_total[5m]) \n\
+) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"} \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{ instance }}",
@@ -963,7 +1016,17 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(mysql_global_status_wsrep_replicated[$interval]) or irate(mysql_global_status_wsrep_replicated[5m])) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
+            "expr": "\
+( \n\
+  rate(mysql_global_status_wsrep_replicated[$interval]) \n\
+  or \n\
+  rate(mysql_global_status_wsrep_replicated_total[$interval]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_replicated[5m]) \n\
+  or \n\
+  irate(mysql_global_status_wsrep_replicated_total[5m]) \n\
+) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"} \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{ instance }}",
@@ -1054,7 +1117,29 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(mysql_global_status_wsrep_received_bytes[$interval]) / rate(mysql_global_status_wsrep_received[$interval]) or irate(mysql_global_status_wsrep_received_bytes[5m]) / irate(mysql_global_status_wsrep_received[5m])) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_wsrep_received_bytes[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_received_bytesv_total[$interval]) \n\
+  ) / ( \n\
+    rate(mysql_global_status_wsrep_received[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_received_total[$interval]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    irate(mysql_global_status_wsrep_received_bytes[5m]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_received_bytes_total[5m]) \n\
+  ) / ( \n\
+    irate(mysql_global_status_wsrep_received[5m]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_received_total[5m]) \n\
+  ) \n\
+) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"} \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{ instance }}",
@@ -1145,7 +1230,29 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(rate(mysql_global_status_wsrep_replicated_bytes[$interval]) / rate(mysql_global_status_wsrep_replicated[$interval]) or irate(mysql_global_status_wsrep_replicated_bytes[5m]) / irate(mysql_global_status_wsrep_replicated[5m])) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_wsrep_replicated_bytes[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_replicated_bytes_total[$interval]) \n\
+  ) / ( \n\
+    rate(mysql_global_status_wsrep_replicated[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_replicated_total[$interval]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    irate(mysql_global_status_wsrep_replicated_bytes[5m]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_replicated_bytes_total[5m]) \n\
+  ) / ( \n\
+    irate(mysql_global_status_wsrep_replicated[5m]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_replicated_total[5m]) \n\
+  ) \n\
+) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"} \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{ instance }}",
@@ -1497,7 +1604,29 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate(mysql_global_status_wsrep_replicated_bytes[$interval]) / rate(mysql_global_status_wsrep_replicated[$interval]) or irate(mysql_global_status_wsrep_replicated_bytes[5m]) / irate(mysql_global_status_wsrep_replicated[5m])) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"}",
+            "expr": "\
+( \n\
+  ( \n\
+    rate(mysql_global_status_wsrep_replicated_bytes[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_replicated_bytes_total[$interval]) \n\
+  ) / ( \n\
+    rate(mysql_global_status_wsrep_replicated[$interval]) \n\
+    or \n\
+    rate(mysql_global_status_wsrep_replicated_total[$interval]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    irate(mysql_global_status_wsrep_replicated_bytes[5m]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_replicated_bytes_total[5m]) \n\
+  ) / ( \n\
+    irate(mysql_global_status_wsrep_replicated[5m]) \n\
+    or \n\
+    irate(mysql_global_status_wsrep_replicated_total[5m]) \n\
+  ) \n\
+) * on (instance) group_left mysql_galera_variables_info{wsrep_cluster_name=\"$cluster\"} \n\
+",
             "format": "time_series",
             "hide": true,
             "intervalFactor": 2,
