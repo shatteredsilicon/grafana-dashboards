@@ -1,20 +1,11 @@
 {
     "annotations": {
-        "list": [
-            {
-                "builtIn": 1,
-                "datasource": "-- Grafana --",
-                "enable": true,
-                "hide": true,
-                "iconColor": "rgba(0, 211, 255, 1)",
-                "name": "Annotations & Alerts",
-                "type": "dashboard"
-            }
-        ]
+        "list": []
     },
     "editable": false,
     "gnetId": null,
-    "graphTooltip": 0,
+    "graphTooltip": 1,
+    "hideControls": true,
     "id": null,
     "links": [
         {
@@ -118,30 +109,37 @@
             "type": "dashboards"
         }
     ],
-    "panels": [
+    "refresh": false,
+    "rows": [
         {
-            "datasource": "Prometheus",
-            "gridPos": {
-                "h": 17,
-                "w": 24,
-                "x": 0,
-                "y": 0
-            },
-            "id": 2,
-            "links": [],
-            "targets": [
+            "collapse": false,
+            "height": 412,
+            "panels": [
                 {
-                    "expr": "",
-                    "format": "time_series",
-                    "intervalFactor": 1,
-                    "refId": "A"
+                    "id": 1,
+                    "links": [],
+                    "span": 12,
+                    "targets": [
+                        {
+                            "expr": "",
+                            "format": "time_series",
+                            "intervalFactor": 2,
+                            "refId": "A"
+                        }
+                    ],
+                    "title": "SSM Monitored Instances",
+                    "type": "pmm-remote-instances-panel"
                 }
             ],
-            "title": "",
-            "type": "pmm-remote-instances-panel"
+            "repeat": null,
+            "repeatIteration": null,
+            "repeatRowId": null,
+            "showTitle": false,
+            "title": "Dashboard Row",
+            "titleSize": "h6"
         }
     ],
-    "schemaVersion": 16,
+    "schemaVersion": 14,
     "style": "dark",
     "tags": [
         "Percona",
@@ -183,5 +181,5 @@
     "timezone": "browser",
     "title": "SSM Monitored Instances",
     "uid": "ssm-list",
-    "version": 1
+    "version": 2
 }
