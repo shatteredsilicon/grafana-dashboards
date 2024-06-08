@@ -1173,7 +1173,7 @@ avg( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "((sum(rate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[$interval])) by (instance) \nor sum(irate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[5m])) by (instance)) \n/ count({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode=\"user\"}) by (instance)*100) or \nsum by () ((max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[$interval]) or max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[5m])))",
+            "expr": "((sum(rate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[$interval])) by (instance) \nor sum(irate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[5m])) by (instance)) \n/ count((node_cpu{instance=~\"$host\",mode=\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=\"user\"})) by (instance)*100) or \nsum by () ((max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[$interval]) or max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[5m])))",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1463,7 +1463,7 @@ avg( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"})",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1553,7 +1553,7 @@ avg( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(count({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode=~\"user\"}) or (1-absent({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode=~\"user\"}))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
+            "expr": "(count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or (1-absent((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
             "format": "time_series",
             "instant": true,
             "interval": "$interval",

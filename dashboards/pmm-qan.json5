@@ -185,7 +185,42 @@
             "steppedLine": false,
             "targets": [
                 {
-                    "expr": "avg(clamp_max(sum by () ((avg by (mode) ( (clamp_max(rate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or \n(clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )) *100 or \n(max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[$interval]) or \nmax_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[5m]))),100))",
+                    "expr": "\
+avg( \n\
+    clamp_max( \n\
+        sum by () ( \n\
+            ( \n\
+                avg by (mode) ( \n\
+                    ( \n\
+                        clamp_max( \n\
+                            rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
+                            or \n\
+                            rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
+                            1 \n\
+                        ) \n\
+                    ) \n\
+                    or \n\
+                    ( \n\
+                        clamp_max( \n\
+                            irate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+                            or \n\
+                            irate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
+                            1 \n\
+                        ) \n\
+                    ) \n\
+                ) \n\
+            ) * 100 \n\
+            or \n\
+            ( \n\
+                max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[$interval]) \n\
+                or \n\
+                max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[5m]) \n\
+            ) \n\
+        ), \n\
+        100 \n\
+    ) \n\
+) \n\
+",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -201,7 +236,51 @@
                     "refId": "B"
                 },
                 {
-                    "expr": "avg((sum(rate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]))) + \n(sum(rate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[$interval])) or \nsum(irate({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[5m])) or\nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval])) or \nsum(max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]))))",
+                    "expr": "\
+avg( \n\
+    ( \n\
+        sum( \n\
+            rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+            or \n\
+            rate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+            irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+            or \n\
+            irate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+            max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+            max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
+        ) \n\
+    ) + ( \n\
+        sum( \n\
+            rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+            or \n\
+            rate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+            irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+            or \n\
+            irate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+            max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+            max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
+        ) \n\
+    ) \n\
+) \n\
+",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,

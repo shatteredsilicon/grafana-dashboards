@@ -406,7 +406,25 @@ sum( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(increase({__name__=~\"node_network_receive_errs|node_network_receive_errs_total\", instance=~\"$host\", device!=\"lo\"}[1h])) +\nsum(increase({__name__=~\"node_network_transmit_errs|node_network_transmit_errs_total\", instance=~\"$host\", device!=\"lo\"}[1h])) +\nsum(increase({__name__=~\"node_network_receive_drop|node_network_receive_drop_total\", instance=~\"$host\", device!=\"lo\"}[1h])) +\nsum(increase({__name__=~\"node_network_transmit_drop|node_network_transmit_drop_total\", instance=~\"$host\", device!=\"lo\"}[1h]))",
+            "expr": "\
+sum( \n\
+  increase(node_network_receive_errs{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+  or \n\
+  increase(node_network_receive_errs_total{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+) + sum( \n\
+  increase(node_network_transmit_errs{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+  or \n\
+  increase(node_network_transmit_errs_total{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+) + sum( \n\
+  increase(node_network_receive_drop{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+  or \n\
+  increase(node_network_receive_drop_total{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+) + sum( \n\
+  increase(node_network_transmit_drop{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+  or \n\
+  increase(node_network_transmit_drop_total{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -744,7 +762,13 @@ sum( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(increase({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[1h]))",
+            "expr": "\
+sum( \n\
+  increase(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+  or \n\
+  increase(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,
@@ -758,7 +782,13 @@ sum( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(increase({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[1h]))",
+            "expr": "\
+sum( \n\
+  increase(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+  or \n\
+  increase(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,

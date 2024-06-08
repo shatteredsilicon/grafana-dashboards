@@ -322,7 +322,7 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "100 - 100 * ({__name__=~\"node_memory_MemAvailable|node_memory_MemAvailable_bytes\", instance=~\"$host\"} or ({__name__=~\"node_memory_MemFree|node_memory_MemFree_bytes\", instance=~\"$host\"} + {__name__=~\"node_memory_Buffers|node_memory_Buffers_bytes\", instance=~\"$host\"} + {__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=~\"$host\"})) / ({__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=~\"$host\"} + 0.1)",
+            "expr": "100 - 100 * ((node_memory_MemAvailable{instance=~\"$host\"} or node_memory_MemAvailable_bytes{instance=~\"$host\"}) or ((node_memory_MemFree{instance=~\"$host\"} or node_memory_MemFree_bytes{instance=~\"$host\"}) + (node_memory_Buffers{instance=~\"$host\"} or node_memory_Buffers_bytes{instance=~\"$host\"}) + (node_memory_Cached{instance=~\"$host\"} or node_memory_Cached_bytes{instance=~\"$host\"}))) / ((node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"}) + 0.1)",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{ instance }}",

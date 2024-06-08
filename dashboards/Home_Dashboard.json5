@@ -344,7 +344,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "count({__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", })",
+            "expr": "count((node_memory_MemTotal{} or node_memory_MemTotal_bytes{}))",
             "format": "time_series",
             "instant": true,
             "interval": "5m",
@@ -731,7 +731,7 @@ avg by () ( \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "avg by () (({__name__=~\"node_memory_MemAvailable|node_memory_MemAvailable_bytes\", instance=~\"$host\"} or ({__name__=~\"node_memory_MemFree|node_memory_MemFree_bytes\", instance=~\"$host\"} + ({__name__=~\"node_memory_Buffers|node_memory_Buffers_bytes\", instance=~\"$host\"} or up * 0) + ({__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=~\"$host\"} or up * 0))) / {__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=~\"$host\"}) * 100",
+            "expr": "avg by () (((node_memory_MemAvailable{instance=~\"$host\"} or node_memory_MemAvailable_bytes{instance=~\"$host\"}) or ((node_memory_MemFree{instance=~\"$host\"} or node_memory_MemFree_bytes{instance=~\"$host\"}) + ((node_memory_Buffers{instance=~\"$host\"} or node_memory_Buffers_bytes{instance=~\"$host\"}) or up * 0) + ((node_memory_Cached{instance=~\"$host\"} or node_memory_Cached_bytes{instance=~\"$host\"}) or up * 0))) / (node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"})) * 100",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1365,7 +1365,7 @@ sum by () ( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(count({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode=~\"user\"}) or (1-absent({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode=~\"user\"}))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
+            "expr": "(count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or (1-absent((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
             "format": "time_series",
             "instant": true,
             "interval": "$interval",
@@ -1445,7 +1445,7 @@ sum by () ( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum by () ({__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=~\"$host\"})",
+            "expr": "sum by () ((node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"}))",
             "format": "time_series",
             "instant": true,
             "interval": "5m",
@@ -1530,7 +1530,7 @@ sum by () ( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "avg(({__name__=~\"node_time|node_time_seconds\", instance=~\"$host\"} - {__name__=~\"node_boot_time|node_boot_time_seconds\", instance=~\"$host\"}) or rdsosmetrics_uptime{instance=~\"$host\"})",
+            "expr": "avg(((node_time{instance=~\"$host\"} or node_time_seconds{instance=~\"$host\"}) - (node_boot_time{instance=~\"$host\"} or node_boot_time_seconds{instance=~\"$host\"})) or rdsosmetrics_uptime{instance=~\"$host\"})",
             "format": "time_series",
             "instant": true,
             "interval": "5m",
@@ -1885,7 +1885,7 @@ sum by () ( \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "({__name__=~\"node_memory_MemAvailable|node_memory_MemAvailable_bytes\", instance=~\"$host\"} or \n({__name__=~\"node_memory_MemFree|node_memory_MemFree_bytes\", instance=~\"$host\"} + ({__name__=~\"node_memory_Buffers|node_memory_Buffers_bytes\", instance=~\"$host\"} or up * 0) + ({__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=~\"$host\"} or up * 0))) / \n{__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=~\"$host\"} * 100",
+            "expr": "((node_memory_MemAvailable{instance=~\"$host\"} or node_memory_MemAvailable_bytes{instance=~\"$host\"}) or \n((node_memory_MemFree{instance=~\"$host\"} or node_memory_MemFree_bytes{instance=~\"$host\"}) + ((node_memory_Buffers{instance=~\"$host\"} or node_memory_Buffers_bytes{instance=~\"$host\"}) or up * 0) + ((node_memory_Cached{instance=~\"$host\"} or node_memory_Cached_bytes{instance=~\"$host\"}) or up * 0))) / \n(node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"}) * 100",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2549,7 +2549,7 @@ sum( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "count({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode=~\"user\"}) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"})",
+            "expr": "count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"})",
             "format": "time_series",
             "instant": true,
             "interval": "5m",
@@ -2628,7 +2628,7 @@ sum( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"})",
             "format": "time_series",
             "interval": "5m",
             "intervalFactor": 1,
@@ -2713,7 +2713,7 @@ sum( \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "({__name__=~\"node_time|node_time_seconds\", instance=~\"$host\"} - {__name__=~\"node_boot_time|node_boot_time_seconds\", instance=~\"$host\"}) or rdsosmetrics_uptime{instance=~\"$host\"}",
+            "expr": "((node_time{instance=~\"$host\"} or node_time_seconds{instance=~\"$host\"}) - (node_boot_time{instance=~\"$host\"} or node_boot_time_seconds{instance=~\"$host\"})) or rdsosmetrics_uptime{instance=~\"$host\"}",
             "format": "time_series",
             "interval": "5m",
             "intervalFactor": 1,

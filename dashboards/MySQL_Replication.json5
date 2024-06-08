@@ -2156,7 +2156,7 @@ irate(mysql_global_variables_binlog_stmt_cache_size_total{instance=~\"$host\"}[5
           "multiFormat": "regex values",
           "name": "host",
           "options": [],
-          "query": "label_values({__name__=~\"(mysql_binlog_files|mysql_slave_status_seconds_behind_master)\"}, instance)",
+          "query": "label_values({__name__=~\"mysql_binlog_files|mysql_slave_status_seconds_behind_master\"}, instance)",
           "refresh": 2,
           "refresh_on_load": false,
           "regex": "",

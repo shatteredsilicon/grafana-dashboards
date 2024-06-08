@@ -1498,7 +1498,7 @@ irate(mongodb_mongos_metrics_get_last_error_wtime_total_milliseconds_total{insta
           "multiFormat": "glob",
           "name": "host",
           "options": [],
-          "query": "label_values({__name__=~\"mongodb_mongod_connections{cluster=~\\\"$cluster\\\"}|mongodb_up\"}, instance)",
+          "query": "label_values({__name__=~\"mongodb_mongod_connections|mongodb_up\", cluster=~\"$cluster\"}, instance)",
           "refresh": 2,
           "regex": "",
           "skipUrlSync": false,

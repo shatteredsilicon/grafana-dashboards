@@ -2249,7 +2249,7 @@ irate(mysql_global_status_wsrep_replicated_bytes_total{instance=~\"$host\"}[5m])
           "multiFormat": "regex values",
           "name": "host",
           "options": [],
-          "query": "label_values(mysql_galera_variables_info{wsrep_cluster_name =\"$cluster\"}, instance)",
+          "query": "label_values(mysql_galera_variables_info{wsrep_cluster_name=~\"$cluster\"}, instance)",
           "refresh": 2,
           "refresh_on_load": false,
           "regex": "",

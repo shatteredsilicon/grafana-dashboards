@@ -366,7 +366,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "100*sum(go_memstats_alloc_bytes{job=\"prometheus\"}+go_memstats_stack_inuse_bytes{job=\"prometheus\"}) by () / \nsum({__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=\"ssm-server\"}) by ()",
+            "expr": "100*sum(go_memstats_alloc_bytes{job=\"prometheus\"}+go_memstats_stack_inuse_bytes{job=\"prometheus\"}) by () / \nsum((node_memory_MemTotal{instance=\"ssm-server\"} or node_memory_MemTotal_bytes{instance=\"ssm-server\"})) by ()",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -858,7 +858,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(sum(rate(prometheus_tsdb_head_samples_appended_total[15m])) by () *10800*3) / ((sum({__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=\"ssm-server\"}) by ()-419430400)*0.35)*100",
+            "expr": "(sum(rate(prometheus_tsdb_head_samples_appended_total[15m])) by () *10800*3) / ((sum((node_memory_MemTotal{instance=\"ssm-server\"} or node_memory_MemTotal_bytes{instance=\"ssm-server\"})) by ()-419430400)*0.35)*100",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -965,7 +965,7 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=\"ssm-server\"})",
+                "expr": "count((node_cpu{mode=\"user\", instance=\"ssm-server\"} or node_cpu_seconds_total{mode=\"user\", instance=\"ssm-server\"}))",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -977,7 +977,7 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=\"ssm-server\"})*0.75",
+                "expr": "count((node_cpu{mode=\"user\", instance=\"ssm-server\"} or node_cpu_seconds_total{mode=\"user\", instance=\"ssm-server\"}))*0.75",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1121,7 +1121,7 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "{__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=\"ssm-server\"}",
+                "expr": "(node_memory_MemTotal{instance=\"ssm-server\"} or node_memory_MemTotal_bytes{instance=\"ssm-server\"})",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1219,7 +1219,7 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "({__name__=~\"node_filesystem_size|node_filesystem_size_bytes\", instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \n{__name__=~\"node_filesystem_size|node_filesystem_size_bytes\", instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} ) - \n({__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \n{__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"})",
+                "expr": "((node_filesystem_size{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_size_bytes{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}) or \n(node_filesystem_size{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_size_bytes{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}) ) - \n((node_filesystem_free{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_free_bytes{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}) or \n(node_filesystem_free{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_free_bytes{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}))",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -1230,7 +1230,7 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "{__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=\"ssm-server\", mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \n{__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=\"ssm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}",
+                "expr": "(node_filesystem_free{instance=\"ssm-server\", mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_free_bytes{instance=\"ssm-server\", mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}) or \n(node_filesystem_free{instance=\"ssm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_free_bytes{instance=\"ssm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"})",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1242,7 +1242,7 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "{__name__=~\"node_filesystem_size|node_filesystem_size_bytes\", instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or \n{__name__=~\"node_filesystem_size|node_filesystem_size_bytes\", instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}",
+                "expr": "(node_filesystem_size{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_size_bytes{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}) or \n(node_filesystem_size{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_size_bytes{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"})",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -1329,7 +1329,46 @@
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "{__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}/\nclamp_min(({__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} - \npredict_linear({__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=\"ssm-server\", mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600)),0)\nor\n{__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}/\nclamp_min(({__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} - \npredict_linear({__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=\"ssm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600)),0)",
+                "expr": "\
+( \n\
+  node_filesystem_free{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+  or \n\
+  node_filesystem_free_bytes{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+) / clamp_min( \n\
+  ( \n\
+    ( \n\
+      node_filesystem_free{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+      or \n\
+      node_filesystem_free_bytes{instance=\"ssm-server\",mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+    ) - ( \n\
+      predict_linear(node_filesystem_free{instance=\"ssm-server\", mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600) \n\
+      or \n\
+      predict_linear(node_filesystem_free_bytes{instance=\"ssm-server\", mountpoint=\"/srv\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600)      \n\
+    ) \n\
+  ), \n\
+  0 \n\
+) \n\
+or \n\
+( \n\
+  node_filesystem_free{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+  or \n\
+  node_filesystem_free_bytes{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+) / clamp_min( \n\
+  ( \n\
+    ( \n\
+      node_filesystem_free{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+      or \n\
+      node_filesystem_free_bytes{instance=\"ssm-server\",mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+    ) - ( \n\
+      predict_linear(node_filesystem_free{instance=\"ssm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600) \n\
+      or \n\
+      predict_linear(node_filesystem_free_bytes{instance=\"ssm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600) \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  0 \n\
+) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -4811,7 +4850,7 @@ clamp_max( \n\
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "({__name__=~\"node_memory_MemAvailable|node_memory_MemAvailable_bytes\", instance=\"ssm-server\"} or ({__name__=~\"node_memory_MemFree|node_memory_MemFree_bytes\", instance=\"ssm-server\"} + {__name__=~\"node_memory_Buffers|node_memory_Buffers_bytes\", instance=\"ssm-server\"} + {__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=\"ssm-server\"})) / {__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=\"ssm-server\"} * 100",
+                "expr": "((node_memory_MemAvailable{instance=\"ssm-server\"} or node_memory_MemAvailable_bytes{instance=\"ssm-server\"}) or ((node_memory_MemFree{instance=\"ssm-server\"} or node_memory_MemFree_bytes{instance=\"ssm-server\"}) + (node_memory_Buffers{instance=\"ssm-server\"} or node_memory_Buffers_bytes{instance=\"ssm-server\"}) + (node_memory_Cached{instance=\"ssm-server\"} or node_memory_Cached_bytes{instance=\"ssm-server\"}))) / (node_memory_MemTotal{instance=\"ssm-server\"} or node_memory_MemTotal_bytes{instance=\"ssm-server\"}) * 100",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -5168,7 +5207,7 @@ irate(node_vmstat_pgpgout_total{instance=\"ssm-server\"}[5m]) * 1024 \n\
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "{__name__=~\"node_time|node_time_seconds\", instance=\"ssm-server\"} - {__name__=~\"node_boot_time|node_boot_time_seconds\", instance=\"ssm-server\"}",
+                "expr": "(node_time{instance=\"ssm-server\"} or node_time_seconds{instance=\"ssm-server\"}) - (node_boot_time{instance=\"ssm-server\"} or node_boot_time_seconds{instance=\"ssm-server\"})",
                 "format": "time_series",
                 "interval": "5m",
                 "intervalFactor": 1,

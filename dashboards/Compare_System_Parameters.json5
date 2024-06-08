@@ -551,7 +551,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "({__name__=~\"node_time|node_time_seconds\", instance=~\"$host\"} - {__name__=~\"node_boot_time|node_boot_time_seconds\", instance=~\"$host\"}) or rdsosmetrics_uptime{instance=~\"$host\"}",
+            "expr": "((node_time{instance=~\"$host\"} or node_time_seconds{instance=~\"$host\"}) - (node_boot_time{instance=~\"$host\"} or node_boot_time_seconds{instance=~\"$host\"})) or rdsosmetrics_uptime{instance=~\"$host\"}",
             "format": "time_series",
             "interval": "5m",
             "intervalFactor": 1,
@@ -657,7 +657,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "count({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\", mode=\"system\"})",
+            "expr": "count((node_cpu{instance=~\"$host\", mode=\"system\"} or node_cpu_seconds_total{instance=~\"$host\", mode=\"system\"}))",
             "format": "time_series",
             "interval": "",
             "intervalFactor": 2,
@@ -768,7 +768,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"})",
             "format": "time_series",
             "interval": "5m",
             "intervalFactor": 1,
@@ -874,7 +874,7 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(avg_over_time(node_procs_running{instance=~\"$host\"}[$interval])-1) / scalar(count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"})) or (avg_over_time(node_procs_running{instance=~\"$host\"}[5m])-1) / scalar(count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"}))",
+            "expr": "(avg_over_time(node_procs_running{instance=~\"$host\"}[$interval])-1) / scalar(count((node_cpu{mode=\"user\", instance=~\"$host\"} or node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"}))) or (avg_over_time(node_procs_running{instance=~\"$host\"}[5m])-1) / scalar(count((node_cpu{mode=\"user\", instance=~\"$host\"} or node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"})))",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -1032,7 +1032,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"})",
+            "expr": "count((node_cpu{mode=\"user\", instance=~\"$host\"} or node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"}))",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1573,7 +1573,25 @@ irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(rate({__name__=~\"node_context_switches|node_context_switches_total\", instance=~\"$host\"}[$interval]) or irate({__name__=~\"node_context_switches|node_context_switches_total\", instance=~\"$host\"}[5m])) / scalar(count({__name__=~\"node_cpu|node_cpu_seconds_total\", mode=\"user\", instance=~\"$host\"}))",
+            "expr": "\
+( \n\
+  rate(node_context_switches{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  rate(node_context_switches_total{instance=~\"$host\"}[$interval]) \n\
+  or \n\
+  irate(node_context_switches{instance=~\"$host\"}[5m]) \n\
+  or \n\
+  irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
+) / scalar( \n\
+  count( \n\
+    ( \n\
+      node_cpu{mode=\"user\", instance=~\"$host\"} \n\
+      or \n\
+      node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
+    ) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1756,7 +1774,7 @@ irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "max(node_memory_MemUsed{instance=~\"$host\"}) without(job) or (max({__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=~\"$host\"}) without(job) - \n(max({__name__=~\"node_memory_MemFree|node_memory_MemFree_bytes\", instance=~\"$host\"}) without(job) + \nmax({__name__=~\"node_memory_Buffers|node_memory_Buffers_bytes\", instance=~\"$host\"}) without(job) + \n(max({__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=~\"$host\",job=~\"rds-enhanced|linux|snmp\"}) without (job) or \nmax({__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=~\"$host\",job=\"rds-basic\"}) without (job))))",
+            "expr": "max(node_memory_MemUsed{instance=~\"$host\"}) without(job) or (max((node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"})) without(job) - \n(max((node_memory_MemFree{instance=~\"$host\"} or node_memory_MemFree_bytes{instance=~\"$host\"})) without(job) + \nmax((node_memory_Buffers{instance=~\"$host\"} or node_memory_Buffers_bytes{instance=~\"$host\"})) without(job) + \n(max((node_memory_Cached{instance=~\"$host\",job=~\"rds-enhanced|linux|snmp\"} or node_memory_Cached_bytes{instance=~\"$host\",job=~\"rds-enhanced|linux|snmp\"})) without (job) or \nmax((node_memory_Cached{instance=~\"$host\",job=\"rds-basic\"} or node_memory_Cached_bytes{instance=~\"$host\",job=\"rds-basic\"})) without (job))))",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1767,7 +1785,7 @@ irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_memory_MemFree|node_memory_MemFree_bytes\", instance=~\"$host\"} or {__name__=~\"node_memory_MemAvailable|node_memory_MemAvailable_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_MemFree{instance=~\"$host\"} or node_memory_MemFree_bytes{instance=~\"$host\"}) or (node_memory_MemAvailable{instance=~\"$host\"} or node_memory_MemAvailable_bytes{instance=~\"$host\"})",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1778,7 +1796,7 @@ irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_memory_Buffers|node_memory_Buffers_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_Buffers{instance=~\"$host\"} or node_memory_Buffers_bytes{instance=~\"$host\"})",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1789,7 +1807,7 @@ irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "max({__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=~\"$host\",job=~\"rds-enhanced|linux|snmp\"}) without (job) or \nmax({__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=~\"$host\",job=~\"rds-basic\"}) without (job)",
+            "expr": "max((node_memory_Cached{instance=~\"$host\",job=~\"rds-enhanced|linux|snmp\"} or node_memory_Cached_bytes{instance=~\"$host\",job=~\"rds-enhanced|linux|snmp\"})) without (job) or \nmax((node_memory_Cached{instance=~\"$host\",job=~\"rds-basic\"} or node_memory_Cached_bytes{instance=~\"$host\",job=~\"rds-basic\"})) without (job)",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1930,7 +1948,7 @@ irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "{__name__=~\"node_memory_SwapTotal|node_memory_SwapTotal_bytes\", instance=~\"$host\"} - {__name__=~\"node_memory_SwapFree|node_memory_SwapFree_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_SwapTotal{instance=~\"$host\"} or node_memory_SwapTotal_bytes{instance=~\"$host\"}) - (node_memory_SwapFree{instance=~\"$host\"} or node_memory_SwapFree_bytes{instance=~\"$host\"})",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1947,7 +1965,7 @@ irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "{__name__=~\"node_memory_SwapFree|node_memory_SwapFree_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_SwapFree{instance=~\"$host\"} or node_memory_SwapFree_bytes{instance=~\"$host\"})",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1961,7 +1979,7 @@ irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_memory_SwapTotal|node_memory_SwapTotal_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_SwapTotal{instance=~\"$host\"} or node_memory_SwapTotal_bytes{instance=~\"$host\"})",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -2272,7 +2290,7 @@ irate(node_vmstat_pswpout_total{instance=~\"$host\"}[5m]) * 4096 \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "1 - {__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} / {__name__=~\"node_filesystem_size|node_filesystem_size_bytes\", instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}",
+            "expr": "1 - (node_filesystem_free{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_free_bytes{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}) / (node_filesystem_size{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_size_bytes{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"})",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -2395,7 +2413,7 @@ irate(node_vmstat_pswpout_total{instance=~\"$host\"}[5m]) * 4096 \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_filesystem_free|node_filesystem_free_bytes\", instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} ",
+            "expr": "(node_filesystem_free{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} or node_filesystem_free_bytes{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}) ",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -3752,7 +3770,13 @@ sum( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(increase({__name__=~\"node_network_receive_bytes|node_network_receive_bytes_total\", instance=~\"$host\", device!=\"lo\"}[1h]))",
+            "expr": "\
+sum( \n\
+  increase(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+  or \n\
+  increase(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,
@@ -3763,7 +3787,13 @@ sum( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "sum(increase({__name__=~\"node_network_transmit_bytes|node_network_transmit_bytes_total\", instance=~\"$host\", device!=\"lo\"}[1h]))",
+            "expr": "\
+sum( \n\
+  increase(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+  or \n\
+  increase(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,

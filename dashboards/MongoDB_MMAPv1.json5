@@ -365,7 +365,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_Cached{instance=~\"$host\"} or node_memory_Cached_bytes{instance=~\"$host\"})",
             "interval": "5m",
             "intervalFactor": 1,
             "legendFormat": "",
@@ -442,7 +442,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "({__name__=~\"node_memory_MemAvailable|node_memory_MemAvailable_bytes\", instance=~\"$host\"} or ({__name__=~\"node_memory_MemFree|node_memory_MemFree_bytes\", instance=~\"$host\"} + {__name__=~\"node_memory_Buffers|node_memory_Buffers_bytes\", instance=~\"$host\"} + {__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=~\"$host\"})) / {__name__=~\"node_memory_MemTotal|node_memory_MemTotal_bytes\", instance=~\"$host\"} * 100",
+            "expr": "((node_memory_MemAvailable{instance=~\"$host\"} or node_memory_MemAvailable_bytes{instance=~\"$host\"}) or ((node_memory_MemFree{instance=~\"$host\"} or node_memory_MemFree_bytes{instance=~\"$host\"}) + (node_memory_Buffers{instance=~\"$host\"} or node_memory_Buffers_bytes{instance=~\"$host\"}) + (node_memory_Cached{instance=~\"$host\"} or node_memory_Cached_bytes{instance=~\"$host\"}))) / (node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"}) * 100",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1736,7 +1736,7 @@ irate(mongodb_mongod_background_flushing_average_milliseconds_total{instance=~\"
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_memory_Cached|node_memory_Cached_bytes\", instance=~\"$host\"}-{__name__=~\"node_memory_Mapped|node_memory_Mapped_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_Cached{instance=~\"$host\"} or node_memory_Cached_bytes{instance=~\"$host\"})-(node_memory_Mapped{instance=~\"$host\"} or node_memory_Mapped_bytes{instance=~\"$host\"})",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1749,7 +1749,7 @@ irate(mongodb_mongod_background_flushing_average_milliseconds_total{instance=~\"
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_memory_Mapped|node_memory_Mapped_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_Mapped{instance=~\"$host\"} or node_memory_Mapped_bytes{instance=~\"$host\"})",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1762,7 +1762,7 @@ irate(mongodb_mongod_background_flushing_average_milliseconds_total{instance=~\"
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "{__name__=~\"node_memory_SwapCached|node_memory_SwapCached_bytes\", instance=~\"$host\"}",
+            "expr": "(node_memory_SwapCached{instance=~\"$host\"} or node_memory_SwapCached_bytes{instance=~\"$host\"})",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,

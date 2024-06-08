@@ -444,7 +444,27 @@ clamp_max( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "clamp_max(avg by () ((sum by (cpu) ( (clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1))*100 )) or max_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\",mode!=\"idle\", mode!=\"wait\", mode!=\"\"}[5m])) ,100)",
+            "expr": "\
+clamp_max( \n\
+  avg by () ( \n\
+    ( \n\
+      sum by (cpu) ( \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) * 100 \n\
+      ) \n\
+    ) \n\
+    or \n\
+    max_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\",mode!=\"idle\", mode!=\"wait\", mode!=\"\"}[5m]) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "instant": true,
@@ -460,7 +480,29 @@ clamp_max( \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "clamp_max((sum by (cpu) ( (clamp_max(irate({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m])*100,100)) )) or sum by (cpu) (max_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\",mode!=\"idle\", mode!=\"wait\", mode!=\"\"}[5m])) ,100)",
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    sum by (cpu) ( \n\
+      ( \n\
+        clamp_max( \n\
+          ( \n\
+            irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+          )*100, \n\
+          100 \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  sum by (cpu) ( \n\
+    max_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\",mode!=\"idle\", mode!=\"wait\", mode!=\"\"}[5m]) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
             "format": "time_series",
             "hide": false,
             "instant": true,
@@ -2154,7 +2196,7 @@ clamp_max( \n\
           "multi": true,
           "name": "cpu",
           "options": [],
-          "query": "label_values({__name__=~\"node_cpu|node_cpu_seconds_total|node_cpu_seconds_total\", instance=~\"$host\"}, cpu)",
+          "query": "label_values({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\"}, cpu)",
           "refresh": 2,
           "regex": "",
           "skipUrlSync": false,
