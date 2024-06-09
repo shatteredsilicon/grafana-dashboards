@@ -10,7 +10,7 @@
   },
   "main": "module.js",
   "scripts": {
-    "prebuild": "rm -rf dist/; mkdir dist/; cp -RH src/* dist/",
+    "prebuild": "rm -rf dist/; mkdir dist/; node convert-dashboards.js && cp -RH src/* dist/ && rm -f dist/dashboards/*.json5",
     "build": "tsc"
   },
   "keywords": [
@@ -20,6 +20,7 @@
     "grafana"
   ],
   "dependencies": {
+    "json5": "^2.2.3",
     "moment": "^2.24.0"
   },
   "devDependencies": {

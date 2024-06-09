@@ -1,0 +1,2252 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "enable": true,
+          "hide": false,
+          "iconColor": "#e0752d",
+          "limit": 100,
+          "name": "SSM Annotations",
+          "showIn": 0,
+          "tags": [
+            "ssm_annotation"
+          ],
+          "type": "tags"
+        },
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "#6ed0e0",
+          "limit": 100,
+          "name": "Annotations & Alerts",
+          "showIn": 0,
+          "tags": [],
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 1,
+    "id": null,
+    "links": [
+      {
+        "icon": "dashboard",
+        "includeVars": true,
+        "keepTime": true,
+        "tags": [
+          "QAN"
+        ],
+        "targetBlank": false,
+        "title": "Query Analytics",
+        "type": "link",
+        "url": "/graph/d/ssm-qan/ssm-query-analytics"
+      },
+      {
+        "asDropdown": true,
+        "includeVars": true,
+        "keepTime": true,
+        "tags": [
+          "OS"
+        ],
+        "targetBlank": false,
+        "title": "OS",
+        "type": "dashboards"
+      },
+      {
+        "asDropdown": true,
+        "includeVars": true,
+        "keepTime": true,
+        "tags": [
+          "MySQL"
+        ],
+        "targetBlank": false,
+        "title": "MySQL",
+        "type": "dashboards"
+      },
+      {
+        "asDropdown": true,
+        "includeVars": true,
+        "keepTime": true,
+        "tags": [
+          "MongoDB"
+        ],
+        "targetBlank": false,
+        "title": "MongoDB",
+        "type": "dashboards"
+      },
+      {
+        "asDropdown": true,
+        "includeVars": true,
+        "keepTime": true,
+        "tags": [
+          "PostgreSQL"
+        ],
+        "targetBlank": false,
+        "title": "PostgreSQL",
+        "type": "dashboards"
+      },
+      {
+        "asDropdown": true,
+        "includeVars": true,
+        "keepTime": true,
+        "tags": [
+          "HA"
+        ],
+        "targetBlank": false,
+        "title": "HA",
+        "type": "dashboards"
+      },
+      {
+        "asDropdown": true,
+        "includeVars": true,
+        "keepTime": true,
+        "tags": [
+          "Cloud"
+        ],
+        "targetBlank": false,
+        "title": "Cloud",
+        "type": "dashboards"
+      },
+      {
+        "asDropdown": true,
+        "includeVars": true,
+        "keepTime": true,
+        "tags": [
+          "Insight"
+        ],
+        "targetBlank": false,
+        "title": "Insight",
+        "type": "dashboards"
+      },
+      {
+        "asDropdown": true,
+        "includeVars": true,
+        "keepTime": true,
+        "tags": [
+          "SSM"
+        ],
+        "targetBlank": false,
+        "title": "SSM",
+        "type": "dashboards"
+      }
+    ],
+    "liveNow": false,
+    "panels": [
+      {
+        "collapsed": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 79,
+        "panels": [],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "type": "row"
+      },
+      {
+        "aliasColors": {
+          "Max Core Utilization": "#bf1b00",
+          "idle": "#806EB7",
+          "iowait": "#e0752d",
+          "nice": "#1F78C1",
+          "softirq": "#806EB7",
+          "system": "#EAB839",
+          "user": "#508642"
+        },
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "editable": true,
+        "error": false,
+        "fill": 5,
+        "fillGradient": 0,
+        "grid": {},
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "height": "",
+        "hiddenSeries": false,
+        "id": 22,
+        "legend": {
+          "alignAsTable": true,
+          "avg": true,
+          "current": false,
+          "hideEmpty": true,
+          "hideZero": true,
+          "max": true,
+          "min": true,
+          "rightSide": false,
+          "show": true,
+          "sort": "avg",
+          "sortDesc": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "9.5.7",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [
+          {
+            "alias": "Max Core Utilization",
+            "lines": false,
+            "pointradius": 1,
+            "points": true,
+            "stack": false
+          }
+        ],
+        "spaceLength": 10,
+        "stack": true,
+        "steppedLine": false,
+        "targets": [
+          {
+            "calculatedInterval": "2s",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    ( \n\
+      max_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[$interval]) \n\
+      or \n\
+      max_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "hide": false,
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "{{mode}}",
+            "metric": "",
+            "refId": "A",
+            "step": 300
+          },
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  max by () ( \n\
+    ( \n\
+      sum by (cpu) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) * 100 \n\
+    ) \n\
+    or \n\
+    ( \n\
+      max_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\", mode!=\"idle\", mode!=\"wait\", mode!=\"\"}[$interval]) \n\
+      or \n\
+      max_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\",mode!=\"idle\", mode!=\"wait\", mode!=\"\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "hide": false,
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Max Core Utilization",
+            "refId": "B"
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "$host - Overall CPU Utilization",
+        "tooltip": {
+          "msResolution": false,
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "decimals": 1,
+            "format": "percent",
+            "label": "",
+            "logBase": 1,
+            "max": "100",
+            "min": 0,
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
+        "aliasColors": {
+          "Avg": "#629e51",
+          "cpu0": "#65c5db",
+          "cpu1": "#65c5db",
+          "cpu2": "#65c5db",
+          "cpu3": "#65c5db",
+          "cpu5": "#65c5db",
+          "cpu6": "#65c5db",
+          "idle": "#806EB7",
+          "iowait": "#E24D42",
+          "nice": "#1F78C1",
+          "softirq": "#806EB7",
+          "system": "#EAB839",
+          "user": "#508642"
+        },
+        "bars": true,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "editable": true,
+        "error": false,
+        "fill": 6,
+        "fillGradient": 0,
+        "grid": {},
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 9
+        },
+        "height": "",
+        "hiddenSeries": false,
+        "id": 78,
+        "legend": {
+          "alignAsTable": true,
+          "avg": true,
+          "current": false,
+          "hideEmpty": true,
+          "hideZero": true,
+          "max": true,
+          "min": true,
+          "rightSide": false,
+          "show": false,
+          "sortDesc": true,
+          "total": false,
+          "values": true
+        },
+        "lines": false,
+        "linewidth": 2,
+        "links": [],
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "9.5.7",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [
+          {
+            "alias": "/^ /",
+            "color": "#6ed0e0"
+          }
+        ],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  avg by () ( \n\
+    ( \n\
+      sum by (cpu) ( \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) * 100 \n\
+      ) \n\
+    ) \n\
+    or \n\
+    max_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\",mode!=\"idle\", mode!=\"wait\", mode!=\"\"}[5m]) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "hide": false,
+            "instant": true,
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Avg",
+            "refId": "B"
+          },
+          {
+            "calculatedInterval": "2s",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    sum by (cpu) ( \n\
+      ( \n\
+        clamp_max( \n\
+          ( \n\
+            irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+          )*100, \n\
+          100 \n\
+        ) \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  sum by (cpu) ( \n\
+    max_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\",mode!=\"idle\", mode!=\"wait\", mode!=\"\"}[5m]) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "hide": false,
+            "instant": true,
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": " {{cpu}}",
+            "metric": "",
+            "refId": "A",
+            "step": 300
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "$host - Current CPU Core Utilization",
+        "tooltip": {
+          "msResolution": false,
+          "shared": false,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "series",
+          "show": true,
+          "values": [
+            "current"
+          ]
+        },
+        "yaxes": [
+          {
+            "decimals": 1,
+            "format": "percent",
+            "label": "",
+            "logBase": 1,
+            "max": "100",
+            "min": 0,
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
+        "collapsed": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 17
+        },
+        "id": 80,
+        "panels": [],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "Overall CPU Utilization Details",
+        "type": "row"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 0,
+          "y": 18
+        },
+        "id": 29,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  sum by () ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    sum by () ( \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"total\",mode!=\"idle\",mode!=\"\"}[$interval]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"total\",mode!=\"idle\",mode!=\"\"}[5m]) \n\
+    ) unless ( \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\",mode=\"total\",job=\"rds-basic\"}[$interval]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\",mode=\"total\",job=\"rds-basic\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "thresholds": "70,90",
+        "title": "All Cores - total",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 4,
+          "y": 18
+        },
+        "id": 30,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",mode=\"user\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",mode=\"user\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",mode=\"user\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode=\"user\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    ( \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", mode=\"user\"}[$interval]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", mode=\"user\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "70,90",
+        "title": "All Cores - user",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 8,
+          "y": 18
+        },
+        "id": 31,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",mode=\"system\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",mode=\"system\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",mode=\"system\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode=\"system\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    ( \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", mode=\"system\"}[$interval]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", mode=\"system\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "20,30",
+        "title": "All Cores - system",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 12,
+          "y": 18
+        },
+        "id": 32,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",mode=\"iowait\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",mode=\"iowait\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",mode=\"iowait\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode=\"iowait\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    ( \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", mode=\"wait\"}[$interval]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", mode=\"wait\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "20,50",
+        "title": "All Cores - iowait",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 16,
+          "y": 18
+        },
+        "id": 33,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",mode=\"steal\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",mode=\"steal\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",mode=\"steal\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",mode=\"steal\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    ( \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", mode=\"steal\"}[$interval]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", mode=\"steal\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "10,30",
+        "title": "All Cores - steal",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 20,
+          "y": 18
+        },
+        "id": 34,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      sum by () ( \n\
+        avg by (mode) ( \n\
+          ( \n\
+            clamp_max( \n\
+              rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"iowait\",mode!=\"steal\"}[$interval]) \n\
+              or \n\
+              rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"iowait\",mode!=\"steal\"}[$interval]), \n\
+              1 \n\
+            ) \n\
+          ) \n\
+          or \n\
+          ( \n\
+            clamp_max( \n\
+              irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"iowait\",mode!=\"steal\"}[5m]) \n\
+              or \n\
+              irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"iowait\",mode!=\"steal\"}[5m]), \n\
+              1 \n\
+            ) \n\
+          ) \n\
+        ) \n\
+      ) * 100 \n\
+    ) \n\
+    or \n\
+    ( \n\
+      sum( \n\
+        avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"wait\",mode!=\"steal\",mode!=\"\"}[$interval]) \n\
+      ) \n\
+      or \n\
+      sum( \n\
+        avg_over_time(node_cpu_average{instance=~\"$host\", mode!=\"total\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"wait\",mode!=\"steal\",mode!=\"\"}[5m]) \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "10,20",
+        "title": "All Cores - other",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "collapsed": true,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 21
+        },
+        "id": 81,
+        "panels": [
+          {
+            "content": "Per CPU usage Information shows  usage for each CPU (Virtual) core.  The Current (most recent) numbers are shown together with history as sparkline",
+            "gridPos": {
+              "h": 3,
+              "w": 24,
+              "x": 0,
+              "y": 22
+            },
+            "id": 35,
+            "links": [],
+            "mode": "markdown",
+            "title": "Per Core CPU Usage",
+            "type": "text"
+          }
+        ],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "CPU Cores Utilization Details",
+        "type": "row"
+      },
+      {
+        "collapsed": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 22
+        },
+        "id": 82,
+        "panels": [],
+        "repeat": "cpu",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "$cpu",
+        "type": "row"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 0,
+          "y": 23
+        },
+        "id": 26,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  sum by (cpu) ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+  ) \n\
+  or \n\
+  sum by () ( \n\
+    avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"total\",mode!=\"idle\",mode!=\"\"}[$interval]) \n\
+    or \n\
+    avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"total\",mode!=\"idle\",mode!=\"\"}[5m]) \n\
+  ) unless ( \n\
+    avg_over_time(node_cpu_average{instance=~\"$host\",mode=\"total\",job=\"rds-basic\"}[$interval]) \n\
+    or \n\
+    avg_over_time(node_cpu_average{instance=~\"$host\",mode=\"total\",job=\"rds-basic\"}[5m]) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "instant": false,
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "",
+            "refId": "A"
+          }
+        ],
+        "thresholds": "70,90",
+        "title": "$cpu - total",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 4,
+          "y": 23
+        },
+        "id": 23,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode=\"user\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode=\"user\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode=\"user\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode=\"user\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    ( \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", cpu=\"All\", mode=\"user\"}[$interval]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", cpu=\"All\", mode=\"user\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "70,90",
+        "title": "$cpu - user",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 8,
+          "y": 23
+        },
+        "id": 24,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode=\"system\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode=\"system\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode=\"system\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode=\"system\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    ( \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", cpu=\"All\", mode=\"system\"}[$interval]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", cpu=\"All\", mode=\"system\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "20,30",
+        "title": "$cpu - system",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 12,
+          "y": 23
+        },
+        "id": 25,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode=\"iowait\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode=\"iowait\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode=\"iowait\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode=\"iowait\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    ( \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", cpu=\"All\", mode=\"wait\"}[$interval]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", cpu=\"All\", mode=\"wait\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "20,50",
+        "title": "$cpu - iowait",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 16,
+          "y": 23
+        },
+        "id": 27,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode=\"steal\"}[$interval]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode=\"steal\"}[$interval]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode=\"steal\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode=\"steal\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    ( \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", cpu=\"All\", mode=\"steal\"}[$interval]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"$host\", cpu=\"All\", mode=\"steal\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "10,30",
+        "title": "$cpu - steal",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "colorBackground": false,
+        "colorValue": true,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "format": "percent",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 4,
+          "x": 20,
+          "y": 23
+        },
+        "id": 28,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "maxValue": 100,
+          "minValue": 0,
+          "show": true
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      sum by (instance) ( \n\
+        avg by (mode) ( \n\
+          ( \n\
+            clamp_max( \n\
+              rate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"iowait\",mode!=\"steal\"}[$interval]) \n\
+              or \n\
+              rate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"iowait\",mode!=\"steal\"}[$interval]), \n\
+              1 \n\
+            ) \n\
+          ) \n\
+          or \n\
+          ( \n\
+            clamp_max( \n\
+              irate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"iowait\",mode!=\"steal\"}[5m]) \n\
+              or \n\
+              irate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"iowait\",mode!=\"steal\"}[5m]), \n\
+              1 \n\
+            ) \n\
+          ) \n\
+        ) \n\
+      ) * 100 \n\
+    ) \n\
+    or \n\
+    ( \n\
+      sum( \n\
+        avg_over_time(node_cpu_average{instance=~\"$host\", cpu=\"All\",mode!=\"total\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"wait\",mode!=\"steal\",mode!=\"\"}[$interval]) \n\
+      ) \n\
+      or \n\
+      sum( \n\
+        avg_over_time(node_cpu_average{instance=~\"$host\",cpu=\"All\",mode!=\"total\",mode!=\"idle\",mode!=\"user\",mode!=\"system\",mode!=\"wait\",mode!=\"steal\",mode!=\"\"}[5m]) \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "refId": "A"
+          }
+        ],
+        "thresholds": "10,20",
+        "title": "$cpu - other",
+        "type": "pmm-singlestat-panel",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      }
+    ],
+    "refresh": "1m",
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [
+      "Percona",
+      "OS"
+    ],
+    "templating": {
+      "list": [
+        {
+          "allFormat": "glob",
+          "auto": true,
+          "auto_count": 200,
+          "auto_min": "1s",
+          "current": {
+            "selected": false,
+            "text": "auto",
+            "value": "$__auto_interval_interval"
+          },
+          "datasource": "Prometheus",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Interval",
+          "multi": false,
+          "multiFormat": "glob",
+          "name": "interval",
+          "options": [
+            {
+              "selected": true,
+              "text": "auto",
+              "value": "$__auto_interval_interval"
+            },
+            {
+              "selected": false,
+              "text": "1s",
+              "value": "1s"
+            },
+            {
+              "selected": false,
+              "text": "5s",
+              "value": "5s"
+            },
+            {
+              "selected": false,
+              "text": "1m",
+              "value": "1m"
+            },
+            {
+              "selected": false,
+              "text": "5m",
+              "value": "5m"
+            },
+            {
+              "selected": false,
+              "text": "1h",
+              "value": "1h"
+            },
+            {
+              "selected": false,
+              "text": "6h",
+              "value": "6h"
+            },
+            {
+              "selected": false,
+              "text": "1d",
+              "value": "1d"
+            }
+          ],
+          "query": "1s,5s,1m,5m,1h,6h,1d",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "interval"
+        },
+        {
+          "allFormat": "pipe",
+          "current": {
+            "selected": false,
+            "text": "ssm-server",
+            "value": "ssm-server"
+          },
+          "datasource": {
+            "type": "prometheus"
+          },
+          "definition": "",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Host",
+          "multi": false,
+          "multiFormat": "pipe",
+          "name": "host",
+          "options": [],
+          "query": "label_values({__name__=~\"node_cpu|node_cpu_seconds_total|node_cpu_average\", job!=\"prometheus\"}, instance)",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 1,
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "prometheus"
+          },
+          "definition": "",
+          "hide": 2,
+          "includeAll": true,
+          "label": "CPU",
+          "multi": true,
+          "name": "cpu",
+          "options": [],
+          "query": "label_values({__name__=~\"node_cpu|node_cpu_seconds_total\", instance=~\"$host\"}, cpu)",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 3,
+          "tagValuesQuery": "",
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        }
+      ]
+    },
+    "time": {
+      "from": "now-12h",
+      "to": "now"
+    },
+    "timepicker": {
+      "collapse": false,
+      "enable": true,
+      "hidden": false,
+      "notice": false,
+      "now": true,
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "status": "Stable",
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ],
+      "type": "timepicker"
+    },
+    "timezone": "browser",
+    "title": "CPU Utilization Details (Cores)",
+    "uid": "ssm-cpu-utilization-details-cores",
+    "version": 1,
+    "weekStart": ""
+  }
