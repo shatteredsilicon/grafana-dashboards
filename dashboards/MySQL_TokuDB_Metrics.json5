@@ -5439,9 +5439,13 @@ irate(mysql_global_status_tokudb_logger_writes_seconds_total{instance=~\"$host\"
                   "type": "prometheus"
                 },
                 "expr": "\
-rate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[$interval])/1000000  or irate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[5m])/1000000 \n\
+rate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[$interval])/1000000 \n\
 or \n\
-rate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[$interval])/1000000  or irate(mysql_global_status_tokudb_filesystem_fsync_time_total{instance=~\"$host\"}[5m])/1000000 \n\
+irate(mysql_global_status_tokudb_filesystem_fsync_time{instance=~\"$host\"}[5m])/1000000 \n\
+or \n\
+rate(mysql_global_status_tokudb_filesystem_fsync_time_total{instance=~\"$host\"}[$interval])/1000000 \n\
+or \n\
+irate(mysql_global_status_tokudb_filesystem_fsync_time_total{instance=~\"$host\"}[5m])/1000000 \n\
 ",
                 "format": "time_series",
                 "hide": false,

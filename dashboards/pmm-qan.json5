@@ -228,7 +228,41 @@ avg( \n\
                     "refId": "A"
                 },
                 {
-                    "expr": "avg(((rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) or rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval])) + (rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) or rate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]))) * 1024 or \n((irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) or irate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m])) + (irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) or irate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=~\"rdsdev|rdstemp\"}[5m]))) * 1024)",
+                    "expr": "\
+avg( \n\
+    ( \n\
+        ( \n\
+            rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            rate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) \n\
+        ) + ( \n\
+            rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            rate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) \n\
+        ) \n\
+    ) * 1024 \n\
+    or \n\
+    ( \n\
+        ( \n\
+            irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) \n\
+            or \n\
+            irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) \n\
+            or \n\
+            irate(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) \n\
+        ) + ( \n\
+            irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) \n\
+            or \n\
+            irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) \n\
+            or \n\
+            irate(rdsosmetrics_diskIO_writeKbPS{instance=\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) \n\
+        ) \n\
+    ) * 1024 \n\
+) \n\
+",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,
@@ -403,7 +437,55 @@ avg( \n\
                     "refId": "B"
                 },
                 {
-                    "expr": "avg((rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) or \nirate(mysql_global_status_queries{instance=~\"$host\"}[5m])) or \n(sum(rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval])) or \nsum(irate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[5m]))) or\n(sum(rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) + rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval])) or\nsum(irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) + irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]))))",
+                    "expr": "\
+avg( \n\
+    ( \n\
+        rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
+        or \n\
+        rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
+        or \n\
+        irate(mysql_global_status_queries{instance=~\"$host\"}[5m]) \n\
+        or \n\
+        irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
+    ) \n\
+    or \n\
+    ( \n\
+        sum( \n\
+            rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+            irate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[5m]) \n\
+        ) \n\
+    ) \n\
+    or \n\
+    ( \n\
+        sum( \n\
+            ( \n\
+                rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) \n\
+                or \n\
+                rate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[$interval]) \n\
+            ) + ( \n\
+                rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
+                or \n\
+                rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
+            ) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+            ( \n\
+                irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) \n\
+                or \n\
+                irate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[5m]) \n\
+            ) + ( \n\
+                irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]) \n\
+                or \n\
+                irate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[5m]) \n\
+            ) \n\
+        ) \n\
+    ) \n\
+) \n\
+",
                     "format": "time_series",
                     "interval": "$interval",
                     "intervalFactor": 1,

@@ -231,7 +231,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 2,
           "x": 0,
           "y": 2
@@ -276,7 +276,7 @@
         },
         "description": "The version of the PostgreSQL instance.",
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 2,
           "x": 2,
           "y": 2
@@ -289,7 +289,7 @@
             "showLineNumbers": false,
             "showMiniMap": false
           },
-          "content": "<h1><b><font color=#e68a00><center>$version</center></font></b></h1>",
+          "content": "<h1 style=\"height: 100%; display: flex; align-items: center; justify-content: center;\"><b><font color=#e68a00><center>$version</center></font></b></h1>",
           "mode": "html"
         },
         "pluginVersion": "9.5.7",
@@ -344,7 +344,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 3,
           "x": 4,
           "y": 2
@@ -429,7 +429,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 4,
           "x": 7,
           "y": 2
@@ -513,7 +513,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 4,
           "x": 11,
           "y": 2
@@ -601,7 +601,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 4,
           "x": 15,
           "y": 2
@@ -685,7 +685,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 3,
           "x": 19,
           "y": 2
@@ -784,7 +784,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 2,
           "x": 22,
           "y": 2
@@ -1655,7 +1655,7 @@ sum( \n\
                 "interval": "$interval",
                 "intervalFactor": 1,
                 "legendFormat": "Commits",
-                "metric": "pg_stat_database_xact_commit",
+                "metric": "pg_stat_database_xact_commit or pg_stat_database_xact_commit_total",
                 "refId": "A",
                 "step": 2
               },
@@ -1680,7 +1680,7 @@ sum( \n\
                 "interval": "$interval",
                 "intervalFactor": 1,
                 "legendFormat": "Rollbacks",
-                "metric": "pg_stat_database_xact_commit",
+                "metric": "pg_stat_database_xact_commit or pg_stat_database_xact_commit_total",
                 "refId": "B",
                 "step": 2
               }
@@ -1965,7 +1965,15 @@ sum( \n\
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "max_over_time(pg_stat_database_temp_bytes{instance=~\"$host\",datname!~\"template.*\"}[$interval]) or \nmax_over_time(pg_stat_database_temp_bytes{instance=~\"$host\",datname!~\"template.*\"}[5m])",
+                "expr": "\
+max_over_time(pg_stat_database_temp_bytes{instance=~\"$host\",datname!~\"template.*\"}[$interval]) \n\
+or \n\
+max_over_time(pg_stat_database_temp_bytes_total{instance=~\"$host\",datname!~\"template.*\"}[$interval]) \n\
+or \n\
+max_over_time(pg_stat_database_temp_bytes{instance=~\"$host\",datname!~\"template.*\"}[5m]) \n\
+or \n\
+max_over_time(pg_stat_database_temp_bytes_total{instance=~\"$host\",datname!~\"template.*\"}[5m]) \n\
+",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -3034,7 +3042,7 @@ sum( \n\
                 "interval": "$interval",
                 "intervalFactor": 1,
                 "legendFormat": "Pinned buffers",
-                "metric": "pg_stat_database_conflicts_confl_bufferpin",
+                "metric": "pg_stat_database_conflicts_confl_bufferpin or pg_stat_database_conflicts_confl_bufferpin_total",
                 "refId": "A",
                 "step": 2
               },
@@ -3059,7 +3067,7 @@ sum( \n\
                 "interval": "$interval",
                 "intervalFactor": 1,
                 "legendFormat": "Deadlocks",
-                "metric": "pg_stat_database_conflicts_confl_bufferpin",
+                "metric": "pg_stat_database_conflicts_confl_bufferpin or pg_stat_database_conflicts_confl_bufferpin_total",
                 "refId": "B",
                 "step": 2
               },
@@ -3084,7 +3092,7 @@ sum( \n\
                 "interval": "$interval",
                 "intervalFactor": 1,
                 "legendFormat": "Lock timeouts",
-                "metric": "pg_stat_database_conflicts_confl_bufferpin",
+                "metric": "pg_stat_database_conflicts_confl_bufferpin or pg_stat_database_conflicts_confl_bufferpin_total",
                 "refId": "C",
                 "step": 2
               },
@@ -3109,7 +3117,7 @@ sum( \n\
                 "interval": "$interval",
                 "intervalFactor": 1,
                 "legendFormat": "Old snapshots",
-                "metric": "pg_stat_database_conflicts_confl_bufferpin",
+                "metric": "pg_stat_database_conflicts_confl_bufferpin or pg_stat_database_conflicts_confl_bufferpin_total",
                 "refId": "D",
                 "step": 2
               },
@@ -3134,7 +3142,7 @@ sum( \n\
                 "interval": "$interval",
                 "intervalFactor": 1,
                 "legendFormat": "Dropped tablespaces ",
-                "metric": "pg_stat_database_conflicts_confl_bufferpin",
+                "metric": "pg_stat_database_conflicts_confl_bufferpin or pg_stat_database_conflicts_confl_bufferpin_total",
                 "refId": "E",
                 "step": 2
               }
@@ -3324,7 +3332,7 @@ irate(pg_stat_bgwriter_checkpoint_sync_time_total{instance='$host'}[5m]) \n\
                 "interval": "$interval",
                 "intervalFactor": 1,
                 "legendFormat": "Files Synchronization to disk",
-                "metric": "pg_stat_bgwriter_checkpoint_sync_time",
+                "metric": "pg_stat_bgwriter_checkpoint_sync_time or pg_stat_bgwriter_checkpoint_sync_time_total",
                 "refId": "A",
                 "step": 2
               },
@@ -3346,7 +3354,7 @@ irate(pg_stat_bgwriter_checkpoint_write_time_total{instance='$host'}[5m]) \n\
                 "interval": "$interval",
                 "intervalFactor": 1,
                 "legendFormat": "Written Files to disk",
-                "metric": "pg_stat_bgwriter_checkpoint_write_time",
+                "metric": "pg_stat_bgwriter_checkpoint_write_time or pg_stat_bgwriter_checkpoint_write_time_total",
                 "refId": "B",
                 "step": 2
               }
@@ -4172,7 +4180,7 @@ sum( \n\
           "multi": false,
           "name": "db",
           "options": [],
-          "query": "label_values(pg_stat_database_tup_fetched{instance=~\"$host\",datname!~\"template.*|postgres\"},datname)",
+          "query": "label_values(pg_stat_database_tup_fetched{instance=~\"$host\",datname!~\"template.*|postgres\"} or pg_stat_database_tup_fetched_total{instance=~\"$host\",datname!~\"template.*|postgres\"},datname)",
           "refresh": 2,
           "regex": "",
           "skipUrlSync": false,

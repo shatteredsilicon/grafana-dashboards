@@ -995,7 +995,7 @@ sum by () ( \n\
               }
             ],
             "thresholds": {
-              "mode": "absolute",
+              "mode": "percentage",
               "steps": [
                 {
                   "color": "green",
@@ -1022,7 +1022,7 @@ sum by () ( \n\
         "links": [],
         "maxDataPoints": 100,
         "options": {
-          "colorMode": "value",
+          "colorMode": "none",
           "graphMode": "area",
           "justifyMode": "auto",
           "orientation": "horizontal",
@@ -2142,7 +2142,7 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
               }
             ],
             "thresholds": {
-              "mode": "absolute",
+              "mode": "percentage",
               "steps": [
                 {
                   "color": "green",
@@ -2169,7 +2169,7 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
         "links": [],
         "maxDataPoints": 100,
         "options": {
-          "colorMode": "value",
+          "colorMode": "none",
           "graphMode": "area",
           "justifyMode": "auto",
           "orientation": "horizontal",

@@ -220,7 +220,7 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 3,
           "x": 0,
           "y": 3
@@ -321,7 +321,7 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 3,
           "x": 3,
           "y": 3
@@ -429,7 +429,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 3,
           "x": 6,
           "y": 3
@@ -515,7 +515,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 3,
           "x": 9,
           "y": 3
@@ -543,7 +543,11 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(prometheus_tsdb_head_samples_appended_total[$interval]) or irate(prometheus_tsdb_head_samples_appended_total[5m])",
+            "expr": "\
+max(rate(prometheus_tsdb_head_samples_appended_total[$interval])) \n\
+or \n\
+max(irate(prometheus_tsdb_head_samples_appended_total[5m])) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -593,7 +597,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 3,
           "x": 12,
           "y": 3
@@ -671,7 +675,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 3,
           "x": 15,
           "y": 3
@@ -753,7 +757,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 3,
           "x": 18,
           "y": 3
@@ -813,7 +817,7 @@
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 3,
           "x": 21,
           "y": 3
@@ -1363,7 +1367,6 @@ or \n\
       predict_linear(node_filesystem_free{instance=\"ssm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600) \n\
       or \n\
       predict_linear(node_filesystem_free_bytes{instance=\"ssm-server\", mountpoint=\"/\",fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"}[1h], 1 * 3600) \n\
-      ) \n\
     ) \n\
   ), \n\
   0 \n\

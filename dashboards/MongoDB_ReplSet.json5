@@ -1578,7 +1578,7 @@ irate(mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds_total{insta
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Index Preload",
-            "metric": "mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds",
+            "metric": "mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds or mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds_total",
             "refId": "B",
             "step": 300
           },
@@ -1598,7 +1598,7 @@ irate(mongodb_mongod_metrics_repl_apply_batches_total_milliseconds_total{instanc
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Batch Apply",
-            "metric": "mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds",
+            "metric": "mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds or mongodb_mongod_metrics_repl_preload_indexes_total_milliseconds_total",
             "refId": "C",
             "step": 300
           }

@@ -1673,12 +1673,20 @@ irate(node_network_transmit_multicast_total{instance=~\"$host\", device!=\"lo\"}
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "max_over_time(node_netstat_Tcp_RetransSegs{instance=~\"$host\"}[$interval]) or\nmax_over_time(node_netstat_Tcp_RetransSegs{instance=~\"$host\"}[5m])",
+            "expr": "\
+max_over_time(node_netstat_Tcp_RetransSegs{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(node_netstat_Tcp_RetransSegs_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(node_netstat_Tcp_RetransSegs{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(node_netstat_Tcp_RetransSegs_total{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "retransSegs",
-            "metric": "node_netstat_Tcp_RetransSegs",
+            "metric": "node_netstat_Tcp_RetransSegs or node_netstat_Tcp_RetransSegs_total",
             "refId": "F",
             "step": 40
           }
@@ -1998,7 +2006,7 @@ sum( \n\
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Udp_InDatagrams",
-            "metric": "node_netstat_Udp_InDatagrams",
+            "metric": "node_netstat_Udp_InDatagrams or node_netstat_Udp_InDatagrams_total",
             "refId": "A",
             "step": 40,
             "target": ""
@@ -2022,7 +2030,7 @@ sum( \n\
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Udp_InErrors",
-            "metric": "node_netstat_Udp_InErrors",
+            "metric": "node_netstat_Udp_InErrors or node_netstat_Udp_InErrors_total",
             "refId": "B",
             "step": 40
           },
@@ -2045,7 +2053,7 @@ sum( \n\
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Udp_OutDatagrams",
-            "metric": "node_netstat_Udp_OutDatagrams",
+            "metric": "node_netstat_Udp_OutDatagrams or node_netstat_Udp_OutDatagrams_total",
             "refId": "C",
             "step": 40
           },
@@ -2068,7 +2076,7 @@ sum( \n\
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Udp_NoPorts",
-            "metric": "node_netstat_Udp_NoPorts",
+            "metric": "node_netstat_Udp_NoPorts or node_netstat_Udp_NoPorts_total",
             "refId": "D",
             "step": 40
           },
@@ -2091,7 +2099,7 @@ sum( \n\
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Udp_InCsumErrors",
-            "metric": "node_netstat_Udp_InCsumErrors",
+            "metric": "node_netstat_Udp_InCsumErrors or node_netstat_Udp_InCsumErrors_total",
             "refId": "E",
             "step": 40
           },
@@ -2114,7 +2122,7 @@ sum( \n\
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Udp_RcvbufErrors",
-            "metric": "node_netstat_Udp_RcvbufErrors",
+            "metric": "node_netstat_Udp_RcvbufErrors or node_netstat_Udp_RcvbufErrors_total",
             "refId": "F",
             "step": 40
           },
@@ -2137,7 +2145,7 @@ sum( \n\
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Udp_SndbufErrors",
-            "metric": "node_netstat_Udp_SndbufErrors",
+            "metric": "node_netstat_Udp_SndbufErrors or node_netstat_Udp_SndbufErrors_total",
             "refId": "G",
             "step": 40
           }
