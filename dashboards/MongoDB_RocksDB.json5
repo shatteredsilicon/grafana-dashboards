@@ -1731,7 +1731,7 @@ irate(mongodb_mongod_rocksdb_compaction_bytes_per_second_total{instance=~\"$host
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "{{level}}",
-            "metric": "mongodb_mongod_rocksdb_compaction_bytes_per_second",
+            "metric": "mongodb_mongod_rocksdb_compaction_bytes_per_second or mongodb_mongod_rocksdb_compaction_bytes_per_second_total",
             "refId": "B",
             "step": 300
           }

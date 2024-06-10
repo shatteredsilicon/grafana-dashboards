@@ -200,7 +200,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 6,
           "x": 0,
           "y": 1
@@ -250,37 +250,15 @@
           "type": "prometheus"
         },
         "description": "**Current QPS**\n\nBased on the queries reported by MySQL's ``SHOW STATUS`` command, it is the number of statements executed by the server within the last second. This variable includes statements executed within stored programs, unlike the Questions variable. It does not count \n``COM_PING`` or ``COM_STATISTICS`` commands.",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "rgb(31, 120, 193)",
-              "mode": "fixed"
-            },
-            "decimals": 2,
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": null
-                },
-                {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 35
-                },
-                {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": 75
-                }
-              ]
-            },
-            "unit": "short"
-          },
-          "overrides": []
-        },
+        "colors": [
+          "rgba(50, 172, 45, 0.97)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(245, 54, 54, 0.9)"
+        ],
+        "colorBackground": false,
+        "colorValue": true,
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 6,
           "x": 6,
           "y": 1
@@ -295,19 +273,24 @@
           }
         ],
         "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
+        "nullPointMode": "connected",
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "80%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "minValue": 0,
+          "show": true
         },
         "pluginVersion": "9.5.7",
         "targets": [
@@ -337,7 +320,11 @@ irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
           }
         ],
         "title": "Current QPS",
-        "type": "stat"
+        "type": "pmm-singlestat-panel",
+        "thresholds": "35,75",
+        "valueFontSize": "100%",
+        "valueMaps": [],
+        "valueName": "current"
       },
       {
         "datasource": {
@@ -373,7 +360,7 @@ irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
           "overrides": []
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 6,
           "x": 12,
           "y": 1
@@ -448,11 +435,16 @@ irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
           "thresholdMarkers": true
         },
         "gridPos": {
-          "h": 2,
+          "h": 3,
           "w": 6,
           "x": 18,
           "y": 1
         },
+        "colors": [
+          "rgba(50, 172, 45, 0.97)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(245, 54, 54, 0.9)"
+        ],
         "height": "125px",
         "id": 52,
         "interval": "$interval",
@@ -517,7 +509,7 @@ irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
         "thresholds": "40,80",
         "title": "Buffer Pool Size of Total RAM",
         "type": "pmm-singlestat-panel",
-        "valueFontSize": "80%",
+        "valueFontSize": "100%",
         "valueMaps": [],
         "valueName": "current"
       },
@@ -1292,7 +1284,22 @@ irate(mysql_global_status_created_tmp_files_total{instance=~\"$host\"}[5m]) \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(1 - (mysql_global_status_created_tmp_disk_tables{instance=\"$host\"}/mysql_global_status_created_tmp_tables{instance=\"$host\"})) or on() vector(0)",
+            "expr": "\
+( \n\
+  1 - ( \n\
+    ( \n\
+      mysql_global_status_created_tmp_disk_tables{instance=\"$host\"} \n\
+      or \n\
+      mysql_global_status_created_tmp_disk_tables_total{instance=\"$host\"} \n\
+    ) / ( \n\
+      mysql_global_status_created_tmp_tables{instance=\"$host\"} \n\
+      or \n\
+      mysql_global_status_created_tmp_tables_total{instance=\"$host\"} \n\
+    ) \n\
+  ) \n\
+) \n\
+or on() vector(0) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Temporary Table Memory Fit Rate",
@@ -2330,7 +2337,7 @@ irate(mysql_global_status_bytes_sent_total{instance=~\"$host\"}[5m]) \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "increase(mysql_global_status_bytes_received{instance=~\"$host\"}[1h])",
+            "expr": "increase(mysql_global_status_bytes_received{instance=~\"$host\"}[1h]) or increase(mysql_global_status_bytes_received_total{instance=~\"$host\"}[1h])",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,
@@ -2346,7 +2353,7 @@ irate(mysql_global_status_bytes_sent_total{instance=~\"$host\"}[5m]) \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "increase(mysql_global_status_bytes_sent{instance=~\"$host\"}[1h])",
+            "expr": "increase(mysql_global_status_bytes_sent{instance=~\"$host\"}[1h]) or increase(mysql_global_status_bytes_sent_total{instance=~\"$host\"}[1h])",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,

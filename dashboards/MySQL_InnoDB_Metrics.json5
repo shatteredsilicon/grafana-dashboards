@@ -1044,7 +1044,7 @@ irate(mysql_global_status_innodb_log_writes_total{instance=~\"$host\"}[5m]) \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "increase(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[1h])",
+            "expr": "increase(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[1h]) or increase(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[1h])",
             "format": "time_series",
             "interval": "1h",
             "intervalFactor": 1,
