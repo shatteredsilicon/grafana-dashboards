@@ -2630,6 +2630,7 @@ sum( \n\
             },
             "expr": "(node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"})",
             "format": "time_series",
+            "instant": true,
             "interval": "5m",
             "intervalFactor": 1,
             "refId": "A",
