@@ -559,7 +559,7 @@ avg( \n\
             "links": [],
             "targets": [
                 {
-                    "expr": "",
+                    "expr": "up{instance=\"$host\"}",
                     "format": "time_series",
                     "intervalFactor": 2,
                     "refId": "A"
