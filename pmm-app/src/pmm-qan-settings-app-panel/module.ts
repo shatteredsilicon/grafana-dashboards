@@ -10,6 +10,8 @@ export class PanelCtrl extends MetricsPanelCtrl {
 			style="width: 100%; height: 400px; border: 0;" scrolling="no" />
 	`;
 
+    events: any;
+
     base_url = '/qan/settings?var-host=';
 
 	constructor($scope, $injector, templateSrv, $sce, $http) {
@@ -21,9 +23,11 @@ export class PanelCtrl extends MetricsPanelCtrl {
 
 		const setUrl = () => {
 		    // translates Grafana's variables into iframe's URL;
-			$scope.url = this.base_url + templateSrv.variables[0].current.value;
+			$scope.url = this.base_url + $injector.get('templateSrv').getVariables()[0].current.value;
 			$scope.url += '&theme=' + $scope.qanParams.theme;
 		};
+		this.events.on('data-received', setUrl);
+		this.events.on('data-snapshot-load', setUrl);
 		$scope.$root.onAppEvent('template-variable-value-updated', setUrl);
 		setUrl();
 	}

@@ -6,7 +6,9 @@ import $ from 'jquery';
 import AppEvents from "app/core/app_events";
 
 export class PanelCtrl extends MetricsPanelCtrl {
-    static template = `<iframe ng-src="{{trustSrc(url)}}" style="width: 100%; height: 400px; border: 0;" scrolling="no" />`;
+    static template = `<iframe ng-src="{{ trustSrc(url) }}" style="width: 100%; height: 400px; border: 0;" scrolling="no" />`;
+
+    events: any;
 
     constructor($scope, $injector, templateSrv, $sce) {
         super($scope, $injector);
@@ -24,7 +26,9 @@ export class PanelCtrl extends MetricsPanelCtrl {
 
         this.setUrl($scope, templateSrv);
 
-        $scope.$root.onAppEvent('template-variable-value-updated', this.setUrl.bind(this, $scope, templateSrv));
+        this.events.on('data-received', this.setUrl.bind(this, $scope, $injector.get('templateSrv')));
+        this.events.on('data-snapshot-load', this.setUrl.bind(this, $scope, $injector.get('templateSrv')));
+        $scope.$root.onAppEvent('template-variable-value-updated', this.setUrl.bind(this, $scope, $injector.get('templateSrv')), $scope);
 
         $scope.$watch('ctrl.range', newValue => {
             if (!newValue) return;
@@ -170,7 +174,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
 
     // translates Grafana's variables into iframe's URL;
     private setUrl($scope, templateSrv) {
-        $scope.qanParams['var-host'] = templateSrv.variables[0].current.value;
+        $scope.qanParams['var-host'] = templateSrv.getVariables()[0].current.value;
     }
 
     private resetUrl($scope) {
