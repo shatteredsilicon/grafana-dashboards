@@ -2430,7 +2430,7 @@ irate(mysql_info_schema_innodb_metrics_transaction_trx_rw_commits_total{instance
           "type": "prometheus"
         },
         "decimals": 2,
-        "description": "The InnoDB AHI Hits & Maintenance graph shows the search operations on the InnoDB adaptive hash index and its efficiency.  The adaptive hash index is a search hash designed to speed access to InnoDB pages in memory.  If the Hit Ratio is small, the working data set is larger than the buffer pool, the AHI should likely be disabled.\n\nNote: If you do not see any metric, try running: ``SET GLOBAL innodb_monitor_enable=all;`` in the MySQL client.",
+        "description": "The AHI Efficiency graph shows the search operations on the InnoDB adaptive hash index and its efficiency.  The adaptive hash index is a search hash designed to speed access to InnoDB pages in memory.  If the Hit Ratio is small, the working data set is larger than the buffer pool, the AHI should likely be disabled.\n\nNote: If you do not see any metric, try running: ``SET GLOBAL innodb_monitor_enable=all;`` in the MySQL client.",
         "editable": true,
         "error": false,
         "fill": 2,
@@ -2515,7 +2515,7 @@ irate(mysql_info_schema_innodb_metrics_transaction_trx_rw_commits_total{instance
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
-            "legendFormat": "AHI - Hits / (Hits + Maintenance)",
+            "legendFormat": "AHI Efficiency",
             "refId": "C",
             "step": 300
           }
@@ -2527,7 +2527,7 @@ irate(mysql_info_schema_innodb_metrics_transaction_trx_rw_commits_total{instance
               "conversions": [
                 {
                   "destinationType": "number",
-                  "targetField": "AHI - Hits / (Hits + Maintenance)"
+                  "targetField": "AHI Efficiency"
                 }
               ],
               "fields": {}
@@ -2536,7 +2536,7 @@ irate(mysql_info_schema_innodb_metrics_transaction_trx_rw_commits_total{instance
         ],
         "thresholds": [],
         "timeRegions": [],
-        "title": "InnoDB AHI Hits & Maintenance",
+        "title": "AHI Efficiency",
         "tooltip": {
           "msResolution": false,
           "shared": true,
