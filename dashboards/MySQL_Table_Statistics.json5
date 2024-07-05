@@ -154,7 +154,6 @@
           "x": 0,
           "y": 0
         },
-        "id": 55,
         "panels": [],
         "targets": [
           {
@@ -188,7 +187,6 @@
         },
         "height": "",
         "hideTimeOverride": true,
-        "id": 49,
         "links": [],
         "scroll": false,
         "showHeader": true,
@@ -198,15 +196,16 @@
         },
         "styles": [
           {
-            "align": "auto",
-            "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
-            ],
-            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "pattern": "/.*/",
-            "thresholds": [],
+            "alias": "Table",
+            "mappingType": 1,
+            "pattern": "Metric",
+            "title": "Table",
+            "type": "string"
+          },
+          {
+            "alias": "Count",
+            "pattern": "Value",
+            "title": "Count",
             "type": "number",
             "unit": "short"
           }
@@ -229,6 +228,25 @@
         "title": "Largest Tables by Row Count",
         "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
         "transform": "table",
+        "transformations": [
+          {
+            "id": "seriesToRows",
+            "options": {}
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true
+              },
+              "indexByName": {},
+              "renameByName": {
+                "Metric": "Table",
+                "Value": "Count"
+              }
+            }
+          }
+        ],
         "type": "table-old"
       },
       {
@@ -252,7 +270,6 @@
         },
         "height": "",
         "hideTimeOverride": true,
-        "id": 51,
         "links": [],
         "scroll": false,
         "showHeader": true,
@@ -262,15 +279,16 @@
         },
         "styles": [
           {
-            "align": "auto",
-            "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
-            ],
-            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "pattern": "/.*/",
-            "thresholds": [],
+            "alias": "Table",
+            "mappingType": 1,
+            "pattern": "Metric",
+            "title": "Table",
+            "type": "string"
+          },
+          {
+            "alias": "Size",
+            "pattern": "Value",
+            "title": "Size",
             "type": "number",
             "unit": "bytes"
           }
@@ -293,6 +311,25 @@
         "title": "Largest Tables by Size",
         "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
         "transform": "table",
+        "transformations": [
+          {
+            "id": "seriesToRows",
+            "options": {}
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true
+              },
+              "indexByName": {},
+              "renameByName": {
+                "Metric": "Table",
+                "Value": "Size"
+              }
+            }
+          }
+        ],
         "type": "table-old"
       },
       {
@@ -306,7 +343,6 @@
           "x": 0,
           "y": 8
         },
-        "id": 56,
         "panels": [],
         "targets": [
           {
@@ -342,7 +378,6 @@
           "y": 9
         },
         "hiddenSeries": false,
-        "id": 54,
         "legend": {
           "alignAsTable": false,
           "avg": false,
@@ -458,7 +493,6 @@
         },
         "height": "",
         "hideTimeOverride": true,
-        "id": 50,
         "links": [],
         "scroll": false,
         "showHeader": true,
@@ -468,15 +502,16 @@
         },
         "styles": [
           {
-            "align": "auto",
-            "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
-            ],
-            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "pattern": "/.*/",
-            "thresholds": [],
+            "alias": "Table",
+            "mappingType": 1,
+            "pattern": "Metric",
+            "title": "Table",
+            "type": "string"
+          },
+          {
+            "alias": "Size",
+            "pattern": "Value",
+            "title": "Size",
             "type": "number",
             "unit": "bytes"
           }
@@ -499,6 +534,25 @@
         "title": "Most Fragmented Tables by Freeable Size",
         "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
         "transform": "table",
+        "transformations": [
+          {
+            "id": "seriesToRows",
+            "options": {}
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true
+              },
+              "indexByName": {},
+              "renameByName": {
+                "Metric": "Table",
+                "Value": "Size"
+              }
+            }
+          }
+        ],
         "type": "table-old"
       },
       {
@@ -512,7 +566,6 @@
           "x": 0,
           "y": 16
         },
-        "id": 57,
         "panels": [],
         "targets": [
           {
@@ -538,7 +591,6 @@
           "y": 17
         },
         "height": "50px",
-        "id": 44,
         "links": [],
         "options": {
           "code": {
@@ -573,7 +625,6 @@
           "x": 0,
           "y": 20
         },
-        "id": 58,
         "panels": [],
         "targets": [
           {
@@ -605,7 +656,6 @@
           "x": 0,
           "y": 21
         },
-        "id": 48,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -692,7 +742,6 @@
           "x": 0,
           "y": 28
         },
-        "id": 59,
         "panels": [],
         "targets": [
           {
@@ -724,7 +773,6 @@
           "x": 0,
           "y": 29
         },
-        "id": 42,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -812,7 +860,6 @@
           "x": 0,
           "y": 36
         },
-        "id": 60,
         "panels": [],
         "targets": [
           {
@@ -846,7 +893,6 @@
         },
         "height": "",
         "hideTimeOverride": true,
-        "id": 53,
         "links": [],
         "scroll": false,
         "showHeader": true,
@@ -1038,7 +1084,6 @@
           "x": 0,
           "y": 51
         },
-        "id": 60,
         "panels": [],
         "targets": [
           {
@@ -1072,7 +1117,6 @@
         },
         "height": "",
         "hideTimeOverride": true,
-        "id": 53,
         "links": [],
         "scroll": false,
         "showHeader": true,
@@ -1144,7 +1188,6 @@
           "x": 0,
           "y": 59
         },
-        "id": 60,
         "panels": [],
         "targets": [
           {
