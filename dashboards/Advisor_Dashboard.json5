@@ -266,6 +266,7 @@
         }
       ],
       "title": "Table Count",
+      "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
       "type": "timeseries"
     },
     {
@@ -328,6 +329,7 @@
         }
       ],
       "title": "Current",
+      "description": "Note: If it's not working properly, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -435,6 +437,7 @@
         }
       ],
       "title": "Proposed",
+      "description": "Note: If it's not working properly, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
       "type": "pmm-singlestat-panel"
     },
     {
