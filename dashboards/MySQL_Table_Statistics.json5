@@ -227,6 +227,7 @@
         ],
         "timeFrom": "5m",
         "title": "Largest Tables by Row Count",
+        "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
         "transform": "table",
         "type": "table-old"
       },
@@ -290,6 +291,7 @@
         ],
         "timeFrom": "5m",
         "title": "Largest Tables by Size",
+        "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
         "transform": "table",
         "type": "table-old"
       },
@@ -404,6 +406,7 @@
         "thresholds": [],
         "timeRegions": [],
         "title": "Total Database Size",
+        "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -494,6 +497,7 @@
         ],
         "timeFrom": "5m",
         "title": "Most Fragmented Tables by Freeable Size",
+        "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
         "transform": "table",
         "type": "table-old"
       },
