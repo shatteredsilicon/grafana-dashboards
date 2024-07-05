@@ -2865,6 +2865,7 @@ sum by (host) ( \n\
         ],
         "thresholds": [],
         "title": "InnoDB I/O Thread Utilisation",
+        "description": "Note: If you do not see 'InnoDB Pending Reads' or 'InnoDB Pending Writes' metric, try setting: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
         "tooltip": {
           "msResolution": true,
           "shared": true,
@@ -3007,6 +3008,7 @@ sum by (host) ( \n\
         ],
         "thresholds": [],
         "title": "InnoDB Pending I/Os",
+        "description": "Note: If you do not see any metric, try setting: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
         "tooltip": {
           "msResolution": true,
           "shared": true,

@@ -2290,6 +2290,7 @@ sum by (instance) ( \n\
         }
       ],
       "title": "InnoDB Pending Reads & Disk IO Utilization",
+      "description": "Note: If you do not see 'InnoDB Pending Reads' metric, try setting: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
     {
@@ -2397,6 +2398,7 @@ clamp( \n\
         }
       ],
       "title": "Current",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -2505,6 +2507,7 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -2681,6 +2684,7 @@ sum by (instance) ( \n\
         }
       ],
       "title": "InnoDB Pending Writes & Disk IO Utilization",
+      "description": "Note: If you do not see 'InnoDB Pending Writes' metric, try setting: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
     {
@@ -2782,6 +2786,7 @@ clamp( \n\
         }
       ],
       "title": "Current",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -2884,6 +2889,7 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
       "type": "pmm-singlestat-panel"
     },
     {
