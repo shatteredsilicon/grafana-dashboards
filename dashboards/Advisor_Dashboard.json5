@@ -2915,6 +2915,385 @@ clamp( \n\
           "refId": "A"
         }
       ],
+      "title": "innodb_buffer_pool_size",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 72
+      },
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.7",
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "max_over_time(mysql_info_schema_innodb_table_index_length_size{instance=~\"$host\"}[$interval]) or max_over_time(mysql_info_schema_innodb_table_index_length_size{instance=~\"$host\"}[5m])",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "Index Length Size",
+          "metric": "",
+          "refId": "A",
+          "step": 300
+        }
+      ],
+      "title": "InnoDB Table Index Length Size",
+      "description": "Note: If you do not see any metric, try setting: ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 12,
+        "y": 72
+      },
+      "hideTimeOverride": false,
+      "interval": "$interval",
+      "links": [],
+      "maxDataPoints": 100,
+      "pluginVersion": "9.5.7",
+      "queryThresholds": "B,C",
+      "colors": [
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(36, 112, 33, 0.97)",
+        "rgba(161, 18, 18, 0.9)"
+      ],
+      "valueFontSize": "150%",
+      "colorBackground": true,
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "A",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+clamp_max( \n\
+  ( \n\
+    mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
+    and on() ( \n\
+      ( \n\
+        ceil( \n\
+          mysql_info_schema_innodb_table_index_length_size{instance=~\"$host\"} \n\
+          / \n\
+          scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+        ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+      ) == mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
+    ) \n\
+  ) \n\
+  or on() ( \n\
+    ceil( \n\
+      mysql_info_schema_innodb_table_index_length_size{instance=~\"$host\"} \n\
+      / \n\
+      scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+    ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+  ), \n\
+  scalar(clamp_min( \n\
+    floor( \n\
+      ( \n\
+        node_memory_MemTotal{instance=\"$host\"} \n\
+        or \n\
+        node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+      ) * 0.75 / scalar( \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+      ) \n\
+    ), \n\
+    1 \n\
+  ) * scalar( \n\
+    mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+  )) \n\
+) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "B",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+clamp_min( \n\
+  floor( \n\
+    ( \n\
+      node_memory_MemTotal{instance=\"$host\"} \n\
+      or \n\
+      node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+    ) * 0.75 / scalar( \n\
+      mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+    ) \n\
+  ), \n\
+  1 \n\
+) * scalar( \n\
+  mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
+        }
+      ],
+      "title": "Current",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
+      "type": "pmm-singlestat-panel",
+      "format": "bytes"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 18,
+        "y": 72
+      },
+      "hideTimeOverride": false,
+      "interval": "$interval",
+      "links": [],
+      "maxDataPoints": 100,
+      "pluginVersion": "9.5.7",
+      "queryThresholds": "A,C",
+      "colors": [
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(36, 112, 33, 0.97)",
+        "rgba(161, 18, 18, 0.9)"
+      ],
+      "valueFontSize": "150%",
+      "colorBackground": true,
+      "thresholdQuery": "B",
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+clamp_max( \n\
+  ( \n\
+    mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
+    and on() ( \n\
+      ( \n\
+        ceil( \n\
+          mysql_info_schema_innodb_table_index_length_size{instance=~\"$host\"} \n\
+          / \n\
+          scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+        ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+      ) == mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
+    ) \n\
+  ) \n\
+  or on() ( \n\
+    ceil( \n\
+      mysql_info_schema_innodb_table_index_length_size{instance=~\"$host\"} \n\
+      / \n\
+      scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+    ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+  ), \n\
+  scalar(clamp_min( \n\
+    floor( \n\
+      ( \n\
+        node_memory_MemTotal{instance=\"$host\"} \n\
+        or \n\
+        node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+      ) * 0.75 / scalar( \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+      ) \n\
+    ), \n\
+    1 \n\
+  ) * scalar( \n\
+    mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+  )) \n\
+) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "A",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "B",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+clamp_min( \n\
+  floor( \n\
+    ( \n\
+      node_memory_MemTotal{instance=\"$host\"} \n\
+      or \n\
+      node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+    ) * 0.75 / scalar( \n\
+      mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+    ) \n\
+  ), \n\
+  1 \n\
+) * scalar( \n\
+  mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
+        }
+      ],
+      "title": "Proposed",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
+      "type": "pmm-singlestat-panel",
+      "format": "bytes"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 79
+      },
+      "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "binlog_cache_size",
       "type": "row"
     },
@@ -2981,7 +3360,7 @@ clamp( \n\
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 72
+        "y": 80
       },
       "links": [],
       "options": {
@@ -3064,7 +3443,7 @@ on() vector(0) \n\
         "h": 7,
         "w": 6,
         "x": 12,
-        "y": 72
+        "y": 80
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3175,7 +3554,7 @@ clamp( \n\
         "h": 7,
         "w": 6,
         "x": 18,
-        "y": 72
+        "y": 80
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3288,7 +3667,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 79
+        "y": 87
       },
       "panels": [],
       "targets": [
@@ -3365,7 +3744,7 @@ clamp( \n\
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 80
+        "y": 88
       },
       "links": [],
       "options": {
@@ -3448,7 +3827,7 @@ on() vector(0) \n\
         "h": 7,
         "w": 6,
         "x": 12,
-        "y": 80
+        "y": 88
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3560,7 +3939,7 @@ clamp( \n\
         "h": 7,
         "w": 6,
         "x": 18,
-        "y": 80
+        "y": 88
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3674,7 +4053,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 87
+        "y": 95
       },
       "panels": [],
       "targets": [
@@ -3751,7 +4130,7 @@ clamp( \n\
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 88
+        "y": 96
       },
       "links": [],
       "options": {
@@ -3812,7 +4191,7 @@ clamp( \n\
         "h": 7,
         "w": 6,
         "x": 12,
-        "y": 88
+        "y": 96
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3925,7 +4304,7 @@ clamp( \n\
         "h": 7,
         "w": 6,
         "x": 18,
-        "y": 88
+        "y": 96
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4040,7 +4419,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 105
+        "y": 113
       },
       "panels": [],
       "targets": [
@@ -4117,7 +4496,7 @@ clamp( \n\
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 106
+        "y": 114
       },
       "links": [],
       "options": {
@@ -4210,7 +4589,7 @@ clamp( \n\
         "h": 7,
         "w": 6,
         "x": 12,
-        "y": 106
+        "y": 114
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4291,7 +4670,7 @@ clamp( \n\
         "h": 7,
         "w": 6,
         "x": 18,
-        "y": 106
+        "y": 114
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4381,7 +4760,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 113
+        "y": 121
       },
       "panels": [],
       "targets": [
@@ -4403,7 +4782,7 @@ clamp( \n\
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 114
+        "y": 122
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4627,7 +5006,7 @@ clamp( \n\
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 114
+        "y": 122
       },
       "links": [],
       "options": {
@@ -4784,7 +5163,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 121
+        "y": 129
       },
       "links": [],
       "options": {
@@ -5047,7 +5426,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 128
+        "y": 136
       },
       "links": [],
       "options": {
@@ -5153,7 +5532,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 135
+        "y": 143
       },
       "links": [],
       "options": {
