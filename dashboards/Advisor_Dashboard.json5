@@ -2995,7 +2995,7 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_info_schema_innodb_table_index_length_size{instance=~\"$host\"}[$interval]) or max_over_time(mysql_info_schema_innodb_table_index_length_size{instance=~\"$host\"}[5m])",
+          "expr": "mysql_info_schema_innodb_table_index_length_size{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -3025,6 +3025,7 @@ clamp( \n\
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
       "queryThresholds": "B,C",
+      "exactThreshold": true,
       "colors": [
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)",
@@ -3157,6 +3158,7 @@ clamp_min( \n\
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
       "queryThresholds": "A,C",
+      "exactThreshold": true,
       "colors": [
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)",
