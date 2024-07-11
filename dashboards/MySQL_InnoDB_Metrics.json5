@@ -2023,7 +2023,7 @@ max( \n\
         "gridPos": {
           "h": 7,
           "w": 12,
-          "x": 0,
+          "x": 12,
           "y": 55
         },
         "id": 21,
@@ -2177,7 +2177,7 @@ irate(mysql_global_status_innodb_pages_written_total{instance=~\"$host\"}[5m]) \
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 62
+          "y": 55
         },
         "id": 49,
         "legend": {
@@ -2406,7 +2406,7 @@ irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted_total{instance=~
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 69
+          "y": 62
         },
         "id": 57,
         "panels": [],
@@ -2440,7 +2440,7 @@ irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted_total{instance=~
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 70
+          "y": 63
         },
         "id": 39,
         "legend": {
@@ -2549,7 +2549,7 @@ irate(mysql_global_status_innodb_buffer_pool_read_ahead_evicted_total{instance=~
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 70
+          "y": 63
         },
         "id": 40,
         "legend": {
@@ -2730,7 +2730,7 @@ irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_mark_tot
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 77
+          "y": 70
         },
         "panels": [],
         "targets": [
@@ -2761,7 +2761,7 @@ irate(mysql_info_schema_innodb_metrics_change_buffer_ibuf_merges_delete_mark_tot
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 78
+          "y": 71
         },
         "legend": {
           "alignAsTable": true,
@@ -2913,7 +2913,7 @@ sum by (host) ( \n\
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 85
+          "y": 78
         },
         "legend": {
           "alignAsTable": true,
