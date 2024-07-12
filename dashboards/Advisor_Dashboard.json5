@@ -3791,41 +3791,39 @@ clamp( \n\
   ( \n\
     mysql_global_variables_key_buffer_size{instance=~\"$host\"} \n\
     and on() ( \n\
-      2^( \n\
-        floor( \n\
-          log2( \n\
+      ( \n\
+        ceil( \n\
+          sum( \n\
             mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
             and on (instance, schema, table) \n\
             mysql_info_schema_table_version{instance=~\"$host\", engine=\"MyISAM\"} \n\
-          ) \n\
-        ) + 1 \n\
+          ) / ( 1024 * 1024 ) \n\
+        ) * ( 1024 * 1024 ) \n\
       ) == mysql_global_variables_key_buffer_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
   or on() ( \n\
-    2^( \n\
-      floor( \n\
-        log2( \n\
+    ( \n\
+      ceil( \n\
+        sum( \n\
           mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
           and on (instance, schema, table) \n\
           mysql_info_schema_table_version{instance=~\"$host\", engine=\"MyISAM\"} \n\
-        ) \n\
-      ) + 1 \n\
+        ) / ( 1024 * 1024 ) \n\
+      ) * ( 1024 * 1024 ) \n\
     ) \n\
   ), \n\
-  8388608, \n\
+  1024 * 1024, \n\
   scalar( \n\
-    2^( \n\
-      floor( \n\
-        log2( \n\
-          ( \n\
-            node_memory_MemTotal{instance=\"$host\"} \n\
-            or \n\
-            node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-          ) * 0.75 \n\
-        ) \n\
-      ) \n\
-    ) \n\
+    floor( \n\
+      ( \n\
+        ( \n\
+          node_memory_MemTotal{instance=\"$host\"} \n\
+          or \n\
+          node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+        ) * 0.75 \n\
+      ) / ( 1024 * 1024 ) \n\
+    ) * ( 1024 * 1024 ) \n\
   ) \n\
 ) \n\
 ",
@@ -3846,17 +3844,15 @@ clamp( \n\
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
-2^( \n\
-  floor( \n\
-    log2( \n\
-      ( \n\
-        node_memory_MemTotal{instance=\"$host\"} \n\
-        or \n\
-        node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-      ) * 0.75 \n\
-    ) \n\
-  ) \n\
-) \n\
+floor( \n\
+  ( \n\
+    ( \n\
+      node_memory_MemTotal{instance=\"$host\"} \n\
+      or \n\
+      node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+    ) * 0.75 \n\
+  ) / ( 1024 * 1024 ) \n\
+) * ( 1024 * 1024 ) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -3911,41 +3907,39 @@ clamp( \n\
   ( \n\
     mysql_global_variables_key_buffer_size{instance=~\"$host\"} \n\
     and on() ( \n\
-      2^( \n\
-        floor( \n\
-          log2( \n\
+      ( \n\
+        ceil( \n\
+          sum( \n\
             mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
             and on (instance, schema, table) \n\
             mysql_info_schema_table_version{instance=~\"$host\", engine=\"MyISAM\"} \n\
-          ) \n\
-        ) + 1 \n\
+          ) / ( 1024 * 1024 ) \n\
+        ) * ( 1024 * 1024 ) \n\
       ) == mysql_global_variables_key_buffer_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
   or on() ( \n\
-    2^( \n\
-      floor( \n\
-        log2( \n\
+    ( \n\
+      ceil( \n\
+        sum( \n\
           mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
           and on (instance, schema, table) \n\
           mysql_info_schema_table_version{instance=~\"$host\", engine=\"MyISAM\"} \n\
-        ) \n\
-      ) + 1 \n\
+        ) / ( 1024 * 1024 ) \n\
+      ) * ( 1024 * 1024 ) \n\
     ) \n\
   ), \n\
-  8388608, \n\
+  1024 * 1024, \n\
   scalar( \n\
-    2^( \n\
-      floor( \n\
-        log2( \n\
-          ( \n\
-            node_memory_MemTotal{instance=\"$host\"} \n\
-            or \n\
-            node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-          ) * 0.75 \n\
-        ) \n\
-      ) \n\
-    ) \n\
+    floor( \n\
+      ( \n\
+        ( \n\
+          node_memory_MemTotal{instance=\"$host\"} \n\
+          or \n\
+          node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+        ) * 0.75 \n\
+      ) / ( 1024 * 1024 ) \n\
+    ) * ( 1024 * 1024 ) \n\
   ) \n\
 ) \n\
 ",
@@ -3983,17 +3977,15 @@ clamp( \n\
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
-2^( \n\
-  floor( \n\
-    log2( \n\
-      ( \n\
-        node_memory_MemTotal{instance=\"$host\"} \n\
-        or \n\
-        node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-      ) * 0.75 \n\
-    ) \n\
-  ) \n\
-) \n\
+floor( \n\
+  ( \n\
+    ( \n\
+      node_memory_MemTotal{instance=\"$host\"} \n\
+      or \n\
+      node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+    ) * 0.75 \n\
+  ) / ( 1024 * 1024 ) \n\
+) * ( 1024 * 1024 ) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -4184,41 +4176,39 @@ clamp( \n\
   ( \n\
     mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"} \n\
     and on() ( \n\
-      2^( \n\
-        floor( \n\
-          log2( \n\
+      ( \n\
+        ceil( \n\
+          sum( \n\
             mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
             and on (instance, schema, table) \n\
             mysql_info_schema_table_version{instance=~\"$host\", engine=\"Aria\"} \n\
-          ) \n\
-        ) + 1 \n\
+          ) / ( 1024 * 1024 ) \n\
+        ) * ( 1024 * 1024 ) \n\
       ) == mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
   or on() ( \n\
-    2^( \n\
-      floor( \n\
-        log2( \n\
+    ( \n\
+      ceil( \n\
+        sum( \n\
           mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
           and on (instance, schema, table) \n\
           mysql_info_schema_table_version{instance=~\"$host\", engine=\"Aria\"} \n\
-        ) \n\
-      ) + 1 \n\
+        ) / ( 1024 * 1024 ) \n\
+      ) * ( 1024 * 1024 ) \n\
     ) \n\
   ), \n\
-  134217728, \n\
+  1024 * 1024, \n\
   scalar( \n\
-    2^( \n\
-      floor( \n\
-        log2( \n\
-          ( \n\
-            node_memory_MemTotal{instance=\"$host\"} \n\
-            or \n\
-            node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-          ) * 0.75 \n\
-        ) \n\
-      ) \n\
-    ) \n\
+    floor( \n\
+      ( \n\
+        ( \n\
+          node_memory_MemTotal{instance=\"$host\"} \n\
+          or \n\
+          node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+        ) * 0.75 \n\
+      ) / ( 1024 * 1024 ) \n\
+    ) * ( 1024 * 1024 ) \n\
   ) \n\
 ) \n\
 ",
@@ -4239,17 +4229,15 @@ clamp( \n\
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
-2^( \n\
-  floor( \n\
-    log2( \n\
-      ( \n\
-        node_memory_MemTotal{instance=\"$host\"} \n\
-        or \n\
-        node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-      ) * 0.75 \n\
-    ) \n\
-  ) \n\
-) \n\
+floor( \n\
+  ( \n\
+    ( \n\
+      node_memory_MemTotal{instance=\"$host\"} \n\
+      or \n\
+      node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+    ) * 0.75 \n\
+  ) / ( 1024 * 1024 ) \n\
+) * ( 1024 * 1024 ) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -4304,41 +4292,39 @@ clamp( \n\
   ( \n\
     mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"} \n\
     and on() ( \n\
-      2^( \n\
-        floor( \n\
-          log2( \n\
+      ( \n\
+        ceil( \n\
+          sum( \n\
             mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
             and on (instance, schema, table) \n\
             mysql_info_schema_table_version{instance=~\"$host\", engine=\"Aria\"} \n\
-          ) \n\
-        ) + 1 \n\
+          ) / ( 1024 * 1024 ) \n\
+        ) * ( 1024 * 1024 ) \n\
       ) == mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
   or on() ( \n\
-    2^( \n\
-      floor( \n\
-        log2( \n\
+    ( \n\
+      ceil( \n\
+        sum( \n\
           mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
           and on (instance, schema, table) \n\
           mysql_info_schema_table_version{instance=~\"$host\", engine=\"Aria\"} \n\
-        ) \n\
-      ) + 1 \n\
+        ) / ( 1024 * 1024 ) \n\
+      ) * ( 1024 * 1024 ) \n\
     ) \n\
   ), \n\
-  134217728, \n\
+  1024 * 1024, \n\
   scalar( \n\
-    2^( \n\
-      floor( \n\
-        log2( \n\
-          ( \n\
-            node_memory_MemTotal{instance=\"$host\"} \n\
-            or \n\
-            node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-          ) * 0.75 \n\
-        ) \n\
-      ) \n\
-    ) \n\
+    floor( \n\
+      ( \n\
+        ( \n\
+          node_memory_MemTotal{instance=\"$host\"} \n\
+          or \n\
+          node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+        ) * 0.75 \n\
+      ) / ( 1024 * 1024 ) \n\
+    ) * ( 1024 * 1024 ) \n\
   ) \n\
 ) \n\
 ",
@@ -4376,17 +4362,15 @@ clamp( \n\
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
-2^( \n\
-  floor( \n\
-    log2( \n\
-      ( \n\
-        node_memory_MemTotal{instance=\"$host\"} \n\
-        or \n\
-        node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-      ) * 0.75 \n\
-    ) \n\
-  ) \n\
-) \n\
+floor( \n\
+  ( \n\
+    ( \n\
+      node_memory_MemTotal{instance=\"$host\"} \n\
+      or \n\
+      node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+    ) * 0.75 \n\
+  ) / ( 1024 * 1024 ) \n\
+) * ( 1024 * 1024 ) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
