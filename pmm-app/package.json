@@ -24,6 +24,7 @@
     "moment": "^2.24.0"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.30",
     "typescript": "3.4.5"
   }
 }
