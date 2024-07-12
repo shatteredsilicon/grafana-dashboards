@@ -6876,8 +6876,8 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Advisor Dashboard",
-  "uid": "ssm-advisor-dashboard",
+  "title": "Advisor - Tuning",
+  "uid": "ssm-advisor-tuning",
   "version": 2,
   "weekStart": ""
 }
