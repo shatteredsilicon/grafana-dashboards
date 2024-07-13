@@ -49,6 +49,18 @@
     align-content: flex-start;
   }
 
+  .ssm-blockmap-panel-map .series-tip {
+    z-index: 1;
+    position: absolute;
+    padding: 4px 8px;
+    font-size: 1rem;
+    visibility: collapse;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+  }
+
   .ssm-blockmap-panel-block {
     width: 10px;
     height: 10px;
@@ -58,10 +70,15 @@
 
   .ssm-blockmap-panel-series {
     position: absolute;
-    bottom: 0;
+    bottom: 1px;
     left: 0;
     opacity: 0.4;
     width: 100%;
+  }
+
+  .ssm-blockmap-panel-series:hover + .series-tip {
+    visibility: visible;
+    text-wrap: nowrap;
   }
 </style>
 <div class="ssm-blockmap-panel-container">
@@ -79,8 +96,15 @@
       <div ng-repeat="column in [].constructor(ctrl.blockCount) track by $index" class="ssm-blockmap-panel-block" ng-style="{'background-color': 'rgba(36, 112, 33, 0.97)'}">
       </div>
 
-      <div ng-if="!ctrl.panel.hideSeriesLines" ng-repeat="series in ctrl.extraSeries" class="ssm-blockmap-panel-series" ng-style="{'height': series.value/ctrl.seriesValueTotal*100+'%', 'background-color': series.color}">
-      </div>
+      <ng-template ng-if="!ctrl.panel.hideSeriesLines" ng-repeat="series in ctrl.extraSeries">
+        <div class="ssm-blockmap-panel-series" ng-style="{'height': series.value/ctrl.seriesValueTotal*100+'%', 'background-color': series.color}">
+        </div>
+        <div class="series-tip">
+          {{ series.name }}
+          <span ng-style="{'background-color': series.color, 'width': '0.8rem', 'height': '0.8rem', 'margin': '0 2px', 'opacity': 0.4}"></span>:
+          &nbsp;{{ series.text }}
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

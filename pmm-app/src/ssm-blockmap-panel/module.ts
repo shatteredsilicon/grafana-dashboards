@@ -7,6 +7,7 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
   static templateUrl = 'ssm-blockmap-panel/module.html';
   static LINE_DIV_WIDTH = 16;
   static SERIES_NAME_DIV_HEIGHT = 24;
+  static EFFECTIVE_POS_OFFSET = 12;
 
   blockCount: number = 0;
   extraSeries: any[];
@@ -82,6 +83,8 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
     this.events.on('render', function() {
       ctrl.renderingCompleted();
     });
+
+    elem.on('mousemove', this.mouseMove);
   }
 
   setUnit(item) {
@@ -126,6 +129,28 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
     result.decimals = Math.max(0, dec);
     result.scaledDecimals = result.decimals - Math.floor(Math.log(size) / Math.LN10) + 2;
     return result;
+  }
+
+  mouseMove(event) {
+    const hoveredSeriesElem = $(event.currentTarget).find('.ssm-blockmap-panel-series:hover');
+    if (!hoveredSeriesElem) return;
+
+    const seriesTipElem = hoveredSeriesElem.next();
+    if (!seriesTipElem) return;
+
+    if (
+      !seriesTipElem.css('left')
+      || Math.abs(parseInt(seriesTipElem.css('left')) - event.offsetX) >= SSMBlockMapCtrl.EFFECTIVE_POS_OFFSET
+    ) {
+      seriesTipElem.css('left', event.offsetX);
+    }
+
+    if (
+      !seriesTipElem.css('bottom')
+      || Math.abs(parseInt(seriesTipElem.css('bottom')) - event.offsetY) >= SSMBlockMapCtrl.EFFECTIVE_POS_OFFSET
+    ) {
+      seriesTipElem.css('bottom', event.offsetY);
+    }
   }
 }
 
