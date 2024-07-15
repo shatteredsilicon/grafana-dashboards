@@ -1,21 +1,9 @@
 <div class="editor-row">
   <div class="section gf-form-group">
     <div class="gf-form">
-      <label class="gf-form-label width-9">Block size</label>
-      <input type="number" class="gf-form-input width-6" placeholder="auto" data-placement="right"
-             ng-model="ctrl.panel.blockSize"
-             ng-change="ctrl.refresh()">
-    </div>
-
-    <div class="gf-form">
       <label class="gf-form-label width-6">Unit</label>
       <div class="gf-form-dropdown-typeahead width-12" ng-model="ctrl.panel.format"
            dropdown-typeahead2="ctrl.unitFormats" dropdown-typeahead-on-select="ctrl.setUnit($subItem)"></div>
-    </div>
-
-    <div class="gf-form-inline">
-      <gf-form-switch class="gf-form" label-class="width-16" label="Hide Series Lines" checked="ctrl.panel.hideSeriesLines"
-                      on-change="ctrl.render()"></gf-form-switch>
     </div>
   </div>
 </div>

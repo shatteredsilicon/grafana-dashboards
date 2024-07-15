@@ -7,21 +7,19 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
   static templateUrl = 'ssm-blockmap-panel/module.html';
   static LINE_DIV_WIDTH = 16;
   static SERIES_NAME_DIV_HEIGHT = 24;
-  static EFFECTIVE_POS_OFFSET = 12;
+  static EFFECTIVE_POS_OFFSET = 6;
+  static BLOCK_SIZE = 10;
+  static BLOCK_GAP = 2;
 
-  blockCount: number = 0;
-  extraSeries: any[];
-  seriesValueTotal: 0;
+  series: any[];
   unitFormats: any[];
   panel: any;
   events: any;
 
   // Set and populate defaults
   panelDefaults = {
-    blockSize: 16*1024*1024,
     colors: ['#447EBC', '#C15C17', '#890F02', '#0A437C', '#6D1F62', '#584477', '#B7DBAB', '#F4D598', '#70DBED', '#F9BA8F', '#F29191', '#82B5D8', '#E5A8E2', '#AEA2E0', '#629E51', '#E5AC0E', '#64B0C8', '#E0752D', '#BF1B00', '#0A50A1', '#962D82', '#614D93', '#9AC48A', '#F2C96D', '#65C5DB', '#F9934E', '#EA6460', '#5195CE', '#D683CE', '#806EB7', '#3F6833', '#967302', '#2F575E', '#99440A', '#58140C', '#052B51', '#511749', '#3F2B5B', '#E0F9D7', '#FCEACA', '#CFFAFF', '#F9E2D2', '#FCE2DE', '#BADFF4', '#F9D9F9', '#DEDAF7'],
-    unit: "none",
-    hideSeriesLines: false
+    unit: "none"
   };
 
   /** @ngInject */
@@ -45,8 +43,7 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
   }
 
   onDataReceived(dataList) {
-    this.blockCount = 0;
-    this.extraSeries = [];
+    this.series = [];
 
     for (const data of dataList) {
       const lastPoint = _.last(data.datapoints);
@@ -54,20 +51,16 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
 
       const value = lastPoint[0];
       const decimalInfo = this.getDecimalsForValue(data.value);
-      this.extraSeries.push({
+      this.series.push({
         name: data.alias,
         value: value,
         text: kbn.valueFormats[this.panel.format](value, decimalInfo.decimals, decimalInfo.scaledDecimals)
       })
     }
 
-    this.seriesValueTotal = this.extraSeries.reduce((a, b) => a+b.value, 0);
-    this.blockCount = this.panel.blockSize > 0 ? Math.ceil(this.seriesValueTotal / this.panel.blockSize) : 0;
-
-    this.extraSeries.sort((s1, s2) => s1.value > s2.value ? -1 : (s1.value < s2.value ? 1 : 0));
-    for (let i = 0; i < this.extraSeries.length; i++) {
-      this.extraSeries[i].color = this.panel.colors[i%this.panel.colors.length];
-      this.extraSeries[i].blockCount = this.panel.blockSize > 0 ? Math.ceil(this.extraSeries[i].value / this.panel.blockSize) : 0;
+    this.series.sort((s1, s2) => s1.value > s2.value ? -1 : (s1.value < s2.value ? 1 : 0));
+    for (let i = 0; i < this.series.length; i++) {
+      this.series[i].color = this.panel.colors[i%this.panel.colors.length];
     }
 
     this.render();
@@ -81,10 +74,50 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
     }
 
     this.events.on('render', function() {
+      const mapElem = $(elem).find('.ssm-blockmap-panel-map');
+      const totalMemory = ctrl.series.reduce((a, b) => a + b.value, 0);
+      const divHeight = mapElem.innerHeight();
+      const divWidth = mapElem.innerWidth() - mapElem.offset().left;
+      const blockRowCount = Math.floor(
+                              ( divHeight - SSMBlockMapCtrl.BLOCK_SIZE )
+                              / (
+                                SSMBlockMapCtrl.BLOCK_SIZE + SSMBlockMapCtrl.BLOCK_GAP
+                              )
+                            );
+      const blockColumnCount =  Math.floor(
+                                  ( divWidth - SSMBlockMapCtrl.BLOCK_SIZE )
+                                  / (
+                                    SSMBlockMapCtrl.BLOCK_SIZE + SSMBlockMapCtrl.BLOCK_GAP
+                                  )
+                                );
+      const blockCount = blockRowCount * blockColumnCount;
+      const innerHTML = ctrl.series.map(serie => {
+        return [].constructor(Math.floor(serie.value / totalMemory * blockCount)).join(
+          `
+            <span data-name="${serie.name}" data-color="${serie.color}" data-text="${serie.text}" class="ssm-blockmap-panel-block" style="background-color: ${serie.color}">
+            </span>
+          `
+        );
+      }).join('') + `
+        <div class="tip">
+        </div>
+      `;
+      mapElem.html(innerHTML);
+
       ctrl.renderingCompleted();
     });
 
     elem.on('mousemove', this.mouseMove);
+    setInterval(()=>{
+      const tipElem = $(elem).find('.ssm-blockmap-panel-map .tip').first();
+      if (!tipElem || !tipElem.length) return;
+
+      const hoveredBlock = $(elem).find('.ssm-blockmap-panel-block:hover').first();
+      if (!hoveredBlock || !hoveredBlock.length) {
+        tipElem.css('visibility', 'collapse');
+        return;
+      };
+    }, 500)
   }
 
   setUnit(item) {
@@ -132,24 +165,59 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
   }
 
   mouseMove(event) {
-    const hoveredSeriesElem = $(event.currentTarget).find('.ssm-blockmap-panel-series:hover');
-    if (!hoveredSeriesElem) return;
+    const tipElem = $(event.currentTarget).find('.ssm-blockmap-panel-map .tip').first();
+    if (!tipElem || !tipElem.length) return;
 
-    const seriesTipElem = hoveredSeriesElem.next();
-    if (!seriesTipElem) return;
+    const hoveredBlock = $(event.currentTarget).find('.ssm-blockmap-panel-block:hover').first();
+    if (!hoveredBlock || !hoveredBlock.length) {
+      tipElem.css('visibility', 'collapse');
+      return;
+    };
 
+    const mapElem = $(event.currentTarget).find('.ssm-blockmap-panel-map').first();
+
+    tipElem.html(`
+      ${hoveredBlock.attr('data-name')}
+      <span style="background-color: ${hoveredBlock.attr('data-color')}"></span>&nbsp;:&nbsp;
+      ${hoveredBlock.attr('data-text')}
+    `);
+    tipElem.css('visibility', 'visible');
+
+    var directionX: string, directionY: string, offsetX: number, offsetY: number;
+    hoveredBlock.position().left > mapElem.innerWidth() / 2
+      ? (
+          directionX = 'right',
+          offsetX = mapElem.innerWidth() - hoveredBlock.position().left
+        )
+      : (
+          directionX = 'left',
+          offsetX = hoveredBlock.position().left + SSMBlockMapCtrl.BLOCK_SIZE
+        )
+      ;
+    hoveredBlock.position().top > mapElem.innerHeight() / 2
+      ? (
+          directionY = 'bottom',
+          offsetY = mapElem.innerHeight() - hoveredBlock.position().top
+        )
+      : (
+          directionY = 'top',
+          offsetY = hoveredBlock.position().top + SSMBlockMapCtrl.BLOCK_SIZE
+        )
+      ;
     if (
-      !seriesTipElem.css('left')
-      || Math.abs(parseInt(seriesTipElem.css('left')) - event.offsetX) >= SSMBlockMapCtrl.EFFECTIVE_POS_OFFSET
+      !tipElem.css(directionX)
+      || Math.abs(parseInt(tipElem.css(directionX)) - offsetX) >= SSMBlockMapCtrl.EFFECTIVE_POS_OFFSET
     ) {
-      seriesTipElem.css('left', event.offsetX);
+      tipElem.css(directionX, offsetX);
+      tipElem.css(directionX === 'left' ? 'right' : 'left', '');
     }
 
     if (
-      !seriesTipElem.css('bottom')
-      || Math.abs(parseInt(seriesTipElem.css('bottom')) - event.offsetY) >= SSMBlockMapCtrl.EFFECTIVE_POS_OFFSET
+      !tipElem.css(directionY)
+      || Math.abs(parseInt(tipElem.css(directionY)) - offsetY) >= SSMBlockMapCtrl.EFFECTIVE_POS_OFFSET
     ) {
-      seriesTipElem.css('bottom', event.offsetY);
+      tipElem.css(directionY, offsetY);
+      tipElem.css(directionY === 'top' ? 'bottom' : 'top', '');
     }
   }
 }
