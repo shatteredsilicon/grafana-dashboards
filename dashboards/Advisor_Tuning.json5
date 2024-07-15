@@ -769,7 +769,7 @@
             }
           },
           "mappings": [],
-          "min": 0,
+          "decimals": 1,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -783,7 +783,7 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "decgbytes"
         },
         "overrides": []
       },
@@ -819,7 +819,13 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"}",
+          "expr": "\
+( \n\
+  mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} \n\
+  or \n\
+  mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"} \n\
+) / (1024 * 1024 * 1024) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -835,7 +841,13 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"}",
+          "expr": "\
+( \n\
+  mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
+  or \n\
+  mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
+) / (1024 * 1024 * 1024) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -846,6 +858,7 @@
         }
       ],
       "title": "InnoDB Log flushed & LSN",
+      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql.",
       "type": "timeseries"
     },
     {
@@ -907,6 +920,7 @@
         }
       ],
       "title": "Current",
+      "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
       "type": "pmm-singlestat-panel",
       "format": "bytes"
     },
@@ -970,6 +984,7 @@
         }
       ],
       "title": "Proposed",
+      "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
       "type": "pmm-singlestat-panel",
       "format": "bytes"
     },
@@ -1036,7 +1051,7 @@
             }
           },
           "mappings": [],
-          "min": 0,
+          "decimals": 1,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1050,7 +1065,7 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "decgbytes"
         },
         "overrides": []
       },
@@ -1086,7 +1101,13 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"}",
+          "expr": "\
+( \n\
+  mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} \n\
+  or \n\
+  mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"} \n\
+) / (1024 * 1024 * 1024) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1102,7 +1123,13 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"}",
+          "expr": "\
+( \n\
+  mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
+  or \n\
+  mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
+) / (1024 * 1024 * 1024) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1113,6 +1140,7 @@
         }
       ],
       "title": "Redo Log Size & Last Checkpoint",
+      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql.",
       "type": "timeseries"
     },
     {
@@ -1174,6 +1202,7 @@
         }
       ],
       "title": "Current",
+      "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
       "type": "pmm-singlestat-panel",
       "format": "bytes"
     },
@@ -1237,6 +1266,7 @@
         }
       ],
       "title": "Proposed",
+      "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
       "type": "pmm-singlestat-panel",
       "format": "bytes"
     },
