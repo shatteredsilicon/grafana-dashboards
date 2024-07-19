@@ -645,6 +645,28 @@ class PMMSingleStatCtrl extends MetricsPanelCtrl {
       data = ctrl.data;
       const $panelContainer = elem.closest('[class=panel-container]');
 
+      // it seems newer Grafana has dropped support of url variables
+      // $__all_variables/$__url_time_range for 3rd-party panel,
+      // hence we add them by our own
+      if ( typeof data.scopedVars === 'object') {
+        var scopedAllVariablesStrs: string[] = [];
+        for (var key in data.scopedVars) {
+          if (key.indexOf('__') === 0) continue;
+          scopedAllVariablesStrs.push(`var-${key}=${data.scopedVars[key].value}`);
+        }
+        data.scopedVars['__all_variables'] = {
+          text: '__all_variables',
+          value: scopedAllVariablesStrs.join('&')
+        };
+
+        if (templateSrv.timeRange) {
+          data.scopedVars['__url_time_range'] = {
+            text: '__url_time_range',
+            value: `from=${templateSrv.timeRange.raw.from}&to=${templateSrv.timeRange.raw.to}`
+          };
+        }
+      }
+
       // get thresholds
       data.thresholds = panel.thresholds.split(',').map(function(strVale) {
         return Number(strVale.trim());
