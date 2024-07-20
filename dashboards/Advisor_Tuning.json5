@@ -5714,7 +5714,7 @@ clamp( \n\
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "AHI - Hits / (Hits + Maintenance)",
+          "legendFormat": "AHI Efficiency",
           "refId": "A",
           "step": 300
         }
@@ -5726,14 +5726,14 @@ clamp( \n\
             "conversions": [
               {
                 "destinationType": "number",
-                "targetField": "AHI - Hits / (Hits + Maintenance)"
+                "targetField": "AHI Efficiency"
               }
             ],
             "fields": {}
           }
         }
       ],
-      "title": "AHI - Hits / (Hits + Maintenance)",
+      "title": "AHI Efficiency",
       "type": "timeseries"
     },
     {
