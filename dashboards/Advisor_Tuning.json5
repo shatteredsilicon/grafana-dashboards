@@ -733,84 +733,61 @@
       "datasource": {
         "type": "prometheus"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "decimals": 1,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "decgbytes"
-        },
-        "overrides": []
-      },
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 24
       },
-      "links": [],
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus"
       },
+      "decimals": 2,
+      "description": "The InnoDB Log Buffer Performance graph shows the efficiency of the InnoDB log buffer.  The InnoDB log buffer size is defined by the innodb_log_buffer_size parameter and illustrated on the graph by the Size metric.  Used is the amount of the buffer space that is used.  If Used is too high and gets close to Size, additional log writes will be required.\n\nNote: If you do not see any metric, try running: ``SET GLOBAL innodb_monitor_enable=all;`` in the MySQL client.",
+      "editable": true,
+      "error": false,
+      "fill": 2,
+      "fillGradient": 0,
+      "grid": {
+        "leftLogBase": 1,
+        "leftMin": 0,
+        "rightLogBase": 1,
+        "rightMin": 0
+      },
+      "hiddenSeries": false,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "sort": "avg",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
       "pluginVersion": "9.5.7",
+      "pointradius": 1,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -819,47 +796,67 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "\
-( \n\
-  mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} \n\
-  or \n\
-  mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"} \n\
-) / (1024 * 1024 * 1024) \n\
-",
+          "expr": "(mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})*0 + on (instance) mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "InnoDB Log flushed",
-          "metric": "",
-          "refId": "A",
-          "step": 300
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "\
-( \n\
-  mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
-  or \n\
-  mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
-) / (1024 * 1024 * 1024) \n\
-",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "InnoDB Long Sequence Number",
+          "legendFormat": "Size",
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "expr": "(mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"}) - (mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"})",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "Used",
+          "metric": "",
+          "refId": "A",
+          "step": 300
         }
       ],
-      "title": "InnoDB Log flushed & LSN",
-      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql.",
-      "type": "timeseries"
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "InnoDB Log Buffer Performance",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "x-axis": true,
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "y-axis": true,
+      "y_formats": [
+        "bytes",
+        "short"
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "logBase": 1,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql."
     },
     {
       "datasource": {
@@ -1051,7 +1048,6 @@
             }
           },
           "mappings": [],
-          "decimals": 1,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1065,7 +1061,7 @@
               }
             ]
           },
-          "unit": "decgbytes"
+          "unit": "decbytes"
         },
         "overrides": []
       },
@@ -1106,7 +1102,7 @@
   mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} \n\
   or \n\
   mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"} \n\
-) / (1024 * 1024 * 1024) \n\
+) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -1128,7 +1124,7 @@
   mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
   or \n\
   mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
-) / (1024 * 1024 * 1024) \n\
+) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
