@@ -588,7 +588,21 @@ avg( \n\
                 "multi": true,
                 "name": "host",
                 "options": [],
-                "query": "SELECT `name` FROM `ssm`.`instances` WHERE `subsystem_id` IN (3, 4) AND (`deleted` IS NULL OR `deleted` < '1971-01-01 00:00:01');",
+                "query": "\
+SELECT `name`   \n\
+FROM `ssm`.`instances`  \n\
+WHERE `subsystem_id` IN (3, 4)  \n\
+    AND (`deleted` IS NULL OR `deleted` < '1971-01-01 00:00:01') \n\
+UNION   \n\
+(   \n\
+    SELECT i.`name` \n\
+    FROM `ssm`.`instances` i \n\
+    JOIN `ssm`.`query_class_metrics` qcm ON i.instance_id = qcm.instance_id \n\
+    WHERE i.`name` = 'ssm-server' \n\
+        AND i.subsystem_id = 3 \n\
+    LIMIT 1 \n\
+);   \n\
+",
                 "refresh": 1,
                 "regex": "",
                 "sort": 1,
