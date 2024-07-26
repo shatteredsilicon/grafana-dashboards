@@ -2719,32 +2719,46 @@ clamp( \n\
     and \n\
     on() ( \n\
       max_over_time( \n\
-        ( \n\
-          mysql_engine_innodb_pending_reads{instance=~\"$host\"} \n\
-          and \n\
-          on() ( \n\
-            ( \n\
-              max( \n\
-                rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 \n\
-                or \n\
-                rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])/1000 \n\
-                or \n\
-                irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 \n\
-                or \n\
-                irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])/1000 \n\
-                or \n\
-                rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) \n\
-                or \n\
-                irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
-                or \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-              ) / 100 \n\
-            ) \n\
-            or \n\
-            on() vector(0) \n\
-          ) \n\
-        )[1w:2m] \n\
+        mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
       ) < 1 \n\
+      or \n\
+      ( \n\
+        max_over_time( \n\
+          mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
+        ) > 0 \n\
+        and \n\
+        ( \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          or \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          or \n\
+          sum by (instance) ( \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+          ) / 100 \n\
+        ) < 0.75 \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
     ) \n\
   ) \n\
   or \n\
@@ -2770,7 +2784,11 @@ clamp( \n\
         }
       ],
       "title": "Current",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
+      "description": "\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+\n\
+This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
+",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -2811,32 +2829,46 @@ clamp( \n\
     and \n\
     on() ( \n\
       max_over_time( \n\
-        ( \n\
-          mysql_engine_innodb_pending_reads{instance=~\"$host\"} \n\
-          and \n\
-          on() ( \n\
-            ( \n\
-              max( \n\
-                rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 \n\
-                or \n\
-                rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])/1000 \n\
-                or \n\
-                irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 \n\
-                or \n\
-                irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])/1000 \n\
-                or \n\
-                rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) \n\
-                or \n\
-                irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
-                or \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-              ) / 100 \n\
-            ) \n\
-            or \n\
-            on() vector(0) \n\
-          ) \n\
-        )[1w:2m] \n\
+        mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
       ) < 1 \n\
+      or \n\
+      ( \n\
+        max_over_time( \n\
+          mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
+        ) > 0 \n\
+        and \n\
+        ( \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          or \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          or \n\
+          sum by (instance) ( \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+          ) / 100 \n\
+        ) < 0.75 \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
     ) \n\
   ) \n\
   or \n\
@@ -2879,7 +2911,11 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
+      "description": "\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+\n\
+This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
+",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -3110,37 +3146,57 @@ sum by (instance) ( \n\
 clamp( \n\
   ( \n\
     mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
-    and on() ( \n\
+    and \n\
+    on() ( \n\
       max_over_time( \n\
-        ( \n\
-          mysql_engine_innodb_pending_writes{instance=~\"$host\"} \n\
-          and on() ( \n\
-            ( \n\
-              max( \n\
-                irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]) \n\
-                or \n\
-                irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]) \n\
-              ) / 1000 \n\
-              or \n\
-              max( \n\
-                irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
-              ) \n\
-              or \n\
-              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-            ) / 100 \n\
-          ) \n\
-          or on() vector(0) \n\
-        )[1w:2m] \n\
+        mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
       ) < 1 \n\
+      or \n\
+      ( \n\
+        max_over_time( \n\
+          mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
+        ) > 0 \n\
+        and \n\
+        ( \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          or \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          or \n\
+          sum by (instance) ( \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+          ) / 100 \n\
+        ) < 0.75 \n\
+      ) \n\
     ) \n\
   ) \n\
-  or on() ( \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
     2^( \n\
       floor( \n\
-        log2( \n\
-          mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
-        ) \n\
-      ) + 1 \n\
+        log2(mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}) \n\
+      )+1 \n\
     ) \n\
   ), \n\
   1, \n\
@@ -3158,7 +3214,11 @@ clamp( \n\
         }
       ],
       "title": "Current",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
+      "description": "\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+\n\
+This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
+",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -3196,37 +3256,57 @@ clamp( \n\
 clamp( \n\
   ( \n\
     mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
-    and on() ( \n\
+    and \n\
+    on() ( \n\
       max_over_time( \n\
-        ( \n\
-          mysql_engine_innodb_pending_writes{instance=~\"$host\"} \n\
-          and on() ( \n\
-            ( \n\
-              max( \n\
-                irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]) \n\
-                or \n\
-                irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]) \n\
-              ) / 1000 \n\
-              or \n\
-              max( \n\
-                irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
-              ) \n\
-              or \n\
-              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-            ) / 100 \n\
-          ) \n\
-          or on() vector(0) \n\
-        )[1w:2m] \n\
+        mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
       ) < 1 \n\
+      or \n\
+      ( \n\
+        max_over_time( \n\
+          mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
+        ) > 0 \n\
+        and \n\
+        ( \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          or \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          or \n\
+          sum by (instance) ( \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+          ) / 100 \n\
+        ) < 0.75 \n\
+      ) \n\
     ) \n\
   ) \n\
-  or on() ( \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
     2^( \n\
       floor( \n\
-        log2( \n\
-          mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
-        ) \n\
-      ) + 1 \n\
+        log2(mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}) \n\
+      )+1 \n\
     ) \n\
   ), \n\
   1, \n\
@@ -3261,7 +3341,11 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
+      "description": "\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+\n\
+This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
+",
       "type": "pmm-singlestat-panel"
     },
     {
