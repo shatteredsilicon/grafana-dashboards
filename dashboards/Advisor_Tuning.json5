@@ -552,7 +552,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_variables_table_open_cache{instance=~\"$host\"}[$interval]) or max_over_time(mysql_global_variables_table_open_cache{instance=~\"$host\"}[5m])",
+          "expr": "mysql_global_variables_table_open_cache{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -568,7 +568,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_status_open_tables{instance=~\"$host\"}[$interval]) or max_over_time(mysql_global_status_open_tables{instance=~\"$host\"}[5m])",
+          "expr": "mysql_global_status_open_tables{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -579,6 +579,7 @@
         }
       ],
       "title": "Table Open Cache & Open Tables",
+      "description": "Note: If you do not see any metric, try setting: ``collect.global_status = 1`` and ``collect.global_variables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
     {
@@ -629,7 +630,29 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp(2^(floor(log2(max_over_time(mysql_global_status_open_tables{instance=~\"$host\"}[1w:2m])))+1), 1, 1048576)",
+          "expr": "\
+clamp( \n\
+  ( \n\
+    mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+    and \n\
+    ( \n\
+      mysql_global_status_open_tables{instance=~\"$host\"} \n\
+      / \n\
+      mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+      < 0.9 \n\
+    ) \n\
+  ) \n\
+  or on() ( \n\
+    2^( \n\
+      floor( \n\
+        log2(mysql_global_variables_table_open_cache{instance=~\"$host\"}) \n\
+      ) + 1 \n\
+    ) \n\
+  ), \n\
+  1, \n\
+  1048576 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -641,6 +664,7 @@
         }
       ],
       "title": "Current",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_status = 1`` and ``collect.global_variables = 1`` in the mysqld_exporter config file.",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -675,7 +699,29 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp(2^(floor(log2(max_over_time(mysql_global_status_open_tables{instance=~\"$host\"}[1w:2m])))+1), 1, 1048576)",
+          "expr": "\
+clamp( \n\
+  ( \n\
+    mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+    and \n\
+    ( \n\
+      mysql_global_status_open_tables{instance=~\"$host\"} \n\
+      / \n\
+      mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+      < 0.9 \n\
+    ) \n\
+  ) \n\
+  or on() ( \n\
+    2^( \n\
+      floor( \n\
+        log2(mysql_global_variables_table_open_cache{instance=~\"$host\"}) \n\
+      ) + 1 \n\
+    ) \n\
+  ), \n\
+  1, \n\
+  1048576 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -704,6 +750,7 @@
         }
       ],
       "title": "Proposed",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_status = 1`` and ``collect.global_variables = 1`` in the mysqld_exporter config file.",
       "type": "pmm-singlestat-panel"
     },
     {
