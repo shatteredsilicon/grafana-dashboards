@@ -3575,8 +3575,24 @@ clamp_max( \n\
             mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
             and on (instance, schema, table) \n\
             mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
-          ) / scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-        ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+          ) / scalar( \n\
+            ( \n\
+              mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+              * \n\
+              mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+            ) \n\
+            or \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+          ) \n\
+        ) * scalar( \n\
+          ( \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+            * \n\
+            mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+          ) \n\
+          or \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        ) \n\
       ) == mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
@@ -3586,23 +3602,53 @@ clamp_max( \n\
         mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
         and on (instance, schema, table) \n\
         mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
-      ) / scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-    ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-  ), \n\
-  scalar(clamp_min( \n\
-    floor( \n\
-      ( \n\
-        node_memory_MemTotal{instance=\"$host\"} \n\
+      ) / scalar( \n\
+        ( \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+          * \n\
+          mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+        ) \n\
         or \n\
-        node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-      ) * 0.75 / scalar( \n\
-        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
       ) \n\
-    ), \n\
-    1 \n\
-  ) * scalar( \n\
-    mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
-  )) \n\
+    ) * scalar( \n\
+      ( \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        * \n\
+        mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+      ) \n\
+      or \n\
+      mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    ) \n\
+  ), \n\
+  scalar( \n\
+    clamp_min( \n\
+      floor( \n\
+        ( \n\
+          node_memory_MemTotal{instance=\"$host\"} \n\
+          or \n\
+          node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+        ) * 0.75 / scalar( \n\
+          ( \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+            * \n\
+            mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+          ) \n\
+          or \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        ) \n\
+      ), \n\
+      1 \n\
+    ) * scalar( \n\
+      ( \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        * \n\
+        mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+      ) \n\
+      or \n\
+      mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    ) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -3696,8 +3742,24 @@ clamp_max( \n\
             mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
             and on (instance, schema, table) \n\
             mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
-          ) / scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-        ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+          ) / scalar( \n\
+            ( \n\
+              mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+              * \n\
+              mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+            ) \n\
+            or \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+          ) \n\
+        ) * scalar( \n\
+          ( \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+            * \n\
+            mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+          ) \n\
+          or \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        ) \n\
       ) == mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
@@ -3707,23 +3769,53 @@ clamp_max( \n\
         mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
         and on (instance, schema, table) \n\
         mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
-      ) / scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-    ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-  ), \n\
-  scalar(clamp_min( \n\
-    floor( \n\
-      ( \n\
-        node_memory_MemTotal{instance=\"$host\"} \n\
+      ) / scalar( \n\
+        ( \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+          * \n\
+          mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+        ) \n\
         or \n\
-        node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-      ) * 0.75 / scalar( \n\
-        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
       ) \n\
-    ), \n\
-    1 \n\
-  ) * scalar( \n\
-    mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
-  )) \n\
+    ) * scalar( \n\
+      ( \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        * \n\
+        mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+      ) \n\
+      or \n\
+      mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    ) \n\
+  ), \n\
+  scalar( \n\
+    clamp_min( \n\
+      floor( \n\
+        ( \n\
+          node_memory_MemTotal{instance=\"$host\"} \n\
+          or \n\
+          node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+        ) * 0.75 / scalar( \n\
+          ( \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+            * \n\
+            mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+          ) \n\
+          or \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        ) \n\
+      ), \n\
+      1 \n\
+    ) * scalar( \n\
+      ( \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        * \n\
+        mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+      ) \n\
+      or \n\
+      mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    ) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
