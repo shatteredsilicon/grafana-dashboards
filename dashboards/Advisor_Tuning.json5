@@ -3988,6 +3988,8 @@ sum( \n\
   and on (instance, schema, table) \n\
   mysql_info_schema_table_version{instance=~\"$host\", engine=\"MyISAM\"} \n\
 ) \n\
+or \n\
+vector(0) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -4077,6 +4079,8 @@ clamp( \n\
         ) / ( 1024 * 1024 ) \n\
       ) * ( 1024 * 1024 ) \n\
     ) \n\
+    or \n\
+    vector(1024 * 1024) \n\
   ), \n\
   1024 * 1024, \n\
   scalar( \n\
@@ -4193,6 +4197,8 @@ clamp( \n\
         ) / ( 1024 * 1024 ) \n\
       ) * ( 1024 * 1024 ) \n\
     ) \n\
+    or \n\
+    vector(1024 * 1024) \n\
   ), \n\
   1024 * 1024, \n\
   scalar( \n\
@@ -4373,6 +4379,8 @@ sum( \n\
   and on (instance, schema, table) \n\
   mysql_info_schema_table_version{instance=~\"$host\", engine=\"Aria\"} \n\
 ) \n\
+or \n\
+vector(0) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -4462,6 +4470,8 @@ clamp( \n\
         ) / ( 1024 * 1024 ) \n\
       ) * ( 1024 * 1024 ) \n\
     ) \n\
+    or \n\
+    vector(1024 * 1024) \n\
   ), \n\
   1024 * 1024, \n\
   scalar( \n\
@@ -4578,6 +4588,8 @@ clamp( \n\
         ) / ( 1024 * 1024 ) \n\
       ) * ( 1024 * 1024 ) \n\
     ) \n\
+    or \n\
+    vector(1024 * 1024) \n\
   ), \n\
   1024 * 1024, \n\
   scalar( \n\
