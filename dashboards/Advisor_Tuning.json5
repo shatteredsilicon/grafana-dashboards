@@ -224,7 +224,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
         "y": 1
@@ -274,7 +274,7 @@
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
         "y": 1
@@ -364,7 +364,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
         "y": 1
@@ -449,7 +449,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 9
       },
       "panels": [],
       "targets": [
@@ -521,10 +521,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 16
+        "y": 10
       },
       "links": [],
       "options": {
@@ -587,10 +587,10 @@
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 16
+        "y": 10
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -672,10 +672,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 16
+        "y": 10
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -762,7 +762,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 18
       },
       "panels": [],
       "targets": [
@@ -781,10 +781,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 24
+        "y": 19
       },
       "aliasColors": {},
       "bars": false,
@@ -910,10 +910,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 24
+        "y": 19
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -973,10 +973,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 24
+        "y": 19
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1041,7 +1041,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 27
       },
       "panels": [],
       "targets": [
@@ -1113,10 +1113,10 @@ clamp( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 28
       },
       "links": [],
       "options": {
@@ -1191,10 +1191,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 32
+        "y": 28
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1254,10 +1254,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 32
+        "y": 28
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1322,7 +1322,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 36
       },
       "panels": [],
       "targets": [
@@ -1333,7 +1333,7 @@ clamp( \n\
           "refId": "A"
         }
       ],
-      "title": "innodb_io_capacity_max",
+      "title": "innodb_io_capacity/innodb_io_capacity_max",
       "type": "row"
     },
     {
@@ -1411,10 +1411,10 @@ clamp( \n\
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 40
+        "y": 37
       },
       "links": [],
       "options": {
@@ -1530,10 +1530,10 @@ sum by (instance) ( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 4,
         "w": 6,
         "x": 12,
-        "y": 40
+        "y": 37
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1721,7 +1721,7 @@ clamp( \n\
           "step": 300
         }
       ],
-      "title": "Current",
+      "title": "Current (innodb_io_capacity_max)",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -1729,10 +1729,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 4,
         "w": 6,
         "x": 18,
-        "y": 40
+        "y": 37
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1921,230 +1921,18 @@ clamp( \n\
           "step": 300
         }
       ],
-      "title": "Proposed",
+      "title": "Proposed (innodb_io_capacity_max)",
       "type": "pmm-singlestat-panel"
     },
     {
-      "collapsed": false,
       "datasource": {
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 47
-      },
-      "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "innodb_io_capacity",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Disk IO Utilization"
-            },
-            "properties": [
-              {
-                "id": "custom.axisPlacement",
-                "value": "right"
-              },
-              {
-                "id": "unit",
-                "value": "percentunit"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 48
-      },
-      "links": [],
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.5.7",
-      "targets": [
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "\
-( \n\
-  ( \n\
-    max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
-    or \n\
-    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
-    or \n\
-    max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
-    or \n\
-    max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
-  ) \n\
-  or \n\
-  sum by (instance) ( \n\
-    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
-    or \n\
-    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
-  ) \n\
-) \n\
-+ \n\
-( \n\
-  ( \n\
-    max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
-    or \n\
-    max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
-    or \n\
-    max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
-    or \n\
-    max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
-  ) \n\
-  or \n\
-  sum by (instance) ( \n\
-    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
-    or \n\
-    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
-  ) \n\
-) \n\
-",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Disk I/Os per second",
-          "metric": "",
-          "refId": "A",
-          "step": 300
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "\
-max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
-or \n\
-max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
-or \n\
-max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
-or \n\
-max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
-or \n\
-max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
-or \n\
-max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
-or \n\
-sum by (instance) ( \n\
-  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
-  or \n\
-  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-) / 100 \n\
-",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Disk IO Utilization",
-          "metric": "",
-          "refId": "B",
-          "step": 300
-        }
-      ],
-      "title": "Disk IO Utilization",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus"
-      },
-      "gridPos": {
-        "h": 7,
+        "h": 4,
         "w": 6,
         "x": 12,
-        "y": 48
+        "y": 41
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2332,7 +2120,7 @@ clamp( \n\
           "step": 300
         }
       ],
-      "title": "Current",
+      "title": "Current (innodb_io_capacity)",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -2340,10 +2128,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 4,
         "w": 6,
         "x": 18,
-        "y": 48
+        "y": 41
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2532,7 +2320,7 @@ clamp( \n\
           "step": 300
         }
       ],
-      "title": "Proposed",
+      "title": "Proposed (innodb_io_capacity)",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -2544,7 +2332,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 55
+        "y": 45
       },
       "panels": [],
       "targets": [
@@ -2633,10 +2421,10 @@ clamp( \n\
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 56
+        "y": 46
       },
       "links": [],
       "options": {
@@ -2717,10 +2505,10 @@ sum by (instance) ( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 56
+        "y": 46
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2843,10 +2631,10 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 56
+        "y": 46
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2974,7 +2762,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 54
       },
       "panels": [],
       "targets": [
@@ -3063,10 +2851,10 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 64
+        "y": 55
       },
       "links": [],
       "options": {
@@ -3147,10 +2935,10 @@ sum by (instance) ( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 64
+        "y": 55
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3273,10 +3061,10 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 64
+        "y": 55
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3404,7 +3192,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 71
+        "y": 63
       },
       "panels": [],
       "targets": [
@@ -3464,10 +3252,10 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 72
+        "y": 64
       },
       "links": [],
       "options": {
@@ -3520,10 +3308,10 @@ sum( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 72
+        "y": 64
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3703,10 +3491,10 @@ clamp_min( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 72
+        "y": 64
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3891,7 +3679,7 @@ clamp_min( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 79
+        "y": 72
       },
       "panels": [],
       "targets": [
@@ -3951,10 +3739,10 @@ clamp_min( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 80
+        "y": 73
       },
       "links": [],
       "options": {
@@ -4009,10 +3797,10 @@ vector(0) \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 80
+        "y": 73
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4143,10 +3931,10 @@ floor( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 80
+        "y": 73
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4282,7 +4070,7 @@ floor( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 87
+        "y": 81
       },
       "panels": [],
       "targets": [
@@ -4342,10 +4130,10 @@ floor( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 88
+        "y": 82
       },
       "links": [],
       "options": {
@@ -4400,10 +4188,10 @@ vector(0) \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 88
+        "y": 82
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4534,10 +4322,10 @@ floor( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 88
+        "y": 82
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4673,7 +4461,7 @@ floor( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 95
+        "y": 90
       },
       "panels": [],
       "targets": [
@@ -4747,10 +4535,10 @@ floor( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 96
+        "y": 91
       },
       "links": [],
       "options": {
@@ -4830,10 +4618,10 @@ on() vector(0) \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 96
+        "y": 91
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4941,10 +4729,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 96
+        "y": 91
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5057,7 +4845,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 103
+        "y": 99
       },
       "panels": [],
       "targets": [
@@ -5131,10 +4919,10 @@ clamp( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 104
+        "y": 100
       },
       "links": [],
       "options": {
@@ -5214,10 +5002,10 @@ on() vector(0) \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 104
+        "y": 100
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5326,10 +5114,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 104
+        "y": 100
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5443,7 +5231,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 111
+        "y": 108
       },
       "panels": [],
       "targets": [
@@ -5517,10 +5305,10 @@ clamp( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 112
+        "y": 109
       },
       "links": [],
       "options": {
@@ -5578,10 +5366,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 112
+        "y": 109
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5691,10 +5479,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 112
+        "y": 109
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5809,7 +5597,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 119
+        "y": 117
       },
       "panels": [],
       "targets": [
@@ -5883,10 +5671,10 @@ clamp( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 120
+        "y": 118
       },
       "links": [],
       "options": {
@@ -5976,10 +5764,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 120
+        "y": 118
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6057,10 +5845,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 120
+        "y": 118
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6150,7 +5938,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 127
+        "y": 126
       },
       "panels": [],
       "targets": [
@@ -6169,10 +5957,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 128
+        "y": 127
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6393,10 +6181,10 @@ clamp( \n\
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 12,
-        "y": 128
+        "y": 127
       },
       "links": [],
       "options": {
@@ -6550,7 +6338,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 24,
         "x": 0,
         "y": 135
@@ -6813,7 +6601,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 24,
         "x": 0,
         "y": 143
@@ -6919,10 +6707,10 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 24,
         "x": 0,
-        "y": 150
+        "y": 151
       },
       "links": [],
       "options": {
