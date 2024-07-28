@@ -1,14 +1,14 @@
 {
   "type": "app",
   "name": "SSM",
-  "id": "pmm-app",
+  "id": "ssm-app",
 
   "info": {
-    "description": "Percona Management and Monitoring dashboards",
+    "description": "Shattered Silicon Monitoring dashboards",
     "author": {
-      "name": "Percona"
+      "name": "Shattered Silicon"
     },
-    "keywords": ["percona", "query analytics", "pmm", "qan"],
+    "keywords": ["shatteredsilicon", "query analytics", "ssm", "qan"],
     "links": [
       {"name": "Project site", "url": "https://github.com/percona/qan-app"},
       {"name": "AGPL-3 License",  "url": "https://github.com/percona/qan-app/blob/master/LICENSE"}
@@ -17,20 +17,20 @@
       "small": "img/ssm-logo.png",
       "large": "img/ssm-logo.png"
     },
-    "version": "1.0.3",
-    "updated": "2018-02-02"
+    "version": "1.0.0",
+    "updated": "2024-08-01"
   },
   "includes": [
-    {"type": "dashboard", "name": "pmm-qan", "path": "dashboards/pmm-qan.json"},
-    {"type": "panel", "name": "pmm-qan-app-panel"},
-    {"type": "dashboard", "name": "pmm-qan", "path": "dashboards/pmm-settings.json"},
-    {"type": "panel", "name": "pmm-qan-settings-app-panel"},
-    {"type": "dashboard", "name": "pmm-summary", "path": "dashboards/pmm-summary.json"},
-    {"type": "panel", "name": "pmm-system-summary-app-panel"},
-    {"type": "dashboard", "name": "pmm-add-instance", "path": "dashboards/pmm-add-instance.json"},
-    {"type": "panel", "name": "pmm-add-instance-app-panel"},
-    {"type": "dashboard", "name": "pmm-list", "path": "dashboards/pmm-list.json"},
-    {"type": "panel", "name": "pmm-remote-instances-panel"},
+    {"type": "dashboard", "name": "ssm-qan", "path": "dashboards/ssm-qan.json"},
+    {"type": "panel", "name": "ssm-qan-app-panel"},
+    {"type": "dashboard", "name": "ssm-qan", "path": "dashboards/ssm-settings.json"},
+    {"type": "panel", "name": "ssm-qan-settings-app-panel"},
+    {"type": "dashboard", "name": "ssm-summary", "path": "dashboards/ssm-summary.json"},
+    {"type": "panel", "name": "ssm-system-summary-app-panel"},
+    {"type": "dashboard", "name": "ssm-add-instance", "path": "dashboards/ssm-add-instance.json"},
+    {"type": "panel", "name": "ssm-add-instance-app-panel"},
+    {"type": "dashboard", "name": "ssm-list", "path": "dashboards/ssm-list.json"},
+    {"type": "panel", "name": "ssm-remote-instances-panel"},
     {"type": "dashboard", "name": "Home Dashboard", "path": "dashboards/Home_Dashboard.json"},
     {"type": "dashboard", "name": "MySQL_InnoDB_Compression", "path": "dashboards/MySQL_InnoDB_Compression.json"},
     {"type": "dashboard", "name": "MySQL_Command_Handler_Counters_Compare", "path": "dashboards/MySQL_Command_Handler_Counters_Compare.json"},
@@ -77,7 +77,7 @@
   ],
 
   "dependencies": {
-    "grafanaVersion": "4.x.x",
+    "grafanaVersion": "9.x.x",
     "plugins": [ ]
   }
 }

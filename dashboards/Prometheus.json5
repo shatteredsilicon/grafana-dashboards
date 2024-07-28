@@ -289,7 +289,7 @@
         ],
         "thresholds": "60,80",
         "title": "CPU Usage",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -375,7 +375,7 @@
         ],
         "thresholds": "30,60",
         "title": "Memory Usage",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -871,7 +871,7 @@ max(irate(prometheus_tsdb_head_samples_appended_total[5m])) \n\
         ],
         "thresholds": "60,80",
         "title": "Capacity Usage",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -4775,7 +4775,7 @@ clamp_max( \n\
             "thresholds": "70,90",
             "title": "CPU Busy",
             "transparent": false,
-            "type": "pmm-singlestat-panel",
+            "type": "ssm-singlestat-panel",
             "valueFontSize": "80%",
             "valueMaps": [],
             "valueName": "current"
@@ -4866,7 +4866,7 @@ clamp_max( \n\
             "thresholds": "10,20",
             "title": "Mem Avail",
             "transparent": false,
-            "type": "pmm-singlestat-panel",
+            "type": "ssm-singlestat-panel",
             "valueFontSize": "80%",
             "valueMaps": [],
             "valueName": "current"

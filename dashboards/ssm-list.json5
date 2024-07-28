@@ -128,7 +128,7 @@
                         }
                     ],
                     "title": "SSM Monitored Instances",
-                    "type": "pmm-remote-instances-panel"
+                    "type": "ssm-remote-instances-panel"
                 }
             ],
             "repeat": null,

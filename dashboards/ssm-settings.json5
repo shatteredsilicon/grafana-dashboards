@@ -128,7 +128,7 @@
                         }
                     ],
                     "title": "SSM Query Analytics Settings",
-                    "type": "pmm-qan-settings-app-panel"
+                    "type": "ssm-qan-settings-app-panel"
                 }
             ],
             "repeat": null,

@@ -408,7 +408,7 @@
         ],
         "thresholds": "10,20",
         "title": "Load Average",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "100%",
         "valueMaps": [
           {
@@ -574,7 +574,7 @@
         ],
         "thresholds": "5,10",
         "title": "Memory Available",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "100%",
         "valueMaps": [
           {
@@ -827,7 +827,7 @@
         ],
         "thresholds": "5,20",
         "title": "Min Space Available",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "100%",
         "valueMaps": [
           {
