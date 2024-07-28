@@ -224,7 +224,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
         "y": 1
@@ -274,7 +274,7 @@
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
         "y": 1
@@ -364,7 +364,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
         "y": 1
@@ -449,7 +449,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 9
       },
       "panels": [],
       "targets": [
@@ -521,10 +521,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 16
+        "y": 10
       },
       "links": [],
       "options": {
@@ -552,7 +552,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_variables_table_open_cache{instance=~\"$host\"}[$interval]) or max_over_time(mysql_global_variables_table_open_cache{instance=~\"$host\"}[5m])",
+          "expr": "mysql_global_variables_table_open_cache{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -568,7 +568,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_status_open_tables{instance=~\"$host\"}[$interval]) or max_over_time(mysql_global_status_open_tables{instance=~\"$host\"}[5m])",
+          "expr": "mysql_global_status_open_tables{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -579,6 +579,7 @@
         }
       ],
       "title": "Table Open Cache & Open Tables",
+      "description": "Note: If you do not see any metric, try setting: ``collect.global_status = 1`` and ``collect.global_variables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
     {
@@ -586,10 +587,10 @@
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 16
+        "y": 10
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -629,7 +630,29 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp(2^(floor(log2(max_over_time(mysql_global_status_open_tables{instance=~\"$host\"}[1w:2m])))+1), 1, 1048576)",
+          "expr": "\
+clamp( \n\
+  ( \n\
+    mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+    and \n\
+    ( \n\
+      mysql_global_status_open_tables{instance=~\"$host\"} \n\
+      / \n\
+      mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+      < 0.9 \n\
+    ) \n\
+  ) \n\
+  or on() ( \n\
+    2^( \n\
+      floor( \n\
+        log2(mysql_global_variables_table_open_cache{instance=~\"$host\"}) \n\
+      ) + 1 \n\
+    ) \n\
+  ), \n\
+  1, \n\
+  1048576 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -641,6 +664,7 @@
         }
       ],
       "title": "Current",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_status = 1`` and ``collect.global_variables = 1`` in the mysqld_exporter config file.",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -648,10 +672,10 @@
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 16
+        "y": 10
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -675,7 +699,29 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp(2^(floor(log2(max_over_time(mysql_global_status_open_tables{instance=~\"$host\"}[1w:2m])))+1), 1, 1048576)",
+          "expr": "\
+clamp( \n\
+  ( \n\
+    mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+    and \n\
+    ( \n\
+      mysql_global_status_open_tables{instance=~\"$host\"} \n\
+      / \n\
+      mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+      < 0.9 \n\
+    ) \n\
+  ) \n\
+  or on() ( \n\
+    2^( \n\
+      floor( \n\
+        log2(mysql_global_variables_table_open_cache{instance=~\"$host\"}) \n\
+      ) + 1 \n\
+    ) \n\
+  ), \n\
+  1, \n\
+  1048576 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -704,6 +750,7 @@
         }
       ],
       "title": "Proposed",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_status = 1`` and ``collect.global_variables = 1`` in the mysqld_exporter config file.",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -715,7 +762,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 18
       },
       "panels": [],
       "targets": [
@@ -733,84 +780,61 @@
       "datasource": {
         "type": "prometheus"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "decimals": 1,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "decgbytes"
-        },
-        "overrides": []
-      },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 24
+        "y": 19
       },
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus"
+      },
+      "decimals": 2,
+      "description": "The InnoDB Log Buffer Performance graph shows the efficiency of the InnoDB log buffer.  The InnoDB log buffer size is defined by the innodb_log_buffer_size parameter and illustrated on the graph by the Size metric.  Used is the amount of the buffer space that is used.  If Used is too high and gets close to Size, additional log writes will be required.\n\nNote: If you do not see any metric, try running: ``SET GLOBAL innodb_monitor_enable=all;`` in the MySQL client.",
+      "editable": true,
+      "error": false,
+      "fill": 2,
+      "fillGradient": 0,
+      "grid": {
+        "leftLogBase": 1,
+        "leftMin": 0,
+        "rightLogBase": 1,
+        "rightMin": 0
+      },
+      "hiddenSeries": false,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": true,
+        "rightSide": false,
+        "show": true,
+        "sort": "avg",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
       "links": [],
+      "nullPointMode": "null",
       "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
+        "alertThreshold": true
       },
+      "percentage": false,
       "pluginVersion": "9.5.7",
+      "pointradius": 1,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -819,57 +843,77 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "\
-( \n\
-  mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} \n\
-  or \n\
-  mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"} \n\
-) / (1024 * 1024 * 1024) \n\
-",
+          "expr": "(mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})*0 + on (instance) mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "InnoDB Log flushed",
-          "metric": "",
-          "refId": "A",
-          "step": 300
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "\
-( \n\
-  mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
-  or \n\
-  mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
-) / (1024 * 1024 * 1024) \n\
-",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "InnoDB Long Sequence Number",
+          "legendFormat": "Size",
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "expr": "(mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"}) - (mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"})",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "Used",
+          "metric": "",
+          "refId": "A",
+          "step": 300
         }
       ],
-      "title": "InnoDB Log flushed & LSN",
-      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql.",
-      "type": "timeseries"
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "InnoDB Log Buffer Performance",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "x-axis": true,
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "y-axis": true,
+      "y_formats": [
+        "bytes",
+        "short"
+      ],
+      "yaxes": [
+        {
+          "format": "bytes",
+          "logBase": 1,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      },
+      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql."
     },
     {
       "datasource": {
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 24
+        "y": 19
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -929,10 +973,10 @@
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 24
+        "y": 19
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -997,7 +1041,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 27
       },
       "panels": [],
       "targets": [
@@ -1051,7 +1095,6 @@
             }
           },
           "mappings": [],
-          "decimals": 1,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1065,15 +1108,15 @@
               }
             ]
           },
-          "unit": "decgbytes"
+          "unit": "decbytes"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 28
       },
       "links": [],
       "options": {
@@ -1106,7 +1149,7 @@
   mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} \n\
   or \n\
   mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"} \n\
-) / (1024 * 1024 * 1024) \n\
+) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -1128,7 +1171,7 @@
   mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
   or \n\
   mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
-) / (1024 * 1024 * 1024) \n\
+) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -1148,10 +1191,10 @@
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 32
+        "y": 28
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1211,10 +1254,10 @@
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 32
+        "y": 28
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1279,7 +1322,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 36
       },
       "panels": [],
       "targets": [
@@ -1290,7 +1333,7 @@
           "refId": "A"
         }
       ],
-      "title": "innodb_io_capacity_max",
+      "title": "innodb_io_capacity/innodb_io_capacity_max",
       "type": "row"
     },
     {
@@ -1368,10 +1411,10 @@
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 40
+        "y": 37
       },
       "links": [],
       "options": {
@@ -1487,10 +1530,10 @@ sum by (instance) ( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 4,
         "w": 6,
         "x": 12,
-        "y": 40
+        "y": 37
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1678,7 +1721,7 @@ clamp( \n\
           "step": 300
         }
       ],
-      "title": "Current",
+      "title": "Current (innodb_io_capacity_max)",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -1686,10 +1729,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 4,
         "w": 6,
         "x": 18,
-        "y": 40
+        "y": 37
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1878,230 +1921,18 @@ clamp( \n\
           "step": 300
         }
       ],
-      "title": "Proposed",
+      "title": "Proposed (innodb_io_capacity_max)",
       "type": "pmm-singlestat-panel"
     },
     {
-      "collapsed": false,
       "datasource": {
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 47
-      },
-      "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus"
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "innodb_io_capacity",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Disk IO Utilization"
-            },
-            "properties": [
-              {
-                "id": "custom.axisPlacement",
-                "value": "right"
-              },
-              {
-                "id": "unit",
-                "value": "percentunit"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 48
-      },
-      "links": [],
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.5.7",
-      "targets": [
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "\
-( \n\
-  ( \n\
-    max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
-    or \n\
-    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
-    or \n\
-    max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
-    or \n\
-    max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
-  ) \n\
-  or \n\
-  sum by (instance) ( \n\
-    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
-    or \n\
-    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
-  ) \n\
-) \n\
-+ \n\
-( \n\
-  ( \n\
-    max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
-    or \n\
-    max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
-    or \n\
-    max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
-    or \n\
-    max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
-  ) \n\
-  or \n\
-  sum by (instance) ( \n\
-    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
-    or \n\
-    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
-  ) \n\
-) \n\
-",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Disk I/Os per second",
-          "metric": "",
-          "refId": "A",
-          "step": 300
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "\
-max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
-or \n\
-max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
-or \n\
-max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
-or \n\
-max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
-or \n\
-max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
-or \n\
-max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
-or \n\
-sum by (instance) ( \n\
-  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
-  or \n\
-  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-) / 100 \n\
-",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "legendFormat": "Disk IO Utilization",
-          "metric": "",
-          "refId": "B",
-          "step": 300
-        }
-      ],
-      "title": "Disk IO Utilization",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus"
-      },
-      "gridPos": {
-        "h": 7,
+        "h": 4,
         "w": 6,
         "x": 12,
-        "y": 48
+        "y": 41
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2289,7 +2120,7 @@ clamp( \n\
           "step": 300
         }
       ],
-      "title": "Current",
+      "title": "Current (innodb_io_capacity)",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -2297,10 +2128,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 4,
         "w": 6,
         "x": 18,
-        "y": 48
+        "y": 41
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2489,7 +2320,7 @@ clamp( \n\
           "step": 300
         }
       ],
-      "title": "Proposed",
+      "title": "Proposed (innodb_io_capacity)",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -2501,7 +2332,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 55
+        "y": 45
       },
       "panels": [],
       "targets": [
@@ -2590,10 +2421,10 @@ clamp( \n\
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 56
+        "y": 46
       },
       "links": [],
       "options": {
@@ -2674,10 +2505,10 @@ sum by (instance) ( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 56
+        "y": 46
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2723,32 +2554,46 @@ clamp( \n\
     and \n\
     on() ( \n\
       max_over_time( \n\
-        ( \n\
-          mysql_engine_innodb_pending_reads{instance=~\"$host\"} \n\
-          and \n\
-          on() ( \n\
-            ( \n\
-              max( \n\
-                rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 \n\
-                or \n\
-                rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])/1000 \n\
-                or \n\
-                irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 \n\
-                or \n\
-                irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])/1000 \n\
-                or \n\
-                rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) \n\
-                or \n\
-                irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
-                or \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-              ) / 100 \n\
-            ) \n\
-            or \n\
-            on() vector(0) \n\
-          ) \n\
-        )[1w:2m] \n\
+        mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
       ) < 1 \n\
+      or \n\
+      ( \n\
+        max_over_time( \n\
+          mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
+        ) > 0 \n\
+        and \n\
+        ( \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          or \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          or \n\
+          sum by (instance) ( \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+          ) / 100 \n\
+        ) < 0.75 \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
     ) \n\
   ) \n\
   or \n\
@@ -2774,7 +2619,11 @@ clamp( \n\
         }
       ],
       "title": "Current",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
+      "description": "\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+\n\
+This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
+",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -2782,10 +2631,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 56
+        "y": 46
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2815,32 +2664,46 @@ clamp( \n\
     and \n\
     on() ( \n\
       max_over_time( \n\
-        ( \n\
-          mysql_engine_innodb_pending_reads{instance=~\"$host\"} \n\
-          and \n\
-          on() ( \n\
-            ( \n\
-              max( \n\
-                rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])/1000 \n\
-                or \n\
-                rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])/1000 \n\
-                or \n\
-                irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])/1000 \n\
-                or \n\
-                irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])/1000 \n\
-                or \n\
-                rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) \n\
-                or \n\
-                irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
-                or \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-              ) / 100 \n\
-            ) \n\
-            or \n\
-            on() vector(0) \n\
-          ) \n\
-        )[1w:2m] \n\
+        mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
       ) < 1 \n\
+      or \n\
+      ( \n\
+        max_over_time( \n\
+          mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
+        ) > 0 \n\
+        and \n\
+        ( \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          or \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          or \n\
+          sum by (instance) ( \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+          ) / 100 \n\
+        ) < 0.75 \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
     ) \n\
   ) \n\
   or \n\
@@ -2883,7 +2746,11 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
+      "description": "\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+\n\
+This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
+",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -2895,7 +2762,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 54
       },
       "panels": [],
       "targets": [
@@ -2984,10 +2851,10 @@ clamp( \n\
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 64
+        "y": 55
       },
       "links": [],
       "options": {
@@ -3068,10 +2935,10 @@ sum by (instance) ( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 64
+        "y": 55
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3114,37 +2981,57 @@ sum by (instance) ( \n\
 clamp( \n\
   ( \n\
     mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
-    and on() ( \n\
+    and \n\
+    on() ( \n\
       max_over_time( \n\
-        ( \n\
-          mysql_engine_innodb_pending_writes{instance=~\"$host\"} \n\
-          and on() ( \n\
-            ( \n\
-              max( \n\
-                irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]) \n\
-                or \n\
-                irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]) \n\
-              ) / 1000 \n\
-              or \n\
-              max( \n\
-                irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
-              ) \n\
-              or \n\
-              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-            ) / 100 \n\
-          ) \n\
-          or on() vector(0) \n\
-        )[1w:2m] \n\
+        mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
       ) < 1 \n\
+      or \n\
+      ( \n\
+        max_over_time( \n\
+          mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
+        ) > 0 \n\
+        and \n\
+        ( \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          or \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          or \n\
+          sum by (instance) ( \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+          ) / 100 \n\
+        ) < 0.75 \n\
+      ) \n\
     ) \n\
   ) \n\
-  or on() ( \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
     2^( \n\
       floor( \n\
-        log2( \n\
-          mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
-        ) \n\
-      ) + 1 \n\
+        log2(mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}) \n\
+      )+1 \n\
     ) \n\
   ), \n\
   1, \n\
@@ -3162,7 +3049,11 @@ clamp( \n\
         }
       ],
       "title": "Current",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
+      "description": "\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+\n\
+This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
+",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -3170,10 +3061,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 64
+        "y": 55
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3200,37 +3091,57 @@ clamp( \n\
 clamp( \n\
   ( \n\
     mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
-    and on() ( \n\
+    and \n\
+    on() ( \n\
       max_over_time( \n\
-        ( \n\
-          mysql_engine_innodb_pending_writes{instance=~\"$host\"} \n\
-          and on() ( \n\
-            ( \n\
-              max( \n\
-                irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]) \n\
-                or \n\
-                irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]) \n\
-              ) / 1000 \n\
-              or \n\
-              max( \n\
-                irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
-              ) \n\
-              or \n\
-              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-            ) / 100 \n\
-          ) \n\
-          or on() vector(0) \n\
-        )[1w:2m] \n\
+        mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
       ) < 1 \n\
+      or \n\
+      ( \n\
+        max_over_time( \n\
+          mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
+        ) > 0 \n\
+        and \n\
+        ( \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          or \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          or \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          or \n\
+          sum by (instance) ( \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+            or \n\
+            max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+          ) / 100 \n\
+        ) < 0.75 \n\
+      ) \n\
     ) \n\
   ) \n\
-  or on() ( \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
     2^( \n\
       floor( \n\
-        log2( \n\
-          mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
-        ) \n\
-      ) + 1 \n\
+        log2(mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}) \n\
+      )+1 \n\
     ) \n\
   ), \n\
   1, \n\
@@ -3265,7 +3176,11 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
+      "description": "\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+\n\
+This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
+",
       "type": "pmm-singlestat-panel"
     },
     {
@@ -3277,7 +3192,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 71
+        "y": 63
       },
       "panels": [],
       "targets": [
@@ -3337,10 +3252,10 @@ clamp( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 72
+        "y": 64
       },
       "links": [],
       "options": {
@@ -3393,10 +3308,10 @@ sum( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 72
+        "y": 64
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3448,8 +3363,24 @@ clamp_max( \n\
             mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
             and on (instance, schema, table) \n\
             mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
-          ) / scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-        ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+          ) / scalar( \n\
+            ( \n\
+              mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+              * \n\
+              mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+            ) \n\
+            or \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+          ) \n\
+        ) * scalar( \n\
+          ( \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+            * \n\
+            mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+          ) \n\
+          or \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        ) \n\
       ) == mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
@@ -3459,23 +3390,53 @@ clamp_max( \n\
         mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
         and on (instance, schema, table) \n\
         mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
-      ) / scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-    ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-  ), \n\
-  scalar(clamp_min( \n\
-    floor( \n\
-      ( \n\
-        node_memory_MemTotal{instance=\"$host\"} \n\
+      ) / scalar( \n\
+        ( \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+          * \n\
+          mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+        ) \n\
         or \n\
-        node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-      ) * 0.75 / scalar( \n\
-        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
       ) \n\
-    ), \n\
-    1 \n\
-  ) * scalar( \n\
-    mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
-  )) \n\
+    ) * scalar( \n\
+      ( \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        * \n\
+        mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+      ) \n\
+      or \n\
+      mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    ) \n\
+  ), \n\
+  scalar( \n\
+    clamp_min( \n\
+      floor( \n\
+        ( \n\
+          node_memory_MemTotal{instance=\"$host\"} \n\
+          or \n\
+          node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+        ) * 0.75 / scalar( \n\
+          ( \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+            * \n\
+            mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+          ) \n\
+          or \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        ) \n\
+      ), \n\
+      1 \n\
+    ) * scalar( \n\
+      ( \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        * \n\
+        mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+      ) \n\
+      or \n\
+      mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    ) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -3530,10 +3491,10 @@ clamp_min( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 72
+        "y": 64
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3569,8 +3530,24 @@ clamp_max( \n\
             mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
             and on (instance, schema, table) \n\
             mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
-          ) / scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-        ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
+          ) / scalar( \n\
+            ( \n\
+              mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+              * \n\
+              mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+            ) \n\
+            or \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+          ) \n\
+        ) * scalar( \n\
+          ( \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+            * \n\
+            mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+          ) \n\
+          or \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        ) \n\
       ) == mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
@@ -3580,23 +3557,53 @@ clamp_max( \n\
         mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
         and on (instance, schema, table) \n\
         mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
-      ) / scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-    ) * scalar(mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"}) \n\
-  ), \n\
-  scalar(clamp_min( \n\
-    floor( \n\
-      ( \n\
-        node_memory_MemTotal{instance=\"$host\"} \n\
+      ) / scalar( \n\
+        ( \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+          * \n\
+          mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+        ) \n\
         or \n\
-        node_memory_MemTotal_bytes{instance=\"$host\"} \n\
-      ) * 0.75 / scalar( \n\
-        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
       ) \n\
-    ), \n\
-    1 \n\
-  ) * scalar( \n\
-    mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} * mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
-  )) \n\
+    ) * scalar( \n\
+      ( \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        * \n\
+        mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+      ) \n\
+      or \n\
+      mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    ) \n\
+  ), \n\
+  scalar( \n\
+    clamp_min( \n\
+      floor( \n\
+        ( \n\
+          node_memory_MemTotal{instance=\"$host\"} \n\
+          or \n\
+          node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+        ) * 0.75 / scalar( \n\
+          ( \n\
+            mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+            * \n\
+            mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+          ) \n\
+          or \n\
+          mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        ) \n\
+      ), \n\
+      1 \n\
+    ) * scalar( \n\
+      ( \n\
+        mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+        * \n\
+        mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+      ) \n\
+      or \n\
+      mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    ) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -3672,7 +3679,7 @@ clamp_min( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 79
+        "y": 72
       },
       "panels": [],
       "targets": [
@@ -3732,10 +3739,10 @@ clamp_min( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 80
+        "y": 73
       },
       "links": [],
       "options": {
@@ -3769,6 +3776,8 @@ sum( \n\
   and on (instance, schema, table) \n\
   mysql_info_schema_table_version{instance=~\"$host\", engine=\"MyISAM\"} \n\
 ) \n\
+or \n\
+vector(0) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -3788,10 +3797,10 @@ sum( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 80
+        "y": 73
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3858,6 +3867,8 @@ clamp( \n\
         ) / ( 1024 * 1024 ) \n\
       ) * ( 1024 * 1024 ) \n\
     ) \n\
+    or \n\
+    vector(1024 * 1024) \n\
   ), \n\
   1024 * 1024, \n\
   scalar( \n\
@@ -3920,10 +3931,10 @@ floor( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 80
+        "y": 73
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3974,6 +3985,8 @@ clamp( \n\
         ) / ( 1024 * 1024 ) \n\
       ) * ( 1024 * 1024 ) \n\
     ) \n\
+    or \n\
+    vector(1024 * 1024) \n\
   ), \n\
   1024 * 1024, \n\
   scalar( \n\
@@ -4057,7 +4070,7 @@ floor( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 87
+        "y": 81
       },
       "panels": [],
       "targets": [
@@ -4117,10 +4130,10 @@ floor( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 88
+        "y": 82
       },
       "links": [],
       "options": {
@@ -4154,6 +4167,8 @@ sum( \n\
   and on (instance, schema, table) \n\
   mysql_info_schema_table_version{instance=~\"$host\", engine=\"Aria\"} \n\
 ) \n\
+or \n\
+vector(0) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -4173,10 +4188,10 @@ sum( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 88
+        "y": 82
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4243,6 +4258,8 @@ clamp( \n\
         ) / ( 1024 * 1024 ) \n\
       ) * ( 1024 * 1024 ) \n\
     ) \n\
+    or \n\
+    vector(1024 * 1024) \n\
   ), \n\
   1024 * 1024, \n\
   scalar( \n\
@@ -4305,10 +4322,10 @@ floor( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 88
+        "y": 82
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4359,6 +4376,8 @@ clamp( \n\
         ) / ( 1024 * 1024 ) \n\
       ) * ( 1024 * 1024 ) \n\
     ) \n\
+    or \n\
+    vector(1024 * 1024) \n\
   ), \n\
   1024 * 1024, \n\
   scalar( \n\
@@ -4442,7 +4461,7 @@ floor( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 95
+        "y": 90
       },
       "panels": [],
       "targets": [
@@ -4516,10 +4535,10 @@ floor( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 96
+        "y": 91
       },
       "links": [],
       "options": {
@@ -4599,10 +4618,10 @@ on() vector(0) \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 96
+        "y": 91
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4710,10 +4729,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 96
+        "y": 91
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4826,7 +4845,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 103
+        "y": 99
       },
       "panels": [],
       "targets": [
@@ -4900,10 +4919,10 @@ clamp( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 104
+        "y": 100
       },
       "links": [],
       "options": {
@@ -4983,10 +5002,10 @@ on() vector(0) \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 104
+        "y": 100
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5095,10 +5114,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 104
+        "y": 100
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5212,7 +5231,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 111
+        "y": 108
       },
       "panels": [],
       "targets": [
@@ -5286,10 +5305,10 @@ clamp( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 112
+        "y": 109
       },
       "links": [],
       "options": {
@@ -5347,10 +5366,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 112
+        "y": 109
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5460,10 +5479,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 112
+        "y": 109
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5578,7 +5597,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 119
+        "y": 117
       },
       "panels": [],
       "targets": [
@@ -5652,10 +5671,10 @@ clamp( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 120
+        "y": 118
       },
       "links": [],
       "options": {
@@ -5718,7 +5737,7 @@ clamp( \n\
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "AHI - Hits / (Hits + Maintenance)",
+          "legendFormat": "AHI Efficiency",
           "refId": "A",
           "step": 300
         }
@@ -5730,14 +5749,14 @@ clamp( \n\
             "conversions": [
               {
                 "destinationType": "number",
-                "targetField": "AHI - Hits / (Hits + Maintenance)"
+                "targetField": "AHI Efficiency"
               }
             ],
             "fields": {}
           }
         }
       ],
-      "title": "AHI - Hits / (Hits + Maintenance)",
+      "title": "AHI Efficiency",
       "type": "timeseries"
     },
     {
@@ -5745,10 +5764,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 12,
-        "y": 120
+        "y": 118
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5826,10 +5845,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 6,
         "x": 18,
-        "y": 120
+        "y": 118
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5919,7 +5938,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 127
+        "y": 126
       },
       "panels": [],
       "targets": [
@@ -5938,10 +5957,10 @@ clamp( \n\
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 128
+        "y": 127
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6162,10 +6181,10 @@ clamp( \n\
         ]
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 12,
         "x": 12,
-        "y": 128
+        "y": 127
       },
       "links": [],
       "options": {
@@ -6319,7 +6338,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 24,
         "x": 0,
         "y": 135
@@ -6582,7 +6601,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 24,
         "x": 0,
         "y": 143
@@ -6688,10 +6707,10 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 8,
         "w": 24,
         "x": 0,
-        "y": 150
+        "y": 151
       },
       "links": [],
       "options": {
