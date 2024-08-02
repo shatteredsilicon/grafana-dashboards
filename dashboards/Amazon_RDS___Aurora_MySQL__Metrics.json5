@@ -344,7 +344,7 @@
         ],
         "thresholds": "60,80",
         "title": "CPU Utilization",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {

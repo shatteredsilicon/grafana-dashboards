@@ -461,7 +461,7 @@
             "refId": "A"
           }
         ],
-        "type": "pmm-update-panel"
+        "type": "ssm-update-panel"
       },
       {
         "collapsed": false,
@@ -647,7 +647,7 @@ avg by () ( \n\
         ],
         "thresholds": "70,90",
         "title": "CPU Busy",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -743,7 +743,7 @@ avg by () ( \n\
         ],
         "thresholds": "10,20",
         "title": "Mem Avail",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1801,7 +1801,7 @@ sum by () ( \n\
           }
         ],
         "thresholds": "70,90",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1896,7 +1896,7 @@ sum by () ( \n\
           }
         ],
         "thresholds": "10,20",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {

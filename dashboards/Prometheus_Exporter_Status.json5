@@ -829,7 +829,7 @@
         ],
         "thresholds": "5,10",
         "title": "CPU Usage",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [],
         "valueName": "current"
@@ -1623,7 +1623,7 @@
             "thresholds": "5,10",
             "title": "CPU Usage",
             "transparent": false,
-            "type": "pmm-singlestat-panel",
+            "type": "ssm-singlestat-panel",
             "valueFontSize": "80%",
             "valueMaps": [],
             "valueName": "current"
@@ -2374,7 +2374,7 @@
             "thresholds": "5,10",
             "title": "CPU Usage",
             "transparent": false,
-            "type": "pmm-singlestat-panel",
+            "type": "ssm-singlestat-panel",
             "valueFontSize": "80%",
             "valueMaps": [],
             "valueName": "current"

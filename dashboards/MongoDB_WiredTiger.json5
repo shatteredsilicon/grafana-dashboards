@@ -456,7 +456,7 @@
         ],
         "thresholds": "90,95",
         "title": "Memory Available",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {

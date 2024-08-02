@@ -688,7 +688,7 @@ clamp_max( \n\
         ],
         "thresholds": "70,90",
         "title": "All Cores - total",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -806,7 +806,7 @@ clamp_max( \n\
         ],
         "thresholds": "70,90",
         "title": "All Cores - user",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -924,7 +924,7 @@ clamp_max( \n\
         ],
         "thresholds": "20,30",
         "title": "All Cores - system",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1042,7 +1042,7 @@ clamp_max( \n\
         ],
         "thresholds": "20,50",
         "title": "All Cores - iowait",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1160,7 +1160,7 @@ clamp_max( \n\
         ],
         "thresholds": "10,30",
         "title": "All Cores - steal",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1284,7 +1284,7 @@ clamp_max( \n\
         ],
         "thresholds": "10,20",
         "title": "All Cores - other",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1472,7 +1472,7 @@ clamp_max( \n\
         ],
         "thresholds": "70,90",
         "title": "$cpu - total",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1590,7 +1590,7 @@ clamp_max( \n\
         ],
         "thresholds": "70,90",
         "title": "$cpu - user",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1708,7 +1708,7 @@ clamp_max( \n\
         ],
         "thresholds": "20,30",
         "title": "$cpu - system",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1826,7 +1826,7 @@ clamp_max( \n\
         ],
         "thresholds": "20,50",
         "title": "$cpu - iowait",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1944,7 +1944,7 @@ clamp_max( \n\
         ],
         "thresholds": "10,30",
         "title": "$cpu - steal",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -2068,7 +2068,7 @@ clamp_max( \n\
         ],
         "thresholds": "10,20",
         "title": "$cpu - other",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {

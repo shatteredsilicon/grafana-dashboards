@@ -460,7 +460,7 @@
         ],
         "thresholds": "90,95",
         "title": "Memory Available",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -2320,7 +2320,7 @@ irate(mongodb_mongod_rocksdb_compaction_bytes_per_second_total{instance=~\"$host
             "thresholds": "90,95",
             "title": "Memory Available",
             "transparent": false,
-            "type": "pmm-singlestat-panel",
+            "type": "ssm-singlestat-panel",
             "valueFontSize": "80%",
             "valueMaps": [],
             "valueName": "current"

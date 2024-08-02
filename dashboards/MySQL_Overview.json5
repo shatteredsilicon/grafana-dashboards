@@ -320,7 +320,7 @@ irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
           }
         ],
         "title": "Current QPS",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "thresholds": "35,75",
         "valueFontSize": "100%",
         "valueMaps": [],
@@ -508,7 +508,7 @@ irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
         ],
         "thresholds": "40,80",
         "title": "Buffer Pool Size of Total RAM",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "100%",
         "valueMaps": [],
         "valueName": "current"

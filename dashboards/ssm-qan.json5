@@ -566,7 +566,7 @@ avg( \n\
                 }
             ],
             "title": "SSM Query Analytics",
-            "type": "pmm-qan-app-panel"
+            "type": "ssm-qan-app-panel"
         }
     ],
     "refresh": false,

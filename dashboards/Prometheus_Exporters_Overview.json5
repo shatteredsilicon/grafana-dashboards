@@ -270,7 +270,7 @@ avg( \n\
         ],
         "thresholds": "5,19",
         "title": "Avg CPU Usage per Host",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {
@@ -1183,7 +1183,7 @@ avg( \n\
         ],
         "thresholds": "5,10",
         "title": "CPU  Used",
-        "type": "pmm-singlestat-panel",
+        "type": "ssm-singlestat-panel",
         "valueFontSize": "80%",
         "valueMaps": [
           {

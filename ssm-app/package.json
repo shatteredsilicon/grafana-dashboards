@@ -1,8 +1,8 @@
 {
-  "name": "pmm-qan-app",
+  "name": "ssm-qan-app",
   "version": "1.0.0",
   "description": "SSM app for Grafana",
-  "author": "Percona",
+  "author": "Shattered Silicon",
   "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
@@ -14,9 +14,9 @@
     "build": "tsc"
   },
   "keywords": [
-    "percona",
+    "shatteredsilicon",
     "qan",
-    "pmm",
+    "ssm",
     "grafana"
   ],
   "dependencies": {

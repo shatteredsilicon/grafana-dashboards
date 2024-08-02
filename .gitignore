@@ -4,6 +4,5 @@ dashboards/*.json
 /export-dash.py
 /import-dash.py
 .env/
-pmm-app.tar.gz
-pmm-app/dist/
+ssm-app/dist/
 node_modules

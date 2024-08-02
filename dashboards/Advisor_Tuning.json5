@@ -330,7 +330,7 @@
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -438,7 +438,7 @@
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -665,7 +665,7 @@ clamp( \n\
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_status = 1`` and ``collect.global_variables = 1`` in the mysqld_exporter config file.",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -751,7 +751,7 @@ clamp( \n\
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_status = 1`` and ``collect.global_variables = 1`` in the mysqld_exporter config file.",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -965,7 +965,7 @@ clamp( \n\
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -1029,7 +1029,7 @@ clamp( \n\
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -1246,7 +1246,7 @@ clamp( \n\
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -1310,7 +1310,7 @@ clamp( \n\
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -1722,7 +1722,7 @@ clamp( \n\
         }
       ],
       "title": "Current (innodb_io_capacity_max)",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -1922,7 +1922,7 @@ clamp( \n\
         }
       ],
       "title": "Proposed (innodb_io_capacity_max)",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -2121,7 +2121,7 @@ clamp( \n\
         }
       ],
       "title": "Current (innodb_io_capacity)",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -2321,7 +2321,7 @@ clamp( \n\
         }
       ],
       "title": "Proposed (innodb_io_capacity)",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -2624,7 +2624,7 @@ Note: If it's not working properly, make sure you have set: ``collect.engine_inn
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -2751,7 +2751,7 @@ Note: If it's not working properly, make sure you have set: ``collect.engine_inn
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -3054,7 +3054,7 @@ Note: If it's not working properly, make sure you have set: ``collect.engine_inn
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -3181,7 +3181,7 @@ Note: If it's not working properly, make sure you have set: ``collect.engine_inn
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -3483,7 +3483,7 @@ clamp_min( \n\
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -3667,7 +3667,7 @@ clamp_min( \n\
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -3923,7 +3923,7 @@ floor( \n\
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -4058,7 +4058,7 @@ floor( \n\
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -4314,7 +4314,7 @@ floor( \n\
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -4449,7 +4449,7 @@ floor( \n\
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -4722,7 +4722,7 @@ clamp( \n\
         }
       ],
       "title": "Current",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -4834,7 +4834,7 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -5107,7 +5107,7 @@ clamp( \n\
         }
       ],
       "title": "Current",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -5220,7 +5220,7 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
-      "type": "pmm-singlestat-panel"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -5471,7 +5471,7 @@ clamp( \n\
         }
       ],
       "title": "Current",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -5585,7 +5585,7 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {
@@ -5837,7 +5837,7 @@ clamp( \n\
         }
       ],
       "title": "Current",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bool_on_off"
     },
     {
@@ -5926,7 +5926,7 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bool_on_off"
     },
     {
@@ -6081,7 +6081,7 @@ clamp( \n\
         }
       ],
       "title": "Total memory usage",
-      "type": "pmm-singlestat-panel",
+      "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
     {

@@ -1,5 +1,5 @@
 {
   "type": "panel",
   "name": "Amazon RDS and Remote Instances Results",
-  "id": "pmm-remote-instances-panel"
+  "id": "ssm-remote-instances-panel"
 }

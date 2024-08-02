@@ -18,7 +18,7 @@ all: srpm rpm
 $(TARBALL_FILE):
 	mkdir -vp $(shell dirname $(TARBALL_FILE))
 
-	cd pmm-app; \
+	cd ssm-app; \
 		npm install --no-audit --ignore-scripts --legacy-peer-deps
 
 	tar --exclude-vcs -czf $(TARBALL_FILE) -C $(shell dirname $(CURDIR)) --transform s/^$(shell basename $(CURDIR))/ssm-dashboards/ $(shell basename $(CURDIR))
