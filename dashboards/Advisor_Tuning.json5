@@ -1071,7 +1071,7 @@ clamp( \n\
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 20,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -1144,17 +1144,11 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "\
-( \n\
-  mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} \n\
-  or \n\
-  mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"} \n\
-) \n\
-",
+          "expr": "max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[$interval]) or \nmax_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[5m])",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "Last Checkpoint",
+          "legendFormat": "Uncheckpointed Bytes",
           "metric": "",
           "refId": "A",
           "step": 300
@@ -1166,23 +1160,17 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "\
-( \n\
-  mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
-  or \n\
-  mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
-) \n\
-",
+          "expr": "max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[5m])",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "InnoDB Long Sequence Number",
+          "legendFormat": "Max Checkpoint Age",
           "metric": "",
           "refId": "B",
           "step": 300
         }
       ],
-      "title": "Redo Log Size & Last Checkpoint",
+      "title": "InnoDB Checkpoint Age",
       "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql.",
       "type": "timeseries"
     },
