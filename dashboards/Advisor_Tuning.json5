@@ -2543,12 +2543,16 @@ clamp( \n\
     on() ( \n\
       max_over_time( \n\
         mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
-      ) < 1 \n\
+      ) < ( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
+      ) \n\
       or \n\
       ( \n\
         max_over_time( \n\
           mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
-        ) > 0 \n\
+        ) >= ( \n\
+          mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
+        ) \n\
         and \n\
         ( \n\
           max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
@@ -2593,7 +2597,25 @@ clamp( \n\
     ) \n\
   ), \n\
   1, \n\
-  64 \n\
+  scalar( \n\
+    ( \n\
+      count( \n\
+        (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        1 - absent( \n\
+          (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+        ) \n\
+      ) \n\
+      or \n\
+      sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+      or \n\
+      count(hrProcessorLoad{instance=~\"$host\"}) \n\
+    ) \n\
+    or \n\
+    vector(32) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -2653,12 +2675,16 @@ clamp( \n\
     on() ( \n\
       max_over_time( \n\
         mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
-      ) < 1 \n\
+      ) < ( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
+      ) \n\
       or \n\
       ( \n\
         max_over_time( \n\
           mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
-        ) > 0 \n\
+        ) >= ( \n\
+          mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
+        ) \n\
         and \n\
         ( \n\
           max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
@@ -2703,7 +2729,25 @@ clamp( \n\
     ) \n\
   ), \n\
   1, \n\
-  64 \n\
+  scalar( \n\
+    ( \n\
+      count( \n\
+        (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        1 - absent( \n\
+          (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+        ) \n\
+      ) \n\
+      or \n\
+      sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+      or \n\
+      count(hrProcessorLoad{instance=~\"$host\"}) \n\
+    ) \n\
+    or \n\
+    vector(32) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -2973,12 +3017,16 @@ clamp( \n\
     on() ( \n\
       max_over_time( \n\
         mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
-      ) < 1 \n\
+      ) < ( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
+      ) \n\
       or \n\
       ( \n\
         max_over_time( \n\
           mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
-        ) > 0 \n\
+        ) >= ( \n\
+          mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
+        ) \n\
         and \n\
         ( \n\
           max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
@@ -3023,7 +3071,25 @@ clamp( \n\
     ) \n\
   ), \n\
   1, \n\
-  64 \n\
+  scalar( \n\
+    ( \n\
+      count( \n\
+        (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        1 - absent( \n\
+          (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+        ) \n\
+      ) \n\
+      or \n\
+      sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+      or \n\
+      count(hrProcessorLoad{instance=~\"$host\"}) \n\
+    ) \n\
+    or \n\
+    vector(32) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -3083,12 +3149,16 @@ clamp( \n\
     on() ( \n\
       max_over_time( \n\
         mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
-      ) < 1 \n\
+      ) < ( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
+      ) \n\
       or \n\
       ( \n\
         max_over_time( \n\
           mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
-        ) > 0 \n\
+        ) >= ( \n\
+          mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
+        ) \n\
         and \n\
         ( \n\
           max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
@@ -3133,7 +3203,25 @@ clamp( \n\
     ) \n\
   ), \n\
   1, \n\
-  64 \n\
+  scalar( \n\
+    ( \n\
+      count( \n\
+        (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        1 - absent( \n\
+          (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+        ) \n\
+      ) \n\
+      or \n\
+      sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+      or \n\
+      count(hrProcessorLoad{instance=~\"$host\"}) \n\
+    ) \n\
+    or \n\
+    vector(32) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
