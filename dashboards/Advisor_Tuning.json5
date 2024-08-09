@@ -255,7 +255,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_info_schema_table_count{instance=~\"$host\"}[$interval]) or max_over_time(mysql_info_schema_table_count{instance=~\"$host\"}[5m])",
+          "expr": "mysql_info_schema_table_count{instance=~\"$host\"} or vector(0)",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -317,7 +317,20 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp(2^(floor(log2(mysql_info_schema_table_count{instance=~\"$host\"}))+1), 400, 2097152)",
+          "expr": "\
+vector(400) and on() ( \n\
+  mysql_info_schema_table_count{instance=~\"$host\"} < 400 \n\
+) \n\
+or on() clamp( \n\
+  2^( \n\
+    floor( \n\
+      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+    )+1 \n\
+  ), \n\
+  400, \n\
+  2097152 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -408,7 +421,20 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp(2^(floor(log2(mysql_info_schema_table_count{instance=~\"$host\"}))+1), 400, 2097152)",
+          "expr": "\
+vector(400) and on() ( \n\
+  mysql_info_schema_table_count{instance=~\"$host\"} < 400 \n\
+) \n\
+or on() clamp( \n\
+  2^( \n\
+    floor( \n\
+      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+    )+1 \n\
+  ), \n\
+  400, \n\
+  2097152 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
