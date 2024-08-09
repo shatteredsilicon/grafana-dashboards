@@ -255,7 +255,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_info_schema_table_count{instance=~\"$host\"}[$interval]) or max_over_time(mysql_info_schema_table_count{instance=~\"$host\"}[5m])",
+          "expr": "mysql_info_schema_table_count{instance=~\"$host\"} or vector(0)",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -317,7 +317,20 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp(2^(floor(log2(mysql_info_schema_table_count{instance=~\"$host\"}))+1), 400, 2097152)",
+          "expr": "\
+vector(400) and on() ( \n\
+  mysql_info_schema_table_count{instance=~\"$host\"} < 400 \n\
+) \n\
+or on() clamp( \n\
+  2^( \n\
+    floor( \n\
+      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+    )+1 \n\
+  ), \n\
+  400, \n\
+  2097152 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -408,7 +421,20 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp(2^(floor(log2(mysql_info_schema_table_count{instance=~\"$host\"}))+1), 400, 2097152)",
+          "expr": "\
+vector(400) and on() ( \n\
+  mysql_info_schema_table_count{instance=~\"$host\"} < 400 \n\
+) \n\
+or on() clamp( \n\
+  2^( \n\
+    floor( \n\
+      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+    )+1 \n\
+  ), \n\
+  400, \n\
+  2097152 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1071,7 +1097,7 @@ clamp( \n\
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 20,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -1144,17 +1170,11 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "\
-( \n\
-  mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} \n\
-  or \n\
-  mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"} \n\
-) \n\
-",
+          "expr": "max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[$interval]) or \nmax_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[5m])",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "Last Checkpoint",
+          "legendFormat": "Uncheckpointed Bytes",
           "metric": "",
           "refId": "A",
           "step": 300
@@ -1166,23 +1186,17 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "\
-( \n\
-  mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
-  or \n\
-  mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
-) \n\
-",
+          "expr": "max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[5m])",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "InnoDB Long Sequence Number",
+          "legendFormat": "Max Checkpoint Age",
           "metric": "",
           "refId": "B",
           "step": 300
         }
       ],
-      "title": "Redo Log Size & Last Checkpoint",
+      "title": "InnoDB Checkpoint Age",
       "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql.",
       "type": "timeseries"
     },
@@ -2555,12 +2569,16 @@ clamp( \n\
     on() ( \n\
       max_over_time( \n\
         mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
-      ) < 1 \n\
+      ) < ( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
+      ) \n\
       or \n\
       ( \n\
         max_over_time( \n\
           mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
-        ) > 0 \n\
+        ) >= ( \n\
+          mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
+        ) \n\
         and \n\
         ( \n\
           max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
@@ -2605,7 +2623,25 @@ clamp( \n\
     ) \n\
   ), \n\
   1, \n\
-  64 \n\
+  scalar( \n\
+    ( \n\
+      count( \n\
+        (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        1 - absent( \n\
+          (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+        ) \n\
+      ) \n\
+      or \n\
+      sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+      or \n\
+      count(hrProcessorLoad{instance=~\"$host\"}) \n\
+    ) \n\
+    or \n\
+    vector(32) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -2665,12 +2701,16 @@ clamp( \n\
     on() ( \n\
       max_over_time( \n\
         mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
-      ) < 1 \n\
+      ) < ( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
+      ) \n\
       or \n\
       ( \n\
         max_over_time( \n\
           mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
-        ) > 0 \n\
+        ) >= ( \n\
+          mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
+        ) \n\
         and \n\
         ( \n\
           max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
@@ -2715,7 +2755,25 @@ clamp( \n\
     ) \n\
   ), \n\
   1, \n\
-  64 \n\
+  scalar( \n\
+    ( \n\
+      count( \n\
+        (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        1 - absent( \n\
+          (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+        ) \n\
+      ) \n\
+      or \n\
+      sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+      or \n\
+      count(hrProcessorLoad{instance=~\"$host\"}) \n\
+    ) \n\
+    or \n\
+    vector(32) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -2985,12 +3043,16 @@ clamp( \n\
     on() ( \n\
       max_over_time( \n\
         mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
-      ) < 1 \n\
+      ) < ( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
+      ) \n\
       or \n\
       ( \n\
         max_over_time( \n\
           mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
-        ) > 0 \n\
+        ) >= ( \n\
+          mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
+        ) \n\
         and \n\
         ( \n\
           max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
@@ -3035,7 +3097,25 @@ clamp( \n\
     ) \n\
   ), \n\
   1, \n\
-  64 \n\
+  scalar( \n\
+    ( \n\
+      count( \n\
+        (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        1 - absent( \n\
+          (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+        ) \n\
+      ) \n\
+      or \n\
+      sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+      or \n\
+      count(hrProcessorLoad{instance=~\"$host\"}) \n\
+    ) \n\
+    or \n\
+    vector(32) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -3095,12 +3175,16 @@ clamp( \n\
     on() ( \n\
       max_over_time( \n\
         mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
-      ) < 1 \n\
+      ) < ( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
+      ) \n\
       or \n\
       ( \n\
         max_over_time( \n\
           mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
-        ) > 0 \n\
+        ) >= ( \n\
+          mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
+        ) \n\
         and \n\
         ( \n\
           max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
@@ -3145,7 +3229,25 @@ clamp( \n\
     ) \n\
   ), \n\
   1, \n\
-  64 \n\
+  scalar( \n\
+    ( \n\
+      count( \n\
+        (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+      ) \n\
+      or \n\
+      ( \n\
+        1 - absent( \n\
+          (node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) \n\
+        ) \n\
+      ) \n\
+      or \n\
+      sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+      or \n\
+      count(hrProcessorLoad{instance=~\"$host\"}) \n\
+    ) \n\
+    or \n\
+    vector(32) \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -3289,17 +3391,19 @@ sum( \n\
   and on (instance, schema, table) \n\
   mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
 ) \n\
+or \n\
+vector(0) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "Index Length Size",
+          "legendFormat": "Index Size",
           "metric": "",
           "refId": "A",
           "step": 300
         }
       ],
-      "title": "InnoDB Table Index Length Size",
+      "title": "InnoDB Table Index Size",
       "description": "Note: If you do not see any metric, try setting: ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
@@ -3437,6 +3541,16 @@ clamp_max( \n\
       mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    * \n\
+    mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+  ) \n\
+  or \n\
+  mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
 ) \n\
 ",
           "format": "time_series",
@@ -3604,6 +3718,16 @@ clamp_max( \n\
       mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    * \n\
+    mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+  ) \n\
+  or \n\
+  mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
 ) \n\
 ",
           "format": "time_series",
@@ -3782,13 +3906,13 @@ vector(0) \n\
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "Index Length Size",
+          "legendFormat": "Index Size",
           "metric": "",
           "refId": "A",
           "step": 300
         }
       ],
-      "title": "MyISAM Table Index Length Size",
+      "title": "MyISAM Table Index Size",
       "description": "Note: If you do not see any metric, try setting: ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
@@ -4173,13 +4297,13 @@ vector(0) \n\
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "Index Length Size",
+          "legendFormat": "Index Size",
           "metric": "",
           "refId": "A",
           "step": 300
         }
       ],
-      "title": "Aria Table Index Length Size",
+      "title": "Aria Table Index Size",
       "description": "Note: If you do not see any metric, try setting: ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
