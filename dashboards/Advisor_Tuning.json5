@@ -3365,17 +3365,19 @@ sum( \n\
   and on (instance, schema, table) \n\
   mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
 ) \n\
+or \n\
+vector(0) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "Index Length Size",
+          "legendFormat": "Index Size",
           "metric": "",
           "refId": "A",
           "step": 300
         }
       ],
-      "title": "InnoDB Table Index Length Size",
+      "title": "InnoDB Table Index Size",
       "description": "Note: If you do not see any metric, try setting: ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
@@ -3513,6 +3515,16 @@ clamp_max( \n\
       mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    * \n\
+    mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+  ) \n\
+  or \n\
+  mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
 ) \n\
 ",
           "format": "time_series",
@@ -3680,6 +3692,16 @@ clamp_max( \n\
       mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
     ) \n\
   ) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
+    * \n\
+    mysql_global_variables_innodb_buffer_pool_instances{instance=~\"$host\"} \n\
+  ) \n\
+  or \n\
+  mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
 ) \n\
 ",
           "format": "time_series",
