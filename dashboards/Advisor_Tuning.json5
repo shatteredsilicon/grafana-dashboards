@@ -3906,13 +3906,13 @@ vector(0) \n\
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "Index Length Size",
+          "legendFormat": "Index Size",
           "metric": "",
           "refId": "A",
           "step": 300
         }
       ],
-      "title": "MyISAM Table Index Length Size",
+      "title": "MyISAM Table Index Size",
       "description": "Note: If you do not see any metric, try setting: ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
@@ -4297,13 +4297,13 @@ vector(0) \n\
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
-          "legendFormat": "Index Length Size",
+          "legendFormat": "Index Size",
           "metric": "",
           "refId": "A",
           "step": 300
         }
       ],
-      "title": "Aria Table Index Length Size",
+      "title": "Aria Table Index Size",
       "description": "Note: If you do not see any metric, try setting: ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
