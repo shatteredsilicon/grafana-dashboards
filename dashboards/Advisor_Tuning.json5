@@ -144,7 +144,6 @@
   "liveNow": false,
   "panels": [
     {
-      "collapsed": false,
       "datasource": {
         "type": "prometheus"
       },
@@ -153,6 +152,61 @@
         "w": 24,
         "x": 0,
         "y": 0
+      },
+      "id": 69,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "refId": "A"
+        }
+      ],
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 67,
+      "links": [],
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "",
+        "mode": "html"
+      },
+      "pluginVersion": "9.5.7",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "refId": "A"
+        }
+      ],
+      "type": "text",
+      "title": "Tuning advice on this dashboard is unlikely to be reliable until at least 24 hours of telemetry data has accumulated and you zoom out to at least 24 hours."
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 2
       },
       "panels": [],
       "targets": [
@@ -227,7 +281,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 1
+        "y": 3
       },
       "links": [],
       "options": {
@@ -255,7 +309,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_info_schema_table_count{instance=~\"$host\"} or vector(0)",
+          "expr": "mysql_info_schema_table_count{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -277,7 +331,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 1
+        "y": 3
       },
       "queryThresholds": "B",
       "colors": [
@@ -380,7 +434,7 @@ or on() clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 1
+        "y": 3
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -475,7 +529,7 @@ or on() clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 11
       },
       "panels": [],
       "targets": [
@@ -550,7 +604,7 @@ or on() clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 10
+        "y": 12
       },
       "links": [],
       "options": {
@@ -616,7 +670,7 @@ or on() clamp( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 10
+        "y": 12
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -701,7 +755,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 10
+        "y": 12
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -788,7 +842,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 20
       },
       "panels": [],
       "targets": [
@@ -810,7 +864,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 19
+        "y": 21
       },
       "aliasColors": {},
       "bars": false,
@@ -939,7 +993,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 19
+        "y": 21
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1002,7 +1056,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 19
+        "y": 21
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1067,7 +1121,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 27
+        "y": 29
       },
       "panels": [],
       "targets": [
@@ -1142,7 +1196,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 28
+        "y": 30
       },
       "links": [],
       "options": {
@@ -1208,7 +1262,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 28
+        "y": 30
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1271,7 +1325,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 28
+        "y": 30
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1336,7 +1390,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 36
+        "y": 38
       },
       "panels": [],
       "targets": [
@@ -1428,7 +1482,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 37
+        "y": 39
       },
       "links": [],
       "options": {
@@ -1547,7 +1601,7 @@ sum by (instance) ( \n\
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 37
+        "y": 39
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1746,7 +1800,7 @@ clamp( \n\
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 37
+        "y": 39
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1946,7 +2000,7 @@ clamp( \n\
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 41
+        "y": 43
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2145,7 +2199,7 @@ clamp( \n\
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 41
+        "y": 43
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2346,7 +2400,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 45
+        "y": 47
       },
       "panels": [],
       "targets": [
@@ -2438,7 +2492,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 46
+        "y": 48
       },
       "links": [],
       "options": {
@@ -2522,7 +2576,7 @@ sum by (instance) ( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 46
+        "y": 48
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2670,7 +2724,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 46
+        "y": 48
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -2820,7 +2874,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 54
+        "y": 56
       },
       "panels": [],
       "targets": [
@@ -2912,7 +2966,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 55
+        "y": 57
       },
       "links": [],
       "options": {
@@ -2996,7 +3050,7 @@ sum by (instance) ( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 55
+        "y": 57
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3144,7 +3198,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 55
+        "y": 57
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3294,7 +3348,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 65
       },
       "panels": [],
       "targets": [
@@ -3357,7 +3411,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 64
+        "y": 66
       },
       "links": [],
       "options": {
@@ -3415,7 +3469,7 @@ vector(0) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 64
+        "y": 66
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3608,7 +3662,7 @@ clamp_min( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 64
+        "y": 66
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -3803,7 +3857,7 @@ clamp_min( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 72
+        "y": 74
       },
       "panels": [],
       "targets": [
@@ -3866,7 +3920,7 @@ clamp_min( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 73
+        "y": 75
       },
       "links": [],
       "options": {
@@ -3924,7 +3978,7 @@ vector(0) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 73
+        "y": 75
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4058,7 +4112,7 @@ floor( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 73
+        "y": 75
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4194,7 +4248,7 @@ floor( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 81
+        "y": 83
       },
       "panels": [],
       "targets": [
@@ -4257,7 +4311,7 @@ floor( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 82
+        "y": 84
       },
       "links": [],
       "options": {
@@ -4315,7 +4369,7 @@ vector(0) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 82
+        "y": 84
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4449,7 +4503,7 @@ floor( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 82
+        "y": 84
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4585,7 +4639,7 @@ floor( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 90
+        "y": 92
       },
       "panels": [],
       "targets": [
@@ -4662,7 +4716,7 @@ floor( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 91
+        "y": 93
       },
       "links": [],
       "options": {
@@ -4745,7 +4799,7 @@ on() vector(0) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 91
+        "y": 93
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4856,7 +4910,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 91
+        "y": 93
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4969,7 +5023,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 99
+        "y": 101
       },
       "panels": [],
       "targets": [
@@ -5046,7 +5100,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 100
+        "y": 102
       },
       "links": [],
       "options": {
@@ -5129,7 +5183,7 @@ on() vector(0) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 100
+        "y": 102
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5241,7 +5295,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 100
+        "y": 102
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5355,7 +5409,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 108
+        "y": 110
       },
       "panels": [],
       "targets": [
@@ -5432,7 +5486,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 109
+        "y": 111
       },
       "links": [],
       "options": {
@@ -5493,7 +5547,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 109
+        "y": 111
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5606,7 +5660,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 109
+        "y": 111
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5721,7 +5775,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 117
+        "y": 119
       },
       "panels": [],
       "targets": [
@@ -5798,7 +5852,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 118
+        "y": 120
       },
       "links": [],
       "options": {
@@ -5891,7 +5945,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 118
+        "y": 120
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5972,7 +6026,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 118
+        "y": 120
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6062,7 +6116,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 126
+        "y": 128
       },
       "panels": [],
       "targets": [
@@ -6084,7 +6138,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 127
+        "y": 129
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6308,7 +6362,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 127
+        "y": 129
       },
       "links": [],
       "options": {
@@ -6465,7 +6519,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 135
+        "y": 137
       },
       "links": [],
       "options": {
@@ -6728,7 +6782,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 143
+        "y": 145
       },
       "links": [],
       "options": {
@@ -6834,7 +6888,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 151
+        "y": 153
       },
       "links": [],
       "options": {
