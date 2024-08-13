@@ -1284,7 +1284,13 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} or mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}",
+          "expr": "\
+mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+or \n\
+mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+or \n\
+mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1301,7 +1307,121 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp((mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} and on() (max_over_time(((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})-(mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"}))[1w:1s]) < mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} * 0.75)) or on() (2^(floor(log2(max_over_time(((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})-(mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"}))[1w:1s])))+1) and on() (mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"})), 104857600, 137438953472) or clamp((mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} and on() (max_over_time(((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})-(mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"}))[1w:1s]) < ((mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}) or mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}) * 0.75)) or on() (2^(floor(log2(max_over_time(((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})-(mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"}))[1w:1s])))+1) / on() group_left() (mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} or on() vector(1))), 1048576, scalar(549755813888 / (mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} or on() vector(1))))",
+          "expr": "\
+clamp( \n\
+  ( \n\
+    2^( \n\
+      ceil( \n\
+        log2( \n\
+          mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+        ) \n\
+      ) - 1 \n\
+    ) \n\
+    and on() ( \n\
+      max_over_time( \n\
+        ( \n\
+          max( \n\
+            mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"} \n\
+            or \n\
+            mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"} \n\
+            or \n\
+            mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"} \n\
+          ) \n\
+        )[1w:1s] \n\
+      ) < ( \n\
+        mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+        or \n\
+        mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+        or \n\
+        mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+      ) * 0.4 \n\
+      and \n\
+      max_over_time( \n\
+        ( \n\
+          mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+        )[1w:1s] \n\
+      ) == min_over_time( \n\
+        ( \n\
+          mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+        )[1w:1s]\n\
+      ) \n\
+    ) \n\
+  ) or on() ( \n\
+    ( \n\
+      2^( \n\
+        floor( \n\
+          log2( \n\
+            mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+          ) \n\
+        ) + 1 \n\
+      ) \n\
+      and on() ( \n\
+        max_over_time( \n\
+          ( \n\
+            max( \n\
+              mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"} \n\
+              or \n\
+              mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"} \n\
+              or \n\
+              mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"} \n\
+            ) \n\
+          )[1w:1s] \n\
+        ) > ( \n\
+          mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+        ) * 0.9 \n\
+        and \n\
+        max_over_time( \n\
+          ( \n\
+            mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+          )[1w:1s] \n\
+        ) == min_over_time( \n\
+          ( \n\
+            mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+          )[1w:1s]\n\
+        ) \n\
+      ) \n\
+    ) or on() ( \n\
+      ( \n\
+        mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+        or \n\
+        mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+        or \n\
+        mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  100663296, \n\
+  137438953472 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1313,7 +1433,13 @@ clamp( \n\
         }
       ],
       "title": "Current",
-      "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
+      "description": "\
+Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.\n\
+\n\
+When tuning innodb_log_file_size, the value refers to total size of redo logs (innodb_log_file_size x innodb_log_files_in_group).\n\
+\n\
+This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
+",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
@@ -1348,7 +1474,121 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "clamp((mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} and on() (max_over_time(((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})-(mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"}))[1w:1s]) < mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} * 0.75)) or on() (2^(floor(log2(max_over_time(((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})-(mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"}))[1w:1s])))+1) and on() (mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"})), 104857600, 137438953472) or clamp((mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} and on() (max_over_time(((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})-(mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"}))[1w:1s]) < ((mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}) or mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}) * 0.75)) or on() (2^(floor(log2(max_over_time(((mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"})-(mysql_info_schema_innodb_metrics_recovery_log_lsn_last_checkpoint{instance=~\"$host\"} or mysql_info_schema_innodb_metrics_log_log_lsn_last_checkpoint{instance=~\"$host\"}))[1w:1s])))+1) / on() group_left() (mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} or on() vector(1))), 1048576, scalar(549755813888 / (mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} or on() vector(1))))",
+          "expr": "\
+clamp( \n\
+  ( \n\
+    2^( \n\
+      ceil( \n\
+        log2( \n\
+          mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+        ) \n\
+      ) - 1 \n\
+    ) \n\
+    and on() ( \n\
+      max_over_time( \n\
+        ( \n\
+          max( \n\
+            mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"} \n\
+            or \n\
+            mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"} \n\
+            or \n\
+            mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"} \n\
+          ) \n\
+        )[1w:1s] \n\
+      ) < ( \n\
+        mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+        or \n\
+        mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+        or \n\
+        mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+      ) * 0.4 \n\
+      and \n\
+      max_over_time( \n\
+        ( \n\
+          mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+        )[1w:1s] \n\
+      ) == min_over_time( \n\
+        ( \n\
+          mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+        )[1w:1s]\n\
+      ) \n\
+    ) \n\
+  ) or on() ( \n\
+    ( \n\
+      2^( \n\
+        floor( \n\
+          log2( \n\
+            mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+          ) \n\
+        ) + 1 \n\
+      ) \n\
+      and on() ( \n\
+        max_over_time( \n\
+          ( \n\
+            max( \n\
+              mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"} \n\
+              or \n\
+              mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"} \n\
+              or \n\
+              mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"} \n\
+            ) \n\
+          )[1w:1s] \n\
+        ) > ( \n\
+          mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+          or \n\
+          mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+        ) * 0.9 \n\
+        and \n\
+        max_over_time( \n\
+          ( \n\
+            mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+          )[1w:1s] \n\
+        ) == min_over_time( \n\
+          ( \n\
+            mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+            or \n\
+            mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+          )[1w:1s]\n\
+        ) \n\
+      ) \n\
+    ) or on() ( \n\
+      ( \n\
+        mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+        or \n\
+        mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+        or \n\
+        mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+      ) \n\
+    ) \n\
+  ), \n\
+  100663296, \n\
+  137438953472 \n\
+) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1365,7 +1605,13 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} or mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}",
+          "expr": "\
+mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+or \n\
+mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
+or \n\
+mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1377,7 +1623,13 @@ clamp( \n\
         }
       ],
       "title": "Proposed",
-      "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
+      "description": "\
+Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.\n\
+\n\
+When tuning innodb_log_file_size, the value refers to total size of redo logs (innodb_log_file_size x innodb_log_files_in_group).\n\
+\n\
+This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
+",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
