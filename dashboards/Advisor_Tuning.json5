@@ -6400,10 +6400,12 @@ clamp( \n\
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "A",
+      "queryThresholds": "C,D",
+      "thresholdQuery": "A",
       "colors": [
+        "rgba(36, 112, 33, 0.97)",
         "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
+        "rgba(161, 18, 18, 0.9)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
@@ -6510,6 +6512,50 @@ clamp( \n\
           "legendFormat": "",
           "metric": "",
           "refId": "B",
+          "step": 300
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+( \n\
+  node_memory_MemTotal{instance=~\"$host\"} \n\
+  or \n\
+  node_memory_MemTotal_bytes{instance=~\"$host\"} \n\
+) * 0.8 \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+( \n\
+  node_memory_MemTotal{instance=~\"$host\"} \n\
+  or \n\
+  node_memory_MemTotal_bytes{instance=~\"$host\"} \n\
+) * 0.9 \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "D",
           "step": 300
         }
       ],
