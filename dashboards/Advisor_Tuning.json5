@@ -6187,7 +6187,8 @@ clamp( \n\
         }
       ],
       "title": "AHI Efficiency",
-      "type": "timeseries"
+      "type": "timeseries",
+      "description": "Note: If you do not see any metric, try setting: ``innodb_adaptive_hash_index = ON`` in mysql."
     },
     {
       "datasource": {
@@ -6268,7 +6269,8 @@ clamp( \n\
       ],
       "title": "Current",
       "type": "ssm-singlestat-panel",
-      "format": "bool_on_off"
+      "format": "bool_on_off",
+      "description": "Note: the ``innodb_adaptive_hash_index`` MySQL/MariaDB setting needs to be enabled for a period to give the advisor some data to work with."
     },
     {
       "datasource": {
@@ -6357,7 +6359,8 @@ clamp( \n\
       ],
       "title": "Proposed",
       "type": "ssm-singlestat-panel",
-      "format": "bool_on_off"
+      "format": "bool_on_off",
+      "description": "Note: the ``innodb_adaptive_hash_index`` MySQL/MariaDB setting needs to be enabled for a period to give the advisor some data to work with."
     },
     {
       "collapsed": false,
