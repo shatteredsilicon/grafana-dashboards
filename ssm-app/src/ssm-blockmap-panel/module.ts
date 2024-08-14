@@ -74,37 +74,37 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
     }
 
     this.events.on('render', function() {
-      const mapElem = $(elem).find('.ssm-blockmap-panel-map');
-      const totalMemory = ctrl.series.reduce((a, b) => a + b.value, 0);
-      const divHeight = mapElem.innerHeight();
-      const divWidth = mapElem.innerWidth() - mapElem.offset().left;
-      const blockRowCount = Math.floor(
-                              ( divHeight - SSMBlockMapCtrl.BLOCK_SIZE )
-                              / (
-                                SSMBlockMapCtrl.BLOCK_SIZE + SSMBlockMapCtrl.BLOCK_GAP
-                              )
-                            );
-      const blockColumnCount =  Math.floor(
-                                  ( divWidth - SSMBlockMapCtrl.BLOCK_SIZE )
-                                  / (
-                                    SSMBlockMapCtrl.BLOCK_SIZE + SSMBlockMapCtrl.BLOCK_GAP
-                                  )
-                                );
-      const blockCount = blockRowCount * blockColumnCount;
-      const innerHTML = ctrl.series.map(serie => {
-        return [].constructor(Math.floor(serie.value / totalMemory * blockCount)).join(
-          `
-            <span data-name="${serie.name}" data-color="${serie.color}" data-text="${serie.text}" class="ssm-blockmap-panel-block" style="background-color: ${serie.color}">
-            </span>
-          `
-        );
-      }).join('') + `
-        <div class="tip">
-        </div>
-      `;
-      mapElem.html(innerHTML);
+      setTimeout(() => {
+        const mapElem = $(elem).find('.ssm-blockmap-panel-map');
+        const totalMemory = ctrl.series.reduce((a, b) => a + b.value, 0);
+        const divHeight = mapElem.innerHeight();
+        const divWidth = mapElem.innerWidth();
+        const blockRowCount = Math.floor(
+                                divHeight / (
+                                  SSMBlockMapCtrl.BLOCK_SIZE + SSMBlockMapCtrl.BLOCK_GAP
+                                )
+                              );
+        const blockColumnCount =  Math.floor(
+                                    divWidth / (
+                                      SSMBlockMapCtrl.BLOCK_SIZE + SSMBlockMapCtrl.BLOCK_GAP
+                                    )
+                                  );
+        const blockCount = blockRowCount * blockColumnCount;
+        const innerHTML = ctrl.series.map(serie => {
+          return [].constructor(Math.floor(serie.value / totalMemory * blockCount)).join(
+            `
+              <span data-name="${serie.name}" data-color="${serie.color}" data-text="${serie.text}" class="ssm-blockmap-panel-block" style="background-color: ${serie.color}">
+              </span>
+            `
+          );
+        }).join('') + `
+          <div class="tip">
+          </div>
+        `;
+        mapElem.html(innerHTML);
 
-      ctrl.renderingCompleted();
+        ctrl.renderingCompleted();
+      }, 100);
     });
 
     elem.on('mousemove', this.mouseMove);
