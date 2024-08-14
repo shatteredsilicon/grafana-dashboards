@@ -6513,7 +6513,7 @@ clamp( \n\
           "step": 300
         }
       ],
-      "title": "Total memory usage",
+      "title": "Total Memory Usage",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
@@ -6578,7 +6578,7 @@ clamp( \n\
           {
             "matcher": {
               "id": "byName",
-              "options": "Connection memory usage"
+              "options": "Maximum Probable Connection Memory Usage"
             },
             "properties": [
               {
@@ -6590,7 +6590,7 @@ clamp( \n\
           {
             "matcher": {
               "id": "byName",
-              "options": "Replication memory usage"
+              "options": "Non-InnoDB Maximum Connection Memory Usage"
             },
             "properties": [
               {
@@ -6602,7 +6602,31 @@ clamp( \n\
           {
             "matcher": {
               "id": "byName",
-              "options": "Global memory usage"
+              "options": "Theoretically Possible Other Connection Memory Usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Replication Memory Usage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Maximum Global Memory Usage"
             },
             "properties": [
               {
@@ -6662,21 +6686,55 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
     or \n\
     mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"} \n\
   ) \n\
-  + mysql_global_variables_bulk_insert_buffer_size{instance=~\"$host\"} \n\
   + mysql_global_variables_join_buffer_size{instance=~\"$host\"} \n\
-  + mysql_global_variables_max_allowed_packet{instance=~\"$host\"} \n\
-  + mysql_global_variables_read_buffer_size{instance=~\"$host\"} \n\
-  + mysql_global_variables_read_rnd_buffer_size{instance=~\"$host\"} \n\
   + mysql_global_variables_sort_buffer_size{instance=~\"$host\"} \n\
   + mysql_global_variables_thread_stack{instance=~\"$host\"} \n\
-  + mysql_global_variables_tmp_table_size{instance=~\"$host\"} \n\
 ) \n\
 ",
           "interval": "$interval",
           "intervalFactor": 1,
           "metric": "",
           "refId": "A",
-          "legendFormat": "Connection memory usage",
+          "legendFormat": "Maximum Probable Connection Memory Usage",
+          "instant": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
+  + mysql_global_variables_bulk_insert_buffer_size{instance=~\"$host\"} \n\
+  + mysql_global_variables_read_buffer_size{instance=~\"$host\"} \n\
+  + mysql_global_variables_read_rnd_buffer_size{instance=~\"$host\"} \n\
+) \n\
+",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "metric": "",
+          "refId": "B",
+          "legendFormat": "Non-InnoDB Maximum Connection Memory Usage",
+          "instant": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
+  + mysql_global_variables_max_allowed_packet{instance=~\"$host\"} \n\
+  + mysql_global_variables_tmp_table_size{instance=~\"$host\"} \n\
+) \n\
+",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "metric": "",
+          "refId": "C",
+          "legendFormat": "Theoretically Possible Other Connection Memory Usage",
           "instant": true
         },
         {
@@ -6689,8 +6747,8 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
           "interval": "$interval",
           "intervalFactor": 1,
           "metric": "",
-          "refId": "B",
-          "legendFormat": "Replication memory usage",
+          "refId": "D",
+          "legendFormat": "Replication Memory Usage",
           "instant": true
         },
         {
@@ -6703,12 +6761,12 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
           "interval": "$interval",
           "intervalFactor": 1,
           "metric": "",
-          "refId": "C",
-          "legendFormat": "Global memory usage",
+          "refId": "E",
+          "legendFormat": "Maximum Global Memory Usage",
           "instant": true
         }
       ],
-      "title": "Memory usage summary",
+      "title": "Memory Usage Summary",
       "type": "piechart"
     },
     {
@@ -6848,78 +6906,14 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_bulk_insert_buffer_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_join_buffer_size{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
           "metric": "",
           "refId": "C",
           "step": 300,
-          "legendFormat": "bulk_insert_buffer_size"
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_join_buffer_size{instance=~\"$host\"}",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "metric": "",
-          "refId": "D",
-          "step": 300,
           "legendFormat": "join_buffer_size"
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_max_allowed_packet{instance=~\"$host\"}",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "metric": "",
-          "refId": "E",
-          "step": 300,
-          "legendFormat": "max_allowed_packet"
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_read_buffer_size{instance=~\"$host\"}",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "metric": "",
-          "refId": "F",
-          "step": 300,
-          "legendFormat": "read_buffer_size"
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_read_rnd_buffer_size{instance=~\"$host\"}",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "metric": "",
-          "refId": "G",
-          "step": 300,
-          "legendFormat": "read_rnd_buffer_size"
         },
         {
           "calculatedInterval": "2m",
@@ -6933,7 +6927,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
           "interval": "$interval",
           "intervalFactor": 1,
           "metric": "",
-          "refId": "H",
+          "refId": "D",
           "step": 300,
           "legendFormat": "sort_buffer_size"
         },
@@ -6949,28 +6943,12 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
           "interval": "$interval",
           "intervalFactor": 1,
           "metric": "",
-          "refId": "I",
+          "refId": "E",
           "step": 300,
           "legendFormat": "thread_stack"
-        },
-        {
-          "calculatedInterval": "2m",
-          "datasource": {
-            "type": "prometheus"
-          },
-          "datasourceErrors": {},
-          "errors": {},
-          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_tmp_table_size{instance=~\"$host\"}",
-          "format": "time_series",
-          "interval": "$interval",
-          "intervalFactor": 1,
-          "metric": "",
-          "refId": "J",
-          "step": 300,
-          "legendFormat": "tmp_table_size"
         }
       ],
-      "title": "Connection memory usage",
+      "title": "Maximum Probable Connection Memory Usage",
       "type": "ssm-blockmap-panel",
       "format": "bytes"
     },
@@ -7065,6 +7043,264 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
           },
           "datasourceErrors": {},
           "errors": {},
+          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_bulk_insert_buffer_size{instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "metric": "",
+          "refId": "A",
+          "step": 300,
+          "legendFormat": "bulk_insert_buffer_size"
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_read_buffer_size{instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "metric": "",
+          "refId": "B",
+          "step": 300,
+          "legendFormat": "read_buffer_size"
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_read_rnd_buffer_size{instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "metric": "",
+          "refId": "C",
+          "step": 300,
+          "legendFormat": "read_rnd_buffer_size"
+        }
+      ],
+      "title": "Non-InnoDB Maximum Connection Memory Usage",
+      "type": "ssm-blockmap-panel",
+      "format": "bytes"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "max": 1,
+          "unit": "percentunit",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 153
+      },
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.7",
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_max_allowed_packet{instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "metric": "",
+          "refId": "A",
+          "step": 300,
+          "legendFormat": "max_allowed_packet"
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "mysql_global_variables_max_connections{instance=~\"$host\"} * mysql_global_variables_tmp_table_size{instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "metric": "",
+          "refId": "B",
+          "step": 300,
+          "legendFormat": "tmp_table_size"
+        }
+      ],
+      "title": "Theoretically Possible Other Connection Memory Usage",
+      "type": "ssm-blockmap-panel",
+      "format": "bytes"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "max": 1,
+          "unit": "percentunit",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 161
+      },
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.7",
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
           "expr": "mysql_global_variables_slave_parallel_threads{instance=~\"$host\"} * mysql_global_variables_slave_parallel_max_queued{instance=~\"$host\"}",
           "format": "time_series",
           "interval": "$interval",
@@ -7075,7 +7311,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
           "legendFormat": "slave_parallel_max_queued"
         }
       ],
-      "title": "Replication memory usage",
+      "title": "Replication Memory Usage",
       "type": "ssm-blockmap-panel",
       "format": "bytes",
       "hideSeriesLines": true
@@ -7143,7 +7379,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 153
+        "y": 169
       },
       "links": [],
       "options": {
@@ -7261,7 +7497,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
           "legendFormat": "open_files_limit"
         }
       ],
-      "title": "Global memory usage",
+      "title": "Maximum Global Memory Usage",
       "type": "ssm-blockmap-panel",
       "format": "bytes"
     }
