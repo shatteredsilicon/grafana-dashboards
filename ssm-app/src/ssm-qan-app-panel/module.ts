@@ -51,9 +51,13 @@ export class PanelCtrl extends MetricsPanelCtrl {
         $scope.ctrl.calculatePanelHeight = () => {
             const panel = frame.closest('[class=panel-container]');
             const h = frame.contents().find('body').height() || 730;
+            const panelHeight = h + 94;
+            const frameHeight = h + 62;
 
-            frame.height(`${h + 62}px`);
-            panel.height(`${h + 94}px`);
+            if (frame.height() === frameHeight && panel.height() === panelHeight) return;
+
+            frame.height(frameHeight);
+            panel.height(panelHeight);
         };
         // init url
         // updated url
@@ -70,7 +74,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
                     $scope.ctrl.calculatePanelHeight();
                     return this.reloadQuery(window, queryID, type, search);
                 }
-                setTimeout(() => $scope.ctrl.calculatePanelHeight(), 10);
+                setTimeout(() => $scope.ctrl.calculatePanelHeight(), 100);
                 return queryID === 'null' || queryID === null || this.reloadQuery(window, queryID, type, search);
             });
             frame.contents().bind('keyup', event => {
@@ -80,8 +84,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
                     return this.reloadQuery(window, queryID, type, search);
                 }
             });
-
-            frame.contents().bind('DOMCharacterDataModified', () => setTimeout(() => $scope.ctrl.calculatePanelHeight(), 10));
+            setInterval($scope.ctrl.calculatePanelHeight, 100);
         });
     }
 

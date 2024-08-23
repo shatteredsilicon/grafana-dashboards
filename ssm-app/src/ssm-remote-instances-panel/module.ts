@@ -29,9 +29,13 @@ export class PanelCtrl extends MetricsPanelCtrl {
         $scope.ctrl.calculatePanelHeight = () => {
             const panel = frame.closest('[class=panel-container]');
             const h = frame.contents().find('body').height() || 730;
+            const panelHeight = h + 94;
+            const frameHeight = h + 62;
 
-            frame.height(`${h + 32}px`);
-            panel.height(`${h + 94}px`);
+            if (frame.height() === frameHeight && panel.height() === panelHeight) return;
+
+            frame.height(frameHeight);
+            panel.height(panelHeight);
         };
 
         this.disableGrafanaPerfectScroll(elem);
@@ -39,7 +43,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
 
         frame.on('load', () => {
             $scope.ctrl.calculatePanelHeight();
-            frame.contents().bind('DOMCharacterDataModified', () => setTimeout(() => $scope.ctrl.calculatePanelHeight(), 10));
+            setInterval($scope.ctrl.calculatePanelHeight, 100);
         });
     }
 
