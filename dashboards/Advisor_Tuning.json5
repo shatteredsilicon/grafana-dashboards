@@ -713,23 +713,39 @@ or on() clamp( \n\
           "expr": "\
 clamp( \n\
   ( \n\
-    mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
-    and \n\
-    ( \n\
-      mysql_global_status_open_tables{instance=~\"$host\"} \n\
-      / \n\
-      mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
-      < 0.9 \n\
-    ) \n\
-  ) \n\
-  or on() ( \n\
     2^( \n\
       floor( \n\
         log2(mysql_global_variables_table_open_cache{instance=~\"$host\"}) \n\
       ) + 1 \n\
     ) \n\
+    and \n\
+    ( \n\
+      mysql_global_status_open_tables{instance=~\"$host\"} \n\
+      / \n\
+      mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+      > 0.9 \n\
+    ) \n\
+  ) \n\
+  or on() ( \n\
+    ( \n\
+      2^( \n\
+        ceil( \n\
+          log2(mysql_global_variables_table_open_cache{instance=~\"$host\"}) \n\
+        ) - 1 \n\
+      ) \n\
+      and \n\
+      ( \n\
+        mysql_global_status_open_tables{instance=~\"$host\"} \n\
+        / \n\
+        mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+        < 0.4 \n\
+      ) \n\
+    ) \n\
+    or on() ( \n\
+      mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+    ) \n\
   ), \n\
-  1, \n\
+  2000, \n\
   1048576 \n\
 ) \n\
 ",
@@ -782,23 +798,39 @@ clamp( \n\
           "expr": "\
 clamp( \n\
   ( \n\
-    mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
-    and \n\
-    ( \n\
-      mysql_global_status_open_tables{instance=~\"$host\"} \n\
-      / \n\
-      mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
-      < 0.9 \n\
-    ) \n\
-  ) \n\
-  or on() ( \n\
     2^( \n\
       floor( \n\
         log2(mysql_global_variables_table_open_cache{instance=~\"$host\"}) \n\
       ) + 1 \n\
     ) \n\
+    and \n\
+    ( \n\
+      mysql_global_status_open_tables{instance=~\"$host\"} \n\
+      / \n\
+      mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+      > 0.9 \n\
+    ) \n\
+  ) \n\
+  or on() ( \n\
+    ( \n\
+      2^( \n\
+        ceil( \n\
+          log2(mysql_global_variables_table_open_cache{instance=~\"$host\"}) \n\
+        ) - 1 \n\
+      ) \n\
+      and \n\
+      ( \n\
+        mysql_global_status_open_tables{instance=~\"$host\"} \n\
+        / \n\
+        mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+        < 0.4 \n\
+      ) \n\
+    ) \n\
+    or on() ( \n\
+      mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+    ) \n\
   ), \n\
-  1, \n\
+  2000, \n\
   1048576 \n\
 ) \n\
 ",
