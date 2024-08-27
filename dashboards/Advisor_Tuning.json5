@@ -333,14 +333,16 @@
         "x": 12,
         "y": 3
       },
-      "queryThresholds": "B",
+      "queryThresholds": "A,B",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
       "exactThreshold": true,
+      "thresholdQuery": "C",
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
@@ -392,6 +394,29 @@ or on() clamp( \n\
           "legendFormat": "",
           "metric": "",
           "refId": "B",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_table_definition_cache{instance=~\"$host\"} \n\
+and on() ( \n\
+  mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
+) \n\
+or on() vector(-1) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
           "step": 300
         }
       ],
@@ -458,15 +483,24 @@ or on() clamp( \n\
         }
       },
       "pluginVersion": "9.5.7",
-      "queryThresholds": "A",
-      "thresholdQuery": "B",
+      "queryThresholds": "B,A",
+      "thresholdQuery": "C",
       "exactThreshold": true,
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
+      "thresholdQuery": "C",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-2"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -476,18 +510,23 @@ or on() clamp( \n\
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
-vector(400) and on() ( \n\
-  mysql_info_schema_table_count{instance=~\"$host\"} < 400 \n\
+( \n\
+  vector(400) and on() ( \n\
+    mysql_info_schema_table_count{instance=~\"$host\"} < 400 \n\
+  ) \n\
+  or on() clamp( \n\
+    2^( \n\
+      floor( \n\
+        log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+      )+1 \n\
+    ), \n\
+    400, \n\
+    2097152 \n\
+  ) \n\
 ) \n\
-or on() clamp( \n\
-  2^( \n\
-    floor( \n\
-      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
-    )+1 \n\
-  ), \n\
-  400, \n\
-  2097152 \n\
-) \n\
+and on() ( \n\
+  mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
+) or on() vector(-2) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -513,6 +552,29 @@ or on() clamp( \n\
           "legendFormat": "",
           "metric": "",
           "refId": "B",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_table_definition_cache{instance=~\"$host\"} \n\
+and on() ( \n\
+  mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
+) \n\
+or on() vector(-1) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
           "step": 300
         }
       ],
