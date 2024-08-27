@@ -6886,7 +6886,7 @@ clamp( \n\
       ],
       "title": "AHI Efficiency",
       "type": "timeseries",
-      "description": "Note: If you do not see any metric, try setting: ``innodb_adaptive_hash_index = ON`` in mysql."
+      "description": "Note: If you do not see any metric, try setting: ``innodb_adaptive_hash_index = ON`` and ``innodb_monitor_enable = all`` in mysql."
     },
     {
       "datasource": {
@@ -6903,7 +6903,7 @@ clamp( \n\
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "C,B",
+      "queryThresholds": "A,B",
       "colors": [
         "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
@@ -6912,6 +6912,7 @@ clamp( \n\
       "valueFontSize": "150%",
       "colorBackground": true,
       "exactThreshold": true,
+      "thresholdQuery": "C",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -6943,34 +6944,55 @@ clamp( \n\
   and on() ( \n\
     avg_over_time( \n\
       ( \n\
-        irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[5m]) \n\
+        rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[2m]) \n\
         / \n\
         ( \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[2m]) \n\
           + \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[2m]) \n\
           + \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[2m]) \n\
           + \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[2m]) \n\
           + \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[2m]) \n\
           + \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[2m]) \n\
         ) >= 0 \n\
       )[1w:2m] \n\
     ) < 0.5 \n\
-    and mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} > 0 \n\
   ) \n\
-) \n\
-or on() ( \n\
-  ( \n\
+  or on() ( \n\
     mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} \n\
-    and on() ( \n\
-      mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} > 0 \n\
-    ) \n\
   ) \n\
-  or on() vector(-1) \n\
+) and on() ( \n\
+  min_over_time(mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"}[1w:1w]) > 0 \n\
+  and \n\
+  min_over_time(mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"}[1w:2m]) > 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[2m]) >= 0 \n\
 ) \n\
 ",
           "format": "time_series",
@@ -6989,7 +7011,39 @@ or on() ( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "(mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} and on() (mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} > 0)) or on() vector(0.5)",
+          "expr": "\
+mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} \n\
+and on() ( \n\
+  min_over_time(mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"}[1w:1w]) > 0 \n\
+  and \n\
+  min_over_time(mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"}[1w:2m]) > 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[2m]) >= 0 \n\
+) \n\
+or on() vector(-1) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -7003,7 +7057,7 @@ or on() ( \n\
       "title": "Current",
       "type": "ssm-singlestat-panel",
       "format": "bool_on_off",
-      "description": "Note: the ``innodb_adaptive_hash_index`` MySQL/MariaDB setting needs to be enabled for a period to give the advisor some data to work with."
+      "description": "Note: the ``innodb_adaptive_hash_index = ON`` and ``innodb_monitor_enable = all`` MySQL/MariaDB settings need to be set for at least 1 week to give the advisor some data to work with."
     },
     {
       "datasource": {
@@ -7020,7 +7074,7 @@ or on() ( \n\
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "C,A",
+      "queryThresholds": "B,A",
       "colors": [
         "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
@@ -7028,13 +7082,13 @@ or on() ( \n\
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
-      "thresholdQuery": "B",
+      "thresholdQuery": "C",
       "exactThreshold": true,
       "valueMaps": [
         {
           "op": "=",
           "text": "N/A",
-          "value": "-1"
+          "value": "-2"
         }
       ],
       "targets": [
@@ -7051,35 +7105,57 @@ or on() ( \n\
   and on() ( \n\
     avg_over_time( \n\
       ( \n\
-        irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[5m]) \n\
+        rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[2m]) \n\
         / \n\
         ( \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[2m]) \n\
           + \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[2m]) \n\
           + \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[2m]) \n\
           + \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[2m]) \n\
           + \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[2m]) \n\
           + \n\
-          irate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[5m]) \n\
+          rate(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[2m]) \n\
         ) >= 0 \n\
       )[1w:2m] \n\
     ) < 0.5 \n\
-    and mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} > 0 \n\
   ) \n\
-) \n\
-or on() ( \n\
-  ( \n\
+  or on() ( \n\
     mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} \n\
-    and on() ( \n\
-      mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} > 0 \n\
-    ) \n\
   ) \n\
-  or on() vector(-1) \n\
+) and on() ( \n\
+  min_over_time(mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"}[1w:1w]) > 0 \n\
+  and \n\
+  min_over_time(mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"}[1w:2m]) > 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[2m]) >= 0 \n\
 ) \n\
+or on() vector(-2) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -7114,7 +7190,39 @@ or on() ( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "(mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} and on() (mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} > 0)) or on() vector(0.5)",
+          "expr": "\
+mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"} \n\
+and on() ( \n\
+  min_over_time(mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"}[1w:1w]) > 0 \n\
+  and \n\
+  min_over_time(mysql_global_variables_innodb_adaptive_hash_index{instance=~\"$host\"}[1w:2m]) > 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_searches_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_added_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_pages_removed_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_added_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_removed_total{instance=~\"$host\"}[2m]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[1w:1w]) >= 0 \n\
+  and \n\
+  min_over_time(mysql_info_schema_innodb_metrics_adaptive_hash_index_adaptive_hash_rows_updated_total{instance=~\"$host\"}[2m]) >= 0 \n\
+) \n\
+or on() vector(-1) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -7128,7 +7236,7 @@ or on() ( \n\
       "title": "Proposed",
       "type": "ssm-singlestat-panel",
       "format": "bool_on_off",
-      "description": "Note: the ``innodb_adaptive_hash_index`` MySQL/MariaDB setting needs to be enabled for a period to give the advisor some data to work with."
+      "description": "Note: the ``innodb_adaptive_hash_index = ON`` and ``innodb_monitor_enable = all`` MySQL/MariaDB settings need to be set for a period to give the advisor some data to work with."
     },
     {
       "collapsed": false,
