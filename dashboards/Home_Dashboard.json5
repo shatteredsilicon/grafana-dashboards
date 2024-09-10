@@ -571,7 +571,14 @@
                 }
               ]
             },
-            "unit": "percent"
+            "unit": "percent",
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "System Overview",
+                "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range"
+              }
+            ]
           },
           "overrides": []
         },
@@ -1729,6 +1736,13 @@ sum by () ( \n\
                 }
               ]
             },
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "System Overview",
+                "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
+              }
+            ],
             "unit": "percent"
           },
           "overrides": []
