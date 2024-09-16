@@ -1649,7 +1649,7 @@ sum by () ( \n\
         "type": "row"
       },
       {
-        "content": "$host",
+        "content": "<p style=\"word-break: break-all;\"><b>$host</b></p>",
         "datasource": {
           "type": "prometheus"
         },
@@ -1668,7 +1668,7 @@ sum by () ( \n\
           }
         ],
         "maxPerRow": 12,
-        "mode": "markdown",
+        "mode": "html",
         "targets": [
           {
             "datasource": {
@@ -1677,7 +1677,8 @@ sum by () ( \n\
             "refId": "A"
           }
         ],
-        "transparent": true,
+        "transparent": false,
+        "title": " ",
         "type": "text"
       },
       {
