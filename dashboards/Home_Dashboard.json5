@@ -1712,12 +1712,11 @@ sum by () ( \n\
             "mappings": [
               {
                 "options": {
-                  "match": "null",
-                  "result": {
+                  "-1": {
                     "text": "N/A"
                   }
                 },
-                "type": "special"
+                "type": "value"
               }
             ],
             "thresholds": {
@@ -1804,6 +1803,8 @@ sum by () ( \n\
   or \n\
   avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[5m]) \n\
 ) \n\
+or \n\
+vector(-1) \n\
 ",
             "format": "time_series",
             "hide": false,
@@ -1942,12 +1943,11 @@ sum by () ( \n\
             "mappings": [
               {
                 "options": {
-                  "match": "null",
-                  "result": {
+                  "-1": {
                     "text": "N/A"
                   }
                 },
-                "type": "special"
+                "type": "value"
               }
             ],
             "thresholds": {
@@ -2010,17 +2010,21 @@ sum by () ( \n\
             "datasourceErrors": {},
             "errors": {},
             "expr": "\
-rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
+avg( \n\
+  rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+  or \n\
+  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+) \n\
 or \n\
-rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
-or \n\
-irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
-or \n\
-irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
-or \n\
-avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
-or \n\
-avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+vector(-1) \n\
 ",
             "format": "time_series",
             "interval": "$interval",
@@ -2273,12 +2277,11 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
             "mappings": [
               {
                 "options": {
-                  "match": "null",
-                  "result": {
+                  "-1": {
                     "text": "N/A"
                   }
                 },
-                "type": "special"
+                "type": "value"
               }
             ],
             "thresholds": {
@@ -2344,7 +2347,33 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "sum((max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) or \nmax_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) or\n(max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[$interval]) or\nmax_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[5m])) or\n(sum by (instance) (max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[$interval])) or \nsum by (instance) (max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[5m]))))",
+            "expr": "\n\
+sum( \n\
+  ( \n\
+    max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[$interval]) \n\
+    or \n\
+    max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[5m]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    sum by (instance) ( \n\
+      max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[$interval]) \n\
+    ) \n\
+    or \n\
+    sum by (instance) ( \n\
+      max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[5m]) \n\
+    ) \n\
+  ) \n\
+) \n\
+or \n\
+vector(-1) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
