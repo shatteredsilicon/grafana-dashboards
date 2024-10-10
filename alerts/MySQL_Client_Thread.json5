@@ -1,0 +1,71 @@
+{
+  "conditions": "B",
+  "data": [
+    {
+      "refId": "A",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 300,
+        "to": 0
+      },
+      "datasourceUid": "{{ .DatasourceUID }}",
+      "model": {
+        "expr": "avg_over_time(mysql_global_status_threads_running{instance=~\"{{ .Instance }}\"}[5m])",
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "A",
+        "legendFormat": "Avg Threads Running",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "{{ .DatasourceUID }}"
+        }
+      }
+    },
+    {
+      "refId": "B",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 0,
+        "to": 0
+      },
+      "datasourceUid": "-100",
+      "model": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [16],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": ["A"]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "datasource": {
+          "type": "__expr__",
+          "uid": "-100"
+        },
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "B",
+        "type": "classic_conditions"
+      }
+    }
+  ],
+  "for": 300000000000,
+  "ruleGroup": "SSM",
+  "title": "MySQL Client Thread Activity - {{ .Instance }}",
+  "uid": "ssm-mysql-client-thread-activity-{{ .Instance }}",
+  "dashboardUID": "ssm-health-check",
+  "panelID": 3
+}

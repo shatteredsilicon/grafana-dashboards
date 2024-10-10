@@ -1,6 +1,8 @@
 .idea
 .DS_Store
 dashboards/*.json
+alerts/*.json
+ssm-app/src/alerts
 /export-dash.py
 /import-dash.py
 .env/

@@ -1,0 +1,81 @@
+{
+  "conditions": "B",
+  "data": [
+    {
+      "refId": "A",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 3600,
+        "to": 0
+      },
+      "datasourceUid": "{{ .DatasourceUID }}",
+      "model": {
+        "expr": "\
+( \n\
+  ( \n\
+    increase(mysql_global_status_innodb_os_log_written{instance=~\"{{ .Instance }}\"}[1h]) \n\
+    or \n\
+    increase(mysql_global_status_innodb_os_log_written_total{instance=~\"{{ .Instance }}\"}[1h]) \n\
+  ) / ( \n\
+    mysql_global_variables_innodb_log_files_in_group{instance=~\"{{ .Instance }}\"} * mysql_global_variables_innodb_log_file_size{instance=~\"{{ .Instance }}\"} \n\
+  ) \n\
+) * 100 \n\
+",
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "A",
+        "legendFormat": "% of Total",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "{{ .DatasourceUID }}"
+        }
+      }
+    },
+    {
+      "refId": "B",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 0,
+        "to": 0
+      },
+      "datasourceUid": "-100",
+      "model": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [100],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": ["A"]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "datasource": {
+          "type": "__expr__",
+          "uid": "-100"
+        },
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "B",
+        "type": "classic_conditions"
+      }
+    }
+  ],
+  "for": 300000000000,
+  "ruleGroup": "SSM",
+  "title": "InnoDB Log File Usage - {{ .Instance }}",
+  "uid": "ssm-innodb-log-file-usage-{{ .Instance }}",
+  "dashboardUID": "ssm-health-check",
+  "panelID": 8
+}
