@@ -1,0 +1,85 @@
+{
+  "conditions": "B",
+  "data": [
+    {
+      "refId": "A",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 300,
+        "to": 0
+      },
+      "datasourceUid": "{{ .DatasourceUID }}",
+      "model": {
+        "expr": "\
+avg by (device) ( \n\
+  rate(node_disk_io_time_ms{instance=~\"{{ .Instance }}\"}[5m])/1000 \n\
+  or \n\
+  irate(node_disk_io_time_ms{instance=~\"{{ .Instance }}\"}[5m])/1000 \n\
+  or \n\
+  rate(node_disk_io_time_ms_total{instance=~\"{{ .Instance }}\"}[5m])/1000 \n\
+  or \n\
+  irate(node_disk_io_time_ms_total{instance=~\"{{ .Instance }}\"}[5m])/1000 \n\
+  or \n\
+  rate(node_disk_io_time_seconds_total{instance=~\"{{ .Instance }}\"}[5m]) \n\
+  or \n\
+  irate(node_disk_io_time_seconds_total{instance=~\"{{ .Instance }}\"}[5m]) \n\
+) \n\
+",
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "A",
+        "legendFormat": "{{ `{{ device }}` }}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "{{ .DatasourceUID }}"
+        }
+      }
+    },
+    {
+      "refId": "B",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 0,
+        "to": 0
+      },
+      "datasourceUid": "-100",
+      "model": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [0.8],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": ["A"]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "datasource": {
+          "type": "__expr__",
+          "uid": "-100"
+        },
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "B",
+        "type": "classic_conditions"
+      }
+    }
+  ],
+  "for": 300000000000,
+  "ruleGroup": "SSM",
+  "title": "Disk IO Utilization - {{ .Instance }}",
+  "uid": "ssm-disk-io-utilization-{{ .Instance }}",
+  "dashboardUID": "ssm-health-check",
+  "panelID": 2
+}

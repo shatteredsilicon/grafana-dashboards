@@ -1,0 +1,104 @@
+{
+  "conditions": "B",
+  "data": [
+    {
+      "refId": "A",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 300,
+        "to": 0
+      },
+      "datasourceUid": "{{ .DatasourceUID }}",
+      "model": {
+        "expr": "\
+clamp_max( \n\
+  ( \n\
+    ( \n\
+      avg by (mode) ( \n\
+        ( \n\
+          clamp_max( \n\
+            rate(node_cpu{instance=~\"{{ .Instance }}\",mode!=\"idle\",mode!=\"\"}[1m]) \n\
+            or \n\
+            rate(node_cpu_seconds_total{instance=~\"{{ .Instance }}\",mode!=\"idle\",mode!=\"\"}[1m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          clamp_max( \n\
+            irate(node_cpu{instance=~\"{{ .Instance }}\",mode!=\"idle\",mode!=\"\"}[5m]) \n\
+            or \n\
+            irate(node_cpu_seconds_total{instance=~\"{{ .Instance }}\",mode!=\"idle\",mode!=\"\"}[5m]), \n\
+            1 \n\
+          ) \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+    or \n\
+    ( \n\
+      avg_over_time(node_cpu_average{instance=~\"{{ .Instance }}\", mode!=\"total\",mode!=\"idle\",mode!=\"\"}[1m]) \n\
+      or \n\
+      avg_over_time(node_cpu_average{instance=~\"{{ .Instance }}\", mode!=\"total\", mode!=\"idle\",mode!=\"\"}[5m]) \n\
+    ) \n\
+  ), \n\
+  100 \n\
+) \n\
+",
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "A",
+        "legendFormat": "{{ `{{ mode }}` }}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "{{ .DatasourceUID }}"
+        }
+      }
+    },
+    {
+      "refId": "B",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 0,
+        "to": 0
+      },
+      "datasourceUid": "-100",
+      "model": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [80],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": ["A"]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "datasource": {
+          "type": "__expr__",
+          "uid": "-100"
+        },
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "B",
+        "type": "classic_conditions"
+      }
+    }
+  ],
+  "for": 300000000000,
+  "ruleGroup": "SSM",
+  "title": "CPU Usage - {{ .Instance }}",
+  "uid": "ssm-cpu-usage-{{ .Instance }}",
+  "dashboardUID": "ssm-health-check",
+  "panelID": 1
+}

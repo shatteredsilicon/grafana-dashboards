@@ -10,7 +10,7 @@
   },
   "main": "module.js",
   "scripts": {
-    "prebuild": "rm -rf dist/; mkdir dist/; node convert-dashboards.js && cp -RH src/* dist/ && rm -f dist/dashboards/*.json5",
+    "prebuild": "rm -rf dist/ && mkdir dist/ && cp -r ../alerts ./src/ && node convert-dashboards.js && cp -RH src/* dist/ && rm -f dist/dashboards/*.json5 && rm -f dist/alerts/*.json5",
     "build": "tsc"
   },
   "keywords": [
