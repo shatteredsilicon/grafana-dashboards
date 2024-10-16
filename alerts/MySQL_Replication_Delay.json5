@@ -10,7 +10,7 @@
       },
       "datasourceUid": "{{ .DatasourceUID }}",
       "model": {
-        "expr": "max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"{{ .Instance }}\"}[5m]) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"{{ .Instance }}\"}[5m])",
+        "expr": "max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"{{ .Instance }}\"}[5m]) or max_over_time(mysql_slave_status_seconds_behind_source{instance=~\"{{ .Instance }}\"}[5m])",
         "hide": false,
         "intervalMs": 1000,
         "maxDataPoints": 43200,

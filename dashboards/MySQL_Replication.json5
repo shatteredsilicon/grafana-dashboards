@@ -231,7 +231,33 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "max((((min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[$interval]) or min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval])) unless on() min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval])) or min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval])) or (((min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[5m]) or min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m])) unless on() min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m])) or min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m])))",
+            "expr": "\
+max( \n\
+  ( \n\
+    ( \n\
+      ( \n\
+        min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[$interval]) \n\
+        or \n\
+        min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+        or \n\
+        min_over_time(mysql_slave_status_replica_io_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+      ) unless on() min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+    ) or min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    ( \n\
+      ( \n\
+        min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[5m]) \n\
+        or \n\
+        min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+        or \n\
+        min_over_time(mysql_slave_status_replica_io_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+      ) unless on() min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+    ) or min_over_time(mysql_slave_status_slave_io_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -337,7 +363,33 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "max((((min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[$interval]) or min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval])) unless on() min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval])) or min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval])) or (((min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[5m]) or min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m])) unless on() min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m])) or min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m])))",
+            "expr": "\
+max( \n\
+  ( \n\
+    ( \n\
+      ( \n\
+        min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[$interval]) \n\
+        or \n\
+        min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+        or \n\
+        min_over_time(mysql_slave_status_replica_sql_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+      ) unless on() min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+    ) or min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+  ) \n\
+  or \n\
+  ( \n\
+    ( \n\
+      ( \n\
+        min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[5m]) \n\
+        or \n\
+        min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+        or \n\
+        min_over_time(mysql_slave_status_replica_sql_running{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+      ) unless on() min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+    ) or min_over_time(mysql_slave_status_slave_sql_running{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+  ) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -613,7 +665,31 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(((max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[$interval]) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval])) unless on() max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval])) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval])) or (((max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[5m]) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m])) unless on() max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m])) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m]))",
+            "expr": "\
+( \n\
+  ( \n\
+    ( \n\
+      max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[$interval]) \n\
+      or \n\
+      max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+      or \n\
+      max_over_time(mysql_slave_status_seconds_behind_source{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+    ) unless on() max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+  ) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+) \n\
+or \n\
+( \n\
+  ( \n\
+    ( \n\
+      max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[5m]) \n\
+      or \n\
+      max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+      or \n\
+      max_over_time(mysql_slave_status_seconds_behind_source{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+    ) unless on() max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+  ) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -736,6 +812,8 @@
         max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[$interval]) \n\
         or \n\
         max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
+        or \n\
+        max_over_time(mysql_slave_status_seconds_behind_source{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
       ) unless on() max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[$interval]) \n\
     ) \n\
     or \n\
@@ -774,6 +852,8 @@ or \n\
         max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\"}[5m]) \n\
         or \n\
         max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m]) \n\
+        or \n\
+        max_over_time(mysql_slave_status_seconds_behind_source{instance=~\"$host\", channel_name=~\"${channel:raw}\"}[5m]) \n\
       ) unless on() max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\", connection_name=~\"${channel:raw}\", channel_name=~\"${channel:raw}\"}[5m]) \n\
     ) \n\
     or \n\
@@ -2302,7 +2382,7 @@ irate(mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"}[5
           "multiFormat": "regex values",
           "name": "host",
           "options": [],
-          "query": "label_values({__name__=~\"mysql_binlog_files|mysql_slave_status_seconds_behind_master\"}, instance)",
+          "query": "label_values({__name__=~\"mysql_binlog_files|mysql_slave_status_seconds_behind_master|mysql_slave_status_seconds_behind_source\"}, instance)",
           "refresh": 2,
           "refresh_on_load": false,
           "regex": "",

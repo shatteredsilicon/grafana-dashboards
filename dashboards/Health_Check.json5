@@ -1357,7 +1357,7 @@ increase(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[1h
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\"}[5m]) or max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\"}[5m])",
+          "expr": "max_over_time(mysql_slave_status_seconds_behind_master{instance=~\"$host\"}[5m]) or max_over_time(mysql_slave_status_seconds_behind_source{instance=~\"$host\"}[5m])",
           "format": "time_series",
           "interval": "5m",
           "intervalFactor": 1,
