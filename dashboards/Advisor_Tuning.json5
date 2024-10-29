@@ -151,7 +151,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 1
       },
       "id": 69,
       "targets": [
@@ -169,7 +169,7 @@
         "type": "prometheus"
       },
       "gridPos": {
-        "h": 1,
+        "h": 2,
         "w": 24,
         "x": 0,
         "y": 1
@@ -182,7 +182,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "",
+        "content": "<center><b>If only some of your graphs are populated, but not all, you likely need to enable <code>innodb_monitor_enable=all</code>.  Check <a href=\"https://shatteredsilicon.net/software/ssm/documentation/latest/conf-mysql.html\" target=\"_blank\"> instructions </a> on how to configure MySQL for best results.</b></center>",
         "mode": "html"
       },
       "pluginVersion": "9.5.7",
@@ -206,7 +206,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 2
+        "y": 3
       },
       "panels": [],
       "targets": [
@@ -281,7 +281,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 3
+        "y": 4
       },
       "links": [],
       "options": {
@@ -331,7 +331,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 3
+        "y": 4
       },
       "queryThresholds": "A,B",
       "colors": [
@@ -348,6 +348,13 @@
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -356,7 +363,7 @@
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_table_definition_cache{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_table_definition_cache{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -408,7 +415,7 @@ mysql_global_variables_table_definition_cache{instance=~\"$host\"} \n\
 and on() ( \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
-or on() vector(-1) \n\
+or on() vector(-2) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -421,7 +428,7 @@ or on() vector(-1) \n\
         }
       ],
       "title": "Current",
-      "description": "Note: If it's not working properly, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
+      "description": "Note: If it's not working properly, check that you have: ``global_variables = 1``, ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
       "type": "ssm-singlestat-panel"
     },
     {
@@ -459,7 +466,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 3
+        "y": 4
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -525,6 +532,8 @@ or on() vector(-1) \n\
   ) \n\
 ) \n\
 and on() ( \n\
+  mysql_global_variables_table_definition_cache{instance=~\"$host\"} >= 0 \n\
+  and \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) or on() vector(-2) \n\
 ",
@@ -579,7 +588,7 @@ or on() vector(-1) \n\
         }
       ],
       "title": "Proposed",
-      "description": "Note: If it's not working properly, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
+      "description": "Note: If it's not working properly, check that you have: ``global_variables = 1``, ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
       "type": "ssm-singlestat-panel"
     },
     {
@@ -591,7 +600,7 @@ or on() vector(-1) \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 12
       },
       "panels": [],
       "targets": [
@@ -666,7 +675,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 12
+        "y": 13
       },
       "links": [],
       "options": {
@@ -732,21 +741,30 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 12
+        "y": 13
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "B",
+      "thresholdQuery": "C",
+      "queryThresholds": "A,B",
       "exactThreshold": true,
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -755,7 +773,7 @@ or on() vector(-1) \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_table_open_cache{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_table_open_cache{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -818,6 +836,31 @@ clamp( \n\
           "legendFormat": "",
           "metric": "",
           "refId": "B",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+and on() ( \n\
+  mysql_global_variables_table_open_cache{instance=~\"$host\"} >= 0 \n\
+  and \n\
+  mysql_global_status_open_tables{instance=~\"$host\"} >= 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
           "step": 300
         }
       ],
@@ -833,22 +876,30 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 12
+        "y": 13
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "A",
-      "thresholdQuery": "B",
+      "queryThresholds": "B,A",
+      "thresholdQuery": "C",
       "exactThreshold": true,
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -895,6 +946,12 @@ clamp( \n\
   2000, \n\
   1048576 \n\
 ) \n\
+and on() ( \n\
+  mysql_global_variables_table_open_cache{instance=~\"$host\"} >= 0 \n\
+  and \n\
+  mysql_global_status_open_tables{instance=~\"$host\"} >= 0 \n\
+) \n\
+or on() vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -920,6 +977,31 @@ clamp( \n\
           "legendFormat": "",
           "metric": "",
           "refId": "B",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_table_open_cache{instance=~\"$host\"} \n\
+and on() ( \n\
+  mysql_global_variables_table_open_cache{instance=~\"$host\"} >= 0 \n\
+  and \n\
+  mysql_global_status_open_tables{instance=~\"$host\"} >= 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
           "step": 300
         }
       ],
@@ -936,7 +1018,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 21
       },
       "panels": [],
       "targets": [
@@ -958,7 +1040,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 21
+        "y": 22
       },
       "aliasColors": {},
       "bars": false,
@@ -1077,7 +1159,7 @@ clamp( \n\
       "yaxis": {
         "align": false
       },
-      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql."
+      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql, ``global_variables = 1`` and ``info_schema.innodb_metrics = 1`` in the mysqld_exporter config file."
     },
     {
       "datasource": {
@@ -1087,20 +1169,29 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 21
+        "y": 22
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "B",
+      "queryThresholds": "A,B",
+      "thresholdQuery": "C",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -1109,7 +1200,7 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -1179,10 +1270,43 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"} \n\
+and on() ( \n\
+  ( \n\
+    mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
+    or \n\
+    mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
+  ) > 0 \n\
+  and \n\
+  ( \n\
+    mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} \n\
+    or \n\
+    mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"} \n\
+  ) > 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Current",
-      "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
+      "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql, ``global_variables = 1`` and ``info_schema.innodb_metrics = 1`` in the mysqld_exporter config file.",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
@@ -1194,21 +1318,29 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 21
+        "y": 22
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "A",
+      "queryThresholds": "B,A",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
-      "thresholdQuery": "B",
+      "thresholdQuery": "C",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -1261,6 +1393,10 @@ clamp( \n\
   262144, \n\
   4294967295 \n\
 ) \n\
+and on() ( \n\
+  mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"} >= 0 \n\
+) \n\
+or on() vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -1287,10 +1423,43 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"} \n\
+and on() ( \n\
+  ( \n\
+    mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
+    or \n\
+    mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
+  ) > 0 \n\
+  and \n\
+  ( \n\
+    mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} \n\
+    or \n\
+    mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"} \n\
+  ) > 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Proposed",
-      "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.",
+      "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql, ``global_variables = 1`` and ``info_schema.innodb_metrics = 1`` in the mysqld_exporter config file.",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
@@ -1303,7 +1472,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 30
       },
       "panels": [],
       "targets": [
@@ -1378,7 +1547,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 30
+        "y": 31
       },
       "links": [],
       "options": {
@@ -1406,7 +1575,19 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[$interval]) or \nmax_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[5m])",
+          "expr": "\
+max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[5m]) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1422,7 +1603,19 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[5m])",
+          "expr": "\
+max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[5m]) \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1433,7 +1626,7 @@ clamp( \n\
         }
       ],
       "title": "InnoDB Checkpoint Age",
-      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql.",
+      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql, ``global_status = 1`` and ``info_schema.innodb_metrics = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
     {
@@ -1444,7 +1637,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 30
+        "y": 31
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1461,6 +1654,13 @@ clamp( \n\
       "colorBackground": true,
       "exactThreshold": true,
       "thresholdQuery": "C",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -1475,6 +1675,7 @@ or \n\
 mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
 or \n\
 mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+or vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -1668,7 +1869,7 @@ and on() ( \n\
     )[1w:2m]\n\
   ) \n\
 ) \n\
-or on() vector(0) \n\
+or on() vector(-2) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -1682,7 +1883,7 @@ or on() vector(0) \n\
       ],
       "title": "Current",
       "description": "\
-Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.\n\
+Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql, ``global_status = 1``, ``global_variables = 1`` and ``info_schema.innodb_metrics = 1`` in the mysqld_exporter config file.\n\
 \n\
 When tuning innodb_log_file_size, the value refers to total size of redo logs (innodb_log_file_size x innodb_log_files_in_group).\n\
 \n\
@@ -1699,7 +1900,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 30
+        "y": 31
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -1906,6 +2107,7 @@ or \n\
 mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
 or \n\
 mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+or vector(-2) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -1968,7 +2170,7 @@ and on() ( \n\
     )[1w:2m]\n\
   ) \n\
 ) \n\
-or on() vector(0) \n\
+or on() vector(-3) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -1982,7 +2184,7 @@ or on() vector(0) \n\
       ],
       "title": "Proposed",
       "description": "\
-Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql.\n\
+Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql, , ``global_status = 1``, ``global_variables = 1`` and ``info_schema.innodb_metrics = 1`` in the mysqld_exporter config file.\n\
 \n\
 When tuning innodb_log_file_size, the value refers to total size of redo logs (innodb_log_file_size x innodb_log_files_in_group).\n\
 \n\
@@ -2000,7 +2202,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 38
+        "y": 39
       },
       "panels": [],
       "targets": [
@@ -2092,7 +2294,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 39
+        "y": 40
       },
       "links": [],
       "options": {
@@ -2201,6 +2403,7 @@ sum by (instance) ( \n\
         }
       ],
       "title": "Disk IO Utilization",
+      "description": "Note: If you do not see any metric, make sure node_exporter/rds_exporter is running and populating disk metrics.",
       "type": "timeseries"
     },
     {
@@ -2211,20 +2414,29 @@ sum by (instance) ( \n\
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 39
+        "y": 40
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "B",
+      "queryThresholds": "A,B",
+      "thresholdQuery": "C",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -2233,7 +2445,7 @@ sum by (instance) ( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -2263,60 +2475,58 @@ clamp( \n\
               ( \n\
                 ( \n\
                   ( \n\
-                    ( \n\
-                      max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
-                      or \n\
-                      max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
-                      or \n\
-                      max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
-                      or \n\
-                      max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
-                    ) \n\
+                    max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
                     or \n\
-                    ( \n\
-                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
-                      or \n\
-                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
-                    ) \n\
-                  ) + ( \n\
-                    ( \n\
-                      max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
-                      or \n\
-                      max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
-                      or \n\
-                      max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
-                      or \n\
-                      max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
-                    ) \n\
+                    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
                     or \n\
-                    ( \n\
-                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
-                      or \n\
-                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
-                    ) \n\
+                    max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
                   ) \n\
-                ) / on() group_left() ( \n\
-                  max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
                   or \n\
-                  max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
-                  or \n\
-                  max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
-                  or \n\
-                  max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
-                  or \n\
-                  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
-                  or \n\
-                  sum by (instance) ( \n\
-                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                  ( \n\
+                    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
                     or \n\
-                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-                  ) / 100 \n\
-                ) < +Inf \n\
-              ) * 0.75 >= 0 \n\
+                    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+                  ) \n\
+                ) + ( \n\
+                  ( \n\
+                    max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+                  ) \n\
+                  or \n\
+                  ( \n\
+                    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                    or \n\
+                    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+                  ) \n\
+                ) \n\
+              ) / ( \n\
+                max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+                or \n\
+                max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+                or \n\
+                max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+                or \n\
+                max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+                or \n\
+                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                sum by (instance) ( \n\
+                  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                  or \n\
+                  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+                ) / 100 \n\
+              ) < +Inf \n\
             )[1w:2m] \n\
-          ) / 500 \n\
+          ) * 0.75 / 500 \n\
         ) * 500 \n\
       ) \n\
     ) \n\
@@ -2329,60 +2539,58 @@ clamp( \n\
           ( \n\
             ( \n\
               ( \n\
-                ( \n\
-                  max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
-                  or \n\
-                  max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
-                ) \n\
+                max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
                 or \n\
-                ( \n\
-                  max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
-                  or \n\
-                  max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
-                ) \n\
-              ) + ( \n\
-                ( \n\
-                  max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
-                  or \n\
-                  max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
-                ) \n\
+                max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
                 or \n\
-                ( \n\
-                  max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
-                  or \n\
-                  max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
-                ) \n\
+                max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
               ) \n\
-            ) / on() group_left() ( \n\
-              max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
               or \n\
-              max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
-              or \n\
-              max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
-              or \n\
-              max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
-              or \n\
-              max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
-              or \n\
-              max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
-              or \n\
-              sum by (instance) ( \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+              ( \n\
+                max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
                 or \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-              ) / 100 \n\
-            ) < +Inf \n\
-          ) * 0.75 >= 0 \n\
+                max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+              ) \n\
+            ) + ( \n\
+              ( \n\
+                max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+              ) \n\
+              or \n\
+              ( \n\
+                max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                or \n\
+                max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+              ) \n\
+            ) \n\
+          ) / ( \n\
+            max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+            or \n\
+            max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+            or \n\
+            max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+            or \n\
+            max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+            or \n\
+            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+            or \n\
+            max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+            or \n\
+            sum by (instance) ( \n\
+              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+              or \n\
+              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+            ) / 100 \n\
+          ) < +Inf \n\
         )[1w:2m] \n\
-      ) / 500 \n\
+      ) * 0.75 / 500 \n\
     ) * 500 \n\
   ), \n\
   2000, \n\
@@ -2397,9 +2605,55 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Current (innodb_io_capacity_max)",
+      "description": "Note: If it's not working properly, try setting: ``global_variables = 1`` in the mysqld_exporter config file, and make sure make sure node_exporter/rds_exporter is running and populating disk metrics.",
       "type": "ssm-singlestat-panel"
     },
     {
@@ -2410,21 +2664,29 @@ clamp( \n\
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 39
+        "y": 40
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "A",
+      "queryThresholds": "B,A",
+      "thresholdQuery": "C",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
-      "thresholdQuery": "B",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -2446,60 +2708,58 @@ clamp( \n\
               ( \n\
                 ( \n\
                   ( \n\
-                    ( \n\
-                      max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
-                      or \n\
-                      max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
-                      or \n\
-                      max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
-                      or \n\
-                      max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
-                    ) \n\
+                    max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
                     or \n\
-                    ( \n\
-                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
-                      or \n\
-                      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
-                    ) \n\
-                  ) + ( \n\
-                    ( \n\
-                      max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
-                      or \n\
-                      max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
-                      or \n\
-                      max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
-                      or \n\
-                      max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
-                    ) \n\
+                    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
                     or \n\
-                    ( \n\
-                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
-                      or \n\
-                      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
-                    ) \n\
+                    max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
                   ) \n\
-                ) / on() group_left() ( \n\
-                  max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
                   or \n\
-                  max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
-                  or \n\
-                  max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
-                  or \n\
-                  max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
-                  or \n\
-                  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
-                  or \n\
-                  sum by (instance) ( \n\
-                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                  ( \n\
+                    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
                     or \n\
-                    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-                  ) / 100 \n\
-                ) < +Inf \n\
-              ) * 0.75 >= 0 \n\
+                    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+                  ) \n\
+                ) + ( \n\
+                  ( \n\
+                    max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+                  ) \n\
+                  or \n\
+                  ( \n\
+                    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                    or \n\
+                    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+                  ) \n\
+                ) \n\
+              ) / ( \n\
+                max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+                or \n\
+                max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+                or \n\
+                max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+                or \n\
+                max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+                or \n\
+                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                sum by (instance) ( \n\
+                  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                  or \n\
+                  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+                ) / 100 \n\
+              ) < +Inf \n\
             )[1w:2m] \n\
-          ) / 500 \n\
+          ) * 0.75 / 500 \n\
         ) * 500 \n\
       ) \n\
     ) \n\
@@ -2512,65 +2772,92 @@ clamp( \n\
           ( \n\
             ( \n\
               ( \n\
-                ( \n\
-                  max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
-                  or \n\
-                  max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
-                ) \n\
+                max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
                 or \n\
-                ( \n\
-                  max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
-                  or \n\
-                  max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
-                ) \n\
-              ) + ( \n\
-                ( \n\
-                  max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
-                  or \n\
-                  max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
-                ) \n\
+                max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
                 or \n\
-                ( \n\
-                  max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
-                  or \n\
-                  max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
-                ) \n\
+                max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
               ) \n\
-            ) / on() group_left() ( \n\
-              max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
               or \n\
-              max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
-              or \n\
-              max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
-              or \n\
-              max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
-              or \n\
-              max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
-              or \n\
-              max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
-              or \n\
-              sum by (instance) ( \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+              ( \n\
+                max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
                 or \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-              ) / 100 \n\
-            ) < +Inf \n\
-          ) * 0.75 >= 0 \n\
+                max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+              ) \n\
+            ) + ( \n\
+              ( \n\
+                max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+              ) \n\
+              or \n\
+              ( \n\
+                max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                or \n\
+                max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+              ) \n\
+            ) \n\
+          ) / ( \n\
+            max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+            or \n\
+            max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+            or \n\
+            max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+            or \n\
+            max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+            or \n\
+            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+            or \n\
+            max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+            or \n\
+            sum by (instance) ( \n\
+              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+              or \n\
+              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+            ) / 100 \n\
+          ) < +Inf \n\
         )[1w:2m] \n\
-      ) / 500 \n\
+      ) * 0.75 / 500 \n\
     ) * 500 \n\
   ), \n\
   2000, \n\
   18446744073709551615 \n\
 ) \n\
+and on() ( \n\
+  mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -2588,7 +2875,7 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} or vector(-2)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -2597,9 +2884,55 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-3) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Proposed (innodb_io_capacity_max)",
+      "description": "Note: If it's not working properly, try setting: ``global_variables = 1`` in the mysqld_exporter config file, and make sure node_exporter/rds_exporter is running and populating disk metrics.",
       "type": "ssm-singlestat-panel"
     },
     {
@@ -2610,20 +2943,29 @@ clamp( \n\
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 43
+        "y": 44
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "B",
+      "queryThresholds": "A,B",
+      "thresholdQuery": "C",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -2632,7 +2974,7 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_io_capacity{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_io_capacity{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -2659,6 +3001,202 @@ clamp( \n\
         floor( \n\
           avg_over_time( \n\
             ( \n\
+              ( \n\
+                ( \n\
+                  ( \n\
+                    max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+                  ) \n\
+                  or \n\
+                  ( \n\
+                    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+                    or \n\
+                    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+                  ) \n\
+                ) + ( \n\
+                  ( \n\
+                    max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+                  ) \n\
+                  or \n\
+                  ( \n\
+                    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                    or \n\
+                    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+                  ) \n\
+                ) \n\
+              ) / ( \n\
+                max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+                or \n\
+                max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+                or \n\
+                max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+                or \n\
+                max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+                or \n\
+                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                sum by (instance) ( \n\
+                  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                  or \n\
+                  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+                ) / 100 \n\
+              ) < +Inf \n\
+            )[1w:2m] \n\
+          ) * 0.5 / 500 \n\
+        ) * 500 \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    floor( \n\
+      avg_over_time( \n\
+        ( \n\
+          ( \n\
+            ( \n\
+              ( \n\
+                max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+              ) \n\
+              or \n\
+              ( \n\
+                max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+                or \n\
+                max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+              ) \n\
+            ) + ( \n\
+              ( \n\
+                max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+              ) \n\
+              or \n\
+              ( \n\
+                max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                or \n\
+                max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+              ) \n\
+            ) \n\
+          ) / ( \n\
+            max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+            or \n\
+            max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+            or \n\
+            max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+            or \n\
+            max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+            or \n\
+            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+            or \n\
+            max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+            or \n\
+            sum by (instance) ( \n\
+              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+              or \n\
+              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+            ) / 100 \n\
+          ) < +Inf \n\
+        )[1w:2m] \n\
+      ) * 0.5 / 500 \n\
+    ) * 500 \n\
+  ), \n\
+  200, \n\
+  scalar( \n\
+    ceil( \n\
+      clamp( \n\
+        ( \n\
+          mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} \n\
+          and \n\
+          on() ( \n\
+            scalar(mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}) == ( \n\
+              floor( \n\
+                avg_over_time( \n\
+                  ( \n\
+                    ( \n\
+                      ( \n\
+                        ( \n\
+                          max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+                          or \n\
+                          max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+                          or \n\
+                          max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                          or \n\
+                          max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+                        ) \n\
+                        or \n\
+                        ( \n\
+                          max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+                          or \n\
+                          max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+                        ) \n\
+                      ) + ( \n\
+                        ( \n\
+                          max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                          or \n\
+                          max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                          or \n\
+                          max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                          or \n\
+                          max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+                        ) \n\
+                        or \n\
+                        ( \n\
+                          max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                          or \n\
+                          max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+                        ) \n\
+                      ) \n\
+                    ) / ( \n\
+                      max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+                      or \n\
+                      max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+                      or \n\
+                      max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+                      or \n\
+                      max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+                      or \n\
+                      max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+                      or \n\
+                      sum by (instance) ( \n\
+                        max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                        or \n\
+                        max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+                      ) / 100 \n\
+                    ) < +Inf \n\
+                  )[1w:2m] \n\
+                ) * 0.75 / 500 \n\
+              ) * 500 \n\
+            ) \n\
+          ) \n\
+        ) \n\
+        or \n\
+        on() ( \n\
+          floor( \n\
+            avg_over_time( \n\
               ( \n\
                 ( \n\
                   ( \n\
@@ -2694,7 +3232,7 @@ clamp( \n\
                       max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
                     ) \n\
                   ) \n\
-                ) / on() group_left() ( \n\
+                ) / ( \n\
                   max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
                   or \n\
                   max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
@@ -2713,79 +3251,15 @@ clamp( \n\
                     max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
                   ) / 100 \n\
                 ) < +Inf \n\
-              ) * 0.5 >= 0 \n\
-            )[1w:2m] \n\
-          ) / 500 \n\
-        ) * 500 \n\
-      ) \n\
-    ) \n\
-  ) \n\
-  or \n\
-  on() ( \n\
-    floor( \n\
-      avg_over_time( \n\
-        ( \n\
-          ( \n\
-            ( \n\
-              ( \n\
-                ( \n\
-                  max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
-                  or \n\
-                  max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
-                ) \n\
-                or \n\
-                ( \n\
-                  max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
-                  or \n\
-                  max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
-                ) \n\
-              ) + ( \n\
-                ( \n\
-                  max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
-                  or \n\
-                  max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
-                ) \n\
-                or \n\
-                ( \n\
-                  max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
-                  or \n\
-                  max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
-                ) \n\
-              ) \n\
-            ) / on() group_left() ( \n\
-              max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
-              or \n\
-              max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
-              or \n\
-              max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
-              or \n\
-              max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
-              or \n\
-              max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
-              or \n\
-              max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
-              or \n\
-              sum by (instance) ( \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
-                or \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-              ) / 100 \n\
-            ) < +Inf \n\
-          ) * 0.5 >= 0 \n\
-        )[1w:2m] \n\
-      ) / 500 \n\
+              )[1w:2m] \n\
+            ) * 0.75 / 500 \n\
+          ) * 500 \n\
+        ), \n\
+        2000, \n\
+        18446744073709551615 \n\
+      ) * (2/3) / 500 \n\
     ) * 500 \n\
-  ), \n\
-  200, \n\
-  18446744073709551615 \n\
+  ) \n\
 ) \n\
 ",
           "format": "time_series",
@@ -2796,9 +3270,55 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_innodb_io_capacity{instance=~\"$host\"} \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Current (innodb_io_capacity)",
+      "description": "Note: If it's not working properly, try setting: ``global_variables = 1`` in the mysqld_exporter config file, and make sure node_exporter/rds_exporter is running and populating disk metrics.",
       "type": "ssm-singlestat-panel"
     },
     {
@@ -2809,21 +3329,29 @@ clamp( \n\
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 43
+        "y": 44
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "A",
+      "queryThresholds": "B,A",
+      "thresholdQuery": "C",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
-      "thresholdQuery": "B",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -2842,6 +3370,202 @@ clamp( \n\
         floor( \n\
           avg_over_time( \n\
             ( \n\
+              ( \n\
+                ( \n\
+                  ( \n\
+                    max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+                  ) \n\
+                  or \n\
+                  ( \n\
+                    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+                    or \n\
+                    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+                  ) \n\
+                ) + ( \n\
+                  ( \n\
+                    max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                    or \n\
+                    max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                    or \n\
+                    max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+                  ) \n\
+                  or \n\
+                  ( \n\
+                    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                    or \n\
+                    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+                  ) \n\
+                ) \n\
+              ) / ( \n\
+                max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+                or \n\
+                max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+                or \n\
+                max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+                or \n\
+                max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+                or \n\
+                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                sum by (instance) ( \n\
+                  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                  or \n\
+                  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+                ) / 100 \n\
+              ) < +Inf \n\
+            )[1w:2m] \n\
+          ) * 0.5 / 500 \n\
+        ) * 500 \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    floor( \n\
+      avg_over_time( \n\
+        ( \n\
+          ( \n\
+            ( \n\
+              ( \n\
+                max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+              ) \n\
+              or \n\
+              ( \n\
+                max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+                or \n\
+                max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+              ) \n\
+            ) + ( \n\
+              ( \n\
+                max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                or \n\
+                max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                or \n\
+                max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+              ) \n\
+              or \n\
+              ( \n\
+                max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                or \n\
+                max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+              ) \n\
+            ) \n\
+          ) / ( \n\
+            max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+            or \n\
+            max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+            or \n\
+            max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+            or \n\
+            max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+            or \n\
+            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+            or \n\
+            max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+            or \n\
+            sum by (instance) ( \n\
+              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+              or \n\
+              max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+            ) / 100 \n\
+          ) < +Inf \n\
+        )[1w:2m] \n\
+      ) * 0.5 / 500 \n\
+    ) * 500 \n\
+  ), \n\
+  200, \n\
+  scalar( \n\
+    ceil( \n\
+      clamp( \n\
+        ( \n\
+          mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} \n\
+          and \n\
+          on() ( \n\
+            scalar(mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}) == ( \n\
+              floor( \n\
+                avg_over_time( \n\
+                  ( \n\
+                    ( \n\
+                      ( \n\
+                        ( \n\
+                          max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+                          or \n\
+                          max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+                          or \n\
+                          max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+                          or \n\
+                          max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+                        ) \n\
+                        or \n\
+                        ( \n\
+                          max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+                          or \n\
+                          max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+                        ) \n\
+                      ) + ( \n\
+                        ( \n\
+                          max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+                          or \n\
+                          max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+                          or \n\
+                          max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+                          or \n\
+                          max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+                        ) \n\
+                        or \n\
+                        ( \n\
+                          max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+                          or \n\
+                          max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+                        ) \n\
+                      ) \n\
+                    ) / ( \n\
+                      max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+                      or \n\
+                      max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+                      or \n\
+                      max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+                      or \n\
+                      max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+                      or \n\
+                      max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+                      or \n\
+                      max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+                      or \n\
+                      sum by (instance) ( \n\
+                        max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+                        or \n\
+                        max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+                      ) / 100 \n\
+                    ) < +Inf \n\
+                  )[1w:2m] \n\
+                ) * 0.75 / 500 \n\
+              ) * 500 \n\
+            ) \n\
+          ) \n\
+        ) \n\
+        or \n\
+        on() ( \n\
+          floor( \n\
+            avg_over_time( \n\
               ( \n\
                 ( \n\
                   ( \n\
@@ -2877,7 +3601,7 @@ clamp( \n\
                       max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
                     ) \n\
                   ) \n\
-                ) / on() group_left() ( \n\
+                ) / ( \n\
                   max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
                   or \n\
                   max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
@@ -2896,80 +3620,45 @@ clamp( \n\
                     max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
                   ) / 100 \n\
                 ) < +Inf \n\
-              ) * 0.5 >= 0 \n\
-            )[1w:2m] \n\
-          ) / 500 \n\
-        ) * 500 \n\
-      ) \n\
-    ) \n\
-  ) \n\
-  or \n\
-  on() ( \n\
-    floor( \n\
-      avg_over_time( \n\
-        ( \n\
-          ( \n\
-            ( \n\
-              ( \n\
-                ( \n\
-                  max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
-                  or \n\
-                  max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
-                ) \n\
-                or \n\
-                ( \n\
-                  max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
-                  or \n\
-                  max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
-                ) \n\
-              ) + ( \n\
-                ( \n\
-                  max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
-                  or \n\
-                  max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
-                  or \n\
-                  max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
-                ) \n\
-                or \n\
-                ( \n\
-                  max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
-                  or \n\
-                  max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
-                ) \n\
-              ) \n\
-            ) / on() group_left() ( \n\
-              max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
-              or \n\
-              max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
-              or \n\
-              max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
-              or \n\
-              max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
-              or \n\
-              max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
-              or \n\
-              max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
-              or \n\
-              sum by (instance) ( \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
-                or \n\
-                max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
-              ) / 100 \n\
-            ) < +Inf \n\
-          ) * 0.5 >= 0 \n\
-        )[1w:2m] \n\
-      ) / 500 \n\
+              )[1w:2m] \n\
+            ) * 0.75 / 500 \n\
+          ) * 500 \n\
+        ), \n\
+        2000, \n\
+        18446744073709551615 \n\
+      ) * (2/3) / 500 \n\
     ) * 500 \n\
-  ), \n\
-  200, \n\
-  18446744073709551615 \n\
+  ) \n\
 ) \n\
+and on() ( \n\
+  mysql_global_variables_innodb_io_capacity{instance=~\"$host\"} >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -2987,7 +3676,7 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_io_capacity{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_io_capacity{instance=~\"$host\"} or vector(-2)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -2996,9 +3685,55 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_innodb_io_capacity{instance=~\"$host\"} \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and ( \n\
+    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-3) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Proposed (innodb_io_capacity)",
+      "description": "Note: If it's not working properly, try setting: ``global_variables = 1`` in the mysqld_exporter config file, and make sure node_exporter/rds_exporter is running and populating disk metrics.",
       "type": "ssm-singlestat-panel"
     },
     {
@@ -3010,7 +3745,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 47
+        "y": 48
       },
       "panels": [],
       "targets": [
@@ -3102,7 +3837,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 48
+        "y": 49
       },
       "links": [],
       "options": {
@@ -3175,7 +3910,7 @@ sum by (instance) ( \n\
         }
       ],
       "title": "InnoDB Pending Reads & Disk IO Utilization",
-      "description": "Note: If you do not see 'InnoDB Pending Reads' metric, try setting: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
+      "description": "Note: If you do not see any metric, try setting: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file, and make sure node_exporter/rds_exporter is running and populating disk metrics.",
       "type": "timeseries"
     },
     {
@@ -3186,20 +3921,29 @@ sum by (instance) ( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 48
+        "y": 49
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "B",
+      "queryThresholds": "A,B",
+      "thresholdQuery": "C",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -3208,7 +3952,7 @@ sum by (instance) ( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -3316,11 +4060,55 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
+and on() ( \n\
+  mysql_engine_innodb_pending_reads{instance=~\"$host\"} >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and \n\
+  ( \n\
+    max(node_cpu{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_cpu_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+    or \n\
+    max(hrProcessorLoad{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Current",
       "description": "\
-Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating disk/cpu metrics.\n\
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
@@ -3334,21 +4122,29 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 48
+        "y": 49
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "A",
+      "queryThresholds": "B,A",
+      "thresholdQuery": "C",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
-      "thresholdQuery": "B",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -3439,6 +4235,33 @@ clamp( \n\
     vector(32) \n\
   ) \n\
 ) \n\
+and on() ( \n\
+  mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} >= 0 \n\
+  and \n\
+  mysql_engine_innodb_pending_reads{instance=~\"$host\"} >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and \n\
+  ( \n\
+    max(node_cpu{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_cpu_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+    or \n\
+    max(hrProcessorLoad{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -3456,7 +4279,7 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} or vector(-2)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -3465,11 +4288,55 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
+and on() ( \n\
+  mysql_engine_innodb_pending_reads{instance=~\"$host\"} >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+  and \n\
+  ( \n\
+    max(node_cpu{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_cpu_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
+    or \n\
+    max(hrProcessorLoad{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-3) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Proposed",
       "description": "\
-Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating disk/cpu metrics.\n\
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
@@ -3484,7 +4351,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 56
+        "y": 57
       },
       "panels": [],
       "targets": [
@@ -3576,7 +4443,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 57
+        "y": 58
       },
       "links": [],
       "options": {
@@ -3649,7 +4516,7 @@ sum by (instance) ( \n\
         }
       ],
       "title": "InnoDB Pending Writes & Disk IO Utilization",
-      "description": "Note: If you do not see 'InnoDB Pending Writes' metric, try setting: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.",
+      "description": "Note: If you do not see any metric, try setting: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file, and make sure node_exporter/rds_exporter is running and populating disk metrics.",
       "type": "timeseries"
     },
     {
@@ -3660,20 +4527,29 @@ sum by (instance) ( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 57
+        "y": 58
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "B",
+      "queryThresholds": "A,B",
+      "thresholdQuery": "C",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -3682,7 +4558,7 @@ sum by (instance) ( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -3790,11 +4666,45 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
+and on() ( \n\
+  mysql_engine_innodb_pending_writes{instance=~\"$host\"} >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Current",
       "description": "\
-Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating disk metrics.\n\
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
@@ -3808,21 +4718,29 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 57
+        "y": 58
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "A",
+      "queryThresholds": "B,A",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
-      "thresholdQuery": "B",
+      "thresholdQuery": "C",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -3913,6 +4831,21 @@ clamp( \n\
     vector(32) \n\
   ) \n\
 ) \n\
+and on() ( \n\
+  mysql_engine_innodb_pending_writes{instance=~\"$host\"} >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -3930,7 +4863,7 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} or vector(-2)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -3939,11 +4872,45 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
+and on() ( \n\
+  mysql_engine_innodb_pending_writes{instance=~\"$host\"} >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    or \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-3) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Proposed",
       "description": "\
-Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file.\n\
+Note: If it's not working properly, make sure you have set: ``collect.engine_innodb_status = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating disk metrics.\n\
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
@@ -3958,7 +4925,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 65
+        "y": 66
       },
       "panels": [],
       "targets": [
@@ -4021,7 +4988,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 66
+        "y": 67
       },
       "links": [],
       "options": {
@@ -4083,7 +5050,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 66
+        "y": 67
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4101,6 +5068,13 @@ This tuning takes 1 week of observation, if you have changed the value, please w
       "valueFontSize": "150%",
       "colorBackground": true,
       "thresholdQuery": "D",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -4109,7 +5083,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -4335,7 +5309,14 @@ mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
 and on() ( \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
-or on() vector(-1) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-2) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -4348,7 +5329,7 @@ or on() vector(-1) \n\
         }
       ],
       "title": "Current",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
@@ -4360,7 +5341,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 66
+        "y": 67
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4382,7 +5363,7 @@ or on() vector(-1) \n\
         {
           "op": "=",
           "text": "N/A",
-          "value": "-2"
+          "value": "-1"
         }
       ],
       "targets": [
@@ -4509,7 +5490,14 @@ clamp( \n\
 and on() ( \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
-or on() vector(-2) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -4527,7 +5515,7 @@ or on() vector(-2) \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} or vector(-2)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -4620,7 +5608,14 @@ mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
 and on() ( \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
-or on() vector(-1) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-3) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -4633,7 +5628,7 @@ or on() vector(-1) \n\
         }
       ],
       "title": "Proposed",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating disk metrics.",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
@@ -4646,7 +5641,7 @@ or on() vector(-1) \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 74
+        "y": 75
       },
       "panels": [],
       "targets": [
@@ -4709,7 +5704,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 75
+        "y": 76
       },
       "links": [],
       "options": {
@@ -4771,7 +5766,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 75
+        "y": 76
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4789,6 +5784,13 @@ or on() vector(-1) \n\
       "valueFontSize": "150%",
       "colorBackground": true,
       "thresholdQuery": "D",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -4797,7 +5799,7 @@ or on() vector(-1) \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_key_buffer_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_key_buffer_size{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -4925,7 +5927,14 @@ mysql_global_variables_key_buffer_size{instance=~\"$host\"} \n\
 and on() ( \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
-or on() vector(-1) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-2) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -4938,7 +5947,7 @@ or on() vector(-1) \n\
         }
       ],
       "title": "Current",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
@@ -4950,7 +5959,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 75
+        "y": 76
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -4972,7 +5981,7 @@ or on() vector(-1) \n\
         {
           "op": "=",
           "text": "N/A",
-          "value": "-2"
+          "value": "-1"
         }
       ],
       "targets": [
@@ -5027,8 +6036,17 @@ clamp( \n\
 ) \n\
 and on() ( \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
+  and \n\
+  mysql_global_variables_key_buffer_size{instance=~\"$host\"} >= 0 \n\
 ) \n\
-or on() vector(-2) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -5046,7 +6064,7 @@ or on() vector(-2) \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_key_buffer_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_key_buffer_size{instance=~\"$host\"} or vector(-2)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -5112,7 +6130,14 @@ mysql_global_variables_key_buffer_size{instance=~\"$host\"} \n\
 and on() ( \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
-or on() vector(-1) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-3) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -5125,7 +6150,7 @@ or on() vector(-1) \n\
         }
       ],
       "title": "Proposed",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
@@ -5138,7 +6163,7 @@ or on() vector(-1) \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 83
+        "y": 84
       },
       "panels": [],
       "targets": [
@@ -5201,7 +6226,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 84
+        "y": 85
       },
       "links": [],
       "options": {
@@ -5263,7 +6288,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 84
+        "y": 85
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5278,6 +6303,13 @@ or on() vector(-1) \n\
         "rgba(36, 112, 33, 0.97)",
         "rgba(161, 18, 18, 0.9)"
       ],
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "valueFontSize": "150%",
       "colorBackground": true,
       "thresholdQuery": "D",
@@ -5289,7 +6321,7 @@ or on() vector(-1) \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -5417,7 +6449,14 @@ mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"} \n\
 and on() ( \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
-or on() vector(-1) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-2) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -5430,7 +6469,7 @@ or on() vector(-1) \n\
         }
       ],
       "title": "Current",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
@@ -5442,7 +6481,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 84
+        "y": 85
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5464,7 +6503,7 @@ or on() vector(-1) \n\
         {
           "op": "=",
           "text": "N/A",
-          "value": "-2"
+          "value": "-1"
         }
       ],
       "targets": [
@@ -5519,8 +6558,17 @@ clamp( \n\
 ) \n\
 and on() ( \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
+  and \n\
+  mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"} >= 0 \n\
 ) \n\
-or on() vector(-2) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -5538,7 +6586,7 @@ or on() vector(-2) \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"} or vector(-2)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -5604,7 +6652,14 @@ mysql_global_variables_aria_pagecache_buffer_size{instance=~\"$host\"} \n\
 and on() ( \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
-or on() vector(-1) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-3) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -5617,7 +6672,7 @@ or on() vector(-1) \n\
         }
       ],
       "title": "Proposed",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
       "type": "ssm-singlestat-panel",
       "format": "bytes"
     },
@@ -5630,7 +6685,7 @@ or on() vector(-1) \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 92
+        "y": 93
       },
       "panels": [],
       "targets": [
@@ -5707,7 +6762,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 93
+        "y": 94
       },
       "links": [],
       "options": {
@@ -5783,7 +6838,7 @@ and on() ( \n\
         }
       ],
       "title": "Binlog Cache Hit Ratio",
-      "description": "Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql.",
+      "description": "Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql, ``global_status = 1`` and ``global_variables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
     {
@@ -5794,7 +6849,7 @@ and on() ( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 93
+        "y": 94
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5811,6 +6866,13 @@ and on() ( \n\
       "colorBackground": true,
       "thresholdQuery": "C",
       "exactThreshold": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -5819,7 +6881,7 @@ and on() ( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_binlog_cache_size{instance=~\"$host\"} or mysql_global_variables_binlog_cache_size_count{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_binlog_cache_size{instance=~\"$host\"} or mysql_global_variables_binlog_cache_size_count{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -5964,7 +7026,7 @@ and on() ( \n\
     )[1w:2m]\n\
   ) \n\
 ) \n\
-or on() vector(0) \n\
+or on() vector(-2) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -5978,7 +7040,7 @@ or on() vector(0) \n\
       ],
       "title": "Current",
       "description": "\
-Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql.\n\
+Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql, and ``global_variables = 1`` in the mysqld_exporter config file.\n\
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
@@ -5992,7 +7054,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 93
+        "y": 94
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6111,7 +7173,7 @@ or on() vector(-1) \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_binlog_cache_size{instance=~\"$host\"} or mysql_global_variables_binlog_cache_size_count{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_binlog_cache_size{instance=~\"$host\"} or mysql_global_variables_binlog_cache_size_count{instance=~\"$host\"} or vector(-2)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -6163,7 +7225,7 @@ and on() ( \n\
     )[1w:2m]\n\
   ) \n\
 ) \n\
-or on() vector(0) \n\
+or on() vector(-3) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -6177,7 +7239,7 @@ or on() vector(0) \n\
       ],
       "title": "Proposed",
       "description": "\
-Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql.\n\
+Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql, and ``global_variables = 1`` in the mysqld_exporter config file.\n\
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
@@ -6192,7 +7254,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 101
+        "y": 102
       },
       "panels": [],
       "targets": [
@@ -6269,7 +7331,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 102
+        "y": 103
       },
       "links": [],
       "options": {
@@ -6345,7 +7407,7 @@ and on() ( \n\
         }
       ],
       "title": "Binlog Stmt Cache Hit Ratio",
-      "description": "Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql.",
+      "description": "Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql, ``global_status = 1`` and ``global_variables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
     {
@@ -6356,7 +7418,7 @@ and on() ( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 102
+        "y": 103
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6373,6 +7435,13 @@ and on() ( \n\
       "colorBackground": true,
       "thresholdQuery": "C",
       "exactThreshold": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -6381,7 +7450,7 @@ and on() ( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"} or mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"} or mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -6525,8 +7594,13 @@ and on() ( \n\
       mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"} \n\
     )[1w:2m]\n\
   ) \n\
+  and ( \n\
+    mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"} \n\
+    or \n\
+    mysql_global_status_binlog_stmt_cache_use_total{instance=~\"$host\"} \n\
+  ) >= 0 \n\
 ) \n\
-or on() vector(0) \n\
+or on() vector(-2) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -6541,7 +7615,7 @@ or on() vector(0) \n\
       "title": "Current",
       "type": "ssm-singlestat-panel",
       "description": "\
-Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql.\n\
+Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql, ``global_status = 1`` and ``global_variables = 1`` in the mysqld_exporter config file.\n\
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
@@ -6554,7 +7628,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 102
+        "y": 103
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6673,7 +7747,7 @@ or on() vector(-1) \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"} or mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"} or mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"} or vector(-2)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -6724,8 +7798,13 @@ and on() ( \n\
       mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"} \n\
     )[1w:2m]\n\
   ) \n\
+  and ( \n\
+    mysql_global_status_binlog_stmt_cache_use{instance=~\"$host\"} \n\
+    or \n\
+    mysql_global_status_binlog_stmt_cache_use_total{instance=~\"$host\"} \n\
+  ) >= 0 \n\
 ) \n\
-or on() vector(0) \n\
+or on() vector(-3) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -6740,7 +7819,7 @@ or on() vector(0) \n\
       "title": "Proposed",
       "type": "ssm-singlestat-panel",
       "description": "\
-Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql.\n\
+Note: If you do not see any metric, try setting: ``log_bin = ON`` in mysql, ``global_status = 1`` and ``global_variables = 1`` in the mysqld_exporter config file.\n\
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
@@ -6754,7 +7833,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 110
+        "y": 111
       },
       "panels": [],
       "targets": [
@@ -6831,7 +7910,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 111
+        "y": 112
       },
       "links": [],
       "options": {
@@ -6882,6 +7961,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         }
       ],
       "title": "Temporary Table Memory Fit Rate",
+      "description": "Note: If you do not see any metric, try setting: ``global_status = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
     {
@@ -6892,21 +7972,30 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 111
+        "y": 112
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "B",
+      "queryThresholds": "A,B",
+      "thresholdQuery": "C",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
       "exactThreshold": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -6915,7 +8004,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_tmp_table_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_tmp_table_size{instance=~\"$host\"} or vector(-1)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -6991,10 +8080,45 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_tmp_table_size{instance=~\"$host\"} \n\
+and on() ( \n\
+  ( \n\
+    mysql_global_status_created_tmp_disk_tables{instance=\"$host\"} \n\
+    or \n\
+    mysql_global_status_created_tmp_disk_tables_total{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Current",
       "type": "ssm-singlestat-panel",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.global_status = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
       "format": "bytes"
     },
     {
@@ -7005,22 +8129,30 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 111
+        "y": 112
       },
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
       "maxDataPoints": 100,
       "pluginVersion": "9.5.7",
-      "queryThresholds": "A",
+      "queryThresholds": "B,A",
       "colors": [
+        "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
         "rgba(36, 112, 33, 0.97)"
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
-      "thresholdQuery": "B",
+      "thresholdQuery": "C",
       "exactThreshold": true,
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -7079,6 +8211,23 @@ clamp( \n\
     or on() vector(18446744073709551615) \n\
   ) \n\
 ) \n\
+and on() ( \n\
+  mysql_global_variables_tmp_table_size{instance=\"$host\"} >= 0 \n\
+  and \n\
+  ( \n\
+    mysql_global_status_created_tmp_disk_tables{instance=\"$host\"} \n\
+    or \n\
+    mysql_global_status_created_tmp_disk_tables_total{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-1) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -7096,7 +8245,7 @@ clamp( \n\
           },
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_tmp_table_size{instance=~\"$host\"}",
+          "expr": "mysql_global_variables_tmp_table_size{instance=~\"$host\"} or vector(-2)",
           "format": "time_series",
           "interval": "$interval",
           "instant": true,
@@ -7105,10 +8254,45 @@ clamp( \n\
           "metric": "",
           "refId": "B",
           "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_tmp_table_size{instance=~\"$host\"} \n\
+and on() ( \n\
+  ( \n\
+    mysql_global_status_created_tmp_disk_tables{instance=\"$host\"} \n\
+    or \n\
+    mysql_global_status_created_tmp_disk_tables_total{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+  ) >= 0 \n\
+) \n\
+or on() vector(-3) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
         }
       ],
       "title": "Proposed",
       "type": "ssm-singlestat-panel",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.global_status = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
       "format": "bytes"
     },
     {
@@ -7120,7 +8304,7 @@ clamp( \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 119
+        "y": 120
       },
       "panels": [],
       "targets": [
@@ -7197,7 +8381,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 120
+        "y": 121
       },
       "links": [],
       "options": {
@@ -7291,7 +8475,7 @@ clamp( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 120
+        "y": 121
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -7462,7 +8646,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 120
+        "y": 121
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -7642,7 +8826,7 @@ or on() vector(-1) \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 128
+        "y": 129
       },
       "panels": [],
       "targets": [
@@ -7664,7 +8848,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 129
+        "y": 130
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -7775,6 +8959,14 @@ clamp( \n\
   0, \n\
   100 \n\
 ) \n\
+and on() ( \n\
+  ( \n\
+    node_memory_MemTotal{instance=~\"$host\"} \n\
+    or \n\
+    node_memory_MemTotal_bytes{instance=~\"$host\"} \n\
+  ) > 0 \n\
+) \n\
+or on() vector(0) \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -7958,7 +9150,7 @@ clamp( \n\
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 129
+        "y": 130
       },
       "links": [],
       "options": {
@@ -8149,7 +9341,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 137
+        "y": 138
       },
       "links": [],
       "options": {
@@ -8332,7 +9524,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 145
+        "y": 146
       },
       "links": [],
       "options": {
@@ -8469,7 +9661,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 153
+        "y": 154
       },
       "links": [],
       "options": {
@@ -8590,7 +9782,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 161
+        "y": 162
       },
       "links": [],
       "options": {
@@ -8696,7 +9888,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 169
+        "y": 170
       },
       "links": [],
       "options": {
