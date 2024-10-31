@@ -352,7 +352,7 @@
             "refId": "A"
           }
         ],
-        "title": "Pie",
+        "title": "Table Size",
         "type": "row"
       },
       {
@@ -585,7 +585,7 @@
         "editable": true,
         "error": false,
         "gridPos": {
-          "h": 3,
+          "h": 2,
           "w": 24,
           "x": 0,
           "y": 17
@@ -598,7 +598,7 @@
             "showLineNumbers": false,
             "showMiniMap": false
           },
-          "content": "The next two graphs are available only for [Percona Server](https://www.percona.com/doc/percona-server/5.6/diagnostics/user_stats.html) and [MariaDB](https://mariadb.com/kb/en/mariadb/user-statistics/) and require `userstat` variable turned on.",
+          "content": "The next three graphs are available only for [Percona Server](https://www.percona.com/doc/percona-server/5.6/diagnostics/user_stats.html) and [MariaDB](https://mariadb.com/kb/en/mariadb/user-statistics/) and require `userstat` variable turned on.",
           "mode": "markdown"
         },
         "pluginVersion": "9.5.7",
@@ -623,7 +623,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 20
+          "y": 19
         },
         "panels": [],
         "targets": [
@@ -654,7 +654,7 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 21
+          "y": 20
         },
         "legend": {
           "alignAsTable": true,
@@ -701,6 +701,7 @@
         ],
         "thresholds": [],
         "title": "Top Tables by Rows Read",
+        "description": "Note: If these graphs are empty, check that you have: ``info_schema.tablestats = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -740,7 +741,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 28
+          "y": 27
         },
         "panels": [],
         "targets": [
@@ -771,7 +772,7 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 29
+          "y": 28
         },
         "legend": {
           "alignAsTable": true,
@@ -819,6 +820,7 @@
         ],
         "thresholds": [],
         "title": "Top Tables by Rows Changed",
+        "description": "Note: If these graphs are empty, check that you have: ``info_schema.tablestats = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -858,7 +860,112 @@
           "h": 1,
           "w": 24,
           "x": 0,
+          "y": 35
+        },
+        "panels": [],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "Least Used Indexes",
+        "type": "row"
+      },
+      {
+        "columns": [
+          {
+            "text": "Current",
+            "value": "current"
+          }
+        ],
+        "datasource": {
+          "type": "prometheus"
+        },
+        "editable": true,
+        "error": false,
+        "fontSize": "100%",
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
           "y": 36
+        },
+        "height": "",
+        "hideTimeOverride": true,
+        "links": [],
+        "scroll": false,
+        "showHeader": true,
+        "sort": {
+          "col": 1,
+          "desc": true
+        },
+        "styles": [
+          {
+            "alias": "",
+            "align": "auto",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "mappingType": 1,
+            "pattern": "Time",
+            "thresholds": [],
+            "type": "date",
+            "unit": "dateTimeAsIso"
+          },
+          {
+            "align": "auto",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "/.*/",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          }
+        ],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "sort(sum(mysql_info_schema_index_statistics_rows_read_total{instance=~\"$host\"}) by (schema, table, index))",
+            "instant": true,
+            "format": "table",
+            "interval": "5m",
+            "intervalFactor": 1,
+            "refId": "A",
+            "step": 300
+          }
+        ],
+        "timeFrom": "5m",
+        "title": "Least Used Indexes by Rows Read",
+        "description": "Note: If these graphs are empty, check that you have: ``info_schema.indexstats = 1`` set in your mysqld_exporter.conf",
+        "transform": "timeseries_to_rows",
+        "type": "ssm-filtertable-panel",
+        "filterKey": "schema",
+        "maxRows": 50,
+        "filterIgnore": "mysql,information_schema,performance_schema"
+      },
+      {
+        "collapsed": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 43
         },
         "panels": [],
         "targets": [
@@ -889,7 +996,7 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 37
+          "y": 44
         },
         "height": "",
         "hideTimeOverride": true,
@@ -954,6 +1061,7 @@
         ],
         "timeFrom": "5m",
         "title": "Top Tables by Auto Increment Usage",
+        "description": "Note: If these graphs are empty, check that you have: ``auto_increment.columns = 1`` set in your mysqld_exporter.conf",
         "transform": "table",
         "type": "table-old"
       },
@@ -990,7 +1098,7 @@
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 44
+          "y": 51
         },
         "legend": {
           "alignAsTable": true,
@@ -1038,6 +1146,7 @@
         "thresholds": [],
         "timeRegions": [],
         "title": "Max Auto Increment Usage",
+        "description": "Note: If these graphs are empty, check that you have: ``auto_increment.columns = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -1082,111 +1191,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 51
-        },
-        "panels": [],
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "refId": "A"
-          }
-        ],
-        "title": "Least Used Indexes",
-        "type": "row"
-      },
-      {
-        "columns": [
-          {
-            "text": "Current",
-            "value": "current"
-          }
-        ],
-        "datasource": {
-          "type": "prometheus"
-        },
-        "editable": true,
-        "error": false,
-        "fontSize": "100%",
-        "gridPos": {
-          "h": 7,
-          "w": 24,
-          "x": 0,
-          "y": 52
-        },
-        "height": "",
-        "hideTimeOverride": true,
-        "links": [],
-        "scroll": false,
-        "showHeader": true,
-        "sort": {
-          "col": 1,
-          "desc": true
-        },
-        "styles": [
-          {
-            "alias": "",
-            "align": "auto",
-            "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
-            ],
-            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "decimals": 0,
-            "mappingType": 1,
-            "pattern": "Time",
-            "thresholds": [],
-            "type": "date",
-            "unit": "dateTimeAsIso"
-          },
-          {
-            "align": "auto",
-            "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
-            ],
-            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "pattern": "/.*/",
-            "thresholds": [],
-            "type": "number",
-            "unit": "short"
-          }
-        ],
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "expr": "sort(sum(mysql_info_schema_index_statistics_rows_read_total{instance=~\"$host\"}) by (schema, table, index))",
-            "instant": true,
-            "format": "table",
-            "interval": "5m",
-            "intervalFactor": 1,
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "timeFrom": "5m",
-        "title": "Least Used Indexes by Rows Read",
-        "transform": "timeseries_to_rows",
-        "type": "ssm-filtertable-panel",
-        "filterKey": "schema",
-        "maxRows": 50,
-        "filterIgnore": "mysql,information_schema,performance_schema"
-      },
-      {
-        "collapsed": false,
-        "datasource": {
-          "type": "prometheus"
-        },
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 59
+          "y": 58
         },
         "panels": [],
         "targets": [
@@ -1261,7 +1266,7 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 60
+          "y": 59
         },
         "links": [],
         "options": {
@@ -1300,6 +1305,7 @@
           }
         ],
         "title": "Top 10 Tables By Read IO Waits",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.tableiowaits = 1`` set in your mysqld_exporter.conf",
         "type": "timeseries"
       },
       {
@@ -1363,7 +1369,7 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 67
+          "y": 66
         },
         "links": [],
         "options": {
@@ -1402,6 +1408,7 @@
           }
         ],
         "title": "Top 10 Tables By Write IO Waits",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.tableiowaits = 1`` set in your mysqld_exporter.conf",
         "type": "timeseries"
       }
     ],

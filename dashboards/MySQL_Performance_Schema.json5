@@ -144,6 +144,68 @@
     "liveNow": false,
     "panels": [
       {
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "pluginVersion": "9.5.7",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "type": "text",
+        "title": "The graphs below require performance_schema=ON set in MySQL."
+      },
+      {
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 2
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "type": "row"
+      },
+      {
         "aliasColors": {},
         "bars": false,
         "dashLength": 10,
@@ -161,10 +223,9 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 0
+          "y": 3
         },
         "hiddenSeries": false,
-        "id": 47,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -213,6 +274,7 @@
         "thresholds": [],
         "timeRegions": [],
         "title": "Performance Schema File IO (Events)",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.file_events = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -261,10 +323,9 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 7
+          "y": 10
         },
         "hiddenSeries": false,
-        "id": 48,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -312,6 +373,7 @@
         "thresholds": [],
         "timeRegions": [],
         "title": "Performance Schema File IO (Load)",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.file_events = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -360,10 +422,9 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 14
+          "y": 17
         },
         "hiddenSeries": false,
-        "id": 49,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -411,6 +472,7 @@
         "thresholds": [],
         "timeRegions": [],
         "title": "Performance Schema File IO (Bytes)",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.file_events = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -458,9 +520,8 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 21
+          "y": 24
         },
-        "id": 51,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -503,6 +564,7 @@
         ],
         "thresholds": [],
         "title": "Performance Schema Waits (Events)",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.eventswaits = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -550,9 +612,8 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 28
+          "y": 31
         },
-        "id": 52,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -596,6 +657,7 @@
         ],
         "thresholds": [],
         "title": "Performance Schema Waits (Load)",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.eventswaits = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -643,9 +705,8 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 35
+          "y": 38
         },
-        "id": 77,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -689,6 +750,7 @@
         ],
         "thresholds": [],
         "title": "Index Access Operations (Load)",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.indexiowaits = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -736,9 +798,8 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 42
+          "y": 45
         },
-        "id": 78,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -783,6 +844,7 @@
         ],
         "thresholds": [],
         "title": "Table Access Operations (Load)",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.tableiowaits = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
           "shared": true,
@@ -827,9 +889,8 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 49
+          "y": 52
         },
-        "id": 79,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -880,6 +941,7 @@
         ],
         "thresholds": [],
         "title": "Performance Schema SQL & External Locks (Events)",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.tablelocks = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "shared": true,
           "sort": 0,
@@ -921,9 +983,8 @@
           "h": 7,
           "w": 24,
           "x": 0,
-          "y": 56
+          "y": 59
         },
-        "id": 80,
         "legend": {
           "alignAsTable": true,
           "avg": true,
@@ -975,6 +1036,7 @@
         ],
         "thresholds": [],
         "title": "Performance Schema SQL and External Locks (Seconds)",
+        "description": "Note: If these graphs are empty, check that you have: ``perf_schema.tablelocks = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "shared": true,
           "sort": 0,
