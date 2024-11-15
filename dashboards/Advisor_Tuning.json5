@@ -382,20 +382,25 @@
           "errors": {},
           "expr": "\
 clamp( \n\
-  2^( \n\
-    floor( \n\
-      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
-    ) + 1 \n\
+  vector(400) and on() ( \n\
+    mysql_info_schema_table_count{instance=~\"$host\"} < (400 * 0.9) \n\
   ) \n\
-  and on() ( \n\
-    mysql_global_variables_table_definition_cache{instance=~\"$host\"} \n\
-    / \n\
+  or on() ( \n\
     2^( \n\
       floor( \n\
         log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
       ) + 1 \n\
     ) \n\
-    < 0.9 \n\
+    and on() ( \n\
+      mysql_global_variables_table_definition_cache{instance=~\"$host\"} \n\
+      / \n\
+      2^( \n\
+        floor( \n\
+          log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+        ) + 1 \n\
+      ) \n\
+      < 0.9 \n\
+    ) \n\
   ) \n\
   or on() 2^( \n\
     floor( \n\
@@ -512,7 +517,6 @@ or on() vector(-2) \n\
       ],
       "valueFontSize": "150%",
       "colorBackground": true,
-      "thresholdQuery": "C",
       "valueMaps": [
         {
           "op": "=",
@@ -530,20 +534,25 @@ or on() vector(-2) \n\
           "errors": {},
           "expr": "\
 clamp( \n\
-  2^( \n\
-    floor( \n\
-      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
-    ) + 1 \n\
+  vector(400) and on() ( \n\
+    mysql_info_schema_table_count{instance=~\"$host\"} < (400 * 0.9) \n\
   ) \n\
-  and on() ( \n\
-    mysql_global_variables_table_definition_cache{instance=~\"$host\"} \n\
-    / \n\
+  or on() ( \n\
     2^( \n\
       floor( \n\
         log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
       ) + 1 \n\
     ) \n\
-    < 0.9 \n\
+    and on() ( \n\
+      mysql_global_variables_table_definition_cache{instance=~\"$host\"} \n\
+      / \n\
+      2^( \n\
+        floor( \n\
+          log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+        ) + 1 \n\
+      ) \n\
+      < 0.9 \n\
+    ) \n\
   ) \n\
   or on() 2^( \n\
     floor( \n\
