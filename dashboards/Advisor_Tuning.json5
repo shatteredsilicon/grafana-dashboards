@@ -2648,6 +2648,7 @@ sum by (instance) ( \n\
       "pluginVersion": "9.5.7",
       "queryThresholds": "A,B",
       "thresholdQuery": "C",
+      "exactThreshold": true,
       "colors": [
         "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
@@ -2898,6 +2899,7 @@ or on() vector(-2) \n\
       "pluginVersion": "9.5.7",
       "queryThresholds": "B,A",
       "thresholdQuery": "C",
+      "exactThreshold": true,
       "colors": [
         "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
@@ -3177,6 +3179,7 @@ or on() vector(-3) \n\
       "pluginVersion": "9.5.7",
       "queryThresholds": "A,B",
       "thresholdQuery": "C",
+      "exactThreshold": true,
       "colors": [
         "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
@@ -3563,6 +3566,7 @@ or on() vector(-2) \n\
       "pluginVersion": "9.5.7",
       "queryThresholds": "B,A",
       "thresholdQuery": "C",
+      "exactThreshold": true,
       "colors": [
         "rgb(24, 27, 31)",
         "rgba(237, 129, 40, 0.89)",
