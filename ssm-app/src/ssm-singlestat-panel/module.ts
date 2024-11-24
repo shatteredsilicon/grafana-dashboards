@@ -7,7 +7,7 @@ import { MetricsPanelCtrl, PanelCtrl } from 'app/plugins/sdk';
 import kbn from 'app/core/utils/kbn';
 
 class SSMSingleStatCtrl extends MetricsPanelCtrl {
-  static templateUrl = 'ssm-singlestat-panel/module.html';
+  static templateUrl = 'module.html';
 
   dataType = 'timeseries';
   series: any[];
@@ -643,7 +643,7 @@ class SSMSingleStatCtrl extends MetricsPanelCtrl {
         return;
       }
       data = ctrl.data;
-      const $panelContainer = elem.closest('[class=panel-container]');
+      const $panelContainer = elem.closest('[class$="panel-container"]');
 
       // it seems newer Grafana has dropped support of url variables
       // $__all_variables/$__url_time_range for 3rd-party panel,

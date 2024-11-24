@@ -182,7 +182,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<center><b>If only some of your graphs are populated, but not all, you likely need to enable <code>innodb_monitor_enable=all</code>.  Check <a href=\"https://shatteredsilicon.net/software/ssm/documentation/latest/conf-mysql.html\" target=\"_blank\"> instructions </a> on how to configure MySQL for best results.</b></center>",
+        "content": "<center><b>Tuning advice on this dashboard is unlikely to be reliable until at least 24 hours of telemetry data has accumulated and you zoom out to at least 24 hours.</b></center>\n<center><b>If only some of your graphs are populated, but not all, you likely need to enable <code>innodb_monitor_enable=all</code>.  Check <a href=\"https://shatteredsilicon.net/software/ssm/documentation/latest/conf-mysql.html\" target=\"_blank\"> instructions </a> on how to configure MySQL for best results.</b></center>",
         "mode": "html"
       },
       "pluginVersion": "9.5.7",
@@ -195,7 +195,7 @@
         }
       ],
       "type": "text",
-      "title": "Tuning advice on this dashboard is unlikely to be reliable until at least 24 hours of telemetry data has accumulated and you zoom out to at least 24 hours."
+      "title": ""
     },
     {
       "collapsed": false,
