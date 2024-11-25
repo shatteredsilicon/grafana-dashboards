@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { MetricsPanelCtrl } from 'app/plugins/sdk';
 
 class SSMFilterTableCtrl extends MetricsPanelCtrl {
-  static templateUrl = 'ssm-filtertable-panel/module.html';
+  static templateUrl = 'module.html';
 
   table: any;
   panel: any;

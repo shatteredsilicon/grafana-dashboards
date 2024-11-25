@@ -11,7 +11,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
      * Urls to define panels templates
      */
     static TEMPLATES = {
-        MAIN: 'ssm-update-panel/index.html',
+        MAIN: 'index.html',
     };
 
     /**

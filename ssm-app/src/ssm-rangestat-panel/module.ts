@@ -9,7 +9,7 @@ import { MetricsPanelCtrl, PanelCtrl } from 'app/plugins/sdk';
 import kbn from 'app/core/utils/kbn';
 
 class SSMRangeStatCtrl extends MetricsPanelCtrl {
-  static templateUrl = 'ssm-rangestat-panel/module.html';
+  static templateUrl = 'module.html';
 
   series: any[];
   data: any;

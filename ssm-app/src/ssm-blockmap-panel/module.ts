@@ -4,7 +4,7 @@ import { MetricsPanelCtrl } from 'app/plugins/sdk';
 import kbn from 'app/core/utils/kbn';
 
 class SSMBlockMapCtrl extends MetricsPanelCtrl {
-  static templateUrl = 'ssm-blockmap-panel/module.html';
+  static templateUrl = 'module.html';
   static LINE_DIV_WIDTH = 16;
   static SERIES_NAME_DIV_HEIGHT = 24;
   static EFFECTIVE_POS_OFFSET = 6;
@@ -52,7 +52,7 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
       const value = lastPoint[0];
       const decimalInfo = this.getDecimalsForValue(data.value);
       this.series.push({
-        name: data.alias,
+        name: data.alias || data.target,
         value: value,
         text: kbn.valueFormats[this.panel.format](value, decimalInfo.decimals, decimalInfo.scaledDecimals)
       })
@@ -91,7 +91,9 @@ class SSMBlockMapCtrl extends MetricsPanelCtrl {
                                   );
         const blockCount = blockRowCount * blockColumnCount;
         const innerHTML = ctrl.series.map(serie => {
-          return [].constructor(Math.floor(serie.value / totalMemory * blockCount)).join(
+          const len = Math.floor(serie.value / totalMemory * blockCount);
+          if (!len) return '';
+          return [].constructor(len).join(
             `
               <span data-name="${serie.name}" data-color="${serie.color}" data-text="${serie.text}" class="ssm-blockmap-panel-block" style="background-color: ${serie.color}">
               </span>

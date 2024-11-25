@@ -26,9 +26,9 @@ export class PanelCtrl extends MetricsPanelCtrl {
         const frame = elem.find('iframe');
 
         $scope.ctrl.calculatePanelHeight = () => {
-            const panel = frame.closest('[class=panel-container]');
+            const panel = frame.closest('[class$="panel-container"]');
             const h = frame.contents().find('body').height() || 730;
-            const panelHeight = h + 94;
+            const panelHeight = h + 102;
             const frameHeight = h + 62;
 
             if (frame.height() === frameHeight && panel.height() === panelHeight) return;
