@@ -63,7 +63,7 @@
     }
   ],
   "for": 300000000000,
-  "ruleGroup": "SSM",
+  "ruleGroup": "",
   "title": "MySQL Connections - {{ .Instance }}",
   "uid": "ssm-mysql-connections-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",

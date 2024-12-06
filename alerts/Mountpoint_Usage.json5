@@ -75,7 +75,7 @@
     }
   ],
   "for": 300000000000,
-  "ruleGroup": "SSM",
+  "ruleGroup": "",
   "title": "Mountpoint Usage - {{ .Instance }}",
   "uid": "ssm-mountpoint-usage-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",

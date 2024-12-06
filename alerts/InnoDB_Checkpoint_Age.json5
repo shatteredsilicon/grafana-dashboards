@@ -75,7 +75,7 @@
     }
   ],
   "for": 300000000000,
-  "ruleGroup": "SSM",
+  "ruleGroup": "",
   "title": "InnoDB Checkpoint Age - {{ .Instance }}",
   "uid": "ssm-innodb-checkpoint-age-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",

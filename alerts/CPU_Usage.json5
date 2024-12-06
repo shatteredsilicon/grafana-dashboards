@@ -96,7 +96,7 @@ clamp_max( \n\
     }
   ],
   "for": 300000000000,
-  "ruleGroup": "SSM",
+  "ruleGroup": "",
   "title": "CPU Usage - {{ .Instance }}",
   "uid": "ssm-cpu-usage-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",

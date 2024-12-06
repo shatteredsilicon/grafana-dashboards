@@ -63,7 +63,7 @@
     }
   ],
   "for": 300000000000,
-  "ruleGroup": "SSM",
+  "ruleGroup": "",
   "title": "MySQL Client Thread Activity - {{ .Instance }}",
   "uid": "ssm-mysql-client-thread-activity-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
