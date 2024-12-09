@@ -77,7 +77,7 @@ avg by (device) ( \n\
     }
   ],
   "for": 300000000000,
-  "ruleGroup": "SSM",
+  "ruleGroup": "",
   "title": "Disk IO Utilization - {{ .Instance }}",
   "uid": "ssm-disk-io-utilization-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",

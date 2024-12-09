@@ -73,7 +73,7 @@
     }
   ],
   "for": 300000000000,
-  "ruleGroup": "SSM",
+  "ruleGroup": "",
   "title": "InnoDB Log File Usage - {{ .Instance }}",
   "uid": "ssm-innodb-log-file-usage-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",

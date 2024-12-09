@@ -63,7 +63,7 @@
     }
   ],
   "for": 300000000000,
-  "ruleGroup": "SSM",
+  "ruleGroup": "",
   "title": "InnoDB Transactions - {{ .Instance }}",
   "uid": "ssm-innodb-transactions-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
