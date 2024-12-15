@@ -1664,7 +1664,7 @@ sum by () ( \n\
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&var-host=$host&$__all_variables"
           }
         ],
         "maxPerRow": 12,
@@ -1700,7 +1700,7 @@ sum by () ( \n\
           {
             "targetBlank": true,
             "title": "System Overview",
-            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&var-host=$host&$__all_variables"
           }
         ],
         "fieldConfig": {
@@ -1740,7 +1740,7 @@ sum by () ( \n\
               {
                 "targetBlank": true,
                 "title": "System Overview",
-                "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
+                "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&var-host=$host&$__all_variables"
               }
             ],
             "unit": "percent"
@@ -1937,7 +1937,7 @@ vector(-1) \n\
               {
                 "targetBlank": true,
                 "title": "Disk Performance",
-                "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
+                "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&var-host=$host&$__all_variables"
               }
             ],
             "mappings": [
@@ -1982,7 +1982,7 @@ vector(-1) \n\
           {
             "targetBlank": true,
             "title": "Disk Performance",
-            "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&var-host=$host&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
@@ -2271,7 +2271,7 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
               {
                 "targetBlank": true,
                 "title": "MySQL Overview",
-                "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range&$__all_variables"
+                "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range&var-host=$host&$__all_variables"
               }
             ],
             "mappings": [
@@ -2312,12 +2312,12 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
           {
             "targetBlank": true,
             "title": "MySQL Overview",
-            "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range&var-host=$host&$__all_variables"
           },
           {
             "targetBlank": true,
             "title": "MongoDB Overview",
-            "url": "/graph/d/ssm-mongodb-overview/mongodb-overview?$__url_time_range&$__all_variables"
+            "url": "/graph/d/ssm-mongodb-overview/mongodb-overview?$__url_time_range&var-host=$host&$__all_variables"
           }
         ],
         "maxDataPoints": 100,
