@@ -167,9 +167,7 @@
         "type": "row"
       },
       {
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "The amount of time that the instance has been running.",
         "fieldConfig": {
           "defaults": {
@@ -236,9 +234,7 @@
         "targets": [
           {
             "alias": "Engine Uptime",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -266,9 +262,7 @@
           "rgba(237, 129, 40, 0.89)",
           "rgba(245, 54, 54, 0.9)"
         ],
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "The percentage of CPU used by an Aurora MySQL DB instance.",
         "format": "percent",
         "gauge": {
@@ -323,9 +317,7 @@
         "targets": [
           {
             "alias": "",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -356,9 +348,7 @@
         "valueName": "current"
       },
       {
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "The average number of queries executed per second.",
         "fieldConfig": {
           "defaults": {
@@ -422,9 +412,7 @@
         "targets": [
           {
             "alias": "QPS",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -444,9 +432,7 @@
         "type": "stat"
       },
       {
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "The amount of available random access memory, in bytes.",
         "fieldConfig": {
           "defaults": {
@@ -509,9 +495,7 @@
         "targets": [
           {
             "alias": "Engine Uptime",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -608,9 +592,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "The percentage of CPU used by an Aurora MySQL DB instance.",
         "editable": true,
         "error": false,
@@ -654,9 +636,7 @@
         "targets": [
           {
             "alias": "CPU",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -712,9 +692,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "`CPUCreditBalance /  Credits Accumulated ` - \nThe number of CPU credits that an instance has accumulated. This metric applies only to db.t2.small and db.t2.medium instances. It's used to determine how long an Aurora MySQL DB instance can burst beyond its baseline performance level at a given rate.\n\n`CPUCreditUsage / Credits Consumed` - \nThe number of CPU credits consumed during the specified period. This metric applies only to db.t2.small and db.t2.medium instances. It identifies the amount of time during which physical CPUs have been used for processing instructions by virtual CPUs allocated to the Aurora MySQL DB instance.",
         "editable": true,
         "error": false,
@@ -759,9 +737,7 @@
         "targets": [
           {
             "alias": "Credits Accumulated",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -778,9 +754,7 @@
           },
           {
             "alias": "Credits Consumed",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -857,9 +831,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "`NetworkReceiveThroughput` - \nThe amount of network throughput received from clients by each instance in the Aurora MySQL DB cluster, in bytes per second. This throughput doesn't include network traffic between instances in the Aurora MySQL DB cluster and the cluster volume.\n\n`NetworkThroughput` - \nThe amount of network throughput both received from and transmitted to clients by each instance in the Aurora MySQL DB cluster, in bytes per second. This throughput doesn't include network traffic between instances in the DB cluster and the cluster volume.",
         "editable": true,
         "error": false,
@@ -903,9 +875,7 @@
         "targets": [
           {
             "alias": "Inbound",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -977,9 +947,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "The amount of available random access memory, in bytes.",
         "editable": true,
         "error": false,
@@ -1023,9 +991,7 @@
         "targets": [
           {
             "alias": "Available",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1102,9 +1068,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "`ActiveTransactions` - \nThe average number of current transactions executing on an Aurora MySQL DB instance per second.\n\n`BlockedTransactions` - \nThe average number of transactions in the database that are blocked per second.",
         "fill": 2,
         "gridPos": {
@@ -1140,9 +1104,7 @@
         "targets": [
           {
             "alias": "Active Transactions",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBClusterIdentifier": "$instance"
             },
@@ -1157,9 +1119,7 @@
           },
           {
             "alias": "Blocked Transactions",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1207,9 +1167,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "The number of connections to an Aurora MySQL DB instance.",
         "fill": 2,
         "gridPos": {
@@ -1245,9 +1203,7 @@
         "targets": [
           {
             "alias": "Database Connections",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1297,9 +1253,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "`Aurora Replica Lag` - \nFor an Aurora MySQL Replica, the amount of lag when replicating updates from the primary instance, in milliseconds.\n\n`AuroraBinlogReplicaLag` - \nThe amount of time an Aurora MySQL DB cluster lags behind the source DB cluster.\n\nThis metric reports the value of the Seconds_Behind_Master field of the MySQL SHOW SLAVE STATUS command and is useful for monitoring replica lag between Aurora DB clusters that are replicating across different AWS regions.",
         "fill": 2,
         "gridPos": {
@@ -1341,9 +1295,7 @@
         "targets": [
           {
             "alias": "Aurora Replica Lag",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1358,9 +1310,7 @@
           },
           {
             "alias": "Aurora Binlog Replica Lag",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1408,9 +1358,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "`DMLThroughput` - \nThe average number of inserts, updates, and deletes per second.\n\n`DDLThroughput` - \nThe average number of DDL requests per second.",
         "fill": 2,
         "gridPos": {
@@ -1446,9 +1394,7 @@
         "targets": [
           {
             "alias": "Inserts / updates / deletes per second",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1465,9 +1411,7 @@
           },
           {
             "alias": "DDL requests per second",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1539,9 +1483,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "`ReadIOPS` - \nThe average number of disk I/O operations per second.\n\n`WriteIOPS` - \nThe average number of disk I/O operations per second.",
         "editable": true,
         "error": false,
@@ -1580,9 +1522,7 @@
         "targets": [
           {
             "alias": "Read",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1599,9 +1539,7 @@
           },
           {
             "alias": "Write",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1653,9 +1591,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "`ReadLatency` - \nThe average amount of time taken per disk I/O operation.\n\n`WriteLatency`  - \nThe average amount of time taken per disk I/O operation.",
         "editable": true,
         "error": false,
@@ -1694,9 +1630,7 @@
         "targets": [
           {
             "alias": "Read",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1713,9 +1647,7 @@
           },
           {
             "alias": "Write",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1769,9 +1701,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "The number of outstanding read/write requests waiting to access the disk.",
         "editable": true,
         "error": false,
@@ -1810,9 +1740,7 @@
         "targets": [
           {
             "alias": "Outstanding IO Requests",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1864,9 +1792,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "`ReadThroughput` - \nThe average number of bytes read from disk per second.\n\n`WriteThroughput` - \nThe average number of bytes written to disk per second.",
         "editable": true,
         "error": false,
@@ -1905,9 +1831,7 @@
         "targets": [
           {
             "alias": "Read",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -1924,9 +1848,7 @@
           },
           {
             "alias": "Write",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -2002,9 +1924,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "The amount of storage available for temporary tables and logs, in bytes.\n\nUnlike for other DB engines, for Aurora MySQL this metric reports the amount of storage available to each DB instance for temporary tables and logs. This value depends on the DB instance class . \nYou can increase the amount of free storage space for an instance by choosing a larger DB instance class for your instance.",
         "editable": true,
         "error": false,
@@ -2042,9 +1962,7 @@
         "targets": [
           {
             "alias": "Available",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -2098,9 +2016,7 @@
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": {
-          "type": "cloudwatch"
-        },
+        "datasource": "CloudWatch",
         "description": "The amount of swap space used on the Aurora DB instance.",
         "editable": true,
         "error": false,
@@ -2139,9 +2055,7 @@
         "targets": [
           {
             "alias": "Used",
-            "datasource": {
-              "type": "cloudwatch"
-            },
+            "datasource": "CloudWatch",
             "dimensions": {
               "DBInstanceIdentifier": "$instance"
             },
@@ -2248,9 +2162,7 @@
             "text": "af-south-1",
             "value": "af-south-1"
           },
-          "datasource": {
-            "type": "cloudwatch"
-          },
+          "datasource": "CloudWatch",
           "definition": "",
           "hide": 0,
           "includeAll": false,
@@ -2269,9 +2181,7 @@
         {
           "allValue": "",
           "current": {},
-          "datasource": {
-            "type": "cloudwatch"
-          },
+          "datasource": "CloudWatch",
           "definition": "",
           "hide": 0,
           "includeAll": false,
