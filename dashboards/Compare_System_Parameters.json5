@@ -686,7 +686,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "min_over_time((node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"})[1h:2m])",
+            "expr": "min_over_time(node_memory_MemTotal{instance=~\"$host\"}[1h:2m]) or min_over_time(node_memory_MemTotal_bytes{instance=~\"$host\"}[1h:2m])",
             "format": "time_series",
             "interval": "5m",
             "intervalFactor": 1,
@@ -696,7 +696,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "min_over_time((node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"})[1h:2m])",
+            "expr": "max_over_time(node_memory_MemTotal{instance=~\"$host\"}[1h:2m]) or max_over_time(node_memory_MemTotal_bytes{instance=~\"$host\"}[1h:2m])",
             "format": "time_series",
             "interval": "5m",
             "intervalFactor": 1,
