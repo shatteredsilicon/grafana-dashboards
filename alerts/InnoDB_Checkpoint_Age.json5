@@ -1,5 +1,5 @@
 {
-  "conditions": "B",
+  "condition": "B",
   "data": [
     {
       "refId": "A",
@@ -74,8 +74,8 @@
       }
     }
   ],
-  "for": 300000000000,
-  "ruleGroup": "",
+  "for": "5m",
+  "ruleGroup": "{{ .Instance }}",
   "title": "InnoDB Checkpoint Age - {{ .Instance }}",
   "uid": "ssm-innodb-checkpoint-age-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",

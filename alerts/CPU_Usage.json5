@@ -1,5 +1,5 @@
 {
-  "conditions": "B",
+  "condition": "B",
   "data": [
     {
       "refId": "A",
@@ -95,8 +95,8 @@ clamp_max( \n\
       }
     }
   ],
-  "for": 300000000000,
-  "ruleGroup": "",
+  "for": "5m",
+  "ruleGroup": "{{ .Instance }}",
   "title": "CPU Usage - {{ .Instance }}",
   "uid": "ssm-cpu-usage-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
