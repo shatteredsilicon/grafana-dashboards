@@ -1,5 +1,5 @@
 {
-  "conditions": "B",
+  "condition": "B",
   "data": [
     {
       "refId": "A",
@@ -82,8 +82,8 @@
       }
     }
   ],
-  "for": 300000000000,
-  "ruleGroup": "",
+  "for": "5m",
+  "ruleGroup": "{{ .Instance }}",
   "title": "Total Database Size - {{ .Instance }}",
   "uid": "ssm-total-database-size-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
