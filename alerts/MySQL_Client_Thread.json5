@@ -10,7 +10,21 @@
       },
       "datasourceUid": "{{ .DatasourceUID }}",
       "model": {
-        "expr": "avg_over_time(mysql_global_status_threads_running{instance=~\"{{ .Instance }}\"}[5m])",
+        "expr": "\
+avg_over_time(mysql_global_status_threads_running{instance=~\"{{ .Instance }}\"}[5m]) - scalar( \n\
+  count( \n\
+    ( \n\
+      node_cpu{instance=~\"{{ .Instance }}\",mode=~\"user\"} \n\
+      or \n\
+      node_cpu_seconds_total{instance=~\"{{ .Instance }}\",mode=~\"user\"} \n\
+    ) \n\
+  ) \n\
+  or \n\
+  sum(rdsosmetrics_General_numVCPUs{instance=~\"{{ .Instance }}\"}) \n\
+  or \n\
+  count(hrProcessorLoad{instance=~\"{{ .Instance }}\"}) \n\
+) * 2 \n\
+",
         "hide": false,
         "intervalMs": 1000,
         "maxDataPoints": 43200,
@@ -34,7 +48,7 @@
         "conditions": [
           {
             "evaluator": {
-              "params": [16],
+              "params": [0],
               "type": "gt"
             },
             "operator": {
