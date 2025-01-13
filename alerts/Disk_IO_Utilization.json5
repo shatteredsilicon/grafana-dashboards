@@ -48,7 +48,7 @@ avg by (device) ( \n\
         "conditions": [
           {
             "evaluator": {
-              "params": [0.8],
+              "params": [0.9],
               "type": "gt"
             },
             "operator": {
@@ -59,7 +59,7 @@ avg by (device) ( \n\
             },
             "reducer": {
               "params": [],
-              "type": "last"
+              "type": "avg"
             },
             "type": "query"
           }

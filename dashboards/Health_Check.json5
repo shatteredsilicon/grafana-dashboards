@@ -374,7 +374,7 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
           "fill": true,
           "line": true,
           "op": "gt",
-          "value": 0.8
+          "value": 0.9
         }
       ],
       "timeFrom": null,
@@ -421,64 +421,147 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
     },
     {
       "id": 3,
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": "Prometheus",
-      "decimals": 2,
       "description": "**MySQL Active Threads**\n\nThreads Connected is the number of open connections, while Threads Running is the number of threads not sleeping.",
       "editable": true,
       "error": false,
-      "fill": 2,
-      "grid": {},
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 7
       },
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": false,
-        "max": true,
-        "min": true,
-        "rightSide": false,
-        "show": true,
-        "sort": "avg",
-        "sortDesc": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "Peak Threads Running",
-          "color": "#E24D42",
-          "lines": false,
-          "pointradius": 1,
-          "points": true
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
-        {
-          "alias": "Peak Threads Connected",
-          "color": "#1F78C1"
-        },
-        {
-          "alias": "Avg Threads Running",
-          "color": "#EAB839"
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Threads",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "none",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Peak Threads Running"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#E24D42",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 4
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "always"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Peak Threads Connected"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#1F78C1",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Avg Threads Running"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#EAB839",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
       "targets": [
         {
           "expr": "avg_over_time(mysql_global_status_threads_running{instance=~\"$host\"}[5m])",
@@ -488,15 +571,32 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
           "legendFormat": "Avg Threads Running",
           "refId": "C",
           "step": 20
+        },
+        {
+          "expr": "(count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))*2",
+          "format": "time_series",
+          "interval": "5m",
+          "intervalFactor": 1,
+          "legendFormat": "CPU",
+          "refId": "A"
         }
       ],
-      "thresholds": [
+      "transformations": [
         {
-          "colorMode": "critical",
-          "fill": true,
-          "line": true,
-          "op": "gt",
-          "value": 16
+          "id": "configFromData",
+          "options": {
+            "applyTo": {
+              "id": "byFrameRefID",
+              "options": "C"
+            },
+            "configRefId": "A",
+            "mappings": [
+              {
+                "fieldName": "CPU",
+                "handlerKey": "threshold1"
+              }
+            ]
+          }
         }
       ],
       "timeFrom": null,
@@ -509,38 +609,7 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
         "sort": 0,
         "value_type": "individual"
       },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": [
-          "total"
-        ]
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": "Threads",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries",
     },
     {
       "id": 4,
@@ -1051,10 +1120,26 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
           "step": 20
         },
         {
-          "expr": "((mysql_global_status_open_tables{instance=~\"$host\"})/(mysql_global_variables_table_open_cache{instance=~\"$host\"}))*100",
+          "expr": "\
+( \n\
+  rate(mysql_global_status_table_open_cache_hits{instance=~\"$host\"}[1m]) \n\
+  or \n\
+  rate(mysql_global_status_table_open_cache_hits_total{instance=~\"$host\"}[1m]) \n\
+) / (  \n\
+  ( \n\
+    rate(mysql_global_status_table_open_cache_hits{instance=~\"$host\"}[1m]) \n\
+    or \n\
+    rate(mysql_global_status_table_open_cache_hits_total{instance=~\"$host\"}[1m]) \n\
+  ) + ( \n\
+    rate(mysql_global_status_table_open_cache_misses{instance=~\"$host\"}[1m]) \n\
+    or \n\
+    rate(mysql_global_status_table_open_cache_misses_total{instance=~\"$host\"}[1m]) \n\
+  ) \n\
+) * 100 \n\
+",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "% of Max",
+          "legendFormat": "Table Open Cache Hit Ratio",
           "refId": "A"
         }
       ],
@@ -1063,8 +1148,8 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
           "colorMode": "critical",
           "fill": true,
           "line": true,
-          "op": "gt",
-          "value": 95
+          "op": "lt",
+          "value": 98
         }
       ],
       "timeFrom": null,
@@ -1089,7 +1174,7 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
         {
           "format": "percent",
           "logBase": 1,
-          "max": "100",
+          "max": 100,
           "min": 0,
           "show": true
         },
