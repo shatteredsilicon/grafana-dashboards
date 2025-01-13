@@ -1770,18 +1770,9 @@ or \n\
         }
       },
       {
-        "aliasColors": {},
-        "bars": false,
-        "dashLength": 10,
-        "dashes": false,
         "datasource": {
           "type": "prometheus"
         },
-        "decimals": 2,
-        "editable": true,
-        "error": false,
-        "fill": 2,
-        "grid": {},
         "gridPos": {
           "h": 7,
           "w": 12,
@@ -1789,37 +1780,107 @@ or \n\
           "y": 47
         },
         "id": 41,
-        "legend": {
-          "alignAsTable": true,
-          "avg": true,
-          "current": false,
-          "max": true,
-          "min": true,
-          "rightSide": false,
-          "show": true,
-          "sort": "avg",
-          "sortDesc": true,
-          "total": false,
-          "values": true
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 20,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "log": 2,
+                "type": "log"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Cache Hit Rate"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "percent"
+                },
+                {
+                  "id": "max",
+                  "value": 100
+                },
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "right"
+                },
+                {
+                  "id": "custom.scaleDistribution",
+                  "value": {
+                    "log": 10,
+                    "type": "log"
+                  }
+                }
+              ]
+            }
+          ]
         },
-        "lines": true,
-        "linewidth": 2,
-        "links": [],
-        "nullPointMode": "null",
-        "percentage": false,
-        "pointradius": 5,
-        "points": false,
-        "renderer": "flot",
-        "seriesOverrides": [
-          {
-            "alias": "Cache Hit Rate",
-            "nullPointMode": "null as zero",
-            "yaxis": 2
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean",
+              "max",
+              "min"
+            ],
+            "displayMode": "table",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
           }
-        ],
-        "spaceLength": 10,
-        "stack": false,
-        "steppedLine": false,
+        },
         "targets": [
           {
             "calculatedInterval": "2m",
@@ -1948,40 +2009,8 @@ max( \n\
             "refId": "D"
           }
         ],
-        "thresholds": [],
-        "timeRegions": [],
         "title": "InnoDB Buffer Pool Requests",
-        "tooltip": {
-          "msResolution": true,
-          "shared": true,
-          "sort": 0,
-          "value_type": "individual"
-        },
-        "type": "graph",
-        "xaxis": {
-          "mode": "time",
-          "show": true,
-          "values": []
-        },
-        "yaxes": [
-          {
-            "format": "short",
-            "label": "",
-            "logBase": 2,
-            "min": 0,
-            "show": true
-          },
-          {
-            "format": "short",
-            "label": "",
-            "logBase": 1,
-            "max": "100",
-            "show": true
-          }
-        ],
-        "yaxis": {
-          "align": false
-        }
+        "type": "timeseries"
       },
       {
         "collapsed": false,
