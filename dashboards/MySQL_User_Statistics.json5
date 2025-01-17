@@ -210,8 +210,10 @@ topk( \n\
       rate(mysql_info_schema_user_statistics_total_connections{instance=~\"$host\"}[$interval]) \n\
       or \n\
       rate(mysql_info_schema_user_statistics_total_connections_total{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      rate(mysql_info_schema_user_statistics_total_connections_count{instance=~\"$host\"}[$interval]) \n\
     ) \n\
-  ) > 0 \n\
+  ) >= 0 \n\
 ) \n\
 or \n\
 topk( \n\
@@ -222,8 +224,10 @@ topk( \n\
       irate(mysql_info_schema_user_statistics_total_connections{instance=~\"$host\"}[5m]) \n\
       or \n\
       irate(mysql_info_schema_user_statistics_total_connections_total{instance=~\"$host\"}[5m]) \n\
+      or \n\
+      irate(mysql_info_schema_user_statistics_total_connections_count{instance=~\"$host\"}[5m]) \n\
     ) \n\
-  ) > 0 \n\
+  ) >= 0 \n\
 ) \n\
 ",
             "interval": "$interval",
@@ -287,6 +291,112 @@ topk( \n\
           "w": 12,
           "x": 12,
           "y": 0
+        },
+        "hiddenSeries": false,
+        "legend": {
+          "alignAsTable": false,
+          "avg": false,
+          "current": false,
+          "hideEmpty": false,
+          "max": false,
+          "min": false,
+          "rightSide": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 2,
+        "links": [],
+        "nullPointMode": "null",
+        "options": {
+          "alertThreshold": true
+        },
+        "percentage": false,
+        "pluginVersion": "9.5.7",
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "\
+topk( \n\
+  5, \n\
+  mysql_info_schema_processlist_processes_by_user{instance=~\"$host\"} >= 0 \n\
+) \n\
+",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "{{ mysql_user }}",
+            "metric": "",
+            "refId": "A",
+            "step": 300
+          }
+        ],
+        "thresholds": [],
+        "timeRegions": [],
+        "title": "Top Users by Connections Open",
+        "description": "Note: If you do not see any metric, try setting ``[collect].info_schema.processlist = 1`` in the ``/opt/ss/ssm-client/mysqld_exporter.conf`` file",
+        "tooltip": {
+          "msResolution": false,
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Connections",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "decimals": 2,
+        "editable": true,
+        "error": false,
+        "fill": 2,
+        "fillGradient": 0,
+        "grid": {},
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 0,
+          "y": 7
         },
         "hiddenSeries": false,
         "id": 39,
@@ -387,7 +497,7 @@ topk( \n\
         "gridPos": {
           "h": 7,
           "w": 12,
-          "x": 0,
+          "x": 12,
           "y": 7
         },
         "hiddenSeries": false,
@@ -489,8 +599,8 @@ topk( \n\
         "gridPos": {
           "h": 7,
           "w": 12,
-          "x": 12,
-          "y": 7
+          "x": 0,
+          "y": 14
         },
         "hiddenSeries": false,
         "id": 38,
@@ -530,7 +640,7 @@ topk( \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "topk(5, rate(mysql_info_schema_user_statistics_rows_updated_total{instance=~\"$host\"}[$interval])>0) or \ntopk(5, irate(mysql_info_schema_user_statistics_rows_updated_total{instance=~\"$host\"}[5m])>0)",
+            "expr": "topk(5, rate(mysql_info_schema_user_statistics_rows_updated_total{instance=~\"$host\"}[$interval])>=0) or \ntopk(5, irate(mysql_info_schema_user_statistics_rows_updated_total{instance=~\"$host\"}[5m])>=0)",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -591,7 +701,7 @@ topk( \n\
         "gridPos": {
           "h": 7,
           "w": 12,
-          "x": 0,
+          "x": 12,
           "y": 14
         },
         "hiddenSeries": false,
@@ -692,8 +802,8 @@ topk( \n\
         "gridPos": {
           "h": 7,
           "w": 12,
-          "x": 12,
-          "y": 14
+          "x": 0,
+          "y": 21
         },
         "hiddenSeries": false,
         "id": 41,
@@ -787,7 +897,7 @@ topk( \n\
           "h": 3,
           "w": 24,
           "x": 0,
-          "y": 21
+          "y": 28
         },
         "height": "50px",
         "id": 36,
