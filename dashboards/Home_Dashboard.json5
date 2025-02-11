@@ -2867,7 +2867,7 @@ sum( \n\
           "multiFormat": "regex values",
           "name": "host",
           "options": [],
-          "query": "label_values({__name__=~\"node_load1|process_start_time_seconds\"}, instance)",
+          "query": "label_values({__name__=~\"node_load1|process_start_time_seconds|node_cpu|node_cpu_seconds_total|node_cpu_average\"}, instance)",
           "refresh": 2,
           "refresh_on_load": false,
           "regex": "",
