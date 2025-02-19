@@ -1,20 +1,17 @@
-> Note: [PMM2 is out!](https://www.percona.com/blog/2019/09/19/percona-monitoring-and-management-pmm-2-ga-is-now-available/)   
-> Please see https://github.com/percona/grafana-dashboards/tree/PMM-2.0 for this repository details  
- 
----
-  
-## Grafana dashboards for MySQL and MongoDB monitoring using Prometheus [![Build Status](https://travis-ci.org/percona/grafana-dashboards.svg?branch=master)](https://travis-ci.org/percona/grafana-dashboards)[![CLA assistant](https://cla-assistant.percona.com/readme/badge/percona/grafana-dashboards)](https://cla-assistant.percona.com/percona/grafana-dashboards)
+## Grafana dashboards for MySQL and MongoDB monitoring using Prometheus
 
 This is a set of Grafana dashboards for database and system monitoring using Prometheus datasource.
  
  
  * Advanced Data Exploration
+ * Advisor Tuning
  * Amazon RDS / Aurora MySQL metrics (CloudWatch datasource)
  * Compare System Parameters
  * CPU Utilization Details (Cores)
  * Cross Server Graphs
  * Disk Performance
  * Disk Space
+ * Health Check
  * Home Dashboard
  * MongoDB Cluster Summary
  * MongoDB InMemory
@@ -50,16 +47,13 @@ This is a set of Grafana dashboards for database and system monitoring using Pro
  * Summary Dashboard
  * System Overview
  * Trends Dashboard
- * _SSM Add Instance
- * _SSM Monitored Instances
- * _SSM Query Analytics Settings
- * _SSM System Summary
+ * SSM Add Instance
+ * SSM Monitored Instances
+ * SSM Query Analytics Settings
+ * SSM System Summary
 
 
-
-These dashboards are also a part of [Percona Monitoring and Management](https://www.percona.com/doc/percona-monitoring-and-management/index.html) project.
-
-Live demo is available at https://pmmdemo.percona.com/graph/
+These dashboards are also a part of [Shattered Silicon Monitoring](https://shatteredsilicon.net/software/ssm/documentation/latest/) project.
 
 ### Setup instructions
 
@@ -103,52 +97,6 @@ Here is the minimal set of options for the exporters:
  * mysqld_exporter: `-collect.binlog_size=true -collect.info_schema.processlist=true`
  * mongodb_exporter: the defaults are fine.
 
-#### Edit Grafana config (only for Grafana 4.x or below)
-
-Enable JSON dashboards by uncommenting those lines in `grafana.ini`:
-
-    [dashboards.json]
-    enabled = true
-    path = /var/lib/grafana/dashboards
-
-If you wish you may import the individual dashboards via UI and ignore this and the next two steps.
-
-#### Install dashboards
-
-First, download the code via git:
-    git clone https://github.com/percona/grafana-dashboards.git
-
-If you are using Grafana 4.x or below, do the following steps:
-    cp -r grafana-dashboards/dashboards /var/lib/grafana/
-
-If you are using Grafana 5.x or above, create mysqld_export.yml as the following content under /var/lib/grafana/conf/provisioning/dashboards
-
-    apiVersion: 1
-
-    providers:
-      - name: 'mysqld_exporter'
-         orgId: 1
-         folder: ''
-         type: file
-         options:
-           path: <you git repro path>/grafana-dashboards/dashboards
-
-#### Restart Grafana
-
-    service grafana-server restart
-
-#### Apply patch (only Grafana 3.x)
-
-If you are using Grafana 3.x you need to apply a small patch on your installation to allow the interval template variable in `Step` field of graph editor page
-to get the good zoomable graphs. For more information, take a look at [PR#5839](https://github.com/grafana/grafana/pull/5839).
-
-    sed -i 's/expr=\(.\)\.replace(\(.\)\.expr,\(.\)\.scopedVars\(.*\)var \(.\)=\(.\)\.interval/expr=\1.replace(\2.expr,\3.scopedVars\4var \5=\1.replace(\6.interval, \3.scopedVars)/' /usr/share/grafana/public/app/plugins/datasource/prometheus/datasource.js
-    sed -i 's/,range_input/.replace(\/"{\/g,"\\"").replace(\/}"\/g,"\\""),range_input/; s/step_input:""/step_input:this.target.step/' /usr/share/grafana/public/app/plugins/datasource/prometheus/query_ctrl.js
-
-### Update instructions
-
-Simply copy the new dashboards to `/var/lib/grafana/dashboards` and restart Grafana or re-import them.
-
 ### Graph samples
 
 Here is some sample graphs.
@@ -168,26 +116,4 @@ Here is some sample graphs.
 ![image](assets/sample7.png)
 
 ![image](assets/sample8.png)
-
-
-## Submitting Bug Reports
-
-If you find a bug in Percona Grafana Dashboards  or one of the related projects, you should submit a report to that project's [JIRA](https://jira.percona.com) issue tracker.
-
-Your first step should be [to search](https://jira.percona.com/issues/?jql=project%20%3D%20PMM%20AND%20component%20%3D%20%22Grafana%20Dashboards%22) the existing set of open tickets for a similar report. If you find that someone else has already reported your problem, then you can upvote that report to increase its visibility.
-
-If there is no existing report, submit a report following these steps:
-
-1. [Sign in to Percona JIRA.](https://jira.percona.com/login.jsp) You will need to create an account if you do not have one.
-2. [Go to the Create Issue screen and select the relevant project.](https://jira.percona.com/secure/CreateIssueDetails!init.jspa?pid=11600&issuetype=1&priority=3&components=11307)
-3. Fill in the fields of Summary, Description, Steps To Reproduce, and Affects Version to the best you can. If the bug corresponds to a crash, attach the stack trace from the logs.
-
-An excellent resource is [Elika Etemad's article on filing good bug reports.](http://fantasai.inkedblade.net/style/talks/filing-good-bugs/).
-
-As a general rule of thumb, please try to create bug reports that are:
-
-- *Reproducible.* Include steps to reproduce the problem.
-- *Specific.* Include as much detail as possible: which version, what environment, etc.
-- *Unique.* Do not duplicate existing tickets.
-- *Scoped to a Single Bug.* One bug per report.
 
