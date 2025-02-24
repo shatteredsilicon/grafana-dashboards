@@ -1105,11 +1105,8 @@ or on() vector(-2) \n\
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus"
-      },
       "decimals": 2,
-      "description": "The InnoDB Log Buffer Performance graph shows the efficiency of the InnoDB log buffer.  The InnoDB log buffer size is defined by the innodb_log_buffer_size parameter and illustrated on the graph by the Size metric.  Used is the amount of the buffer space that is used.  If Used is too high and gets close to Size, additional log writes will be required.\n\nNote: If you do not see any metric, try running: ``SET GLOBAL innodb_monitor_enable=all;`` in the MySQL client.",
+      "description": "The InnoDB Log Buffer Performance graph shows the efficiency of the InnoDB log buffer.  The InnoDB log buffer size is defined by the innodb_log_buffer_size parameter and illustrated on the graph by the Size metric.  Used is the amount of the buffer space that is used.  If Used is too high and gets close to Size, additional log writes will be required.\n\nNote: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql, ``global_variables = 1`` and ``info_schema.innodb_metrics = 1`` in the mysqld_exporter config file.",
       "editable": true,
       "error": false,
       "fill": 2,
@@ -1217,8 +1214,7 @@ or on() vector(-2) \n\
       ],
       "yaxis": {
         "align": false
-      },
-      "description": "Note: If you do not see any metric, try setting: ``innodb_monitor_enable = all`` in mysql, ``global_variables = 1`` and ``info_schema.innodb_metrics = 1`` in the mysqld_exporter config file."
+      }
     },
     {
       "datasource": {
@@ -1694,7 +1690,7 @@ or on() vector(-2) \n\
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -5209,7 +5205,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           },
           "mappings": [],
           "min": 0,
-          "unit": "decbytes"
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -5378,7 +5374,11 @@ clamp( \n\
           2^( \n\
             floor( \n\
               log2( \n\
-                mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
+                sum( \n\
+                  mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+                  and on (instance, schema, table) \n\
+                  mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
+                ) \n\
               ) \n\
             ) + 1 \n\
           ) / scalar( \n\
@@ -5652,7 +5652,11 @@ clamp( \n\
           2^( \n\
             floor( \n\
               log2( \n\
-                mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
+                sum( \n\
+                  mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+                  and on (instance, schema, table) \n\
+                  mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
+                ) \n\
               ) \n\
             ) + 1 \n\
           ) / scalar( \n\
@@ -5925,7 +5929,7 @@ or on() vector(-3) \n\
           },
           "mappings": [],
           "min": 0,
-          "unit": "decbytes"
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -6447,7 +6451,7 @@ or on() vector(-3) \n\
           },
           "mappings": [],
           "min": 0,
-          "unit": "decbytes"
+          "unit": "bytes"
         },
         "overrides": []
       },
