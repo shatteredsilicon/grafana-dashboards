@@ -900,10 +900,10 @@ rate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$
 or \n\
 irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
 or \n\
-sum by (host) ( \n\
-  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+( \n\
+  max_over_time(rdsosmetrics_diskIO_util{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
   or \n\
-  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+  max_over_time(rdsosmetrics_diskIO_util{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
 ) / 100 \n\
 ",
             "format": "time_series",
@@ -1447,7 +1447,7 @@ or \n\
           "multiFormat": "regex values",
           "name": "device",
           "options": [],
-          "query": "label_values({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total\", instance=~\"$host\", device!~\"dm-.+\"}, device)",
+          "query": "label_values({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total|rdsosmetrics_diskIO_readIOsPS\", instance=~\"$host\", device!~\"dm-.+\"}, device)",
           "refresh": 2,
           "refresh_on_load": false,
           "regex": "",

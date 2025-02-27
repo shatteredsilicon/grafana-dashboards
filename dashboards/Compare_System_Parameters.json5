@@ -3002,9 +3002,9 @@ rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) \n\
 or \n\
 irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
 or \n\
-rate(rdsosmetrics_diskIO_util{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) \n\
+rate(rdsosmetrics_diskIO_util{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval])/100 \n\
 or \n\
-irate(rdsosmetrics_diskIO_util{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) \n\
+irate(rdsosmetrics_diskIO_util{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m])/100 \n\
 ",
             "format": "time_series",
             "interval": "$interval",
