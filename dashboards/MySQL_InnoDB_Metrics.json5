@@ -2875,7 +2875,7 @@ rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval]) \n\
 or \n\
 irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m]) \n\
 or \n\
-sum by (host) ( \n\
+( \n\
   max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
   or \n\
   max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
