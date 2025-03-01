@@ -3153,7 +3153,8 @@ sum( \n\
           {
             "alias": "Total",
             "bars": false,
-            "stack": false
+            "stack": false,
+            "fill": 0
           }
         ],
         "spaceLength": 10,

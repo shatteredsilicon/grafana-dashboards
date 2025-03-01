@@ -3705,6 +3705,10 @@ sum( \n\
   or \n\
   increase(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
 ) \n\
+or \n\
+sum( \n\
+  increase(rdsosmetrics_network_rx{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+) \n\
 ",
             "format": "time_series",
             "interval": "1h",
@@ -3721,6 +3725,10 @@ sum( \n\
   increase(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
   or \n\
   increase(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
+) \n\
+or \n\
+sum( \n\
+  increase(rdsosmetrics_network_tx{instance=~\"$host\", device!=\"lo\"}[1h]) \n\
 ) \n\
 ",
             "format": "time_series",
