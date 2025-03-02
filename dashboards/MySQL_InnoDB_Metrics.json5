@@ -236,7 +236,19 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[$interval]) or \nmax_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[5m])",
+            "expr": "\
+max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -252,7 +264,19 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[5m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[$interval]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[5m])",
+            "expr": "\
+max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[5m]) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
