@@ -13,13 +13,17 @@
         "expr": "\
 ( \n\
   ( \n\
-    max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"{{ .Instance }}\"}[1m]) \n\
+    max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"{{ .Instance }}\"}[5m]) \n\
     or \n\
-    max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"{{ .Instance }}\"}[1m]) \n\
+    max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"{{ .Instance }}\"}[5m]) \n\
     or \n\
-    max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"{{ .Instance }}\"}[1m]) \n\
+    max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"{{ .Instance }}\"}[5m]) \n\
   ) / ( \n\
-    max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"{{ .Instance }}\"}[1m]) \n\
+    max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"{{ .Instance }}\"}[5m]) \n\
+    or \n\
+    max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"{{ .Instance }}\"}[5m]) \n\
+    or \n\
+    max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"{{ .Instance }}\"}[5m]) \n\
   ) \n\
 ) * 100 \n\
 ",

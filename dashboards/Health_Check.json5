@@ -784,11 +784,7 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
           "fill": 0
         },
         {
-          "alias": "Connections",
-          "yaxis": 2
-        },
-        {
-          "alias": "Max Connections",
+          "alias": "% of Max",
           "yaxis": 2
         }
       ],
@@ -863,18 +859,17 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
       },
       "yaxes": [
         {
-          "format": "percent",
-          "label": "%",
-          "logBase": 1,
-          "max": "100",
-          "min": 0,
-          "show": true
-        },
-        {
           "format": "short",
           "label": "",
           "logBase": 1,
           "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "percent",
+          "logBase": 1,
+          "max": "100",
           "min": 0,
           "show": true
         }
@@ -934,11 +929,7 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
           "fill": 0
         },
         {
-          "alias": "Max Checkpoint Age",
-          "yaxis": 2
-        },
-        {
-          "alias": "Uncheckpointed Bytes",
+          "alias": "% of Max",
           "yaxis": 2
         }
       ],
@@ -950,7 +941,19 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[1m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[1m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[1m])",
+          "expr": "\
+max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[5m]) \n\
+",
           "format": "time_series",
           "interval": "1m",
           "intervalFactor": 1,
@@ -963,7 +966,19 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[1m])",
+          "expr": "\
+max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[5m]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[$interval]) \n\
+or \n\
+max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[5m]) \n\
+",
           "format": "time_series",
           "interval": "1m",
           "intervalFactor": 1,
@@ -973,7 +988,35 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
           "step": 300
         },
         {
-          "expr": "((max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[1m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[1m]) or\nmax_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[1m]))/(max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[1m])))*100",
+          "expr": "\
+( \n\
+  ( \n\
+    max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    max_over_time(mysql_global_status_innodb_checkpoint_age{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    max_over_time(mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[5m]) \n\
+  ) / ( \n\
+    max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    max_over_time(mysql_global_status_innodb_checkpoint_max_age{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    max_over_time(mysql_info_schema_innodb_metrics_recovery_log_max_modified_age_async{instance=~\"$host\"}[5m]) \n\
+    or \n\
+    max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{instance=~\"$host\"}[5m]) \n\
+  ) \n\
+) * 100 \n\
+",
           "format": "time_series",
           "interval": "1m",
           "intervalFactor": 1,
@@ -1010,20 +1053,19 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
       },
       "yaxes": [
         {
-          "decimals": null,
-          "format": "percent",
-          "label": "%",
-          "logBase": 1,
-          "max": "100",
-          "min": 0,
-          "show": true
-        },
-        {
           "decimals": 2,
           "format": "bytes",
           "label": "",
           "logBase": 1,
           "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "decimals": null,
+          "format": "percent",
+          "logBase": 1,
+          "max": "100",
           "min": 0,
           "show": true
         }
@@ -1081,11 +1123,7 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "alias": "Open Tables",
-          "yaxis": 2
-        },
-        {
-          "alias": "Table Open Cache",
+          "alias": "Table Open Cache Hit Ratio",
           "yaxis": 2
         }
       ],
@@ -1172,16 +1210,16 @@ irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[
       },
       "yaxes": [
         {
-          "format": "percent",
+          "format": "short",
           "logBase": 1,
-          "max": 100,
+          "max": null,
           "min": 0,
           "show": true
         },
         {
-          "format": "short",
+          "format": "percent",
           "logBase": 1,
-          "max": null,
+          "max": 100,
           "min": 0,
           "show": true
         }
