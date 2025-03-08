@@ -1881,8 +1881,7 @@ or \n\
                 {
                   "id": "custom.scaleDistribution",
                   "value": {
-                    "log": 10,
-                    "type": "log"
+                    "type": "linear"
                   }
                 }
               ]
