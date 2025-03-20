@@ -12,18 +12,18 @@
       "model": {
         "expr": "\
 ( \n\
-  rate(mysql_global_status_table_open_cache_hits{instance=~\"$host\"}[1m]) \n\
+  rate(mysql_global_status_table_open_cache_hits{instance=~\"{{ .Instance }}\"}[1m]) \n\
   or \n\
-  rate(mysql_global_status_table_open_cache_hits_total{instance=~\"$host\"}[1m]) \n\
+  rate(mysql_global_status_table_open_cache_hits_total{instance=~\"{{ .Instance }}\"}[1m]) \n\
 ) / (  \n\
   ( \n\
-    rate(mysql_global_status_table_open_cache_hits{instance=~\"$host\"}[1m]) \n\
+    rate(mysql_global_status_table_open_cache_hits{instance=~\"{{ .Instance }}\"}[1m]) \n\
     or \n\
-    rate(mysql_global_status_table_open_cache_hits_total{instance=~\"$host\"}[1m]) \n\
+    rate(mysql_global_status_table_open_cache_hits_total{instance=~\"{{ .Instance }}\"}[1m]) \n\
   ) + ( \n\
-    rate(mysql_global_status_table_open_cache_misses{instance=~\"$host\"}[1m]) \n\
+    rate(mysql_global_status_table_open_cache_misses{instance=~\"{{ .Instance }}\"}[1m]) \n\
     or \n\
-    rate(mysql_global_status_table_open_cache_misses_total{instance=~\"$host\"}[1m]) \n\
+    rate(mysql_global_status_table_open_cache_misses_total{instance=~\"{{ .Instance }}\"}[1m]) \n\
   ) \n\
 ) * 100 \n\
 ",
