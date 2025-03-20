@@ -1871,6 +1871,10 @@ or \n\
                   "value": "percent"
                 },
                 {
+                  "id": "min",
+                  "value": null
+                },
+                {
                   "id": "max",
                   "value": 100
                 },
