@@ -195,7 +195,7 @@
           "avg": true,
           "current": false,
           "hideEmpty": false,
-          "hideZero": true,
+          "hideZero": false,
           "max": true,
           "min": true,
           "rightSide": true,

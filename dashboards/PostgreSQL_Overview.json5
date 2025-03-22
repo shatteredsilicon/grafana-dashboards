@@ -3487,7 +3487,7 @@ irate(pg_stat_bgwriter_checkpoint_write_time_total{instance='$host'}[5m]) \n\
           "avg": true,
           "current": false,
           "hideEmpty": true,
-          "hideZero": true,
+          "hideZero": false,
           "max": true,
           "min": true,
           "show": true,
