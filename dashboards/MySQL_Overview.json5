@@ -1033,10 +1033,30 @@ irate(mysql_global_status_questions_total{instance=~\"$host\"}[5m]) \n\
         "pointradius": 5,
         "points": false,
         "renderer": "flot",
+        "fieldConfig": {
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Thread Cache Hit Rate"
+              },
+              "properties": [
+                {
+                  "id": "min",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        },
         "seriesOverrides": [
           {
             "alias": "Threads Created",
             "fill": 0
+          },
+          {
+            "alias": "Thread Cache Hit Rate",
+            "yaxis": 2
           }
         ],
         "spaceLength": 10,
@@ -1085,7 +1105,7 @@ irate(mysql_global_status_questions_total{instance=~\"$host\"}[5m]) \n\
             "expr": "\
 rate(mysql_global_status_threads_created{instance=~\"$host\"}[$interval]) \n\
 or \n\
-rate(mysql_global_status_threads_created_totwal{instance=~\"$host\"}[$interval]) \n\
+rate(mysql_global_status_threads_created_total{instance=~\"$host\"}[$interval]) \n\
 or \n\
 irate(mysql_global_status_threads_created{instance=~\"$host\"}[5m]) \n\
 or \n\
@@ -1097,6 +1117,56 @@ irate(mysql_global_status_threads_created_total{instance=~\"$host\"}[5m]) \n\
             "legendFormat": "Threads Created",
             "metric": "",
             "refId": "A",
+            "step": 20
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "\
+max( \n\
+  vector(1) \n\
+  and on() ( \n\
+    ( \n\
+      rate(mysql_global_status_connections{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      rate(mysql_global_status_connections_total{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      irate(mysql_global_status_connections{instance=~\"$host\"}[5m]) \n\
+      or \n\
+      irate(mysql_global_status_connections_total{instance=~\"$host\"}[5m]) \n\
+    ) <= 0 \n\
+  ) \n\
+  or on() ( \n\
+    1 - ( \n\
+      rate(mysql_global_status_threads_created{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      rate(mysql_global_status_threads_created_total{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      irate(mysql_global_status_threads_created{instance=~\"$host\"}[5m]) \n\
+      or \n\
+      irate(mysql_global_status_threads_created_total{instance=~\"$host\"}[5m]) \n\
+    ) / ( \n\
+      rate(mysql_global_status_connections{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      rate(mysql_global_status_connections_total{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      irate(mysql_global_status_connections{instance=~\"$host\"}[5m]) \n\
+      or \n\
+      irate(mysql_global_status_connections_total{instance=~\"$host\"}[5m]) \n\
+    ) \n\
+  ) \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Thread Cache Hit Rate",
+            "metric": "",
+            "refId": "D",
             "step": 20
           }
         ],
@@ -1123,9 +1193,10 @@ irate(mysql_global_status_threads_created_total{instance=~\"$host\"}[5m]) \n\
             "show": true
           },
           {
-            "format": "short",
+            "format": "percentunit",
             "logBase": 1,
-            "min": 0,
+            "min": null,
+            "max": 1,
             "show": true
           }
         ],
