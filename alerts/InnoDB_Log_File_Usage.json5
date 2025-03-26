@@ -17,7 +17,11 @@
     or \n\
     increase(mysql_global_status_innodb_os_log_written_total{instance=~\"{{ .Instance }}\"}[1h]) \n\
   ) / ( \n\
+    mysql_global_variables_innodb_redo_log_capacity{instance=~\"{{ .Instance }}\"} \n\
+    or \n\
     mysql_global_variables_innodb_log_files_in_group{instance=~\"{{ .Instance }}\"} * mysql_global_variables_innodb_log_file_size{instance=~\"{{ .Instance }}\"} \n\
+    or \n\
+    mysql_global_variables_innodb_log_file_size{instance=~\"{{ .Instance }}\"} \n\
   ) \n\
 ) * 100 \n\
 ",

@@ -1282,6 +1282,34 @@ max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{in
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
+      "fieldConfig": {
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total Size of InnoDB Log Files"
+            },
+            "properties": [
+              {
+                "id": "max",
+                "value": null
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Data Written"
+            },
+            "properties": [
+              {
+                "id": "max",
+                "value": null
+              }
+            ]
+          }
+        ]
+      },
       "seriesOverrides": [
         {
           "alias": "Total Size of InnoDB Log Files",
@@ -1334,7 +1362,13 @@ increase(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[1h
           "calculatedInterval": "2m",
           "datasourceErrors": {},
           "errors": {},
-          "expr": "mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}",
+          "expr": "\
+mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+or \n\
+mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+or \n\
+mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+",
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
@@ -1351,7 +1385,11 @@ increase(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[1h
     or \n\
     increase(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[1h]) \n\
   ) / ( \n\
+    mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
+    or \n\
     mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+    or \n\
+    mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
   ) \n\
 ) * 100 \n\
 ",
@@ -1392,13 +1430,13 @@ increase(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[1h
         {
           "format": "percent",
           "logBase": 1,
-          "max": "100",
-          "min": "0",
+          "max": null,
+          "min": null,
           "show": true
         },
         {
           "format": "bytes",
-          "logBase": 2,
+          "logBase": 1,
           "max": null,
           "min": null,
           "show": true
