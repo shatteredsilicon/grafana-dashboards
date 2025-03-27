@@ -13,13 +13,13 @@
         "expr": "\
 1 - ( \n\
   ( \n\
-    node_filesystem_free{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+    node_filesystem_free{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
     or \n\
-    node_filesystem_free_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+    node_filesystem_free_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
   ) / ( \n\
-    node_filesystem_size{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+    node_filesystem_size{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
     or \n\
-    node_filesystem_size_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\"} \n\
+    node_filesystem_size_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
   ) \n\
 ) \n\
 ",
