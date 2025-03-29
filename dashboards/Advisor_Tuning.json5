@@ -5037,6 +5037,444 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           "refId": "A"
         }
       ],
+      "title": "thread_cache_size",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 67
+      },
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.5.7",
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+max(max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "Max Threads Connected",
+          "metric": "",
+          "refId": "A",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+min(min_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "Min Threads Connected",
+          "metric": "",
+          "refId": "B",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+max(max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) \n\
+- \n\
+min(min_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "Expected Thread Cache Size",
+          "metric": "",
+          "refId": "C",
+          "step": 300
+        }
+      ],
+      "title": "Expected Thread Cache Size",
+      "description": "Note: If you do not see any metric, try setting: ``collect.global_status = 1`` in the mysqld_exporter config file.",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 67
+      },
+      "hideTimeOverride": false,
+      "interval": "$interval",
+      "links": [],
+      "maxDataPoints": 100,
+      "pluginVersion": "9.5.7",
+      "queryThresholds": "A,B",
+      "exactThreshold": true,
+      "colors": [
+        "rgb(24, 27, 31)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(36, 112, 33, 0.97)"
+      ],
+      "valueFontSize": "150%",
+      "colorBackground": true,
+      "thresholdQuery": "C",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "mysql_global_variables_thread_cache_size{instance=~\"$host\"} or vector(-1)",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "A",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+clamp_max( \n\
+  mysql_global_variables_thread_cache_size{instance=~\"$host\"} \n\
+  and on() ( \n\
+    clamp_min( \n\
+      max(max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) \n\
+      - \n\
+      min(min_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])), \n\
+      scalar( \n\
+        vector(256) \n\
+        and on() ( \n\
+          mysql_global_variables_max_connections{instance=~\"$host\"} > 256 \n\
+        ) \n\
+        or on() mysql_global_variables_max_connections{instance=~\"$host\"} \n\
+      ) \n\
+    ) >= scalar(mysql_global_variables_thread_cache_size{instance=~\"$host\"} * 0.8) \n\
+  ) \n\
+  and on() ( \n\
+    clamp_min( \n\
+      max(max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) \n\
+      - \n\
+      min(min_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])), \n\
+      scalar( \n\
+        vector(256) \n\
+        and on() ( \n\
+          mysql_global_variables_max_connections{instance=~\"$host\"} > 256 \n\
+        ) \n\
+        or on() mysql_global_variables_max_connections{instance=~\"$host\"} \n\
+      ) \n\
+    ) <= scalar(mysql_global_variables_thread_cache_size{instance=~\"$host\"} * 1.1) \n\
+  ) \n\
+  or on() clamp_min( \n\
+    max(max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) \n\
+    - \n\
+    min(min_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])), \n\
+    scalar( \n\
+      vector(256) \n\
+      and on() ( \n\
+        mysql_global_variables_max_connections{instance=~\"$host\"} > 256 \n\
+      ) \n\
+      or on() mysql_global_variables_max_connections{instance=~\"$host\"} \n\
+    ) \n\
+  ), \n\
+  scalar(mysql_global_variables_max_connections{instance=~\"$host\"}) \n\
+) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "B",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_thread_cache_size{instance=~\"$host\"} \n\
+and on() ( \n\
+  mysql_global_variables_max_connections{instance=~\"$host\"} >= 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
+        }
+      ],
+      "title": "Current",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
+      "type": "ssm-singlestat-panel"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 67
+      },
+      "hideTimeOverride": false,
+      "interval": "$interval",
+      "links": [],
+      "maxDataPoints": 100,
+      "pluginVersion": "9.5.7",
+      "queryThresholds": "B,A",
+      "exactThreshold": true,
+      "colors": [
+        "rgb(24, 27, 31)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(36, 112, 33, 0.97)"
+      ],
+      "valueFontSize": "150%",
+      "colorBackground": true,
+      "thresholdQuery": "C",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "-1"
+        }
+      ],
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+clamp_max( \n\
+  mysql_global_variables_thread_cache_size{instance=~\"$host\"} \n\
+  and on() ( \n\
+    clamp_min( \n\
+      max(max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) \n\
+      - \n\
+      min(min_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])), \n\
+      scalar( \n\
+        vector(256) \n\
+        and on() ( \n\
+          mysql_global_variables_max_connections{instance=~\"$host\"} > 256 \n\
+        ) \n\
+        or on() mysql_global_variables_max_connections{instance=~\"$host\"} \n\
+      ) \n\
+    ) >= scalar(mysql_global_variables_thread_cache_size{instance=~\"$host\"} * 0.8) \n\
+  ) \n\
+  and on() ( \n\
+    clamp_min( \n\
+      max(max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) \n\
+      - \n\
+      min(min_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])), \n\
+      scalar( \n\
+        vector(256) \n\
+        and on() ( \n\
+          mysql_global_variables_max_connections{instance=~\"$host\"} > 256 \n\
+        ) \n\
+        or on() mysql_global_variables_max_connections{instance=~\"$host\"} \n\
+      ) \n\
+    ) <= scalar(mysql_global_variables_thread_cache_size{instance=~\"$host\"} * 1.1) \n\
+  ) \n\
+  or on() clamp_min( \n\
+    max(max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])) \n\
+    - \n\
+    min(min_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m])), \n\
+    scalar( \n\
+      vector(256) \n\
+      and on() ( \n\
+        mysql_global_variables_max_connections{instance=~\"$host\"} > 256 \n\
+      ) \n\
+      or on() mysql_global_variables_max_connections{instance=~\"$host\"} \n\
+    ) \n\
+  ), \n\
+  scalar(mysql_global_variables_max_connections{instance=~\"$host\"}) \n\
+) \n\
+and on() ( \n\
+  mysql_global_variables_max_connections{instance=~\"$host\"} >= 0 \n\
+) \n\
+or on() vector(-1) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "A",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "mysql_global_variables_thread_cache_size{instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "B",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+mysql_global_variables_thread_cache_size{instance=~\"$host\"} \n\
+and on() ( \n\
+  mysql_global_variables_max_connections{instance=~\"$host\"} >= 0 \n\
+) \n\
+or on() vector(-2) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "C",
+          "step": 300
+        }
+      ],
+      "title": "Proposed",
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating disk metrics.",
+      "type": "ssm-singlestat-panel"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 75
+      },
+      "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "innodb_buffer_pool_size",
       "type": "row"
     },
@@ -5089,7 +5527,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 67
+        "y": 76
       },
       "links": [],
       "options": {
@@ -5151,7 +5589,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 67
+        "y": 76
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5446,7 +5884,7 @@ or on() vector(-2) \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 67
+        "y": 76
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -5750,7 +6188,7 @@ or on() vector(-3) \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 75
+        "y": 84
       },
       "panels": [],
       "targets": [
@@ -5813,7 +6251,7 @@ or on() vector(-3) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 76
+        "y": 85
       },
       "links": [],
       "options": {
@@ -5875,7 +6313,7 @@ or on() vector(-3) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 76
+        "y": 85
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6068,7 +6506,7 @@ or on() vector(-2) \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 76
+        "y": 85
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6272,7 +6710,7 @@ or on() vector(-3) \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 84
+        "y": 93
       },
       "panels": [],
       "targets": [
@@ -6335,7 +6773,7 @@ or on() vector(-3) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 85
+        "y": 94
       },
       "links": [],
       "options": {
@@ -6397,7 +6835,7 @@ or on() vector(-3) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 85
+        "y": 94
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6590,7 +7028,7 @@ or on() vector(-2) \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 85
+        "y": 94
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -6794,7 +7232,7 @@ or on() vector(-3) \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 93
+        "y": 102
       },
       "panels": [],
       "targets": [
@@ -6871,7 +7309,7 @@ or on() vector(-3) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 94
+        "y": 103
       },
       "links": [],
       "options": {
@@ -6958,7 +7396,7 @@ and on() ( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 94
+        "y": 103
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -7163,7 +7601,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 94
+        "y": 103
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -7363,7 +7801,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 102
+        "y": 111
       },
       "panels": [],
       "targets": [
@@ -7440,7 +7878,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 103
+        "y": 112
       },
       "links": [],
       "options": {
@@ -7527,7 +7965,7 @@ and on() ( \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 103
+        "y": 112
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -7737,7 +8175,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 103
+        "y": 112
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -7942,7 +8380,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 111
+        "y": 120
       },
       "panels": [],
       "targets": [
@@ -8019,7 +8457,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 112
+        "y": 121
       },
       "links": [],
       "options": {
@@ -8081,7 +8519,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 112
+        "y": 121
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -8238,7 +8676,7 @@ or on() vector(-2) \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 112
+        "y": 121
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -8413,7 +8851,7 @@ or on() vector(-3) \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 120
+        "y": 129
       },
       "panels": [],
       "targets": [
@@ -8490,7 +8928,7 @@ or on() vector(-3) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 121
+        "y": 130
       },
       "links": [],
       "options": {
@@ -8584,7 +9022,7 @@ or on() vector(-3) \n\
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 121
+        "y": 130
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -8755,7 +9193,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 121
+        "y": 130
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -8935,7 +9373,7 @@ or on() vector(-1) \n\
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 129
+        "y": 138
       },
       "panels": [],
       "targets": [
@@ -8957,7 +9395,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 130
+        "y": 139
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -9259,7 +9697,7 @@ or on() vector(0) \n\
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 130
+        "y": 139
       },
       "links": [],
       "options": {
@@ -9450,7 +9888,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 138
+        "y": 147
       },
       "links": [],
       "options": {
@@ -9633,7 +10071,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 146
+        "y": 155
       },
       "links": [],
       "options": {
@@ -9770,7 +10208,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 154
+        "y": 163
       },
       "links": [],
       "options": {
@@ -9891,7 +10329,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 162
+        "y": 171
       },
       "links": [],
       "options": {
@@ -9997,7 +10435,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 170
+        "y": 179
       },
       "links": [],
       "options": {
