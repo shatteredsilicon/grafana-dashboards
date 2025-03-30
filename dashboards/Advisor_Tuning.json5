@@ -382,8 +382,9 @@
           "errors": {},
           "expr": "\
 clamp( \n\
-  vector(400) and on() ( \n\
-    mysql_info_schema_table_count{instance=~\"$host\"} < (400 * 0.9) \n\
+  mysql_info_schema_table_count{instance=~\"$host\"} \n\
+  and on() ( \n\
+    mysql_info_schema_table_count{instance=~\"$host\"} / mysql_global_variables_table_definition_cache{instance=~\"$host\"} < 0.9 \n\
   ) \n\
   or on() ( \n\
     2^( \n\
@@ -392,7 +393,7 @@ clamp( \n\
       ) + 1 \n\
     ) \n\
     and on() ( \n\
-      mysql_global_variables_table_definition_cache{instance=~\"$host\"} \n\
+      mysql_info_schema_table_count{instance=~\"$host\"} \n\
       / \n\
       2^( \n\
         floor( \n\
@@ -401,11 +402,13 @@ clamp( \n\
       ) \n\
       < 0.9 \n\
     ) \n\
-  ) \n\
-  or on() 2^( \n\
-    floor( \n\
-      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
-    ) + 2 \n\
+    or on() ( \n\
+      2^( \n\
+        floor( \n\
+          log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+        ) + 2 \n\
+      ) \n\
+    ) \n\
   ), \n\
   400, \n\
   2097152 \n\
@@ -534,8 +537,9 @@ or on() vector(-2) \n\
           "errors": {},
           "expr": "\
 clamp( \n\
-  vector(400) and on() ( \n\
-    mysql_info_schema_table_count{instance=~\"$host\"} < (400 * 0.9) \n\
+  mysql_info_schema_table_count{instance=~\"$host\"} \n\
+  and on() ( \n\
+    mysql_info_schema_table_count{instance=~\"$host\"} / mysql_global_variables_table_definition_cache{instance=~\"$host\"} < 0.9 \n\
   ) \n\
   or on() ( \n\
     2^( \n\
@@ -544,7 +548,7 @@ clamp( \n\
       ) + 1 \n\
     ) \n\
     and on() ( \n\
-      mysql_global_variables_table_definition_cache{instance=~\"$host\"} \n\
+      mysql_info_schema_table_count{instance=~\"$host\"} \n\
       / \n\
       2^( \n\
         floor( \n\
@@ -553,11 +557,13 @@ clamp( \n\
       ) \n\
       < 0.9 \n\
     ) \n\
-  ) \n\
-  or on() 2^( \n\
-    floor( \n\
-      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
-    ) + 2 \n\
+    or on() ( \n\
+      2^( \n\
+        floor( \n\
+          log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+        ) + 2 \n\
+      ) \n\
+    ) \n\
   ), \n\
   400, \n\
   2097152 \n\
@@ -1960,7 +1966,7 @@ clamp( \n\
           mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
           or \n\
           mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
-        ) * 0.9 \n\
+        ) * 0.4 \n\
         and \n\
         max_over_time( \n\
           ( \n\
