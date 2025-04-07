@@ -1356,21 +1356,44 @@ irate(mysql_global_status_created_tmp_files_total{instance=~\"$host\"}[5m]) \n\
             "datasourceErrors": {},
             "errors": {},
             "expr": "\
-( \n\
+max( \n\
   1 - ( \n\
     ( \n\
-      mysql_global_status_created_tmp_disk_tables{instance=\"$host\"} \n\
+      rate(mysql_global_status_created_tmp_disk_tables{instance=~\"$host\"}[$interval]) \n\
       or \n\
-      mysql_global_status_created_tmp_disk_tables_total{instance=\"$host\"} \n\
+      rate(mysql_global_status_created_tmp_disk_tables_total{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      irate(mysql_global_status_created_tmp_disk_tables{instance=~\"$host\"}[5m]) \n\
+      or \n\
+      irate(mysql_global_status_created_tmp_disk_tables_total{instance=~\"$host\"}[5m]) \n\
     ) / ( \n\
-      mysql_global_status_created_tmp_tables{instance=\"$host\"} \n\
+      rate(mysql_global_status_created_tmp_tables{instance=~\"$host\"}[$interval]) \n\
       or \n\
-      mysql_global_status_created_tmp_tables_total{instance=\"$host\"} \n\
+      rate(mysql_global_status_created_tmp_tables_total{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      irate(mysql_global_status_created_tmp_tables{instance=~\"$host\"}[5m]) \n\
+      or \n\
+      irate(mysql_global_status_created_tmp_tables_total{instance=~\"$host\"}[5m]) \n\
     ) \n\
   ) \n\
+  and on() ( \n\
+    ( \n\
+      rate(mysql_global_status_created_tmp_tables{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      rate(mysql_global_status_created_tmp_tables_total{instance=~\"$host\"}[$interval]) \n\
+      or \n\
+      irate(mysql_global_status_created_tmp_tables{instance=~\"$host\"}[5m]) \n\
+      or \n\
+      irate(mysql_global_status_created_tmp_tables_total{instance=~\"$host\"}[5m]) \n\
+    ) > 0 \n\
+  ) \n\
+  or on() vector(1) \n\
 ) \n\
-or on() vector(0) \n\
-",
+and on() ( \n\
+  mysql_global_status_created_tmp_tables{instance=~\"$host\"} >= 0 \n\
+  or \n\
+  mysql_global_status_created_tmp_tables_total{instance=~\"$host\"} >= 0 \n\
+)",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Temporary Table Memory Fit Rate",
