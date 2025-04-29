@@ -1008,7 +1008,7 @@ topk( \n\
           "multiFormat": "regex values",
           "name": "host",
           "options": [],
-          "query": "label_values(mysql_info_schema_user_statistics_bytes_sent_total, instance)",
+          "query": "label_values({__name__=~\"mysql_info_schema_user_statistics_bytes_sent_total|mysql_info_schema_processlist_processes_by_user\"}, instance)",
           "refresh": 2,
           "refresh_on_load": false,
           "regex": "",
