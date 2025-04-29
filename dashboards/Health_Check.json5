@@ -1995,7 +1995,7 @@ mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
           "multiFormat": "regex values",
           "name": "host",
           "options": [],
-          "query": "label_values({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total|aws_rds_disk_queue_depth_average|rdsosmetrics_diskIO_readLatency\"}, instance)",
+          "query": "label_values({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total|aws_rds_disk_queue_depth_average|rdsosmetrics_diskIO_readLatency|node_cpu|node_cpu_seconds_total|node_cpu_average|mysql_global_status_threads_connected|mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total|mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age|mysql_global_variables_table_open_cache|mysql_slave_status_seconds_behind_master|mysql_slave_status_seconds_behind_source|mysql_info_schema_table_size|mysql_binlog_size_bytes|node_filesystem_size(_bytes)?\"}, instance)",
           "refresh": 2,
           "refresh_on_load": false,
           "regex": "",
