@@ -42,7 +42,7 @@
     "links": [
       {
         "icon": "dashboard",
-        "includeVars": true,
+        "includeVars": false,
         "keepTime": true,
         "tags": [
           "QAN"
@@ -54,7 +54,7 @@
       },
       {
         "asDropdown": true,
-        "includeVars": true,
+        "includeVars": false,
         "keepTime": true,
         "tags": [
           "OS"
@@ -65,7 +65,7 @@
       },
       {
         "asDropdown": true,
-        "includeVars": true,
+        "includeVars": false,
         "keepTime": true,
         "tags": [
           "MySQL"
@@ -76,7 +76,7 @@
       },
       {
         "asDropdown": true,
-        "includeVars": true,
+        "includeVars": false,
         "keepTime": true,
         "tags": [
           "MongoDB"
@@ -87,7 +87,7 @@
       },
       {
         "asDropdown": true,
-        "includeVars": true,
+        "includeVars": false,
         "keepTime": true,
         "tags": [
           "PostgreSQL"
@@ -98,7 +98,7 @@
       },
       {
         "asDropdown": true,
-        "includeVars": true,
+        "includeVars": false,
         "keepTime": true,
         "tags": [
           "HA"
@@ -109,7 +109,7 @@
       },
       {
         "asDropdown": true,
-        "includeVars": true,
+        "includeVars": false,
         "keepTime": true,
         "tags": [
           "Cloud"
@@ -120,7 +120,7 @@
       },
       {
         "asDropdown": true,
-        "includeVars": true,
+        "includeVars": false,
         "keepTime": true,
         "tags": [
           "Insight"
@@ -131,7 +131,7 @@
       },
       {
         "asDropdown": true,
-        "includeVars": true,
+        "includeVars": false,
         "keepTime": true,
         "tags": [
           "SSM"
