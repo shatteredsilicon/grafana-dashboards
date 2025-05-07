@@ -23,6 +23,8 @@ avg by (device) ( \n\
   rate(node_disk_io_time_seconds_total{instance=~\"{{ .Instance }}\"}[5m]) \n\
   or \n\
   irate(node_disk_io_time_seconds_total{instance=~\"{{ .Instance }}\"}[5m]) \n\
+  or \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"{{ .Instance }}\"}[5m]) / 100 \n\
 ) \n\
 ",
         "hide": false,
