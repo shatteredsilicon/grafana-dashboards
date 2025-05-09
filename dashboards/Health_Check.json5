@@ -357,11 +357,7 @@ rate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5
 or \n\
 irate(node_disk_io_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
 or \n\
-( \n\
-  max_over_time(rdsosmetrics_diskIO_util{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
-  or \n\
-  max_over_time(rdsosmetrics_diskIO_util{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
-) / 100 \n\
+rdsosmetrics_diskIO_util{device=~\"$device\", instance=~\"$host\"} / 100 \n\
 ",
           "format": "time_series",
           "hide": false,
