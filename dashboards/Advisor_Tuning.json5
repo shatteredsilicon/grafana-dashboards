@@ -7345,6 +7345,8 @@ or on() ( \n\
   mysql_global_variables_binlog_cache_size_count{instance=~\"$host\"} \n\
 ) \n\
 and on() ( \n\
+  mysql_global_variables_log_bin{instance=~\"$host\"} != 0 \n\
+  and \n\
   ( \n\
     max_over_time(mysql_global_variables_binlog_cache_size{instance=~\"$host\"}[1w]) \n\
     or \n\
@@ -7508,6 +7510,8 @@ or on() vector(-1) \n\
   mysql_global_variables_binlog_cache_size_count{instance=~\"$host\"} \n\
 ) \n\
 and on() ( \n\
+  mysql_global_variables_log_bin{instance=~\"$host\"} != 0 \n\
+  and \n\
   ( \n\
     max_over_time(mysql_global_variables_binlog_cache_size{instance=~\"$host\"}[1w]) \n\
     or \n\
@@ -7842,6 +7846,8 @@ or on() ( \n\
   mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"} \n\
 ) \n\
 and on() ( \n\
+  mysql_global_variables_log_bin{instance=~\"$host\"} != 0 \n\
+  and \n\
   ( \n\
     max_over_time(mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"}[1w]) \n\
     or \n\
@@ -8010,6 +8016,8 @@ or on() vector(-1) \n\
   mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"} \n\
 ) \n\
 and on() ( \n\
+  mysql_global_variables_log_bin{instance=~\"$host\"} != 0 \n\
+  and \n\
   ( \n\
     max_over_time(mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"}[1w]) \n\
     or \n\
