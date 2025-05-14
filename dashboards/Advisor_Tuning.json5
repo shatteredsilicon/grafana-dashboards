@@ -2536,37 +2536,37 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           "expr": "\
 ( \n\
   ( \n\
-    max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+    max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
     or \n\
-    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+    max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
     or \n\
-    max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+    max(irate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
     or \n\
-    max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+    max(irate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
   ) \n\
   or \n\
   sum by (instance) ( \n\
-    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
     or \n\
-    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+    max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
   ) \n\
 ) \n\
 + \n\
 ( \n\
   ( \n\
-    max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+    max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
     or \n\
-    max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+    max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
     or \n\
-    max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+    max(irate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
     or \n\
-    max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+    max(irate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
   ) \n\
   or \n\
   sum by (instance) ( \n\
-    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
     or \n\
-    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+    max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
   ) \n\
 ) \n\
 ",
@@ -2586,22 +2586,22 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
-max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
 or \n\
-max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
 or \n\
-max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+max(irate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
 or \n\
-max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+max(irate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
 or \n\
-max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
 or \n\
-max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+max(irate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
 or \n\
 max( \n\
-  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
   or \n\
-  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+  max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
 ) / 100 \n\
 ",
           "format": "time_series",
@@ -2623,56 +2623,56 @@ max( \n\
 ( \n\
   ( \n\
     ( \n\
-      max(rate(node_disk_reads_completed{instance=~\"$host\"}[$interval])) \n\
+      max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
       or \n\
-      max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[$interval])) \n\
+      max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
       or \n\
-      max(irate(node_disk_reads_completed{instance=~\"$host\"}[5m])) \n\
+      max(irate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
       or \n\
-      max(irate(node_disk_reads_completed_total{instance=~\"$host\"}[5m])) \n\
+      max(irate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
     ) \n\
     or \n\
     sum by (instance) ( \n\
-      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[$interval]) \n\
+      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
       or \n\
-      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[5m]) \n\
+      max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
     ) \n\
   ) \n\
   + \n\
   ( \n\
     ( \n\
-      max(rate(node_disk_writes_completed{instance=~\"$host\"}[$interval])) \n\
+      max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
       or \n\
-      max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[$interval])) \n\
+      max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
       or \n\
-      max(irate(node_disk_writes_completed{instance=~\"$host\"}[5m])) \n\
+      max(irate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
       or \n\
-      max(irate(node_disk_writes_completed_total{instance=~\"$host\"}[5m])) \n\
+      max(irate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
     ) \n\
     or \n\
     sum by (instance) ( \n\
-      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[$interval]) \n\
+      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
       or \n\
-      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[5m]) \n\
+      max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
     ) \n\
   ) \n\
 ) / ( \n\
-  max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+  max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
   or \n\
-  max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+  max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
   or \n\
-  max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+  max(irate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
   or \n\
-  max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+  max(irate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
   or \n\
-  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
   or \n\
-  max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+  max(irate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
   or \n\
   max( \n\
-    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval]) \n\
+    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
     or \n\
-    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m]) \n\
+    max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
   ) / 100 \n\
 ) \n\
 ",
@@ -2758,26 +2758,26 @@ clamp( \n\
             ( \n\
               ( \n\
                 ( \n\
-                  max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+                  max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 ) + ( \n\
-                  max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+                  max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 ) \n\
               ) / ( \n\
-                max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+                max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                 or \n\
-                max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+                max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                 or \n\
-                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 or \n\
-                max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+                max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
               ) < +Inf \n\
             )[1w:10m] \n\
           ) * 0.75 / 500 \n\
@@ -2792,26 +2792,26 @@ clamp( \n\
         ( \n\
           ( \n\
             ( \n\
-              max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+              max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             ) + ( \n\
-              max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+              max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             ) \n\
           ) / ( \n\
-            max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+            max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
             or \n\
-            max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+            max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
             or \n\
-            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             or \n\
-            max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+            max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
           ) < +Inf \n\
         )[1w:10m] \n\
       ) * 0.75 / 500 \n\
@@ -2841,27 +2841,27 @@ clamp( \n\
 mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
 ) \n\
 or on() vector(-2) \n\
@@ -2932,26 +2932,26 @@ clamp( \n\
             ( \n\
               ( \n\
                 ( \n\
-                  max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+                  max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 ) + ( \n\
-                  max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+                  max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 ) \n\
               ) / ( \n\
-                max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+                max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                 or \n\
-                max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+                max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                 or \n\
-                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 or \n\
-                max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+                max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
               ) < +Inf \n\
             )[1w:10m] \n\
           ) * 0.75 / 500 \n\
@@ -2966,26 +2966,26 @@ clamp( \n\
         ( \n\
           ( \n\
             ( \n\
-              max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+              max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             ) + ( \n\
-              max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+              max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             ) \n\
           ) / ( \n\
-            max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+            max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
             or \n\
-            max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+            max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
             or \n\
-            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             or \n\
-            max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+            max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
           ) < +Inf \n\
         )[1w:10m] \n\
       ) * 0.75 / 500 \n\
@@ -2999,27 +2999,27 @@ and on() ( \n\
 ) \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
 ) \n\
 or on() vector(-1) \n\
@@ -3061,27 +3061,27 @@ or on() vector(-1) \n\
 mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"} \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
 ) \n\
 or on() vector(-3) \n\
@@ -3169,26 +3169,26 @@ clamp( \n\
             ( \n\
               ( \n\
                 ( \n\
-                  max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+                  max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 ) + ( \n\
-                  max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+                  max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 ) \n\
               ) / ( \n\
-                max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+                max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                 or \n\
-                max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+                max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                 or \n\
-                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 or \n\
-                max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+                max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
               ) < +Inf \n\
             )[1w:10m] \n\
           ) * 0.5 / 500 \n\
@@ -3203,26 +3203,26 @@ clamp( \n\
         ( \n\
           ( \n\
             ( \n\
-              max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+              max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             ) + ( \n\
-              max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+              max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             ) \n\
           ) / ( \n\
-            max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+            max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
             or \n\
-            max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+            max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
             or \n\
-            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             or \n\
-            max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+            max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
           ) < +Inf \n\
         )[1w:10m] \n\
       ) * 0.5 / 500 \n\
@@ -3242,26 +3242,26 @@ clamp( \n\
                   ( \n\
                     ( \n\
                       ( \n\
-                        max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+                        max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                         or \n\
-                        max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+                        max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                         or \n\
-                        max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+                        max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                       ) + ( \n\
-                        max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+                        max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                         or \n\
-                        max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+                        max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                         or \n\
-                        max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+                        max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                       ) \n\
                     ) / ( \n\
-                      max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+                      max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                       or \n\
-                      max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+                      max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                       or \n\
-                      max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+                      max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                       or \n\
-                      max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+                      max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
                     ) < +Inf \n\
                   )[1w:10m] \n\
                 ) * 0.75 / 500 \n\
@@ -3276,26 +3276,26 @@ clamp( \n\
               ( \n\
                 ( \n\
                   ( \n\
-                    max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+                    max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                     or \n\
-                    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+                    max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                     or \n\
-                    max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+                    max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   ) + ( \n\
-                    max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+                    max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                     or \n\
-                    max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+                    max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                     or \n\
-                    max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+                    max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   ) \n\
                 ) / ( \n\
-                  max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+                  max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                   or \n\
-                  max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+                  max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                   or \n\
-                  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+                  max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
                 ) < +Inf \n\
               )[1w:10m] \n\
             ) * 0.75 / 500 \n\
@@ -3328,27 +3328,27 @@ clamp( \n\
 mysql_global_variables_innodb_io_capacity{instance=~\"$host\"} \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
 ) \n\
 or on() vector(-2) \n\
@@ -3419,26 +3419,26 @@ clamp( \n\
             ( \n\
               ( \n\
                 ( \n\
-                  max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+                  max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 ) + ( \n\
-                  max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+                  max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 ) \n\
               ) / ( \n\
-                max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+                max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                 or \n\
-                max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+                max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                 or \n\
-                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+                max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                 or \n\
-                max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+                max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
               ) < +Inf \n\
             )[1w:10m] \n\
           ) * 0.5 / 500 \n\
@@ -3453,26 +3453,26 @@ clamp( \n\
         ( \n\
           ( \n\
             ( \n\
-              max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+              max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             ) + ( \n\
-              max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+              max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
               or \n\
-              max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+              max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             ) \n\
           ) / ( \n\
-            max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+            max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
             or \n\
-            max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+            max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
             or \n\
-            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+            max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
             or \n\
-            max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+            max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
           ) < +Inf \n\
         )[1w:10m] \n\
       ) * 0.5 / 500 \n\
@@ -3492,26 +3492,26 @@ clamp( \n\
                   ( \n\
                     ( \n\
                       ( \n\
-                        max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+                        max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                         or \n\
-                        max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+                        max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                         or \n\
-                        max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+                        max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                       ) + ( \n\
-                        max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+                        max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                         or \n\
-                        max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+                        max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                         or \n\
-                        max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+                        max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                       ) \n\
                     ) / ( \n\
-                      max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+                      max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                       or \n\
-                      max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+                      max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                       or \n\
-                      max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+                      max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                       or \n\
-                      max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+                      max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
                     ) < +Inf \n\
                   )[1w:10m] \n\
                 ) * 0.75 / 500 \n\
@@ -3526,26 +3526,26 @@ clamp( \n\
               ( \n\
                 ( \n\
                   ( \n\
-                    max(rate(node_disk_reads_completed{instance=~\"$host\"}[10m])) \n\
+                    max(rate(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                     or \n\
-                    max(rate(node_disk_reads_completed_total{instance=~\"$host\"}[10m])) \n\
+                    max(rate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                     or \n\
-                    max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}[10m])) \n\
+                    max(max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   ) + ( \n\
-                    max(rate(node_disk_writes_completed{instance=~\"$host\"}[10m])) \n\
+                    max(rate(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                     or \n\
-                    max(rate(node_disk_writes_completed_total{instance=~\"$host\"}[10m])) \n\
+                    max(rate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                     or \n\
-                    max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}[10m])) \n\
+                    max(max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   ) \n\
                 ) / ( \n\
-                  max(rate(node_disk_io_time_ms{instance=~\"$host\"}[10m]))/1000 \n\
+                  max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                   or \n\
-                  max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[10m]))/1000 \n\
+                  max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[10m]))/1000 \n\
                   or \n\
-                  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[10m])) \n\
+                  max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[10m])) \n\
                   or \n\
-                  max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[10m])) / 100 \n\
+                  max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[10m])) / 100 \n\
                 ) < +Inf \n\
               )[1w:10m] \n\
             ) * 0.75 / 500 \n\
@@ -3562,27 +3562,27 @@ and on() ( \n\
 ) \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
 ) \n\
 or on() vector(-1) \n\
@@ -3624,27 +3624,27 @@ or on() vector(-1) \n\
 mysql_global_variables_innodb_io_capacity{instance=~\"$host\"} \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_reads_completed{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_reads_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and ( \n\
-    max(node_disk_writes_completed{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_writes_completed_total{instance=~\"$host\"}) \n\
+    max(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
 ) \n\
 or on() vector(-3) \n\
@@ -3809,21 +3809,21 @@ or on() vector(-3) \n\
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
-max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
 or \n\
-max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
 or \n\
-max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+max(irate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
 or \n\
-max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+max(irate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
 or \n\
-max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
 or \n\
-max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+max(irate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
 or \n\
-max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval])) / 100 \n\
+max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[$interval])) / 100 \n\
 or \n\
-max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m])) / 100 \n\
+max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m])) / 100 \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -3915,21 +3915,21 @@ clamp( \n\
         ) \n\
         and \n\
         ( \n\
-          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
           or \n\
-          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
           or \n\
-          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
           or \n\
-          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
           or \n\
-          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
           or \n\
-          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
           or \n\
-          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval])) / 100 \n\
+          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[$interval])) / 100 \n\
           or \n\
-          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m])) / 100 \n\
+          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m])) / 100 \n\
         ) < 0.75 \n\
       ) \n\
     ) \n\
@@ -3999,13 +3999,13 @@ and on() ( \n\
 ) \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and \n\
   ( \n\
@@ -4098,21 +4098,21 @@ clamp( \n\
         ) \n\
         and \n\
         ( \n\
-          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
           or \n\
-          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
           or \n\
-          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
           or \n\
-          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
           or \n\
-          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
           or \n\
-          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
           or \n\
-          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval])) / 100 \n\
+          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[$interval])) / 100 \n\
           or \n\
-          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m])) / 100 \n\
+          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m])) / 100 \n\
         ) < 0.75 \n\
       ) \n\
     ) \n\
@@ -4165,13 +4165,13 @@ and on() ( \n\
 ) \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and \n\
   ( \n\
@@ -4226,13 +4226,13 @@ and on() ( \n\
 ) \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
   and \n\
   ( \n\
@@ -4411,21 +4411,21 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
-max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval]))/1000 \n\
+max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[$interval]))/1000 \n\
 or \n\
-max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval]))/1000 \n\
+max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[$interval]))/1000 \n\
 or \n\
-max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m]))/1000 \n\
+max(irate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[5m]))/1000 \n\
 or \n\
-max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m]))/1000 \n\
+max(irate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[5m]))/1000 \n\
 or \n\
-max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
 or \n\
-max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+max(irate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
 or \n\
-max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval])) / 100 \n\
+max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[$interval])) / 100 \n\
 or \n\
-max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m])) / 100 \n\
+max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m])) / 100 \n\
 ",
           "format": "time_series",
           "interval": "$interval",
@@ -4517,21 +4517,21 @@ clamp( \n\
         ) \n\
         and \n\
         ( \n\
-          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
           or \n\
-          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
           or \n\
-          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
           or \n\
-          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
           or \n\
-          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
           or \n\
-          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
           or \n\
-          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval])) / 100 \n\
+          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[$interval])) / 100 \n\
           or \n\
-          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m])) / 100 \n\
+          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m])) / 100 \n\
         ) < 0.75 \n\
       ) \n\
     ) \n\
@@ -4601,13 +4601,13 @@ and on() ( \n\
 ) \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
 ) \n\
 or on() vector(-2) \n\
@@ -4690,21 +4690,21 @@ clamp( \n\
         ) \n\
         and \n\
         ( \n\
-          max(rate(node_disk_io_time_ms{instance=~\"$host\"}[$interval])) / 1000 \n\
+          max(rate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
           or \n\
-          max(rate(node_disk_io_time_ms_total{instance=~\"$host\"}[$interval])) / 1000 \n\
+          max(rate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[$interval])) / 1000 \n\
           or \n\
-          max(irate(node_disk_io_time_ms{instance=~\"$host\"}[5m])) / 1000 \n\
+          max(irate(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
           or \n\
-          max(irate(node_disk_io_time_ms_total{instance=~\"$host\"}[5m])) / 1000 \n\
+          max(irate(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}[5m])) / 1000 \n\
           or \n\
-          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\"}[$interval])) \n\
+          max(rate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[$interval])) \n\
           or \n\
-          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\"}[5m])) \n\
+          max(irate(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
           or \n\
-          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[$interval])) / 100 \n\
+          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[$interval])) / 100 \n\
           or \n\
-          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\"}[5m])) / 100 \n\
+          max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m])) / 100 \n\
         ) < 0.75 \n\
       ) \n\
     ) \n\
@@ -4755,13 +4755,13 @@ and on() ( \n\
 ) \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
 ) \n\
 or on() vector(-1) \n\
@@ -4806,13 +4806,13 @@ and on() ( \n\
 ) \n\
 and on() ( \n\
   ( \n\
-    max(node_disk_io_time_ms{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_ms_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_ms_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(node_disk_io_time_seconds_total{instance=~\"$host\"}) \n\
+    max(node_disk_io_time_seconds_total{instance=~\"$host\", device=~\"$device\"}) \n\
     or \n\
-    max(rdsosmetrics_diskIO_util{instance=~\"$host\"}) \n\
+    max(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}) \n\
   ) >= 0 \n\
 ) \n\
 or on() vector(-3) \n\
@@ -7345,6 +7345,8 @@ or on() ( \n\
   mysql_global_variables_binlog_cache_size_count{instance=~\"$host\"} \n\
 ) \n\
 and on() ( \n\
+  mysql_global_variables_log_bin{instance=~\"$host\"} != 0 \n\
+  and \n\
   ( \n\
     max_over_time(mysql_global_variables_binlog_cache_size{instance=~\"$host\"}[1w]) \n\
     or \n\
@@ -7508,6 +7510,8 @@ or on() vector(-1) \n\
   mysql_global_variables_binlog_cache_size_count{instance=~\"$host\"} \n\
 ) \n\
 and on() ( \n\
+  mysql_global_variables_log_bin{instance=~\"$host\"} != 0 \n\
+  and \n\
   ( \n\
     max_over_time(mysql_global_variables_binlog_cache_size{instance=~\"$host\"}[1w]) \n\
     or \n\
@@ -7842,6 +7846,8 @@ or on() ( \n\
   mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"} \n\
 ) \n\
 and on() ( \n\
+  mysql_global_variables_log_bin{instance=~\"$host\"} != 0 \n\
+  and \n\
   ( \n\
     max_over_time(mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"}[1w]) \n\
     or \n\
@@ -8010,6 +8016,8 @@ or on() vector(-1) \n\
   mysql_global_variables_binlog_stmt_cache_size_count{instance=~\"$host\"} \n\
 ) \n\
 and on() ( \n\
+  mysql_global_variables_log_bin{instance=~\"$host\"} != 0 \n\
+  and \n\
   ( \n\
     max_over_time(mysql_global_variables_binlog_stmt_cache_size{instance=~\"$host\"}[1w]) \n\
     or \n\
@@ -10294,6 +10302,33 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "name": "host",
         "options": [],
         "query": "label_values(mysql_up, instance)",
+        "refresh": 2,
+        "refresh_on_load": false,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allFormat": "glob",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "prometheus"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Device",
+        "multi": true,
+        "multiFormat": "regex values",
+        "name": "device",
+        "options": [],
+        "query": "label_values({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total|rdsosmetrics_diskIO_readIOsPS\", instance=~\"$host\", device!~\"dm-.+\"}, device)",
         "refresh": 2,
         "refresh_on_load": false,
         "regex": "",
