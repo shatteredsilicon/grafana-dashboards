@@ -184,10 +184,6 @@
           {
             "title": "SSM Query Analytics",
             "url": "/qan/"
-          },
-          {
-            "title": "Using LoadAvg for Performance Optimization",
-            "url": "https://www.percona.com/blog/2006/12/04/using-loadavg-for-performance-optimization/"
           }
         ],
         "nullPointMode": "null",

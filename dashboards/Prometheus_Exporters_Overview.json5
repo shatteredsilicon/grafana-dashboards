@@ -198,11 +198,6 @@
         "links": [
           {
             "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
-          {
-            "targetBlank": true,
             "title": "Exporters and integrations",
             "url": "https://prometheus.io/docs/instrumenting/exporters/"
           }
@@ -325,11 +320,6 @@ avg( \n\
         "links": [
           {
             "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
-          {
-            "targetBlank": true,
             "title": "Exporters and integrations",
             "url": "https://prometheus.io/docs/instrumenting/exporters/"
           }
@@ -415,11 +405,6 @@ avg( \n\
         "links": [
           {
             "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
-          {
-            "targetBlank": true,
             "title": "Exporters and integrations",
             "url": "https://prometheus.io/docs/instrumenting/exporters/"
           }
@@ -503,11 +488,6 @@ avg( \n\
         "id": 1612,
         "interval": "$interval",
         "links": [
-          {
-            "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
           {
             "targetBlank": true,
             "title": "Exporters and integrations",
@@ -610,11 +590,6 @@ avg( \n\
         "lines": true,
         "linewidth": 1,
         "links": [
-          {
-            "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
           {
             "targetBlank": true,
             "title": "Exporters and integrations",
@@ -727,11 +702,6 @@ avg( \n\
         "lines": true,
         "linewidth": 1,
         "links": [
-          {
-            "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
           {
             "targetBlank": true,
             "title": "Exporters and integrations",
@@ -856,11 +826,6 @@ avg( \n\
         "links": [
           {
             "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
-          {
-            "targetBlank": true,
             "title": "Exporters and integrations",
             "url": "https://prometheus.io/docs/instrumenting/exporters/"
           }
@@ -957,11 +922,6 @@ avg( \n\
         "lines": true,
         "linewidth": 1,
         "links": [
-          {
-            "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
           {
             "targetBlank": true,
             "title": "Exporters and integrations",
@@ -1065,11 +1025,6 @@ avg( \n\
         "links": [
           {
             "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
-          {
-            "targetBlank": true,
             "title": "Exporters and integrations",
             "url": "https://prometheus.io/docs/instrumenting/exporters/"
           },
@@ -1119,11 +1074,6 @@ avg( \n\
         },
         "id": 2228,
         "links": [
-          {
-            "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
           {
             "targetBlank": true,
             "title": "Exporters and integrations",
@@ -1237,11 +1187,6 @@ avg( \n\
         "links": [
           {
             "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
-          {
-            "targetBlank": true,
             "title": "Exporters and integrations",
             "url": "https://prometheus.io/docs/instrumenting/exporters/"
           },
@@ -1330,11 +1275,6 @@ avg( \n\
         "id": 314,
         "interval": "$interval",
         "links": [
-          {
-            "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
           {
             "targetBlank": true,
             "title": "Exporters and integrations",
@@ -1433,11 +1373,6 @@ avg( \n\
         "links": [
           {
             "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
-          {
-            "targetBlank": true,
             "title": "Exporters and integrations",
             "url": "https://prometheus.io/docs/instrumenting/exporters/"
           }
@@ -1521,11 +1456,6 @@ avg( \n\
         "id": 25,
         "interval": "$interval",
         "links": [
-          {
-            "targetBlank": true,
-            "title": "Understanding Prometheus Exporters",
-            "url": "https://www.percona.com/blog/2018/02/20/understand-prometheus-exporters-percona-monitoring-management-pmm/"
-          },
           {
             "targetBlank": true,
             "title": "Exporters and integrations",
