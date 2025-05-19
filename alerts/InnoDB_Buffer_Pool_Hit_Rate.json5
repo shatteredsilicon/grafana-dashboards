@@ -1,0 +1,103 @@
+{
+  "condition": "B",
+  "data": [
+    {
+      "refId": "A",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 300,
+        "to": 0
+      },
+      "datasourceUid": "{{ .DatasourceUID }}",
+      "model": {
+        "expr": "\
+min( \n\
+  vector(100) \n\
+  and on() ( \n\
+    min_over_time( \n\
+      ( \n\
+        rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"{{ .Instance }}\"}[2s]) \n\
+        or \n\
+        rate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"{{ .Instance }}\"}[2s]) \n\
+      )[15s:1s] \n\
+    ) <= 0 \n\
+  ) \n\
+  or on() ( \n\
+    ( \n\
+      1 - ( \n\
+        min_over_time( \n\
+          ( \n\
+            rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"{{ .Instance }}\"}[2s]) \n\
+            or \n\
+            rate(mysql_global_status_innodb_buffer_pool_reads_total{instance=~\"{{ .Instance }}\"}[2s]) \n\
+          )[15s:1s] \n\
+        ) / min_over_time( \n\
+          ( \n\
+            rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"{{ .Instance }}\"}[2s]) \n\
+            or \n\
+            rate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"{{ .Instance }}\"}[2s]) \n\
+          )[15s:1s] \n\
+        ) \n\
+      ) \n\
+    ) * 100 \n\
+  ) \n\
+) \n\
+",
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "A",
+        "legendFormat": "Cache Hit Rate",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "{{ .DatasourceUID }}"
+        }
+      }
+    },
+    {
+      "refId": "B",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 0,
+        "to": 0
+      },
+      "datasourceUid": "-100",
+      "model": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [99],
+              "type": "lt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": ["A"]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "datasource": {
+          "type": "__expr__",
+          "uid": "-100"
+        },
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "B",
+        "type": "classic_conditions"
+      }
+    }
+  ],
+  "for": "1m",
+  "ruleGroup": "{{ .Instance }}",
+  "title": "InnoDB Buffer Pool Hit Rate - {{ .Instance }}",
+  "uid": "ssm-innodb-buffer-pool-hit-rate-{{ .Instance }}",
+  "dashboardUID": "ssm-health-check",
+  "panelID": 13
+}
