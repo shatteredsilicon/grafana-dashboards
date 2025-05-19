@@ -367,13 +367,7 @@ irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
         },
         "id": 51,
         "interval": "$interval",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "Tuning the InnoDB Buffer Pool Size",
-            "url": "https://www.percona.com/blog/2015/06/02/80-ram-tune-innodb_buffer_pool_size/"
-          }
-        ],
+        "links": [],
         "maxDataPoints": 100,
         "options": {
           "colorMode": "none",
@@ -448,13 +442,7 @@ irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
         "height": "125px",
         "id": 52,
         "interval": "$interval",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "Tuning the InnoDB Buffer Pool Size",
-            "url": "https://www.percona.com/blog/2015/06/02/80-ram-tune-innodb_buffer_pool_size/"
-          }
-        ],
+        "links": [],
         "mappingType": 1,
         "mappingTypes": [
           {
@@ -901,13 +889,7 @@ irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
         },
         "lines": true,
         "linewidth": 2,
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "MySQL Queries and Questions",
-            "url": "https://www.percona.com/blog/2014/05/29/how-mysql-queries-and-questions-are-measured/"
-          }
-        ],
+        "links": [],
         "nullPointMode": "null",
         "options": {
           "alertThreshold": true
@@ -2555,7 +2537,7 @@ irate(mysql_global_status_bytes_sent_total{instance=~\"$host\"}[5m]) \n\
         "links": [
           {
             "title": "Detailed descriptions about metrics",
-            "url": "https://www.percona.com/doc/percona-monitoring-and-management/dashboard.mysql-overview.html#mysql-internal-memory-overview"
+            "url": "https://shatteredsilicon.net/software/ssm/documentation/latest/dashboard.mysql-overview.html#mysql-internal-memory-overview"
           }
         ],
         "nullPointMode": "null",

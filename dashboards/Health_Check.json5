@@ -1958,20 +1958,7 @@ max( \n\
       },
       "lines": false,
       "linewidth": 2,
-      "links": [
-        {
-          "targetBlank": true,
-          "title": "How to calculate a good InnoDB log file size",
-          "type": "absolute",
-          "url": "https://www.percona.com/blog/2008/11/21/how-to-calculate-a-good-innodb-log-file-size/"
-        },
-        {
-          "targetBlank": true,
-          "title": "System Variables (innodb_log_file_size)",
-          "type": "absolute",
-          "url": "http://www.percona.com/doc/percona-server/5.5/scalability/innodb_io_55.html#innodb_log_file_size"
-        }
-      ],
+      "links": [],
       "nullPointMode": "null",
       "percentage": false,
       "pointradius": 5,

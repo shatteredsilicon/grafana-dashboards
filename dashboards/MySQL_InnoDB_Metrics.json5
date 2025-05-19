@@ -1027,18 +1027,7 @@ irate(mysql_global_status_innodb_log_writes_total{instance=~\"$host\"}[5m]) \n\
         },
         "lines": false,
         "linewidth": 2,
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "How to calculate a good InnoDB log file size",
-            "url": "https://www.percona.com/blog/2008/11/21/how-to-calculate-a-good-innodb-log-file-size/"
-          },
-          {
-            "targetBlank": true,
-            "title": "System Variables (innodb_log_file_size)",
-            "url": "http://www.percona.com/doc/percona-server/5.5/scalability/innodb_io_55.html#innodb_log_file_size"
-          }
-        ],
+        "links": [],
         "nullPointMode": "null",
         "options": {
           "alertThreshold": true
@@ -1358,13 +1347,7 @@ irate(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[5m]) 
         },
         "lines": true,
         "linewidth": 2,
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "How to deal with MySQL deadlocks",
-            "url": "https://www.percona.com/blog/2014/10/28/how-to-deal-with-mysql-deadlocks/"
-          }
-        ],
+        "links": [],
         "nullPointMode": "null",
         "percentage": false,
         "pointradius": 5,
@@ -1477,11 +1460,6 @@ or \n\
             "targetBlank": true,
             "title": "Index Condition Pushdown optimisation - MySQL 5.7 Manual",
             "url": "https://dev.mysql.com/doc/refman/5.7/en/index-condition-pushdown-optimization.html"
-          },
-          {
-            "targetBlank": true,
-            "title": "ICP counters and how to interpret them",
-            "url": "https://www.percona.com/blog/2017/05/09/mariadb-handler_icp_-counters-what-they-are-and-how-to-use-them/"
           }
         ],
         "nullPointMode": "null",
