@@ -8,3 +8,4 @@ ssm-app/src/alerts
 .env/
 ssm-app/dist/
 node_modules
+dist/

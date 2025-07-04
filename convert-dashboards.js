@@ -2,8 +2,8 @@ const fs = require('fs');
 const JSON5 = require('json5');
 const path = require('path');
 
-const dashboardDir = 'src/dashboards';
-const alertDir = 'src/alerts';
+const dashboardDir = 'dashboards';
+const alertDir = 'alerts';
 
 const parseFunc = (dir, f) => {
   const filepath = path.join(dir, f);

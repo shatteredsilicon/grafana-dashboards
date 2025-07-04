@@ -2,35 +2,35 @@
   "type": "app",
   "name": "SSM",
   "id": "ssm-app",
-
   "info": {
-    "description": "Shattered Silicon Monitoring dashboards",
+    "description": "Shattered Silicon Monitoring panels/dashboards/alerts",
     "author": {
       "name": "Shattered Silicon"
     },
     "keywords": ["shatteredsilicon", "query analytics", "ssm", "qan"],
-    "links": [
-      {"name": "Project site", "url": "https://github.com/percona/qan-app"},
-      {"name": "AGPL-3 License",  "url": "https://github.com/percona/qan-app/blob/master/LICENSE"}
-    ],
     "logos": {
-      "small": "img/ssm-logo.png",
-      "large": "img/ssm-logo.png"
+      "small": "",
+      "large": ""
     },
-    "version": "1.0.0",
-    "updated": "2024-08-01"
+    "links": [],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
   },
   "includes": [
+    {"type": "panel", "name": "ssm-add-instance-panel"},
+    {"type": "panel", "name": "ssm-systemsummary-panel"},
+    {"type": "panel", "name": "ssm-monitoredinstances-panel"},
+    {"type": "panel", "name": "ssm-update-panel"},
+    {"type": "panel", "name": "ssm-rangestat-panel"},
+    {"type": "panel", "name": "ssm-filtertable-panel"},
+    {"type": "panel", "name": "ssm-qan-settings-panel"},
+    {"type": "panel", "name": "ssm-qan-panel"},
     {"type": "dashboard", "name": "ssm-qan", "path": "dashboards/ssm-qan.json"},
-    {"type": "panel", "name": "ssm-qan-app-panel"},
-    {"type": "dashboard", "name": "ssm-qan", "path": "dashboards/ssm-settings.json"},
-    {"type": "panel", "name": "ssm-qan-settings-app-panel"},
+    {"type": "dashboard", "name": "ssm-qan-settings", "path": "dashboards/ssm-settings.json"},
     {"type": "dashboard", "name": "ssm-summary", "path": "dashboards/ssm-summary.json"},
-    {"type": "panel", "name": "ssm-system-summary-app-panel"},
     {"type": "dashboard", "name": "ssm-add-instance", "path": "dashboards/ssm-add-instance.json"},
-    {"type": "panel", "name": "ssm-add-instance-app-panel"},
     {"type": "dashboard", "name": "ssm-list", "path": "dashboards/ssm-list.json"},
-    {"type": "panel", "name": "ssm-remote-instances-panel"},
     {"type": "dashboard", "name": "Home Dashboard", "path": "dashboards/Home_Dashboard.json"},
     {"type": "dashboard", "name": "MySQL_InnoDB_Compression", "path": "dashboards/MySQL_InnoDB_Compression.json"},
     {"type": "dashboard", "name": "MySQL_Command_Handler_Counters_Compare", "path": "dashboards/MySQL_Command_Handler_Counters_Compare.json"},
@@ -76,9 +76,8 @@
     {"type": "dashboard", "name": "Advisor - Tuning", "path": "dashboards/Advisor_Tuning.json"},
     {"type": "dashboard", "name": "Health Check", "path": "dashboards/Health_Check.json"}
   ],
-
   "dependencies": {
-    "grafanaVersion": "9.x.x",
-    "plugins": [ ]
+    "grafanaDependency": ">=10.0.3",
+    "plugins": []
   }
 }
