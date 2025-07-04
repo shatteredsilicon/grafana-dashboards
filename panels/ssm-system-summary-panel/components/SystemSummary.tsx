@@ -8,7 +8,7 @@ import { useInstance } from '../../useInstance';
 
 interface Props extends PanelProps<SystemSummaryOptions> { }
 
-export const SystemSummaryPanel: React.FC<Props> = ({ options, data, width, height }) => {
+export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
   const domRef = useRef<HTMLDivElement | null>(null);
 
   const [isMySQLSummaryLoaded, setIsMySQLSummaryLoaded] = useState(false);
@@ -27,7 +27,7 @@ export const SystemSummaryPanel: React.FC<Props> = ({ options, data, width, heig
   const [isMySQLSummaryOpen, setIsMySQLSummaryOpen] = useState(true);
   const [isMongoSummaryOpen, setIsMongoSummaryOpen] = useState(true);
 
-  const instanceData = useInstance();
+  const instanceData = useInstance(replaceVariables);
 
   function downloadSummary() {
     const date = (new Date()).toISOString().split('.')[0];

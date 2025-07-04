@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useQueryParam } from './useQueryParam';
+import { InterpolateFunction } from "@grafana/data";
+import _ from "lodash";
 
 export interface Instance {
   Created: string;
@@ -23,14 +24,16 @@ export interface Data {
   isNotExistSelected: boolean
 }
 
-export function useInstance() {
+export function useInstance(replaceVariables: InterpolateFunction) {
   const [data, setData] = useState<Data>();
+  const [prevHosts, setPrevHosts] = useState<string[] | string>();
 
   const instancesURL = '/qan-api/instances?deleted=no';
-  const queryParams = useQueryParam();
+  const rawHosts = replaceVariables('$host', undefined, 'json');
+  const hosts: string[] | string = JSON.parse(rawHosts.startsWith('"') || rawHosts.startsWith('[') ? rawHosts : `"${rawHosts}"`);
 
   useEffect(() => {
-    if (queryParams?.hosts === undefined) { return; }
+    if (_.isEqual(prevHosts, hosts)) { return; }
 
     fetch(instancesURL)
       .then(res => res.json())
@@ -40,7 +43,7 @@ export function useInstance() {
         ) as Instance[];
 
         const instances = (response.filter(
-          (i: Instance) => i.Subsystem === 'mysql' || i.Subsystem === 'mongo'
+          (i: Instance) => i.Subsystem === 'mysql' || i.Subsystem === 'mongo' || i.Subsystem === 'postgresql'
         ) as Instance[]);
 
         const agentsByParentUUID: { [key: string]: Instance } = {};
@@ -54,16 +57,18 @@ export function useInstance() {
           instanceMap[inst.Name].Agent = agentsByParentUUID[inst.ParentUUID];
         }
 
+        const filteredInstances = Array.isArray(hosts) ? hosts.map(host => instanceMap[host])?.filter(i => i !== undefined) : [instanceMap[hosts]].filter(i => i !== undefined);
         setData({
-          instance: queryParams?.hosts.map(host => instanceMap[host])?.[0],
-          instances,
+          instance: filteredInstances?.[0],
+          instances: filteredInstances,
           instanceMap,
-          isAllSelected: queryParams?.hosts.includes('All') || false,
-          isNotExistSelected: queryParams?.hosts.map(host => instanceMap[host])?.[0] === undefined && queryParams?.hosts.length !== undefined && queryParams?.hosts.length > 0
+          isAllSelected: (Array.isArray(hosts) ? hosts.includes('All') : hosts === 'All') || false,
+          isNotExistSelected: !filteredInstances.length && hosts.length > 0
         });
       })
-      .catch(err => console.log(err));
-  }, [queryParams?.hosts])
+      .catch(err => console.log(err))
+      .finally(()=>{ setPrevHosts(hosts); });
+  }, [hosts]);
 
   return data;
 }
