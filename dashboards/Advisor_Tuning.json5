@@ -185,7 +185,6 @@
         "content": "<center><b>Tuning advice on this dashboard is unlikely to be reliable until at least 24 hours of telemetry data has accumulated and you zoom out to at least 24 hours.</b></center>\n<center><b>If only some of your graphs are populated, but not all, you likely need to enable <code>innodb_monitor_enable=all</code>.  Check <a href=\"https://shatteredsilicon.net/software/ssm/documentation/latest/conf-mysql.html\" target=\"_blank\"> instructions </a> on how to configure MySQL for best results.</b></center>",
         "mode": "html"
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "datasource": {
@@ -300,7 +299,6 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -333,28 +331,35 @@
         "x": 12,
         "y": 4
       },
-      "queryThresholds": "A,B",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "exactThreshold": true,
-      "thresholdQuery": "C",
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "queryThresholds": "A,B",
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "exactThreshold": true,
+        "thresholdQuery": "C",
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -449,33 +454,6 @@ or on() vector(-2) \n\
       "datasource": {
         "type": "prometheus"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "rgba(161, 18, 18, 0.9)",
-                "value": null
-              },
-              {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 0.5
-              },
-              {
-                "color": "rgba(36, 112, 33, 0.97)",
-                "value": 1
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
       "gridPos": {
         "h": 8,
         "w": 6,
@@ -485,42 +463,32 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
       "options": {
-        "colorMode": "background_solid",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "value",
-        "text": {
-          "valueSize": 85
+        "queryThresholds": "B,A",
+        "thresholdQuery": "C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-2": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
       },
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-2"
-        }
-      ],
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -719,7 +687,6 @@ or on() vector(-1) \n\
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -771,25 +738,32 @@ or on() vector(-1) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "thresholdQuery": "C",
-      "queryThresholds": "A,B",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "thresholdQuery": "C",
+        "queryThresholds": "A,B",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -920,25 +894,32 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "thresholdQuery": "C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -1133,7 +1114,6 @@ or on() vector(-2) \n\
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "9.5.7",
       "pointradius": 1,
       "points": false,
       "renderer": "flot",
@@ -1223,24 +1203,32 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "thresholdQuery": "C",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B",
+        "thresholdQuery": "C",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -1397,8 +1385,7 @@ or on() vector(-2) \n\
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql, ``global_variables = 1`` and ``info_schema.innodb_metrics = 1`` in the mysqld_exporter config file.",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -1413,24 +1400,32 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "C",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "C",
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -1605,8 +1600,7 @@ or on() vector(-2) \n\
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, try setting: ``innodb_monitor_enable = all`` in mysql, ``global_variables = 1`` and ``info_schema.innodb_metrics = 1`` in the mysqld_exporter config file.",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -1711,7 +1705,6 @@ or on() vector(-2) \n\
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -1787,25 +1780,33 @@ max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{in
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "exactThreshold": true,
-      "thresholdQuery": "C",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "exactThreshold": true,
+        "thresholdQuery": "C",
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -2097,8 +2098,7 @@ When tuning innodb_log_file_size, the value refers to total size of redo logs (i
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -2113,25 +2113,33 @@ This tuning takes 1 week of observation, if you have changed the value, please w
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "exactThreshold": true,
-      "thresholdQuery": "C",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "exactThreshold": true,
+        "thresholdQuery": "C"
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -2469,8 +2477,7 @@ When tuning innodb_log_file_size, the value refers to total size of redo logs (i
 \n\
 This tuning takes 1 week of observation, if you have changed the value, please wait at least 1 week to check the new propose value.\
 ",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -2592,7 +2599,6 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -2770,25 +2776,32 @@ max( \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B",
+        "thresholdQuery": "C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -2961,25 +2974,32 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "thresholdQuery": "C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -3181,25 +3201,32 @@ or on() vector(-3) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B",
+        "thresholdQuery": "C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -3448,25 +3475,32 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "thresholdQuery": "C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -3851,7 +3885,6 @@ or on() vector(-3) \n\
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -3919,25 +3952,32 @@ max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$devic
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B",
+        "thresholdQuery": "C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -4119,25 +4159,32 @@ This tuning takes 1 week of observation, if you have changed the value, please w
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "thresholdQuery": "C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -4453,7 +4500,6 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -4521,25 +4567,32 @@ max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$devic
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B",
+        "thresholdQuery": "C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -4711,25 +4764,32 @@ This tuning takes 1 week of observation, if you have changed the value, please w
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "C",
+        "exactThreshold": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -4994,7 +5054,6 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -5070,25 +5129,32 @@ min(min_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m]
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "C",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "C",
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -5210,25 +5276,32 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "C",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "C"
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -5432,7 +5505,6 @@ or on() vector(-2) \n\
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -5480,26 +5552,34 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B,C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)",
-        "rgba(161, 18, 18, 0.9)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "D",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B,C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)",
+          "rgba(161, 18, 18, 0.9)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "D"
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -5759,8 +5839,7 @@ or on() vector(-2) \n\
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -5775,26 +5854,34 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A,C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)",
-        "rgba(161, 18, 18, 0.9)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "D",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A,C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)",
+          "rgba(161, 18, 18, 0.9)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "D"
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -6062,8 +6149,7 @@ or on() vector(-3) \n\
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating disk metrics.",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -6156,7 +6242,6 @@ or on() vector(-3) \n\
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -6204,26 +6289,34 @@ or on() vector(-3) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B,C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)",
-        "rgba(161, 18, 18, 0.9)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "D",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B,C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)",
+          "rgba(161, 18, 18, 0.9)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "D"
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -6381,8 +6474,7 @@ or on() vector(-2) \n\
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -6397,26 +6489,34 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A,C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)",
-        "rgba(161, 18, 18, 0.9)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "D",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A,C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)",
+          "rgba(161, 18, 18, 0.9)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "D"
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -6584,8 +6684,7 @@ or on() vector(-3) \n\
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -6678,7 +6777,6 @@ or on() vector(-3) \n\
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -6726,26 +6824,34 @@ or on() vector(-3) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B,C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)",
-        "rgba(161, 18, 18, 0.9)"
-      ],
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "D",
+      },
+      "options": {
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "D",
+        "queryThresholds": "A,B,C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)",
+          "rgba(161, 18, 18, 0.9)"
+        ]
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -6903,8 +7009,7 @@ or on() vector(-2) \n\
       ],
       "title": "Current",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -6919,26 +7024,34 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A,C",
-      "exactThreshold": true,
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)",
-        "rgba(161, 18, 18, 0.9)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "D",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A,C",
+        "exactThreshold": true,
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)",
+          "rgba(161, 18, 18, 0.9)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "D"
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -7106,8 +7219,7 @@ or on() vector(-3) \n\
       ],
       "title": "Proposed",
       "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.info_schema.tables = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "collapsed": false,
@@ -7214,7 +7326,6 @@ or on() vector(-3) \n\
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -7287,25 +7398,32 @@ and on() ( \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "C",
+        "exactThreshold": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -7458,25 +7576,32 @@ This tuning takes 1 week of observation, if you have changed the value, please w
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "C",
+        "exactThreshold": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -7715,7 +7840,6 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -7788,25 +7912,32 @@ and on() ( \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "C",
+        "exactThreshold": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -7964,25 +8095,32 @@ This tuning takes 1 week of observation, if you have changed the value, please w
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "C",
+        "exactThreshold": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -8226,7 +8364,6 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -8300,25 +8437,33 @@ and on() ( \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "thresholdQuery": "C",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "exactThreshold": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "A,B",
+        "thresholdQuery": "C",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "exactThreshold": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -8441,8 +8586,7 @@ or on() vector(-2) \n\
       ],
       "title": "Current",
       "type": "ssm-singlestat-panel",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.global_status = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
-      "format": "bytes"
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.global_status = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics."
     },
     {
       "datasource": {
@@ -8457,25 +8601,33 @@ or on() vector(-2) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-1"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "unit": "bytes"
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "C",
+        "exactThreshold": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -8615,8 +8767,7 @@ or on() vector(-3) \n\
       ],
       "title": "Proposed",
       "type": "ssm-singlestat-panel",
-      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.global_status = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics.",
-      "format": "bytes"
+      "description": "Note: If it's not working properly, make sure you have set: ``collect.global_variables = 1`` and ``collect.global_status = 1`` in the mysqld_exporter config file, node_exporter/rds_exporter is running and populating memory metrics."
     },
     {
       "collapsed": false,
@@ -8723,7 +8874,6 @@ or on() vector(-3) \n\
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "datasource": {
@@ -8803,18 +8953,18 @@ or on() vector(-3) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "A,B",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "exactThreshold": true,
-      "thresholdQuery": "C",
+      "options": {
+        "queryThresholds": "A,B",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "exactThreshold": true,
+        "thresholdQuery": "C"
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -8946,25 +9096,32 @@ or on() vector(-1) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "B,A",
-      "colors": [
-        "rgb(24, 27, 31)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(36, 112, 33, 0.97)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "thresholdQuery": "C",
-      "exactThreshold": true,
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "-2"
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-2": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ]
         }
-      ],
+      },
+      "options": {
+        "queryThresholds": "B,A",
+        "colors": [
+          "rgb(24, 27, 31)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(36, 112, 33, 0.97)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "thresholdQuery": "C",
+        "exactThreshold": true
+      },
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -9120,20 +9277,25 @@ or on() vector(-1) \n\
       "hideTimeOverride": false,
       "interval": "$interval",
       "links": [],
-      "maxDataPoints": 100,
-      "pluginVersion": "9.5.7",
-      "queryThresholds": "C,D",
-      "thresholdQuery": "A",
-      "colors": [
-        "rgba(36, 112, 33, 0.97)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(161, 18, 18, 0.9)"
-      ],
-      "valueFontSize": "150%",
-      "colorBackground": true,
-      "showTip": true,
-      "tipSeries": "B",
-      "tipPostfix": "% of total RAM",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes"
+        }
+      },
+      "options": {
+        "showDesc": true,
+        "descSeriesRefID": "B",
+        "descPostfix": "% of total RAM",
+        "queryThresholds": "C,D",
+        "thresholdQuery": "A",
+        "colors": [
+          "rgba(36, 112, 33, 0.97)",
+          "rgba(237, 129, 40, 0.89)",
+          "rgba(161, 18, 18, 0.9)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true
+      },
       "targets": [
         {
           "datasource": {
@@ -9290,8 +9452,7 @@ or on() vector(0) \n\
         }
       ],
       "title": "Total Memory Usage",
-      "type": "ssm-singlestat-panel",
-      "format": "bytes"
+      "type": "ssm-singlestat-panel"
     },
     {
       "datasource": {
@@ -9443,7 +9604,6 @@ or on() vector(0) \n\
           "sort": "none"
         }
       },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "datasource": {
@@ -9554,53 +9714,9 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
           "color": {
             "mode": "palette-classic"
           },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
+          "custom": {},
           "mappings": [],
-          "min": 0,
-          "max": 1,
-          "unit": "percentunit",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -9611,23 +9727,6 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
         "y": 147
       },
       "links": [],
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -9725,8 +9824,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         }
       ],
       "title": "Maximum Probable Connection Memory Usage",
-      "type": "ssm-blockmap-panel",
-      "format": "bytes"
+      "type": "ssm-blockmap-panel"
     },
     {
       "datasource": {
@@ -9737,53 +9835,9 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
           "color": {
             "mode": "palette-classic"
           },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
+          "custom": {},
           "mappings": [],
-          "min": 0,
-          "max": 1,
-          "unit": "percentunit",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -9794,23 +9848,6 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "y": 155
       },
       "links": [],
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -9862,8 +9899,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         }
       ],
       "title": "Non-InnoDB Maximum Connection Memory Usage",
-      "type": "ssm-blockmap-panel",
-      "format": "bytes"
+      "type": "ssm-blockmap-panel"
     },
     {
       "datasource": {
@@ -9874,53 +9910,9 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
           "color": {
             "mode": "palette-classic"
           },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
+          "custom": {},
           "mappings": [],
-          "min": 0,
-          "max": 1,
-          "unit": "percentunit",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -9931,23 +9923,6 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "y": 163
       },
       "links": [],
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -9983,8 +9958,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         }
       ],
       "title": "Theoretically Possible Other Connection Memory Usage",
-      "type": "ssm-blockmap-panel",
-      "format": "bytes"
+      "type": "ssm-blockmap-panel"
     },
     {
       "datasource": {
@@ -9995,53 +9969,9 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
           "color": {
             "mode": "palette-classic"
           },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
+          "custom": {},
           "mappings": [],
-          "min": 0,
-          "max": 1,
-          "unit": "percentunit",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -10052,23 +9982,6 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "y": 171
       },
       "links": [],
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -10088,9 +10001,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         }
       ],
       "title": "Replication Memory Usage",
-      "type": "ssm-blockmap-panel",
-      "format": "bytes",
-      "hideSeriesLines": true
+      "type": "ssm-blockmap-panel"
     },
     {
       "datasource": {
@@ -10101,53 +10012,9 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
           "color": {
             "mode": "palette-classic"
           },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 20,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
+          "custom": {},
           "mappings": [],
-          "min": 0,
-          "max": 1,
-          "unit": "percentunit",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -10158,23 +10025,6 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "y": 179
       },
       "links": [],
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "9.5.7",
       "targets": [
         {
           "calculatedInterval": "2m",
@@ -10274,8 +10124,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         }
       ],
       "title": "Maximum Global Memory Usage",
-      "type": "ssm-blockmap-panel",
-      "format": "bytes"
+      "type": "ssm-blockmap-panel"
     }
   ],
   "refresh": "1m",

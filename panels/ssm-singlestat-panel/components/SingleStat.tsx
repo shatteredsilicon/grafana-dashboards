@@ -25,6 +25,7 @@ const getStyles = (theme: GrafanaTheme2, options: SingleStatOptions) => {
       font-size: ${options.prefixFontSize};
     `,
     value: css`
+      white-space: nowrap;
       font-size: ${options.valueFontSize};
     `,
     postfix: css`
@@ -78,7 +79,7 @@ export const SingleStatPanel: React.FC<Props> = ({ options, data, width, height 
     thresholdValue !== undefined && thresholds?.length && setColor(getColor(thresholds, thresholdValue, options.exactThreshold))
     formattedValue && setValueStr(`${formattedValue.text}${formattedValue.suffix !== undefined ? ' ' + formattedValue.suffix : ''}`);
     descField && descField.values.length > 0 && setDescStr(`${options.descPrefix === undefined ? '' : options.descPrefix}${descField.values[descField.values.length-1]}${options.descPostfix === undefined ? '' : options.descPostfix}`);
-    valueField && timeField && setSparkline({y: valueField, x: timeField});
+    valueField && timeField && options.sparkline.show ? setSparkline({y: valueField, x: timeField}) : setSparkline(undefined);
   }, [data, options]);
 
   function getColor(thresholds: number[], value: number, exactThreshold: boolean = false) {
@@ -110,6 +111,7 @@ export const SingleStatPanel: React.FC<Props> = ({ options, data, width, height 
             max: options.sparkline.maxValue,
             custom: {
               lineColor: options.sparkline.lineColor,
+              lineStyle: { fill: 'solid' },
               fillColor: options.sparkline.fillColor
             }
           }}

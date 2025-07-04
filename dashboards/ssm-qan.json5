@@ -590,9 +590,10 @@ sum( \n\
                 }
             ],
             "title": "SSM Query Analytics",
-            "type": "ssm-qan-app-panel"
+            "type": "ssm-qan-panel"
         }
     ],
+    "preload": true,
     "refresh": false,
     "schemaVersion": 16,
     "style": "dark",

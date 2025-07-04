@@ -200,25 +200,43 @@
         "type": "row"
       },
       {
-        "colorBackground": false,
-        "colorValue": true,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
+        "options": {
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "colorBackground": false,
+          "colorValue": true,
+          "thresholds": "60,80",
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "maxValue": 110,
+            "minValue": 0,
+            "show": true
+          }
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "null": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "unit": "percent"
+          }
+        },
         "datasource": {
           "type": "prometheus"
         },
         "description": "CPU Usage by Prometheus Process Only",
-        "format": "percent",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
         "gridPos": {
           "h": 3,
           "w": 3,
@@ -227,38 +245,8 @@
         },
         "id": 93,
         "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
         "maxDataPoints": 100,
         "nullPointMode": "connected",
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "maxValue": 110,
-          "minValue": 0,
-          "show": true
-        },
         "tableColumn": "",
         "targets": [
           {
@@ -287,39 +275,47 @@
             "refId": "A"
           }
         ],
-        "thresholds": "60,80",
         "title": "CPU Usage",
-        "type": "ssm-singlestat-panel",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
+        "type": "ssm-singlestat-panel"
       },
       {
-        "colorBackground": false,
-        "colorValue": true,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
+        "options": {
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "colorBackground": false,
+          "colorValue": true,
+          "thresholds": "30,60",
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "maxValue": 100,
+            "minValue": 0,
+            "show": true
+          }
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "null": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "unit": "percent"
+          }
+        },
         "datasource": {
           "type": "prometheus"
         },
         "description": "Memory Allocated and In use by Prometheus Process Only",
-        "format": "percent",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
         "gridPos": {
           "h": 3,
           "w": 3,
@@ -328,38 +324,8 @@
         },
         "id": 95,
         "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
         "maxDataPoints": 100,
         "nullPointMode": "connected",
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "maxValue": 100,
-          "minValue": 0,
-          "show": true
-        },
         "tableColumn": "",
         "targets": [
           {
@@ -373,18 +339,8 @@
             "refId": "A"
           }
         ],
-        "thresholds": "30,60",
         "title": "Memory Usage",
-        "type": "ssm-singlestat-panel",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
+        "type": "ssm-singlestat-panel"
       },
       {
         "datasource": {
@@ -797,25 +753,43 @@ max(irate(prometheus_tsdb_head_samples_appended_total[5m])) \n\
         "type": "stat"
       },
       {
-        "colorBackground": false,
-        "colorValue": true,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
+        "options": {
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "colorBackground": false,
+          "colorValue": true,
+          "thresholds": "60,80",
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "maxValue": 100,
+            "minValue": 0,
+            "show": true
+          }
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "null": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "unit": "percent"
+          }
+        },
         "datasource": {
           "type": "prometheus"
         },
         "description": "Estimated usage of Memory Resources based on current Ingest rate",
-        "format": "percent",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
         "gridPos": {
           "h": 3,
           "w": 3,
@@ -824,39 +798,8 @@ max(irate(prometheus_tsdb_head_samples_appended_total[5m])) \n\
         },
         "id": 102,
         "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
         "maxDataPoints": 100,
         "nullPointMode": "connected",
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "maxValue": 100,
-          "minValue": 0,
-          "show": true
-        },
-        "tableColumn": "",
         "targets": [
           {
             "datasource": {
@@ -869,18 +812,8 @@ max(irate(prometheus_tsdb_head_samples_appended_total[5m])) \n\
             "refId": "A"
           }
         ],
-        "thresholds": "60,80",
         "title": "Capacity Usage",
-        "type": "ssm-singlestat-panel",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
+        "type": "ssm-singlestat-panel"
       },
       {
         "collapsed": true,
@@ -4659,27 +4592,45 @@ or \n\
         "id": 81,
         "panels": [
           {
-            "colorBackground": false,
-            "colorValue": true,
-            "colors": [
-              "rgba(50, 172, 45, 0.97)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(245, 54, 54, 0.9)"
-            ],
+            "options": {
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "colorBackground": false,
+              "colorValue": true,
+              "thresholds": "70,90",
+              "sparkline": {
+                "fillColor": "rgba(31, 118, 189, 0.18)",
+                "full": true,
+                "lineColor": "rgb(31, 120, 193)",
+                "maxValue": 100,
+                "minValue": 0,
+                "show": true
+              }
+            },
+            "fieldConfig": {
+              "defaults": {
+                "mappings": [
+                  {
+                    "options": {
+                      "null": {
+                        "text": "N/A"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ],
+                "unit": "percent"
+              }
+            },
             "datasource": {
               "type": "prometheus"
             },
             "decimals": 0,
             "editable": true,
             "error": false,
-            "format": "percent",
-            "gauge": {
-              "maxValue": 100,
-              "minValue": 0,
-              "show": false,
-              "thresholdLabels": false,
-              "thresholdMarkers": true
-            },
             "gridPos": {
               "h": 3,
               "w": 4,
@@ -4696,39 +4647,8 @@ or \n\
                 "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables&var-host=ssm-server"
               }
             ],
-            "mappingType": 1,
-            "mappingTypes": [
-              {
-                "name": "value to text",
-                "value": 1
-              },
-              {
-                "name": "range to text",
-                "value": 2
-              }
-            ],
             "maxDataPoints": 100,
             "nullPointMode": "connected",
-            "postfix": "",
-            "postfixFontSize": "80%",
-            "prefix": "",
-            "prefixFontSize": "80%",
-            "rangeMaps": [
-              {
-                "from": "null",
-                "text": "N/A",
-                "to": "null"
-              }
-            ],
-            "sparkline": {
-              "fillColor": "rgba(31, 118, 189, 0.18)",
-              "full": true,
-              "lineColor": "rgb(31, 120, 193)",
-              "maxValue": 100,
-              "minValue": 0,
-              "show": true
-            },
-            "tableColumn": "",
             "targets": [
               {
                 "calculatedInterval": "10m",
@@ -4772,36 +4692,50 @@ clamp_max( \n\
                 "step": 300
               }
             ],
-            "thresholds": "70,90",
             "title": "CPU Busy",
             "transparent": false,
-            "type": "ssm-singlestat-panel",
-            "valueFontSize": "80%",
-            "valueMaps": [],
-            "valueName": "current"
+            "type": "ssm-singlestat-panel"
           },
           {
-            "colorBackground": false,
-            "colorValue": true,
-            "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
-            ],
+            "options": {
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "colorBackground": false,
+              "colorValue": true,
+              "thresholds": "10,20",
+              "sparkline": {
+                "fillColor": "rgba(31, 118, 189, 0.18)",
+                "full": false,
+                "lineColor": "rgb(31, 120, 193)",
+                "maxValue": 100,
+                "minValue": 0,
+                "show": true
+              }
+            },
+            "fieldConfig": {
+              "defaults": {
+                "mappings": [
+                  {
+                    "options": {
+                      "null": {
+                        "text": "N/A"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ],
+                "unit": "percent"
+              }
+            },
             "datasource": {
               "type": "prometheus"
             },
             "decimals": 0,
             "editable": true,
             "error": false,
-            "format": "percent",
-            "gauge": {
-              "maxValue": 100,
-              "minValue": 0,
-              "show": false,
-              "thresholdLabels": false,
-              "thresholdMarkers": true
-            },
             "gridPos": {
               "h": 3,
               "w": 4,
@@ -4812,39 +4746,8 @@ clamp_max( \n\
             "id": 47,
             "interval": "$interval",
             "links": [],
-            "mappingType": 1,
-            "mappingTypes": [
-              {
-                "name": "value to text",
-                "value": 1
-              },
-              {
-                "name": "range to text",
-                "value": 2
-              }
-            ],
             "maxDataPoints": 100,
             "nullPointMode": "connected",
-            "postfix": "",
-            "postfixFontSize": "50%",
-            "prefix": "",
-            "prefixFontSize": "80%",
-            "rangeMaps": [
-              {
-                "from": "null",
-                "text": "N/A",
-                "to": "null"
-              }
-            ],
-            "sparkline": {
-              "fillColor": "rgba(31, 118, 189, 0.18)",
-              "full": false,
-              "lineColor": "rgb(31, 120, 193)",
-              "maxValue": 100,
-              "minValue": 0,
-              "show": true
-            },
-            "tableColumn": "",
             "targets": [
               {
                 "calculatedInterval": "10m",
@@ -4863,13 +4766,9 @@ clamp_max( \n\
                 "step": 300
               }
             ],
-            "thresholds": "10,20",
             "title": "Mem Avail",
             "transparent": false,
-            "type": "ssm-singlestat-panel",
-            "valueFontSize": "80%",
-            "valueMaps": [],
-            "valueName": "current"
+            "type": "ssm-singlestat-panel"
           },
           {
             "datasource": {
