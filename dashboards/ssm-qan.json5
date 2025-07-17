@@ -615,7 +615,7 @@ sum( \n\
                 "query": "\
 SELECT `name`   \n\
 FROM `ssm`.`instances`  \n\
-WHERE `subsystem_id` IN (3, 4)  \n\
+WHERE `subsystem_id` IN (3, 4, 5)  \n\
     AND (`deleted` IS NULL OR `deleted` < '1971-01-01 00:00:01') \n\
 UNION   \n\
 (   \n\
