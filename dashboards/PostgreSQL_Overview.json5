@@ -4180,7 +4180,7 @@ sum( \n\
           "multi": false,
           "name": "db",
           "options": [],
-          "query": "label_values(pg_stat_database_tup_fetched{instance=~\"$host\",datname!~\"template.*|postgres\"} or pg_stat_database_tup_fetched_total{instance=~\"$host\",datname!~\"template.*|postgres\"},datname)",
+          "query": "label_values({__name__=~\"pg_stat_database_tup_fetched|pg_stat_database_tup_fetched_total\", instance=~\"$host\",datname!~\"template.*|postgres\"},datname)",
           "refresh": 2,
           "regex": "",
           "skipUrlSync": false,
