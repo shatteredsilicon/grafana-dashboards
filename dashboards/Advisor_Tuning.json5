@@ -865,7 +865,7 @@ clamp( \n\
     ) \n\
   ), \n\
   2000, \n\
-  1048576 \n\
+  262144 \n\
 ) \n\
 ",
           "format": "time_series",
@@ -997,7 +997,7 @@ clamp( \n\
     ) \n\
   ), \n\
   2000, \n\
-  1048576 \n\
+  262144 \n\
 ) \n\
 and on() ( \n\
   mysql_global_variables_table_open_cache{instance=~\"$host\"} >= 0 \n\
