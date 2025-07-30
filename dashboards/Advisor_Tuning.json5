@@ -382,36 +382,30 @@
           "errors": {},
           "expr": "\
 clamp( \n\
-  mysql_info_schema_table_count{instance=~\"$host\"} \n\
-  and on() ( \n\
-    mysql_info_schema_table_count{instance=~\"$host\"} / mysql_global_variables_table_definition_cache{instance=~\"$host\"} < 0.9 \n\
+  2^( \n\
+    floor( \n\
+      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+    ) + 1 \n\
   ) \n\
-  or on() ( \n\
+  and on() ( \n\
+    mysql_info_schema_table_count{instance=~\"$host\"} \n\
+    / \n\
     2^( \n\
       floor( \n\
         log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
       ) + 1 \n\
     ) \n\
-    and on() ( \n\
-      mysql_info_schema_table_count{instance=~\"$host\"} \n\
-      / \n\
-      2^( \n\
-        floor( \n\
-          log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
-        ) + 1 \n\
-      ) \n\
-      < 0.9 \n\
-    ) \n\
-    or on() ( \n\
-      2^( \n\
-        floor( \n\
-          log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
-        ) + 2 \n\
-      ) \n\
+    < 0.9 \n\
+  ) \n\
+  or on() ( \n\
+    2^( \n\
+      floor( \n\
+        log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+      ) + 2 \n\
     ) \n\
   ), \n\
   400, \n\
-  2097152 \n\
+  131072 \n\
 ) \n\
 ",
           "format": "time_series",
@@ -537,36 +531,30 @@ or on() vector(-2) \n\
           "errors": {},
           "expr": "\
 clamp( \n\
-  mysql_info_schema_table_count{instance=~\"$host\"} \n\
-  and on() ( \n\
-    mysql_info_schema_table_count{instance=~\"$host\"} / mysql_global_variables_table_definition_cache{instance=~\"$host\"} < 0.9 \n\
+  2^( \n\
+    floor( \n\
+      log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+    ) + 1 \n\
   ) \n\
-  or on() ( \n\
+  and on() ( \n\
+    mysql_info_schema_table_count{instance=~\"$host\"} \n\
+    / \n\
     2^( \n\
       floor( \n\
         log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
       ) + 1 \n\
     ) \n\
-    and on() ( \n\
-      mysql_info_schema_table_count{instance=~\"$host\"} \n\
-      / \n\
-      2^( \n\
-        floor( \n\
-          log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
-        ) + 1 \n\
-      ) \n\
-      < 0.9 \n\
-    ) \n\
-    or on() ( \n\
-      2^( \n\
-        floor( \n\
-          log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
-        ) + 2 \n\
-      ) \n\
+    < 0.9 \n\
+  ) \n\
+  or on() ( \n\
+    2^( \n\
+      floor( \n\
+        log2(mysql_info_schema_table_count{instance=~\"$host\"}) \n\
+      ) + 2 \n\
     ) \n\
   ), \n\
   400, \n\
-  2097152 \n\
+  131072 \n\
 ) \n\
 and on() ( \n\
   mysql_global_variables_table_definition_cache{instance=~\"$host\"} >= 0 \n\
@@ -877,7 +865,7 @@ clamp( \n\
     ) \n\
   ), \n\
   2000, \n\
-  1048576 \n\
+  262144 \n\
 ) \n\
 ",
           "format": "time_series",
@@ -1009,7 +997,7 @@ clamp( \n\
     ) \n\
   ), \n\
   2000, \n\
-  1048576 \n\
+  262144 \n\
 ) \n\
 and on() ( \n\
   mysql_global_variables_table_open_cache{instance=~\"$host\"} >= 0 \n\
