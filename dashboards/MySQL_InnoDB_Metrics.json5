@@ -1077,7 +1077,7 @@ irate(mysql_global_status_innodb_log_writes_total{instance=~\"$host\"}[5m]) \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} or mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} or mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}",
+            "expr": "mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} or mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} or mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} or mysql_global_variables_innodb_log_file_size{instance=~\"$host\"}",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1210,9 +1210,13 @@ irate(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[5m]) 
             "errors": {},
             "expr": "\
 ( \n\
+  mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+  or \n\
   mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
   or \n\
   mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
+  or \n\
+  mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
 ) / ( \n\
   rate(mysql_global_status_innodb_os_log_written{instance=~\"$host\"}[$interval]) \n\
   or \n\

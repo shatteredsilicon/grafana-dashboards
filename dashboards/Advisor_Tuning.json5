@@ -1815,6 +1815,8 @@ max_over_time(mysql_info_schema_innodb_metrics_log_log_max_modified_age_async{in
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
+mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+or \n\
 mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
 or \n\
 mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1843,6 +1845,8 @@ clamp( \n\
   2^( \n\
     ceil( \n\
       log2( \n\
+        mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+        or \n\
         mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
         or \n\
         mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1859,6 +1863,8 @@ clamp( \n\
       or \n\
       max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[1w]) \n\
     ) < scalar( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1869,6 +1875,8 @@ clamp( \n\
   and on() ( \n\
     max_over_time( \n\
       ( \n\
+        mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+        or \n\
         mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
         or \n\
         mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1877,6 +1885,8 @@ clamp( \n\
       )[1w:2m] \n\
     ) == min_over_time( \n\
       ( \n\
+        mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+        or \n\
         mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
         or \n\
         mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1890,6 +1900,8 @@ clamp( \n\
       2^( \n\
         floor( \n\
           log2( \n\
+            mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+            or \n\
             mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
             or \n\
             mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1900,6 +1912,8 @@ clamp( \n\
       ) \n\
       and on() ( \n\
         ( \n\
+          mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+          or \n\
           mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
           or \n\
           mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1910,6 +1924,8 @@ clamp( \n\
         2^( \n\
           floor( \n\
             log2( \n\
+              mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+              or \n\
               mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
               or \n\
               mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1923,6 +1939,8 @@ clamp( \n\
       or on() 2^( \n\
         floor( \n\
           log2( \n\
+            mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+            or \n\
             mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
             or \n\
             mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1940,6 +1958,8 @@ clamp( \n\
         or \n\
         max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[1w]) \n\
       ) > scalar( \n\
+        mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+        or \n\
         mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
         or \n\
         mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1950,6 +1970,8 @@ clamp( \n\
     and on() ( \n\
       max_over_time( \n\
         ( \n\
+          mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+          or \n\
           mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
           or \n\
           mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1958,6 +1980,8 @@ clamp( \n\
         )[1w:2m] \n\
       ) == min_over_time( \n\
         ( \n\
+          mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+          or \n\
           mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
           or \n\
           mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1968,6 +1992,8 @@ clamp( \n\
     ) \n\
     or on() ( \n\
       ( \n\
+        mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+        or \n\
         mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
         or \n\
         mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -1998,6 +2024,8 @@ clamp( \n\
           "errors": {},
           "expr": "\
 ( \n\
+  mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+  or \n\
   mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
   or \n\
   mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2007,6 +2035,8 @@ clamp( \n\
 and on() ( \n\
   max_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2015,6 +2045,8 @@ and on() ( \n\
     )[1w:1w] \n\
   ) == min_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2025,6 +2057,8 @@ and on() ( \n\
   and \n\
   max_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2033,6 +2067,8 @@ and on() ( \n\
     )[1w:2m] \n\
   ) == min_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2109,6 +2145,8 @@ clamp( \n\
   2^( \n\
     ceil( \n\
       log2( \n\
+        mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+        or \n\
         mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
         or \n\
         mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2125,6 +2163,8 @@ clamp( \n\
       or \n\
       max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[1w]) \n\
     ) < scalar( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2135,6 +2175,8 @@ clamp( \n\
   and on() ( \n\
     max_over_time( \n\
       ( \n\
+        mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+        or \n\
         mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
         or \n\
         mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2143,6 +2185,8 @@ clamp( \n\
       )[1w:2m] \n\
     ) == min_over_time( \n\
       ( \n\
+        mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+        or \n\
         mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
         or \n\
         mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2156,6 +2200,8 @@ clamp( \n\
       2^( \n\
         floor( \n\
           log2( \n\
+            mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+            or \n\
             mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
             or \n\
             mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2166,6 +2212,8 @@ clamp( \n\
       ) \n\
       and on() ( \n\
         ( \n\
+          mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+          or \n\
           mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
           or \n\
           mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2176,6 +2224,8 @@ clamp( \n\
         2^( \n\
           floor( \n\
             log2( \n\
+              mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+              or \n\
               mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
               or \n\
               mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2189,6 +2239,8 @@ clamp( \n\
       or on() 2^( \n\
         floor( \n\
           log2( \n\
+            mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+            or \n\
             mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
             or \n\
             mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2206,6 +2258,8 @@ clamp( \n\
         or \n\
         max_over_time(mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age{instance=~\"$host\"}[1w]) \n\
       ) > scalar( \n\
+        mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+        or \n\
         mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
         or \n\
         mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2216,6 +2270,8 @@ clamp( \n\
     and on() ( \n\
       max_over_time( \n\
         ( \n\
+          mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+          or \n\
           mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
           or \n\
           mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2224,6 +2280,8 @@ clamp( \n\
         )[1w:2m] \n\
       ) == min_over_time( \n\
         ( \n\
+          mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+          or \n\
           mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
           or \n\
           mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2234,6 +2292,8 @@ clamp( \n\
     ) \n\
     or on() ( \n\
       ( \n\
+        mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+        or \n\
         mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
         or \n\
         mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2248,6 +2308,8 @@ clamp( \n\
 and on() ( \n\
   max_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2256,6 +2318,8 @@ and on() ( \n\
     )[1w:1w] \n\
   ) == min_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2266,6 +2330,8 @@ and on() ( \n\
   and \n\
   max_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2274,6 +2340,8 @@ and on() ( \n\
     )[1w:2m] \n\
   ) == min_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2301,6 +2369,8 @@ or on() vector(-1) \n\
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
+mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+or \n\
 mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
 or \n\
 mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2326,6 +2396,8 @@ or vector(-2) \n\
           "errors": {},
           "expr": "\
 ( \n\
+  mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+  or \n\
   mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
   or \n\
   mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2335,6 +2407,8 @@ or vector(-2) \n\
 and on() ( \n\
   max_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2343,6 +2417,8 @@ and on() ( \n\
     )[1w:1w] \n\
   ) == min_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2353,6 +2429,8 @@ and on() ( \n\
   and \n\
   max_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\
@@ -2361,6 +2439,8 @@ and on() ( \n\
     )[1w:2m] \n\
   ) == min_over_time( \n\
     ( \n\
+      mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+      or \n\
       mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
       or \n\
       mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} * mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} \n\

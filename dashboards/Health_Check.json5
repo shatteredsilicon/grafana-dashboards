@@ -2045,6 +2045,8 @@ increase(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[1h
           "datasourceErrors": {},
           "errors": {},
           "expr": "\
+mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+or \n\
 mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
 or \n\
 mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
@@ -2067,6 +2069,8 @@ mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
     or \n\
     increase(mysql_global_status_innodb_os_log_written_total{instance=~\"$host\"}[1h]) \n\
   ) / ( \n\
+    mysql_global_status_innodb_redo_log_capacity_resized{instance=~\"$host\"} \n\
+    or \n\
     mysql_global_variables_innodb_redo_log_capacity{instance=~\"$host\"} \n\
     or \n\
     mysql_global_variables_innodb_log_files_in_group{instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
