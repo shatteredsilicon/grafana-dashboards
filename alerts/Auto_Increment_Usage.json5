@@ -1,0 +1,71 @@
+{
+  "condition": "B",
+  "data": [
+    {
+      "refId": "A",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 300,
+        "to": 0
+      },
+      "datasourceUid": "{{ .DatasourceUID }}",
+      "model": {
+        "expr": "topk(5, mysql_info_schema_auto_increment_column{instance=~\"{{ .Instance }}\"} / mysql_info_schema_auto_increment_column_max{instance=~\"{{ .Instance }}\"})",
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "A",
+        "legendFormat": "{{ `{{ schema }}.{{ table }}` }}",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "{{ .DatasourceUID }}"
+        }
+      }
+    },
+    {
+      "refId": "B",
+      "queryType": "",
+      "relativeTimeRange": {
+        "from": 0,
+        "to": 0
+      },
+      "datasourceUid": "-100",
+      "model": {
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [0.8],
+              "type": "gt"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": ["A"]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "datasource": {
+          "type": "__expr__",
+          "uid": "-100"
+        },
+        "hide": false,
+        "intervalMs": 1000,
+        "maxDataPoints": 43200,
+        "refId": "B",
+        "type": "classic_conditions"
+      }
+    }
+  ],
+  "for": "5m",
+  "ruleGroup": "{{ .Instance }}",
+  "title": "Top 5 Auto Increment Usage - {{ .Instance }}",
+  "uid": "ssm-top-5-auto-increment-usage-{{ .Instance }}",
+  "dashboardUID": "ssm-health-check",
+  "panelID": 14
+}
