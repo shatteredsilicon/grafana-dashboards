@@ -1066,18 +1066,6 @@
         "type": "table-old"
       },
       {
-        "transformations": [
-          {
-            "id": "merge",
-            "options": {}
-          },
-          {
-            "id": "prepareTimeSeries",
-            "options": {
-              "format": "wide"
-            }
-          }
-        ],
         "bars": false,
         "dashLength": 10,
         "dashes": false,
@@ -1096,7 +1084,7 @@
         },
         "gridPos": {
           "h": 7,
-          "w": 12,
+          "w": 24,
           "x": 0,
           "y": 51
         },
@@ -1133,11 +1121,11 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "topk(1, mysql_info_schema_auto_increment_column{instance=~\"$host\"} / mysql_info_schema_auto_increment_column_max{instance=~\"$host\"})",
+            "expr": "topk(5, mysql_info_schema_auto_increment_column{instance=~\"$host\"} / mysql_info_schema_auto_increment_column_max{instance=~\"$host\"})",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
-            "legendFormat": "Max",
+            "legendFormat": "{{ schema }}.{{ table }}",
             "metric": "",
             "refId": "B",
             "step": 300
@@ -1145,7 +1133,7 @@
         ],
         "thresholds": [],
         "timeRegions": [],
-        "title": "Max Auto Increment Usage",
+        "title": "Top 5 Auto Increment Usage",
         "description": "Note: If these graphs are empty, check that you have: ``auto_increment.columns = 1`` set in your mysqld_exporter.conf",
         "tooltip": {
           "msResolution": false,
@@ -1170,11 +1158,7 @@
             "format": "percentunit",
             "logBase": 1,
             "min": 0,
-            "show": true
-          },
-          {
-            "format": "short",
-            "logBase": 1,
+            "max": 1,
             "show": true
           }
         ],
