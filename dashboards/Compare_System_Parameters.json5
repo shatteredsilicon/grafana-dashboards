@@ -678,6 +678,12 @@
             "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&$__all_variables"
           }
         ],
+        "fieldConfig": {
+          "defaults": {
+            "decimals": 2,
+            "unit": "bytes"
+          }
+        },
         "maxDataPoints": 100,
         "pluginVersion": "9.5.7",
         "repeat": "host",
@@ -704,8 +710,7 @@
           }
         ],
         "title": "$host - RAM",
-        "type": "ssm-rangestat-panel",
-        "format": "bytes"
+        "type": "ssm-rangestat-panel"
       },
       {
         "collapsed": false,

@@ -168,26 +168,10 @@
         "type": "row"
       },
       {
-        "colorBackground": false,
-        "colorValue": true,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
         "datasource": {
           "type": "prometheus"
         },
-        "decimals": 1,
         "description": "Shows the average CPU usage in percent per host for all exporters. An Exporter is a software library that provides metrics to SSM.\n\nNote that the CPU usage is only the CPU usage of the exporter itself. It does not include the additional resource usage that is required to produce metrics by the application or operating system.\n\nSee also:",
-        "format": "percent",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
         "gridPos": {
           "h": 3,
           "w": 6,
@@ -202,39 +186,42 @@
             "url": "https://prometheus.io/docs/instrumenting/exporters/"
           }
         ],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
         "maxDataPoints": 100,
         "nullPointMode": "connected",
-        "postfix": "",
-        "postfixFontSize": "80%",
-        "prefix": "",
-        "prefixFontSize": "80%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
+        "options": {
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "colorBackground": false,
+          "colorValue": true,
+          "thresholds": "5,19",
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "maxValue": 100,
+            "minValue": 0,
+            "show": true
           }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "maxValue": 100,
-          "minValue": 0,
-          "show": true
         },
-        "tableColumn": "",
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "null": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "unit": "percent",
+            "decimals": 1
+          }
+        },
         "targets": [
           {
             "datasource": {
@@ -263,18 +250,8 @@ avg( \n\
             "refId": "A"
           }
         ],
-        "thresholds": "5,19",
         "title": "Avg CPU Usage per Host",
-        "type": "ssm-singlestat-panel",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
+        "type": "ssm-singlestat-panel"
       },
       {
         "datasource": {
@@ -1047,25 +1024,10 @@ avg( \n\
         "type": "text"
       },
       {
-        "colorBackground": false,
-        "colorValue": true,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
         "datasource": {
           "type": "prometheus"
         },
         "description": "Show the CPU usage as a percentage for all Exporters on a per-host basis. An Exporter is a software library that provides metrics to SSM.\n\nSee also:",
-        "format": "percent",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
         "gridPos": {
           "h": 3,
           "w": 4,
@@ -1085,39 +1047,39 @@ avg( \n\
             "url": "/graph/d/ssm-prometheus-exporter-status/prometheus-exporter-status?$__url_time_range&$__all_variables"
           }
         ],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
+        "options": {
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "colorBackground": false,
+          "colorValue": true,
+          "thresholds": "5,10",
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "maxValue": 100,
+            "minValue": 0,
+            "show": true
           }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "postfix": "",
-        "postfixFontSize": "80%",
-        "prefix": "",
-        "prefixFontSize": "80%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "maxValue": 100,
-          "minValue": 0,
-          "show": true
         },
-        "tableColumn": "",
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "null": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "unit": "percent"
+          }
+        },
         "targets": [
           {
             "datasource": {
@@ -1131,18 +1093,8 @@ avg( \n\
             "refId": "A"
           }
         ],
-        "thresholds": "5,10",
         "title": "CPU  Used",
-        "type": "ssm-singlestat-panel",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
+        "type": "ssm-singlestat-panel"
       },
       {
         "datasource": {

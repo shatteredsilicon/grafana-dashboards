@@ -2571,6 +2571,12 @@ sum( \n\
           "x": 18,
           "y": 19
         },
+        "fieldConfig": {
+          "defaults": {
+            "decimals": 2,
+            "unit": "bytes"
+          }
+        },
         "interval": "$interval",
         "links": [],
         "pluginVersion": "9.5.7",
@@ -2600,8 +2606,7 @@ sum( \n\
             "step": 300
           }
         ],
-        "type": "ssm-rangestat-panel",
-        "format": "bytes"
+        "type": "ssm-rangestat-panel"
       },
       {
         "datasource": {

@@ -128,7 +128,7 @@
                         }
                     ],
                     "title": "SSM Add Instance",
-                    "type": "ssm-add-instance-app-panel"
+                    "type": "ssm-add-instance-panel"
                 }
             ],
             "repeat": null,
@@ -139,6 +139,7 @@
             "titleSize": "h6"
         }
     ],
+    "preload": true,
     "schemaVersion": 14,
     "style": "dark",
     "tags": [
@@ -180,5 +181,6 @@
     },
     "timezone": "browser",
     "title": "SSM Add Instance",
+    "uid": "ssm-add-instance",
     "version": 2
 }

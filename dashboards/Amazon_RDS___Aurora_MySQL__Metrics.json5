@@ -255,23 +255,8 @@
         "type": "stat"
       },
       {
-        "colorBackground": false,
-        "colorValue": true,
-        "colors": [
-          "rgba(50, 172, 45, 0.97)",
-          "rgba(237, 129, 40, 0.89)",
-          "rgba(245, 54, 54, 0.9)"
-        ],
         "datasource": "CloudWatch",
         "description": "The percentage of CPU used by an Aurora MySQL DB instance.",
-        "format": "percent",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
         "gridPos": {
           "h": 4,
           "w": 6,
@@ -281,39 +266,41 @@
         "height": "125px",
         "id": 15,
         "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
         "maxDataPoints": 100,
         "nullPointMode": "connected",
-        "postfix": "",
-        "postfixFontSize": "80%",
-        "prefix": "",
-        "prefixFontSize": "80%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
+        "options": {
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "colorBackground": false,
+          "colorValue": true,
+          "thresholds": "60,80",
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "maxValue": 100,
+            "minValue": 0,
+            "show": true
           }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "maxValue": 100,
-          "minValue": 0,
-          "show": true
         },
-        "tableColumn": "",
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "null": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "unit": "percent"
+          }
+        },
         "targets": [
           {
             "alias": "",
@@ -334,18 +321,9 @@
             "statistic": "Average"
           }
         ],
-        "thresholds": "60,80",
+        
         "title": "CPU Utilization",
-        "type": "ssm-singlestat-panel",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
+        "type": "ssm-singlestat-panel"
       },
       {
         "datasource": "CloudWatch",

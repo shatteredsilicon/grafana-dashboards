@@ -128,7 +128,7 @@
                         }
                     ],
                     "title": "SSM System Summary",
-                    "type": "ssm-system-summary-app-panel"
+                    "type": "ssm-system-summary-panel"
                 }
             ],
             "repeat": null,
@@ -139,6 +139,7 @@
             "titleSize": "h6"
         }
     ],
+    "preload": true,
     "schemaVersion": 14,
     "style": "dark",
     "tags": [
@@ -201,5 +202,6 @@
     },
     "timezone": "browser",
     "title": "SSM System Summary",
+    "uid": "ssm-system-summary",
     "version": 2
 }

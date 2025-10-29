@@ -128,7 +128,7 @@
                         }
                     ],
                     "title": "SSM Query Analytics Settings",
-                    "type": "ssm-qan-settings-app-panel"
+                    "type": "ssm-qan-settings-panel"
                 }
             ],
             "repeat": null,
@@ -139,6 +139,7 @@
             "titleSize": "h6"
         }
     ],
+    "preload": true,
     "schemaVersion": 14,
     "style": "dark",
     "tags": [
@@ -201,5 +202,6 @@
     },
     "timezone": "browser",
     "title": "SSM Query Analytics Settings",
+    "uid": "ssm-qan-settings",
     "version": 2
 }

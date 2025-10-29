@@ -298,24 +298,42 @@
         "type": "ssm-rangestat-panel"
       },
       {
-        "colorBackground": false,
-        "colorValue": true,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
+        "options": {
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "thresholds": "10,20",
+          "valueFontSize": "100%",
+          "colorBackground": false,
+          "colorValue": true,
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "maxValue": 100,
+            "minValue": 0,
+            "show": true
+          }
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "null": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "decimals": 2
+          }
+        },
         "datasource": {
           "type": "prometheus"
-        },
-        "decimals": 2,
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
         },
         "gridPos": {
           "h": 3,
@@ -325,39 +343,8 @@
         },
         "id": 57,
         "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
         "maxDataPoints": 100,
         "nullPointMode": "connected",
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "maxValue": 100,
-          "minValue": 0,
-          "show": true
-        },
-        "tableColumn": "",
         "targets": [
           {
             "datasource": {
@@ -370,18 +357,8 @@
             "refId": "A"
           }
         ],
-        "thresholds": "10,20",
         "title": "Load Average",
-        "type": "ssm-singlestat-panel",
-        "valueFontSize": "100%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
+        "type": "ssm-singlestat-panel"
       },
       {
         "datasource": {
@@ -394,6 +371,12 @@
           "y": 2
         },
         "id": 26,
+        "fieldConfig": {
+          "defaults": {
+            "decimals": 2,
+            "unit": "bytes"
+          }
+        },
         "interval": "$interval",
         "links": [],
         "pluginVersion": "9.5.7",
@@ -424,29 +407,13 @@
           }
         ],
         "title": "RAM",
-        "type": "ssm-rangestat-panel",
-        "format": "bytes"
+        "type": "ssm-rangestat-panel"
       },
       {
-        "colorBackground": false,
-        "colorValue": true,
-        "colors": [
-          "#d44a3a",
-          "rgba(237, 129, 40, 0.89)",
-          "#299c46"
-        ],
         "datasource": {
           "type": "prometheus"
         },
         "description": "Percent of Memory Available\nNote: on Modern Linux Kernels amount of Memory Available for application is not the same as Free+Cached+Buffers",
-        "format": "percent",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
         "gridPos": {
           "h": 3,
           "w": 3,
@@ -455,38 +422,41 @@
         },
         "id": 55,
         "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
+        "options": {
+          "colors": [
+            "#d44a3a",
+            "rgba(237, 129, 40, 0.89)",
+            "#299c46"
+          ],
+          "thresholds": "5,10",
+          "colorBackground": false,
+          "colorValue": true,
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "maxValue": 100,
+            "minValue": 0,
+            "show": true
           }
-        ],
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "null": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "unit": "percent",
+          }
+        },
         "maxDataPoints": 100,
         "nullPointMode": "connected",
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "maxValue": 100,
-          "minValue": 0,
-          "show": true
-        },
         "tableColumn": "",
         "targets": [
           {
@@ -500,18 +470,8 @@
             "refId": "A"
           }
         ],
-        "thresholds": "5,10",
         "title": "Memory Available",
-        "type": "ssm-singlestat-panel",
-        "valueFontSize": "100%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
+        "type": "ssm-singlestat-panel"
       },
       {
         "datasource": {
@@ -680,26 +640,44 @@
         "title": "Disk Space",
         "type": "stat"
       },
-      {
-        "colorBackground": false,
-        "colorValue": true,
-        "colors": [
-          "#d44a3a",
-          "rgba(237, 129, 40, 0.89)",
-          "#299c46"
-        ],
+      { 
+        "options": {
+          "colors": [
+            "#d44a3a",
+            "rgba(237, 129, 40, 0.89)",
+            "#299c46"
+          ],
+          "colorBackground": false,
+          "colorValue": true,
+          "thresholds": "5,20",
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "maxValue": 100,
+            "minValue": 0,
+            "show": true
+          }
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "null": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "unit": "percent"
+          }
+        },
         "datasource": {
           "type": "prometheus"
         },
         "description": "Lowest percent of the disk space available",
-        "format": "percent",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
         "gridPos": {
           "h": 3,
           "w": 3,
@@ -708,39 +686,8 @@
         },
         "id": 59,
         "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
         "maxDataPoints": 100,
         "nullPointMode": "connected",
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "maxValue": 100,
-          "minValue": 0,
-          "show": true
-        },
-        "tableColumn": "",
         "targets": [
           {
             "datasource": {
@@ -753,18 +700,8 @@
             "refId": "A"
           }
         ],
-        "thresholds": "5,20",
         "title": "Min Space Available",
-        "type": "ssm-singlestat-panel",
-        "valueFontSize": "100%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
+        "type": "ssm-singlestat-panel"
       },
       {
         "collapsed": false,

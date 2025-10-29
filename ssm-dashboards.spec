@@ -31,14 +31,12 @@ Dashboards are also a part of Percona Monitoring and Management project.
 
 
 %build
-pushd ssm-app
-    npm run build
-popd
+VERSION=%{version}-%{release} npm run build
 
 
 %install
 install -d %{buildroot}%{_datadir}/%{name}/ssm-app
-cp -pa ./ssm-app/dist %{buildroot}%{_datadir}/%{name}/ssm-app
+cp -pa ./dist %{buildroot}%{_datadir}/%{name}/ssm-app
 echo '%{version}-%{release}' > %{buildroot}%{_datadir}/%{name}/VERSION
 
 

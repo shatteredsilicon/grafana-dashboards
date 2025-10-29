@@ -247,7 +247,7 @@
             }
           }
         ],
-        "type": "table-old"
+        "type": "table"
       },
       {
         "columns": [
@@ -330,7 +330,7 @@
             }
           }
         ],
-        "type": "table-old"
+        "type": "table"
       },
       {
         "collapsed": false,
@@ -553,7 +553,7 @@
             }
           }
         ],
-        "type": "table-old"
+        "type": "table"
       },
       {
         "collapsed": false,
@@ -951,7 +951,7 @@
         "title": "Least Used Indexes by Rows Read",
         "description": "Note: If these graphs are empty, check that you have: ``info_schema.indexstats = 1`` set in your mysqld_exporter.conf",
         "transform": "timeseries_to_rows",
-        "type": "ssm-filtertable-panel",
+        "type": "table",
         "filterKey": "schema",
         "maxRows": 50,
         "filterIgnore": "mysql,information_schema,performance_schema"
@@ -1063,7 +1063,7 @@
         "title": "Top Tables by Auto Increment Usage",
         "description": "Note: If these graphs are empty, check that you have: ``auto_increment.columns = 1`` set in your mysqld_exporter.conf",
         "transform": "table",
-        "type": "table-old"
+        "type": "table"
       },
       {
         "bars": false,

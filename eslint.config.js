@@ -1,0 +1,8 @@
+const grafanaConfig = require("@grafana/eslint-config/flat");
+
+/**
+ * @type {Array<import('eslint').Linter.Config>}
+ */
+module.exports = [
+  ...grafanaConfig,
+];
