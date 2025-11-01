@@ -59,7 +59,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
             url: PanelCtrl.API.CHECK_FOR_UPDATE,
         }).then((res) => {
             $scope.latestVersion = res.data.version || '';
-            $scope.latestReleaseDate = res.data.release_date ? (new Date(res.data.release_date)).toLocaleString('en-US', PanelCtrl.RELEASE_DATE_OPTION) : '';
+            $scope.latestReleaseDate = res.data.release_date ? (new Date(res.data.release_date)).toLocaleString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}) : '';
             $scope.updateNeeded = res.data.update_needed || false;
             $scope.lastCheckDate = moment(Number(Date.now().toString())).locale('en').format('MMMM DD, H:mm');
         }).catch(() => {
@@ -80,7 +80,7 @@ export class PanelCtrl extends MetricsPanelCtrl {
             url: PanelCtrl.API.GET_CURRENT_VERSION,
         }).then((res) => {
             $scope.currentVersion = res.data.version;
-            $scope.currentReleaseDate = res.data.release_date ? (new Date(res.data.release_date)).toLocaleString('en-US', PanelCtrl.RELEASE_DATE_OPTION) : '';
+            $scope.currentReleaseDate = res.data.release_date ? (new Date(res.data.release_date)).toLocaleString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}) : '';
             $('#refresh').removeClass('fa-spin');
         }).catch(() => {
             $('#refresh').removeClass('fa-spin');
