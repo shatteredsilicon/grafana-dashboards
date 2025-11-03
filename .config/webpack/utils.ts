@@ -20,7 +20,7 @@ export function isWSL() {
   }
 }
 
-export function getPluginJson(dir) {
+export function getPluginJson(dir: string) {
   return require(`${dir}/plugin.json`);
 }
 
@@ -44,5 +44,5 @@ export async function getEntries(): Promise<Record<string, string>> {
       result[entryName] = module;
       return result;
     }, result);
-  }, {});
+  }, {} as { [key: string]: string });
 }
