@@ -8,17 +8,17 @@
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import LiveReloadPlugin from 'webpack-livereload-plugin';
+const LiveReloadPlugin = require('webpack-livereload-plugin');
 import path from 'path';
 import { glob } from 'glob';
-import ReplaceInFileWebpackPlugin from 'replace-in-file-webpack-plugin';
+const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
 
 import { isWSL } from './utils';
 import { DIST_DIR } from './constants';
 
 // Support bundling nested plugins by finding all plugin.json files in src directory
 // then checking for a sibling module.[jt]sx? file.
-export async function getEntries(env): Promise<any[]> {
+export async function getEntries(env: any): Promise<any[]> {
   const pluginsJson = await glob('panels/**/plugin.json', { absolute: true });
 
   const plugins = await Promise.all(
@@ -71,10 +71,13 @@ export async function getEntries(env): Promise<any[]> {
         '@grafana/data',
 
         // Mark legacy SDK imports as external if their name starts with the "grafana/" prefix
-        ({ request }, callback) => {
+        (
+          { request }: { request: string },
+          callback: (err?: Error, result?: string|string[]|object, type?: string)=>void
+        ) => {
           const prefix = 'grafana/';
-          const hasPrefix = (request) => request.indexOf(prefix) === 0;
-          const stripPrefix = (request) => request.substr(prefix.length);
+          const hasPrefix = (request: string) => request.indexOf(prefix) === 0;
+          const stripPrefix = (request: string) => request.substr(prefix.length);
 
           if (hasPrefix(request)) {
             return callback(undefined, stripPrefix(request));
@@ -99,20 +102,13 @@ export async function getEntries(env): Promise<any[]> {
             exclude: /(node_modules)/,
             test: /\.(js|jsx|ts|tsx)$/,
             use: {
-              loader: 'swc-loader',
+              loader: 'babel-loader',
               options: {
-                jsc: {
-                  baseUrl: path.resolve(__dirname),
-                  target: 'es2015',
-                  loose: false,
-                  parser: {
-                    syntax: 'typescript',
-                    tsx: true,
-                    decorators: false,
-                    dynamicImport: true,
-                  },
-                },
-              },
+                targets: "defaults",
+                presets: [
+                  '@babel/preset-env', '@babel/preset-typescript', '@babel/preset-react'
+                ]
+              }
             },
           },
           {
@@ -210,4 +206,4 @@ export async function getEntries(env): Promise<any[]> {
   return entries;
 }
 
-module.exports = (env) => getEntries(env);
+module.exports = (env: any) => getEntries(env);
