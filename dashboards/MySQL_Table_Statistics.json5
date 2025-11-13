@@ -215,7 +215,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "topk(10, sum(mysql_info_schema_table_rows{instance=~\"$host\"}) by (schema, table)) > 0",
+            "expr": "topk(10, sum(mysql_info_schema_table_rows{instance=~\"$host\"}) by (schema, table)) > 0 or topk(10, sum(mysql_mysql_innodb_table_rows{instance=~\"$host\"}) by (schema, table)) > 0",
             "instant": true,
             "interval": "5m",
             "intervalFactor": 1,
@@ -226,7 +226,11 @@
         ],
         "timeFrom": "5m",
         "title": "Largest Tables by Row Count",
-        "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
+        "description": "\
+Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` or ``mysql.innodb_table_stats = 1`` set in your mysqld_exporter.conf.\n\
+\n\
+When ``info_schema.tables`` is turned off, this graph represents the InnoDB Tables only.\n\
+",
         "transform": "table",
         "transformations": [
           {
@@ -298,7 +302,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "topk(10, sum(mysql_info_schema_table_size{instance=~\"$host\", component!=\"data_free\"}) by (schema, table)) > 0",
+            "expr": "topk(10, sum(mysql_info_schema_table_size{instance=~\"$host\", component!=\"data_free\"}) by (schema, table)) > 0 or topk(10, sum(mysql_mysql_innodb_table_size{instance=~\"$host\", component!=\"data_free\"}) by (schema, table)) > 0",
             "instant": true,
             "interval": "5m",
             "intervalFactor": 1,
@@ -309,7 +313,11 @@
         ],
         "timeFrom": "5m",
         "title": "Largest Tables by Size",
-        "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
+        "description": "\
+Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` or ``mysql.innodb_table_stats = 1`` set in your mysqld_exporter.conf.\n\
+\n\
+When ``info_schema.tables`` is turned off, this graph represents the InnoDB Tables only.\n\
+",
         "transform": "table",
         "transformations": [
           {
@@ -414,7 +422,11 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "sum(mysql_info_schema_table_size{instance=~\"$host\", component!=\"data_free\"})",
+            "expr": "\
+sum(mysql_mysql_innodb_table_size{instance=~\"$host\", component!=\"data_free\"}) \n\
+or \n\
+sum(mysql_info_schema_table_size{instance=~\"$host\", component!=\"data_free\"}) \n\
+",
             "interval": "$interval",
             "intervalFactor": 1,
             "legendFormat": "Data + Index Size",
@@ -441,7 +453,11 @@
         "thresholds": [],
         "timeRegions": [],
         "title": "Total Database Size",
-        "description": "Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` set in your mysqld_exporter.conf",
+        "description": "\
+Note: If these graphs are empty, check that you have: ``info_schema.tables.databases = *`` and ``info_schema.tables = 1`` or ``mysql.innodb_table_stats = 1`` set in your mysqld_exporter.conf.\n\
+\n\
+When ``info_schema.tables`` is turned off, this graph represents the InnoDB Tables only.\n\
+",
         "tooltip": {
           "msResolution": false,
           "shared": true,
