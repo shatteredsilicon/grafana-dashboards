@@ -5444,6 +5444,10 @@ or on() vector(-2) \n\
           "expr": "\
 ( \n\
   sum( \n\
+    mysql_mysql_innodb_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+  ) \n\
+  or \n\
+  sum( \n\
     mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
     and on (instance, schema, table) \n\
     mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
@@ -5451,6 +5455,8 @@ or on() vector(-2) \n\
   or \n\
   vector(0) \n\
 ) and on() ( \n\
+  mysql_mysql_innodb_table_count{instance=~\"$host\"} >= 0 \n\
+  or \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
 ",
@@ -5464,7 +5470,7 @@ or on() vector(-2) \n\
         }
       ],
       "title": "InnoDB Table Index Size",
-      "description": "Note: If you do not see any metric, try setting: ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
+      "description": "Note: If you do not see any metric, try setting: ``mysql.innodb_table_stats = 1`` or ``collect.info_schema.tables = 1`` in the mysqld_exporter config file.",
       "type": "timeseries"
     },
     {
@@ -5557,6 +5563,10 @@ clamp( \n\
     ) and on() ( \n\
       ( \n\
         sum( \n\
+          mysql_mysql_innodb_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+        ) \n\
+        or \n\
+        sum( \n\
           mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
           and on (instance, schema, table) \n\
           mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
@@ -5574,6 +5584,10 @@ clamp( \n\
           2^( \n\
             floor( \n\
               log2( \n\
+                sum( \n\
+                  mysql_mysql_innodb_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+                ) \n\
+                or \n\
                 sum( \n\
                   mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
                   and on (instance, schema, table) \n\
@@ -5600,10 +5614,16 @@ clamp( \n\
           mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
         ) \n\
       ) and on() ( \n\
-        sum( \n\
-          mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
-          and on (instance, schema, table) \n\
-          mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
+        ( \n\
+          sum( \n\
+            mysql_mysql_innodb_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+          ) \n\
+          or \n\
+          sum( \n\
+            mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+            and on (instance, schema, table) \n\
+            mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
+          ) \n\
         ) > scalar( \n\
           mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} * 0.9 \n\
         ) \n\
@@ -5643,7 +5663,12 @@ clamp( \n\
   ) \n\
 ) \n\
 and on() ( \n\
+  mysql_mysql_innodb_table_count{instance=~\"$host\"} >= 0 \n\
+  or \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
+) \n\
+and on() ( \n\
+  mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} > 0 \n\
 ) \n\
 ",
           "format": "time_series",
@@ -5736,6 +5761,8 @@ or on() ( \n\
           "expr": "\
 mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
 and on() ( \n\
+  mysql_mysql_innodb_table_count{instance=~\"$host\"} >= 0 \n\
+  or \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
 and on() ( \n\
@@ -5744,6 +5771,9 @@ and on() ( \n\
     or \n\
     node_memory_MemTotal_bytes{instance=\"$host\"} \n\
   ) >= 0 \n\
+) \n\
+and on() ( \n\
+  mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} > 0 \n\
 ) \n\
 or on() vector(-2) \n\
 ",
@@ -5835,6 +5865,10 @@ clamp( \n\
     ) and on() ( \n\
       ( \n\
         sum( \n\
+          mysql_mysql_innodb_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+        ) \n\
+        or \n\
+        sum( \n\
           mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
           and on (instance, schema, table) \n\
           mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
@@ -5852,6 +5886,10 @@ clamp( \n\
           2^( \n\
             floor( \n\
               log2( \n\
+                sum( \n\
+                  mysql_mysql_innodb_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+                ) \n\
+                or \n\
                 sum( \n\
                   mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
                   and on (instance, schema, table) \n\
@@ -5878,10 +5916,16 @@ clamp( \n\
           mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} \n\
         ) \n\
       ) and on() ( \n\
-        sum( \n\
-          mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
-          and on (instance, schema, table) \n\
-          mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
+        ( \n\
+          sum( \n\
+            mysql_mysql_innodb_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+          ) \n\
+          or \n\
+          sum( \n\
+            mysql_info_schema_table_size{instance=~\"$host\", component=\"index_length\"} \n\
+            and on (instance, schema, table) \n\
+            mysql_info_schema_table_version{instance=~\"$host\", engine=\"InnoDB\"} \n\
+          ) \n\
         ) > scalar( \n\
           mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} * 0.9 \n\
         ) \n\
@@ -5921,6 +5965,8 @@ clamp( \n\
   ) \n\
 ) \n\
 and on() ( \n\
+  mysql_mysql_innodb_table_count{instance=~\"$host\"} >= 0 \n\
+  or \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
 and on() ( \n\
@@ -5929,6 +5975,9 @@ and on() ( \n\
     or \n\
     node_memory_MemTotal_bytes{instance=\"$host\"} \n\
   ) >= 0 \n\
+) \n\
+and on() ( \n\
+  mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} > 0 \n\
 ) \n\
 or on() vector(-1) \n\
 ",
@@ -6039,6 +6088,8 @@ or on() ( \n\
           "expr": "\
 mysql_global_variables_innodb_buffer_pool_size{instance=~\"$host\"} \n\
 and on() ( \n\
+  mysql_mysql_innodb_table_count{instance=~\"$host\"} >= 0 \n\
+  or \n\
   mysql_info_schema_table_count{instance=~\"$host\"} >= 0 \n\
 ) \n\
 and on() ( \n\
@@ -6047,6 +6098,9 @@ and on() ( \n\
     or \n\
     node_memory_MemTotal_bytes{instance=\"$host\"} \n\
   ) >= 0 \n\
+) \n\
+and on() ( \n\
+  mysql_global_variables_innodb_buffer_pool_chunk_size{instance=~\"$host\"} > 0 \n\
 ) \n\
 or on() vector(-3) \n\
 ",
