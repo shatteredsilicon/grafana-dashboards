@@ -1293,7 +1293,19 @@ clamp( \n\
       ) + 1 \n\
     ) \n\
     and on() ( \n\
-      mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"} \n\
+      max_over_time( \n\
+        ( \n\
+          ( \n\
+            mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
+            or \n\
+            mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
+          ) - ( \n\
+            mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} \n\
+            or \n\
+            mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"} \n\
+          ) \n\
+        )[1w:2m] \n\
+      ) \n\
       / \n\
       2^( \n\
         floor( \n\
@@ -1473,7 +1485,19 @@ clamp( \n\
       ) + 1 \n\
     ) \n\
     and on() ( \n\
-      mysql_global_variables_innodb_log_buffer_size{instance=~\"$host\"} \n\
+      max_over_time( \n\
+        ( \n\
+          ( \n\
+            mysql_info_schema_innodb_metrics_recovery_log_lsn_current{instance=~\"$host\"} \n\
+            or \n\
+            mysql_info_schema_innodb_metrics_log_log_lsn_current{instance=~\"$host\"} \n\
+          ) - ( \n\
+            mysql_info_schema_innodb_metrics_recovery_log_lsn_last_flush{instance=~\"$host\"} \n\
+            or \n\
+            mysql_info_schema_innodb_metrics_log_log_lsn_last_flush{instance=~\"$host\"} \n\
+          ) \n\
+        )[1w:2m] \n\
+      ) \n\
       / \n\
       2^( \n\
         floor( \n\
