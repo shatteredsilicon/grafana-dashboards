@@ -1,14 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { DataFrame, Field, FieldConfig, FieldType, PanelProps } from '@grafana/data';
-import { IconButton, Switch, Table, TableCellDisplayMode, TableCustomCellOptions, TableFieldOptions } from '@grafana/ui';
-import { MonitoredInstancesOptions, NodeInstance } from '../types';
+import { IconButton, Icon, Stack, Table, TableCellDisplayMode, TableCustomCellOptions, TableFieldOptions, Tooltip, useTheme2 } from '@grafana/ui';
+import { HealthAlertsState, MonitoredInstancesOptions, NodeInstance } from '../types';
 import { setDynamicPanelHeight } from 'panels/utils';
 import { cloneDeep } from "lodash";
+
+import { Switch } from './Switch';
 
 interface Props extends PanelProps<MonitoredInstancesOptions> { }
 
 export const MonitoredInstancesPanel: React.FC<Props> = ({ options, data, width, height }) => {
   const domRef = useRef<HTMLDivElement | null>(null);
+  const theme = useTheme2();
 
   const [instances, setInstances] = useState<NodeInstance[]>();
 
@@ -62,7 +65,7 @@ export const MonitoredInstancesPanel: React.FC<Props> = ({ options, data, width,
     })
       .then(res => {
         if (res.ok) {
-          instances![index].health_alerts_enabled = enabled;
+          instances![index].health_alerts_state = enabled ? HealthAlertsState.Enabled : HealthAlertsState.NotEnabled;
           setInstances([...(instances || [])]);
         }
       });
@@ -71,7 +74,26 @@ export const MonitoredInstancesPanel: React.FC<Props> = ({ options, data, width,
   const healthAlertCellOpts: TableCustomCellOptions = {
     type: TableCellDisplayMode.Custom,
     cellComponent: props => {
-      return <Switch value={props.value as boolean} onChange={e=>switchHealthAlerts(props.rowIndex, e.currentTarget.checked)} />;
+      return (
+        <Stack direction='row' alignItems='center' height='100%'>
+          {props.value === HealthAlertsState.PartiallyEnabled
+              ? <>
+                  <Switch
+                    value={!!props.value}
+                    onChange={e=>switchHealthAlerts(props.rowIndex, e.currentTarget.checked)}
+                    color={theme.colors.warning}
+                  />
+                  <Tooltip placement='top' content='One or more health alerts are not enabled, consider re-trigger the switch to enable them'>
+                    <Icon name='question-circle' />
+                  </Tooltip>
+                </>
+              : <Switch
+                  value={!!props.value}
+                  onChange={e=>switchHealthAlerts(props.rowIndex, e.currentTarget.checked)}
+                />
+          }
+        </Stack>
+      );
     }
   }
 
@@ -239,7 +261,7 @@ export const MonitoredInstancesPanel: React.FC<Props> = ({ options, data, width,
         data={instances?.reduce((acc, instance) => {
           acc.fields.find(f => f.name === 'Name')?.values.push(instance.name);
           acc.fields.find(f => f.name === 'Services')?.values.push(instance.services.length);
-          acc.fields.find(f => f.name === 'Health Alerts')?.values.push(instance.health_alerts_enabled);
+          acc.fields.find(f => f.name === 'Health Alerts')?.values.push(instance.health_alerts_state);
           acc.fields.find(f => f.name === 'Remove')?.values.push(null);
           const serviceFrame: DataFrame = cloneDeep(defaultServiceFrame);
           for (let i = 0; i < instance.services.length; i++) {

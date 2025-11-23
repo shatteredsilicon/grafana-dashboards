@@ -25,8 +25,14 @@ export interface NodeInstanceService {
   engine_version: string;
 }
 
+export enum HealthAlertsState {
+  NotEnabled,
+  Enabled,
+  PartiallyEnabled
+}
+
 export interface NodeInstance {
   name: string;
   services: NodeInstanceService[];
-  health_alerts_enabled: boolean;
+  health_alerts_state: number;
 }
