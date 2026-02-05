@@ -19,24 +19,36 @@ min( \n\
         rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"{{ .Instance }}\"}[2s]) \n\
         or \n\
         rate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"{{ .Instance }}\"}[2s]) \n\
-      )[15s:1s] \n\
+        or \n\
+        rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"{{ .Instance }}\"}[1m]) \n\
+        or \n\
+        rate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"{{ .Instance }}\"}[1m]) \n\
+      )[1m:1s] \n\
     ) <= 0 \n\
   ) \n\
   or on() ( \n\
     ( \n\
       1 - ( \n\
-        min_over_time( \n\
+        max_over_time( \n\
           ( \n\
-            rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"{{ .Instance }}\"}[2s]) \n\
-            or \n\
-            rate(mysql_global_status_innodb_buffer_pool_reads_total{instance=~\"{{ .Instance }}\"}[2s]) \n\
-          )[15s:1s] \n\
-        ) / min_over_time( \n\
-          ( \n\
-            rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"{{ .Instance }}\"}[2s]) \n\
-            or \n\
-            rate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"{{ .Instance }}\"}[2s]) \n\
-          )[15s:1s] \n\
+            ( \n\
+              rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"{{ .Instance }}\"}[2s]) \n\
+              or \n\
+              rate(mysql_global_status_innodb_buffer_pool_reads_total{instance=~\"{{ .Instance }}\"}[2s]) \n\
+              or \n\
+              rate(mysql_global_status_innodb_buffer_pool_reads{instance=~\"{{ .Instance }}\"}[1m]) \n\
+              or \n\
+              rate(mysql_global_status_innodb_buffer_pool_reads_total{instance=~\"{{ .Instance }}\"}[1m]) \n\
+            ) / ( \n\
+              rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"{{ .Instance }}\"}[2s]) \n\
+              or \n\
+              rate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"{{ .Instance }}\"}[2s]) \n\
+              or \n\
+              rate(mysql_global_status_innodb_buffer_pool_read_requests{instance=~\"{{ .Instance }}\"}[1m]) \n\
+              or \n\
+              rate(mysql_global_status_innodb_buffer_pool_read_requests_total{instance=~\"{{ .Instance }}\"}[1m]) \n\
+            ) \n\
+          )[1m:1s] \n\
         ) \n\
       ) \n\
     ) * 100 \n\
