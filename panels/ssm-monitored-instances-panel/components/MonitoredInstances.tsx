@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { DataFrame, Field, FieldConfig, FieldType, PanelProps } from '@grafana/data';
-import { IconButton, Icon, Stack, Table, TableCellDisplayMode, TableCustomCellOptions, TableFieldOptions, Tooltip, useTheme2 } from '@grafana/ui';
-import { HealthAlertsState, MonitoredInstancesOptions, NodeInstance } from '../types';
+import { IconButton, Icon, Stack, Table, TableCellDisplayMode, TableCustomCellOptions, TableFieldOptions, Tooltip, useTheme2, Text, TextLink } from '@grafana/ui';
+import { HealthAlertsState, InstanceServiceState, MonitoredInstancesOptions, NodeInstance } from '../types';
 import { setDynamicPanelHeight } from 'panels/utils';
 import { cloneDeep } from "lodash";
 
@@ -71,6 +71,29 @@ export const MonitoredInstancesPanel: React.FC<Props> = ({ options, data, width,
       });
   }
 
+  const nameCellOpts: TableCustomCellOptions = {
+    type: TableCellDisplayMode.Custom,
+    cellComponent: props => {
+      const value = props.value as { name: string; link?: string; state?: number };
+      return (
+        <Stack direction='row' alignItems='center' height='100%'>
+          {value.link
+            ? <TextLink href={value.link} inline>{value.name}</TextLink>
+            : <Text element='h6'>{value.name}</Text>
+          }
+          <Tooltip content={value.state === InstanceServiceState.Active ? 'active' : 'inactive'}>
+            <div style={{
+              minWidth: '8px',
+              minHeight: '8px',
+              borderRadius: '50%',
+              backgroundColor:  value.state === InstanceServiceState.Active ? theme.colors.success.shade : theme.colors.warning.shade
+            }}></div>
+          </Tooltip>
+        </Stack>
+      );
+    }
+  }
+
   const healthAlertCellOpts: TableCustomCellOptions = {
     type: TableCellDisplayMode.Custom,
     cellComponent: props => {
@@ -132,11 +155,15 @@ export const MonitoredInstancesPanel: React.FC<Props> = ({ options, data, width,
   const defaultInstanceFrame: DataFrame = {
     fields: [{
       name: 'Name',
-      type: FieldType.string,
-      config: {},
+      type: FieldType.other,
+      config: {
+        custom: {
+          cellOptions: nameCellOpts
+        }
+      } as FieldConfig<TableFieldOptions>,
       values: [],
-      display: (value) => ({
-        text: value,
+      display: () => ({
+        text: '',
         numeric: 0
       })
     } as Field<string>, {
@@ -186,11 +213,15 @@ export const MonitoredInstancesPanel: React.FC<Props> = ({ options, data, width,
   const defaultServiceFrame: DataFrame = {
     fields: [{
       name: 'Name',
-      type: FieldType.string,
-      config: {},
+      type: FieldType.other,
+      config: {
+        custom: {
+          cellOptions: nameCellOpts
+        }
+      } as FieldConfig<TableFieldOptions>,
       values: [],
-      display: (value) => ({
-        text: value,
+      display: () => ({
+        text: '',
         numeric: 0
       })
     } as Field<string>, {
@@ -259,13 +290,45 @@ export const MonitoredInstancesPanel: React.FC<Props> = ({ options, data, width,
         width={width}
         height={height}
         data={instances?.reduce((acc, instance) => {
-          acc.fields.find(f => f.name === 'Name')?.values.push(instance.name);
+          acc.fields.find(f => f.name === 'Name')?.values.push({ name: instance.name, state: instance.services.findIndex(s => s.state === InstanceServiceState.Active) !== -1 ? InstanceServiceState.Active : InstanceServiceState.Inactive });
           acc.fields.find(f => f.name === 'Services')?.values.push(instance.services.length);
           acc.fields.find(f => f.name === 'Health Alerts')?.values.push(instance.health_alerts_state);
           acc.fields.find(f => f.name === 'Remove')?.values.push(null);
           const serviceFrame: DataFrame = cloneDeep(defaultServiceFrame);
           for (let i = 0; i < instance.services.length; i++) {
-            serviceFrame.fields.find(f => f.name === 'Name')?.values.push(instance.services[i].type);
+            serviceFrame.fields.find(f => f.name === 'Name')?.values.push({
+              name: instance.services[i].type,
+              state: instance.services[i].state,
+              link: ((instanceName: string, typ: string)=>{
+                const query = `var-host=${instanceName}&$__url_time_range`;
+                const qanURL = `/graph/d/ssm-qan/ssm-query-analytics?${query}`;
+                switch (typ) {
+                  case 'linux:metrics':
+                  case 'node_exporter':
+                  case 'rds_exporter':
+                    return `/graph/d/ssm-system-overview/system-overview?${query}`
+                  case 'mysql:metrics':
+                  case 'mysqld_exporter':
+                    return `/graph/d/ssm-mysql-overview/mysql-overview?${query}`
+                  case 'mongodb:metrics':
+                  case 'mongodb_exporter':
+                    return `/graph/d/ssm-mongodb-overview/mongodb-overview?${query}`
+                  case 'postgresql:metrics':
+                  case 'postgres_exporter':
+                    return `/graph/d/ssm-postgresql-overview/postgresql-overview?${query}`
+                  case 'proxysql:metrics':
+                    return `/graph/d/ssm-proxysql-overview/proxysql-overview?${query}`
+                  case 'mysql:queries':
+                  case 'mongodb:queries':
+                  case 'postgresql:queries':
+                    return qanURL
+                }
+                if (typ.includes('qan-agent')) {
+                  return qanURL
+                }
+                return undefined
+              })(instance.name, instance.services[i].type)
+            });
             serviceFrame.fields.find(f => f.name === 'Endpoint')?.values.push(instance.services[i].address + (instance.services[i].port ? ':' + instance.services[i].port : ''));
             serviceFrame.fields.find(f => f.name === 'Region')?.values.push(instance.services[i].region);
             serviceFrame.fields.find(f => f.name === 'Engine')?.values.push(instance.services[i].engine + ' ' + instance.services[i].engine_version);

@@ -23,6 +23,7 @@ export interface NodeInstanceService {
   port?: number;
   engine: string;
   engine_version: string;
+  state?: number;
 }
 
 export enum HealthAlertsState {
@@ -35,4 +36,9 @@ export interface NodeInstance {
   name: string;
   services: NodeInstanceService[];
   health_alerts_state: number;
+}
+
+export enum InstanceServiceState {
+  Inactive,
+  Active
 }
