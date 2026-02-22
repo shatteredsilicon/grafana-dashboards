@@ -482,51 +482,13 @@
         "datasource": {
           "type": "prometheus"
         },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 0,
-          "y": 15
-        },
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "System Overview",
-            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range"
-          }
-        ],
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "<b>All</b>",
-          "mode": "html"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "refId": "A"
-          }
-        ],
-        "title": "Host",
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
         "decimals": 0,
         "editable": true,
         "error": false,
         "gridPos": {
           "h": 3,
           "w": 2,
-          "x": 2,
+          "x": 0,
           "y": 15
         },
         "interval": "$interval",
@@ -668,7 +630,7 @@ avg by () ( \n\
         "gridPos": {
           "h": 3,
           "w": 2,
-          "x": 4,
+          "x": 2,
           "y": 15
         },
         "interval": "$interval",
@@ -809,7 +771,7 @@ avg by () ( \n\
         "gridPos": {
           "h": 3,
           "w": 2,
-          "x": 6,
+          "x": 4,
           "y": 15
         },
         "interval": "$interval",
@@ -917,7 +879,7 @@ sum by () ( \n\
         "gridPos": {
           "h": 3,
           "w": 2,
-          "x": 8,
+          "x": 6,
           "y": 15
         },
         "interval": "$interval",
@@ -971,6 +933,122 @@ sum by () ( \n\
           }
         ],
         "title": "Disk Writes",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "rgba(50, 172, 45, 0.97)",
+                  "value": null
+                },
+                {
+                  "color": "rgba(237, 129, 40, 0.89)",
+                  "value": 0.8
+                },
+                {
+                  "color": "rgba(245, 54, 54, 0.9)",
+                  "value": 0.9
+                }
+              ]
+            },
+            "unit": "percentunit",
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "Disk Space",
+                "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range"
+              }
+            ]
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 8,
+          "y": 15
+        },
+        "interval": "$interval",
+        "links": [
+          {
+            "targetBlank": true,
+            "title": "Disk Space",
+            "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range"
+          }
+        ],
+        "maxDataPoints": 100,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "value",
+          "text": {
+            "valueSize": 24
+          }
+        },
+        "targets": [
+          {
+            "calculatedInterval": "10m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "\
+avg( \n\
+  max by (instance) ( \n\
+    1 - ( \n\
+      node_filesystem_free{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+      or \n\
+      node_filesystem_free_bytes{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+    ) / ( \n\
+      node_filesystem_size{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+      or \n\
+      node_filesystem_size_bytes{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+    ) \n\
+  ) \n\
+) \n\
+",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "",
+            "metric": "node_mem",
+            "refId": "A",
+            "step": 300
+          }
+        ],
+        "title": "Disk Usage",
         "type": "stat"
       },
       {
@@ -1646,40 +1724,8 @@ sum by () ( \n\
             "refId": "A"
           }
         ],
-        "type": "row"
-      },
-      {
-        "content": "<p style=\"word-break: break-all;\"><b>$host</b></p>",
-        "datasource": {
-          "type": "prometheus"
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 0,
-          "y": 19
-        },
-        "height": "50px",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "System Overview",
-            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&var-host=$host&$__all_variables"
-          }
-        ],
-        "maxPerRow": 12,
-        "mode": "html",
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "refId": "A"
-          }
-        ],
-        "transparent": false,
-        "title": " ",
-        "type": "text"
+        "type": "row",
+        "title": "$host"
       },
       {
         "datasource": {
@@ -1692,7 +1738,7 @@ sum by () ( \n\
         "gridPos": {
           "h": 3,
           "w": 2,
-          "x": 2,
+          "x": 0,
           "y": 19
         },
         "interval": "$interval",
@@ -1835,7 +1881,7 @@ vector(-1) \n\
         "gridPos": {
           "h": 3,
           "w": 2,
-          "x": 4,
+          "x": 2,
           "y": 19
         },
         "interval": "$interval",
@@ -1974,7 +2020,7 @@ vector(-1) \n\
         "gridPos": {
           "h": 3,
           "w": 2,
-          "x": 6,
+          "x": 4,
           "y": 19
         },
         "interval": "$interval",
@@ -2083,7 +2129,7 @@ vector(-1) \n\
         "gridPos": {
           "h": 3,
           "w": 2,
-          "x": 8,
+          "x": 6,
           "y": 19
         },
         "interval": "$interval",
@@ -2135,6 +2181,129 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
           }
         ],
         "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus"
+        },
+        "decimals": 0,
+        "editable": true,
+        "error": false,
+        "format": "percent",
+        "gridPos": {
+          "h": 3,
+          "w": 2,
+          "x": 8,
+          "y": 19
+        },
+        "interval": "$interval",
+        "links": [
+          {
+            "targetBlank": true,
+            "title": "Disk Space",
+            "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range&var-host=$host&$__all_variables"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "decimals": 0,
+            "mappings": [
+              {
+                "options": {
+                  "-1": {
+                    "text": "N/A"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "rgba(50, 172, 45, 0.97)",
+                  "value": null
+                },
+                {
+                  "color": "rgba(237, 129, 40, 0.89)",
+                  "value": 0.8
+                },
+                {
+                  "color": "rgba(245, 54, 54, 0.9)",
+                  "value": 0.9
+                }
+              ]
+            },
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "Disk Space",
+                "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range&var-host=$host&$__all_variables"
+              }
+            ],
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "value",
+          "text": {
+            "valueSize": 24
+          }
+        },
+        "targets": [
+          {
+            "calculatedInterval": "10m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "\
+max ( \n\
+  1 - ( \n\
+    node_filesystem_free{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+    or \n\
+    node_filesystem_free_bytes{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+  ) / ( \n\
+    node_filesystem_size{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+    or \n\
+    node_filesystem_size_bytes{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+  ) \n\
+) \n\
+",
+            "format": "time_series",
+            "hide": false,
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "",
+            "metric": "node_mem",
+            "refId": "A",
+            "step": 300
+          }
+        ],
+        "type": "stat",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ]
       },
       {
         "datasource": {
