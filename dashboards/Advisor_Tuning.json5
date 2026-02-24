@@ -2724,7 +2724,7 @@ max( \n\
       max(irate(node_disk_reads_completed_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
     ) \n\
     or \n\
-    sum by (instance) ( \n\
+    max( \n\
       max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
       or \n\
       max_over_time(rdsosmetrics_diskIO_readIOsPS{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
@@ -2742,7 +2742,7 @@ max( \n\
       max(irate(node_disk_writes_completed_total{instance=~\"$host\", device=~\"$device\"}[5m])) \n\
     ) \n\
     or \n\
-    sum by (instance) ( \n\
+    max( \n\
       max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[$interval]) \n\
       or \n\
       max_over_time(rdsosmetrics_diskIO_writeIOsPS{instance=~\"$host\", device=~\"$device\"}[5m]) \n\
@@ -2846,7 +2846,7 @@ clamp( \n\
     on() ( \n\
       scalar(mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}) == ( \n\
         floor( \n\
-          avg_over_time( \n\
+          max_over_time( \n\
             ( \n\
               ( \n\
                 ( \n\
@@ -2880,7 +2880,7 @@ clamp( \n\
   or \n\
   on() ( \n\
     floor( \n\
-      avg_over_time( \n\
+      max_over_time( \n\
         ( \n\
           ( \n\
             ( \n\
@@ -3020,7 +3020,7 @@ clamp( \n\
     on() ( \n\
       scalar(mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}) == ( \n\
         floor( \n\
-          avg_over_time( \n\
+          max_over_time( \n\
             ( \n\
               ( \n\
                 ( \n\
@@ -3054,7 +3054,7 @@ clamp( \n\
   or \n\
   on() ( \n\
     floor( \n\
-      avg_over_time( \n\
+      max_over_time( \n\
         ( \n\
           ( \n\
             ( \n\
@@ -3257,7 +3257,7 @@ clamp( \n\
     on() ( \n\
       scalar(mysql_global_variables_innodb_io_capacity{instance=~\"$host\"}) == ( \n\
         floor( \n\
-          avg_over_time( \n\
+          max_over_time( \n\
             ( \n\
               ( \n\
                 ( \n\
@@ -3291,7 +3291,7 @@ clamp( \n\
   or \n\
   on() ( \n\
     floor( \n\
-      avg_over_time( \n\
+      max_over_time( \n\
         ( \n\
           ( \n\
             ( \n\
@@ -3330,7 +3330,7 @@ clamp( \n\
           on() ( \n\
             scalar(mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}) == ( \n\
               floor( \n\
-                avg_over_time( \n\
+                max_over_time( \n\
                   ( \n\
                     ( \n\
                       ( \n\
@@ -3364,7 +3364,7 @@ clamp( \n\
         or \n\
         on() ( \n\
           floor( \n\
-            avg_over_time( \n\
+            max_over_time( \n\
               ( \n\
                 ( \n\
                   ( \n\
@@ -3507,7 +3507,7 @@ clamp( \n\
     on() ( \n\
       scalar(mysql_global_variables_innodb_io_capacity{instance=~\"$host\"}) == ( \n\
         floor( \n\
-          avg_over_time( \n\
+          max_over_time( \n\
             ( \n\
               ( \n\
                 ( \n\
@@ -3541,7 +3541,7 @@ clamp( \n\
   or \n\
   on() ( \n\
     floor( \n\
-      avg_over_time( \n\
+      max_over_time( \n\
         ( \n\
           ( \n\
             ( \n\
@@ -3580,7 +3580,7 @@ clamp( \n\
           on() ( \n\
             scalar(mysql_global_variables_innodb_io_capacity_max{instance=~\"$host\"}) == ( \n\
               floor( \n\
-                avg_over_time( \n\
+                max_over_time( \n\
                   ( \n\
                     ( \n\
                       ( \n\
@@ -3614,7 +3614,7 @@ clamp( \n\
         or \n\
         on() ( \n\
           floor( \n\
-            avg_over_time( \n\
+            max_over_time( \n\
               ( \n\
                 ( \n\
                   ( \n\
