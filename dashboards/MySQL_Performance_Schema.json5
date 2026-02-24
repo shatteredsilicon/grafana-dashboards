@@ -1063,6 +1063,100 @@
         "yaxis": {
           "align": false
         }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "decimals": 0,
+        "description": "",
+        "editable": true,
+        "error": false,
+        "fill": 1,
+        "grid": {},
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 66
+        },
+        "legend": {
+          "alignAsTable": true,
+          "avg": true,
+          "current": false,
+          "hideEmpty": true,
+          "hideZero": false,
+          "max": true,
+          "min": true,
+          "rightSide": true,
+          "show": true,
+          "sort": "avg",
+          "sortDesc": true,
+          "total": false,
+          "values": true
+        },
+        "lines": true,
+        "linewidth": 2,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "topk(10, mysql_perf_schema_memory_events_used_bytes{instance=~\"$host\", event_name=~\"performance_schema.*|.*wait/io/table.*|.*wait/lock/metadata.*\"})",
+            "format": "time_series",
+            "hide": false,
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "{{ event_name }}",
+            "refId": "A",
+            "step": 20
+          }
+        ],
+        "thresholds": [],
+        "title": "Performance Schema Memory Usage",
+        "tooltip": {
+          "msResolution": false,
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "mode": "time",
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "bytes",
+            "label": "",
+            "logBase": 1,
+            "min": 0,
+            "show": true
+          },
+          {
+            "format": "short",
+            "logBase": 1,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false
+        }
       }
     ],
     "refresh": "1m",
