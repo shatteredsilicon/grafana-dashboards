@@ -122,6 +122,10 @@ export async function getEntries(env: any): Promise<any[]> {
           {
             test: /\.s[ac]ss$/,
             use: ['style-loader', 'css-loader', 'sass-loader'],
+          },
+          {
+            test: /\.md$/, // matches imports with ?raw query
+            type: 'asset/source', // tells webpack to load the content as a string
           }
         ],
       },
