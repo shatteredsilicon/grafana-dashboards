@@ -26,6 +26,7 @@
     {"type": "panel", "name": "ssm-filtertable-panel"},
     {"type": "panel", "name": "ssm-qan-settings-panel"},
     {"type": "panel", "name": "ssm-qan-panel"},
+    {"type": "panel", "name": "ssm-text-panel"},
     {"type": "dashboard", "name": "ssm-qan", "path": "dashboards/ssm-qan.json"},
     {"type": "dashboard", "name": "ssm-qan-settings", "path": "dashboards/ssm-settings.json"},
     {"type": "dashboard", "name": "ssm-summary", "path": "dashboards/ssm-summary.json"},
