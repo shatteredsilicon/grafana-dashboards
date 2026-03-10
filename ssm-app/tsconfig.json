@@ -2,8 +2,10 @@
   "compilerOptions": {
     "sourceMap": true,
     "target": "es5",
-    "module": "system",
-    "outDir": "./dist/",
-    "skipLibCheck": true
+    "lib": ["es5", "es2024", "dom"],
+    "module": "esnext",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node"
   }
 }

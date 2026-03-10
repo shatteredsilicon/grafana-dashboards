@@ -35,7 +35,7 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
@@ -174,17 +174,10 @@
         "x": 0,
         "y": 1
       },
-      "id": 67,
       "links": [],
-      "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "<center><b>Tuning advice on this dashboard is unlikely to be reliable until at least 24 hours of telemetry data has accumulated and you zoom out to at least 24 hours.</b></center>\n<center><b>If only some of your graphs are populated, but not all, you likely need to enable <code>innodb_monitor_enable=all</code>.  Check <a href=\"https://shatteredsilicon.net/software/ssm/documentation/latest/conf-mysql.html\" target=\"_blank\"> instructions </a> on how to configure MySQL for best results.</b></center>",
-        "mode": "html"
-      },
+      "mode": "html",
+      "content": "<center><b>Tuning advice on this dashboard is unlikely to be reliable until at least 24 hours of telemetry data has accumulated and you zoom out to at least 24 hours.</b></center>\n<center><b>If only some of your graphs are populated, but not all, you likely need to enable <code>innodb_monitor_enable=all</code>.  Check <a href=\"https://shatteredsilicon.net/software/ssm/documentation/latest/conf-mysql.html\" target=\"_blank\"> instructions </a> on how to configure MySQL for best results.</b></center>",
+      "report": true,
       "pluginVersion": "9.5.7",
       "targets": [
         {
@@ -194,7 +187,7 @@
           "refId": "A"
         }
       ],
-      "type": "text",
+      "type": "ssm-text-panel",
       "title": ""
     },
     {
@@ -2516,7 +2509,7 @@ This tuning takes 1 week of observation, if you have changed the value, please w
           "refId": "A"
         }
       ],
-      "title": "innodb_io_capacity/innodb_io_capacity_max",
+      "title": "innodb_io_capacity_max/innodb_io_capacity",
       "type": "row"
     },
     {

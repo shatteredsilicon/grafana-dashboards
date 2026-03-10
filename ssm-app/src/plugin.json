@@ -31,6 +31,7 @@
     {"type": "panel", "name": "ssm-add-instance-app-panel"},
     {"type": "dashboard", "name": "ssm-list", "path": "dashboards/ssm-list.json"},
     {"type": "panel", "name": "ssm-remote-instances-panel"},
+    {"type": "panel", "name": "ssm-text-panel"},
     {"type": "dashboard", "name": "Home Dashboard", "path": "dashboards/Home_Dashboard.json"},
     {"type": "dashboard", "name": "MySQL_InnoDB_Compression", "path": "dashboards/MySQL_InnoDB_Compression.json"},
     {"type": "dashboard", "name": "MySQL_Command_Handler_Counters_Compare", "path": "dashboards/MySQL_Command_Handler_Counters_Compare.json"},

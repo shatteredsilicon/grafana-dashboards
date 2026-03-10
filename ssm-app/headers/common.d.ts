@@ -136,6 +136,10 @@ declare module 'app/core/time_series2' {
     }
 }
 
+declare module 'app/core/utils/datemath' {
+    export function parse(text: any, roundUp?: boolean, timezone?: string);
+}
+
 declare module 'lodash' {
     var lodash: any;
     export default lodash;
@@ -154,4 +158,21 @@ declare module 'jquery' {
 declare module 'app/core/utils/kbn' {
     var kbn: any;
     export default kbn;
+}
+
+declare module 'html-to-image' {
+    export interface Options {
+        backgroundColor?: string;
+    }
+
+    export function toPng(node: HTMLElement, options?: Options): Promise<string>;
+}
+
+declare module 'beautify' {
+    var sql: any;
+}
+
+declare module "*.md" {
+    const content: string;
+    export default content;
 }
