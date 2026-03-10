@@ -3,9 +3,8 @@
     "sourceMap": true,
     "target": "es5",
     "lib": ["es5", "es2024", "dom"],
-    "module": "esnext",
+    "module": "nodenext",
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node"
+    "moduleResolution": "nodenext"
   }
 }

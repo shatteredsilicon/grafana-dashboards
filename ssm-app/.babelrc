@@ -1,0 +1,12 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "ie": "11" // Target IE11, which supports up to ES5
+        }
+      }
+    ]
+  ]
+}

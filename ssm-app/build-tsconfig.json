@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es5",
+    "module": "system",
+    "outDir": "./dist/",
+    "skipLibCheck": true
+  },
+  "exclude": ["webpack.config.ts", "src/ssm-text-panel", "dist"]
+}
