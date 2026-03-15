@@ -163,6 +163,7 @@ declare module 'app/core/utils/kbn' {
 declare module 'html-to-image' {
     export interface Options {
         backgroundColor?: string;
+        skipFonts?: boolean;
     }
 
     export function toPng(node: HTMLElement, options?: Options): Promise<string>;

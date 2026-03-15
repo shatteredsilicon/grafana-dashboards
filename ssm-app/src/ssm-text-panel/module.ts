@@ -372,7 +372,7 @@ const generalTuningReport = async (name: string, row: HTMLElement): Promise<Tuni
 
   if (!graph || !current || !proposed) return undefined;
 
-  const graphDataURL = await toPng(graph.firstChild as HTMLElement, {backgroundColor: 'rgba(0, 0, 0, 0)'});
+  const graphDataURL = await toPng(graph.firstChild as HTMLElement, {backgroundColor: 'rgba(0, 0, 0, 0)', skipFonts: true});
 
   const fixedName = name.replaceAll('/', '_or_');
   return [{
@@ -396,7 +396,7 @@ const twinTuningReport = async (name: string, row: HTMLElement): Promise<TuningR
 
   if (!graph || !firstCurrent || !firstProposed || !secondCurrent || !secondProposed) return undefined;
 
-  const graphDataURL = await toPng(graph.firstChild as HTMLElement, {backgroundColor: 'rgba(0, 0, 0, 0)'});
+  const graphDataURL = await toPng(graph.firstChild as HTMLElement, {backgroundColor: 'rgba(0, 0, 0, 0)', skipFonts: true});
 
   const [firstName, secondName] = name.split('/');
   return [{
