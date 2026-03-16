@@ -372,7 +372,7 @@ const generalTuningReport = async (name: string, row: HTMLElement): Promise<Tuni
 
   if (!graph || !current || !proposed) return undefined;
 
-  const graphDataURL = await toPng(graph.firstChild as HTMLElement, {backgroundColor: 'rgba(0, 0, 0, 0)', skipFonts: true});
+  const graphDataURL = await html2image(graph.firstChild as HTMLElement);
 
   const fixedName = name.replaceAll('/', '_or_');
   return [{
@@ -396,7 +396,7 @@ const twinTuningReport = async (name: string, row: HTMLElement): Promise<TuningR
 
   if (!graph || !firstCurrent || !firstProposed || !secondCurrent || !secondProposed) return undefined;
 
-  const graphDataURL = await toPng(graph.firstChild as HTMLElement, {backgroundColor: 'rgba(0, 0, 0, 0)', skipFonts: true});
+  const graphDataURL = await html2image(graph.firstChild as HTMLElement);
 
   const [firstName, secondName] = name.split('/');
   return [{
@@ -416,6 +416,17 @@ const twinTuningReport = async (name: string, row: HTMLElement): Promise<TuningR
     current: secondCurrent.querySelector<HTMLElement>('[class$="-panel-content"]')?.innerText ?? '',
     proposed: secondProposed.querySelector<HTMLElement>('[class$="-panel-content"]')?.innerText ?? ''
   }]
+}
+
+const html2image = async (elem: HTMLElement): Promise<string> => {
+  const userAgent = window.navigator.userAgent;
+  if (/safari/i.test(userAgent) && !/chrome/i.test(userAgent)) {
+    // the html-to-image package has a compatibility issue with Safari,
+    // we have to call it twice to get the fully rendered data
+    await toPng(elem, {backgroundColor: 'rgba(0, 0, 0, 0)', skipFonts: true});
+  }
+
+  return toPng(elem, {backgroundColor: 'rgba(0, 0, 0, 0)', skipFonts: true});
 }
 
 function formatBytes(bytes: number) {
