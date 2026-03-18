@@ -4,7 +4,7 @@ import { Alert, Button, Collapse, Icon, Stack, TextLink } from '@grafana/ui';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { SystemSummaryOptions } from '../types';
-import { useInstance } from '../../useInstance';
+import { Subsystem, useInstance } from '../../useInstance';
 
 interface Props extends PanelProps<SystemSummaryOptions> { }
 
@@ -31,13 +31,14 @@ export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
 
   function downloadSummary() {
     const date = (new Date()).toISOString().split('.')[0];
-    const filename = `ssm-${instanceData?.instance!.Name}-${date}-summary.zip`;
+    const filename = `ssm-${instanceData?.instances?.[0].Name}-${date}-summary.zip`;
     const zip = new JSZip();
     zip.file('system_summary.txt', serverSummary);
-    if (instanceData?.instance!.Subsystem === 'mongo') {
-      zip.file('server_summary.txt', mongoSummary);
-    } else if (instanceData?.instance!.Subsystem === 'mysql') {
-      zip.file('server_summary.txt', mysqlSummary);
+    if (mysqlSummary.length > 0) {
+      zip.file('mysql_server_summary.txt', mysqlSummary);
+    }
+    if (mongoSummary.length > 0) {
+      zip.file('mongodb_server_summary.txt', mongoSummary);
     }
     zip.generateAsync({ type: 'blob' })
       .then(function (content: Blob) {
@@ -69,57 +70,65 @@ export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
   };
 
   useEffect(() => {
-    if (instanceData?.instance === undefined) { return; }
+    if (!instanceData?.instances.length) { return; }
 
-    const agentUUID = instanceData?.instance?.Agent?.UUID;
-    fetch(`/qan-api/agents/${agentUUID}/cmd`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        AgentUUID: agentUUID,
-        Service: 'query',
-        Cmd: 'Summary',
-        Data: btoa(JSON.stringify({ UUID: instanceData?.instance?.ParentUUID }))
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (!res['Error']) {
-          return res;
-        }
-        let err = res['Error'];
-        if (res['Error'] === 'Executable file not found in $PATH') {
-          err = ' - Please install `pt-summary`.';
-          err += ' (Output: ' + res['Error'] + ')';
-        }
+    setIsServerSummaryLoaded(false);
+    setIsMySQLSummaryLoaded(false);
+    setIsMongoSummaryLoaded(false);
 
-        throw new Error(err);
-      })
-      .then(res => {
-        let str = window.atob(res['Data']);
-        str = str.replace(/\\n/g, '\n');
-        str = str.replace(/\\t/g, '\t');
-        return str.slice(1, -1);
-      })
-      .then(res => setServerSummary(res))
-      .catch(err => setServerSummaryError(err.message))
-      .finally(() => {
-        setIsServerSummaryLoaded(true);
-      });
+    for (let i = 0; i < instanceData.instances.length; i++) {
+      if (i == 0) {
+        fetch(`/qan-api/agents/${instanceData?.instances[i].Agent?.UUID}/cmd`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            AgentUUID: instanceData?.instances[i].Agent?.UUID,
+            Service: 'query',
+            Cmd: 'Summary',
+            Data: btoa(JSON.stringify({ UUID: instanceData.instances[i].ParentUUID }))
+          })
+        })
+          .then(res => res.json())
+          .then(res => {
+            if (!res['Error']) {
+              return res;
+            }
+            let err = res['Error'];
+            if (res['Error']?.includes('Executable file not found in $PATH')) {
+              err = ' - Please install `pt-summary`.';
+            }
 
-    if (instanceData?.instance?.Subsystem === 'mysql') {
-      fetch(`/qan-api/agents/${agentUUID}/cmd`, {
+            throw new Error(err);
+          })
+          .then(res => {
+            let str = window.atob(res['Data']);
+            str = str.replace(/\\n/g, '\n');
+            str = str.replace(/\\t/g, '\t');
+            return str.slice(1, -1);
+          })
+          .then(res => setServerSummary(res))
+          .catch(err => setServerSummaryError(err.message))
+          .finally(() => {
+            setIsServerSummaryLoaded(true);
+          });
+      }
+
+      if (![Subsystem.MySQL as string, Subsystem.MongoDB as string].includes(instanceData.instances[i].Subsystem)) {
+        continue;
+      }
+
+      fetch(`/qan-api/agents/${instanceData?.instances[i].Agent?.UUID}/cmd`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          AgentUUID: agentUUID,
+          AgentUUID: instanceData?.instances[i].Agent?.UUID,
           Service: 'query',
           Cmd: 'Summary',
-          Data: btoa(JSON.stringify({ UUID: instanceData?.instance?.UUID }))
+          Data: btoa(JSON.stringify({ UUID: instanceData.instances[i].UUID }))
         })
       })
         .then(res => res.json())
@@ -128,50 +137,11 @@ export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
             return res;
           }
           let err = res['Error'];
-          if (res['Error'] === 'Executable file not found in $PATH') {
-            err = ' - Please install `pt-summary`.';
-            err += ' (Output: ' + res['Error'] + ')';
+          if (res['Error']?.includes('Executable file not found in $PATH')) {
+              err = ` - Please install ${instanceData.instances[i].Subsystem === Subsystem.MySQL ? '`pt-mysql-summary`' : '`pt-mongodb-summary`'}.`;
           }
-
-          throw new Error(err);
-        })
-        .then(res => {
-          let str = window.atob(res['Data']);
-          str = str.replace(/\\n/g, '\n');
-          str = str.replace(/\\t/g, '\t');
-          return str.slice(1, -1);
-        })
-        .then(res => setMySQLSummary(res))
-        .catch(err => setMySQLSummaryError(err.message))
-        .finally(() => {
-          setIsMySQLSummaryLoaded(true);
-        });
-    } else if (instanceData?.instance?.Subsystem === 'mongo') {
-      fetch(`/qan-api/agents/${agentUUID}/cmd`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          AgentUUID: agentUUID,
-          Service: 'query',
-          Cmd: 'Summary',
-          Data: btoa(JSON.stringify({ UUID: instanceData?.instance?.UUID }))
-        })
-      })
-        .then(res => res.json())
-        .then(res => {
-          if (!res['Error']) {
-            return res;
-          }
-          let err = res['Error'];
-          if (res['Error'] === 'Executable file not found in $PATH') {
-              err = ' - Please install `pt-mongodb-summary`.';
-              err += ' (Output: ' +  res['Error'] + ')';
-          }
-          if (res['Error'] === 'Unknown command: GetMongoSummary') {
+          if (res['Error'] === 'Unknown command: Summary') {
               err = ' - Please update your `ssm-client`.';
-              err += ' (Output: ' +  res['Error'] + ')';
           }
 
           throw new Error(err);
@@ -182,13 +152,13 @@ export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
           str = str.replace(/\\t/g, '\t');
           return str.slice(1, -1);
         })
-        .then(res => setMongoSummary(res))
-        .catch(err => setMongoSummaryError(err.message))
+        .then(res => instanceData.instances[i].Subsystem === Subsystem.MySQL ? setMySQLSummary(res) : setMongoSummary(res))
+        .catch(err => instanceData.instances[i].Subsystem === Subsystem.MySQL ? setMySQLSummaryError(err) : setMongoSummaryError(err.message))
         .finally(() => {
-          setIsMongoSummaryLoaded(true);
+          instanceData.instances[i].Subsystem === Subsystem.MySQL ? setIsMySQLSummaryLoaded(true) : setIsMongoSummaryLoaded(true);
         });
     }
-  }, [instanceData?.instance]);
+  }, [instanceData?.instances]);
 
   useEffect(() => {
     calculatePanelHeight();
@@ -220,7 +190,7 @@ export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
           </TextLink>
         </Alert>
       }
-        {instanceData?.instance &&
+        {instanceData?.instances.length &&
           <Collapse collapsible label='System Summary' isOpen={isServerSummaryOpen} onToggle={toggleServerSummaryOpen}>
             {isServerSummaryLoaded
               ? (
@@ -232,7 +202,7 @@ export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
             }
           </Collapse>
         }
-        {instanceData?.instance?.Subsystem === 'mysql' &&
+        {instanceData?.instances.findIndex(inst => inst.Subsystem === Subsystem.MySQL) !== -1 &&
           <Collapse collapsible label='MySQL Summary' isOpen={isMySQLSummaryOpen} onToggle={toggleMySQLSummaryOpen}>
             {isMySQLSummaryLoaded
               ? (
@@ -244,7 +214,7 @@ export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
             }
           </Collapse>
         }
-        {instanceData?.instance?.Subsystem === 'mongo' &&
+        {instanceData?.instances.findIndex(inst => inst.Subsystem === Subsystem.MongoDB) !== -1 &&
           <Collapse collapsible label='MongoDB Summary' isOpen={isMongoSummaryOpen} onToggle={toggleMongoSummaryOpen}>
             {isMongoSummaryLoaded
               ? (

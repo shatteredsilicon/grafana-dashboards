@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import { InterpolateFunction } from "@grafana/data";
 import _ from "lodash";
 
+export enum Subsystem {
+  MySQL = "mysql",
+  MongoDB = "mongo",
+  PostgreSQL = "postgresql"
+}
+
 export interface Instance {
   Created: string;
   DSN: string;
@@ -17,9 +23,10 @@ export interface Instance {
 }
 
 export interface Data {
-  instance: Instance | undefined
   instances: Instance[]
-  instanceMap: { [key: string]: Instance }
+  mysqlInstances: Instance[]
+  mongodbInstances: Instance[]
+  postgresqlInstances: Instance[]
   isAllSelected: boolean
   isNotExistSelected: boolean
 }
@@ -43,7 +50,7 @@ export function useInstance(replaceVariables: InterpolateFunction) {
         ) as Instance[];
 
         const instances = (response.filter(
-          (i: Instance) => i.Subsystem === 'mysql' || i.Subsystem === 'mongo' || i.Subsystem === 'postgresql'
+          (i: Instance) => i.Subsystem === Subsystem.MySQL || i.Subsystem === Subsystem.MongoDB || i.Subsystem === Subsystem.PostgreSQL
         ) as Instance[]);
 
         const agentsByParentUUID: { [key: string]: Instance } = {};
@@ -57,11 +64,12 @@ export function useInstance(replaceVariables: InterpolateFunction) {
           instanceMap[inst.Name].Agent = agentsByParentUUID[inst.ParentUUID];
         }
 
-        const filteredInstances = Array.isArray(hosts) ? hosts.map(host => instanceMap[host])?.filter(i => i !== undefined) : [instanceMap[hosts]].filter(i => i !== undefined);
+        const filteredInstances = instances.filter(inst => Array.isArray(hosts) ? hosts.includes(inst.Name) : inst.Name === hosts).map(inst => { return { ...inst, Agent: agentsByParentUUID[inst.ParentUUID] } })
         setData({
-          instance: filteredInstances?.[0],
           instances: filteredInstances,
-          instanceMap,
+          mysqlInstances: filteredInstances.filter(inst => inst.Subsystem === Subsystem.MySQL),
+          mongodbInstances: filteredInstances.filter(inst => inst.Subsystem === Subsystem.MongoDB),
+          postgresqlInstances: filteredInstances.filter(inst => inst.Subsystem === Subsystem.PostgreSQL),
           isAllSelected: (Array.isArray(hosts) ? hosts.includes('All') : hosts === 'All') || false,
           isNotExistSelected: !filteredInstances.length && hosts.length > 0
         });

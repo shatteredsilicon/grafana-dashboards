@@ -12,6 +12,7 @@ import { LatencyChart } from 'panels/LatencyChart';
 import { MySQLQuery } from './MySQL';
 import { MongoDBQuery } from './MongoDB';
 import { PostgreSQLQuery } from './PostgreSQL';
+import { RefreshEvent } from '@grafana/runtime';
 
 interface Props extends PanelProps<QANOptions> { }
 
@@ -67,7 +68,7 @@ const getStyles = (_: any, width: number) => {
   };
 };
 
-export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, replaceVariables }) => {
+export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, eventBus, replaceVariables }) => {
   const domRef = useRef<HTMLDivElement | null>(null);
 
   const styles = useStyles2(getStyles, width);
@@ -83,6 +84,19 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, repl
   const [queryDetails, setQueryDetails] = useState<QueryDetails>();
 
   const instanceData = useInstance(replaceVariables);
+  const [sourceType, setSourceType] = useState<string>(replaceVariables('$type'));
+  useEffect(()=>{
+    const subscriber = eventBus.getStream(RefreshEvent).subscribe(event => {
+      setSourceType(replaceVariables('$type'));
+    })
+
+    return () => {
+      subscriber.unsubscribe();
+    }
+  }, [eventBus, replaceVariables]);
+  const [instances, setInstances] = useState<Instance[]>();
+  useEffect(()=>{ setInstances(instanceData?.instances.filter(inst => sourceType?.toLocaleLowerCase().includes(inst.Subsystem))) }, [instanceData?.instances, sourceType])
+
   const oriQueryParams = useQueryParam();
   const [queryParams, setQueryParams] = useState<typeof oriQueryParams>();
   useEffect(()=>{ if (oriQueryParams === undefined) return; setQueryParams(oriQueryParams); }, [oriQueryParams])
@@ -100,18 +114,18 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, repl
   }, [data, profile, queryDetails]);
 
   useEffect(() => {
-    if ((_.isEqual(prevTimeRange, timeRange) && _.isEqual(_.omit(queryParams, 'queryID'), _.omit(prevQueryParams, 'queryID')) && _.isEqual(prevInstances, instanceData?.instances)) || !instanceData?.instances.length) { return; }
+    if ((_.isEqual(prevTimeRange, timeRange) && _.isEqual(_.omit(queryParams, 'queryID'), _.omit(prevQueryParams, 'queryID')) && _.isEqual(prevInstances, instances)) || !instances?.length) { return; }
 
     loadQueries(undefined, true);
     setPrevQueryParams(queryParams);
     setPrevTimeRange(timeRange);
-    setPrevInstances(instanceData?.instances);
+    setPrevInstances(instances);
     if (queryParams?.hosts !== prevQueryParams?.hosts) {
-      instanceData?.instances.forEach(instance => {
+      instances?.forEach(instance => {
         instance.Agent && getQANMessage(instance.Agent?.UUID, instance.UUID);
       })
     }
-  }, [queryParams, instanceData?.instances, timeRange]);
+  }, [queryParams, instances, timeRange]);
 
   useEffect(() => {
       queryParams?.queryID === undefined || !profile?.Query ? setSelectedRowIdx(undefined) : setSelectedRowIdx(profile.Query.findIndex(q=>q.Id === queryParams.queryID));
@@ -152,7 +166,7 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, repl
       search.replace(/%([0-9A-F]{2})/g,
         (match, p1) => String.fromCharCode(Number('0x' + p1)))
     );
-    fetch(`/qan-api/qan/profile?begin=${timeRange.from.toISOString().replace(/Z$/, '')}&end=${timeRange.to.toISOString().replace(/Z$/, '')}&offset=${reset || profile === undefined || profile.Query === null ? 0 : (profile.Query.length - 1)}&first_seen=${String(!!firstSeen)}&search=${searchValue}&sort_by=${sortQueriesBy}&${instanceData?.instances.map(instance => `uuids[]=${instance.UUID}`).join('&')}`, {
+    fetch(`/qan-api/qan/profile?begin=${timeRange.from.toISOString().replace(/Z$/, '')}&end=${timeRange.to.toISOString().replace(/Z$/, '')}&offset=${reset || profile === undefined || profile.Query === null ? 0 : (profile.Query.length - 1)}&first_seen=${String(!!firstSeen)}&search=${searchValue}&sort_by=${sortQueriesBy}&${instances?.map(instance => `uuids[]=${instance.UUID}`).join('&')}`, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -192,22 +206,22 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, repl
 
   useEffect(()=>{
     if (!queryParams?.queryID || !profile?.Query || profile.Query.findIndex(q => q.Id === queryParams.queryID) === -1) { setQueryDetails(undefined); return; }
-    if (!instanceData?.instances.length) return;
+    if (!instances?.length) return;
 
     setIsQueryDetailsLoading(true);
     setQueryComponent(<></>);
     const uri = queryParams.queryID === 'TOTAL' ? '/qan-api/qan/server-summary/report' : `/qan-api/qan/query/${queryParams.queryID}/report`;
-    fetch(`${uri}?begin=${timeRange.from.toISOString().replace(/Z$/, '')}&end=${timeRange.to.toISOString().replace(/Z$/, '')}&${instanceData?.instances.map(instance => `uuids[]=${instance.UUID}`).join('&')}`)
+    fetch(`${uri}?begin=${timeRange.from.toISOString().replace(/Z$/, '')}&end=${timeRange.to.toISOString().replace(/Z$/, '')}&${instances?.map(instance => `uuids[]=${instance.UUID}`).join('&')}`)
       .then(res => res.json())
       .then((d: QueryDetails) => {
         setQueryDetails(d);
-        queryParams.queryID && d && setQueryComponent(
-          instanceData?.instance?.Subsystem === 'mysql'
-            ? <MySQLQuery queryID={queryParams.queryID} timeRange={timeRange} instanceData={instanceData} queryDetails={d} onSizeChange={()=>setDynamicPanelHeight(domRef)} />
-            : instanceData?.instance?.Subsystem === 'mongo'
-              ? <MongoDBQuery queryID={queryParams.queryID} timeRange={timeRange} instanceData={instanceData} queryDetails={d} onSizeChange={()=>setDynamicPanelHeight(domRef)} />
-              : instanceData?.instance?.Subsystem === 'postgresql'
-                ? <PostgreSQLQuery queryID={queryParams.queryID} timeRange={timeRange} instanceData={instanceData} queryDetails={d} onSizeChange={()=>setDynamicPanelHeight(domRef)} />
+        queryParams.queryID && d && instances?.length > 0 && setQueryComponent(
+          sourceType === 'MySQL'
+            ? <MySQLQuery queryID={queryParams.queryID} timeRange={timeRange} instances={instances} instance={instances[0]} queryDetails={d} onSizeChange={()=>setDynamicPanelHeight(domRef)} />
+            : sourceType === 'MongoDB' && instances
+              ? <MongoDBQuery queryID={queryParams.queryID} timeRange={timeRange} instance={instances[0]} queryDetails={d} onSizeChange={()=>setDynamicPanelHeight(domRef)} />
+              : sourceType === 'PostgreSQL'
+                ? <PostgreSQLQuery queryID={queryParams.queryID} timeRange={timeRange} instance={instances[0]} queryDetails={d} onSizeChange={()=>setDynamicPanelHeight(domRef)} />
                 : <></>
         )
       })
@@ -217,7 +231,7 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, repl
       .finally(() => {
         setIsQueryDetailsLoading(false);
       })
-  }, [queryParams?.queryID, profile?.Query, instanceData?.instances])
+  }, [queryParams?.queryID, profile?.Query])
 
   return (
     <div ref={domRef} style={{ width: width, height: height, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -323,21 +337,28 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, repl
                     ? <Alert title='' severity='warning'>There are no queries during the selected time range, try widening your time range.</Alert>
                     : queryParams?.firstSeen
                       ? <Alert title='' severity='warning'>There are no queries First Seen during the selected time range, try widening your time range.</Alert>
-                      : instanceData?.instance?.Subsystem === 'mysql'
+                      : sourceType === 'MySQL'
                         ? <Alert title='' severity='warning'>
                             There is no query data because the MySQL Server is not configured for monitoring. For details about the
                             required configuration, see <TextLink href="https://github.com/shatteredsilicon/ssm-doc/blob/1.x/docs/conf-mysql.md" external>
                               Configuring MySQL for Shattered Silicon Monitoring
                             </TextLink> in SSM documentation.
                           </Alert>
-                        : instanceData?.instance?.Subsystem === 'mongo'
+                        : sourceType === 'MongoDB'
                           ? <Alert title='' severity='warning'>
                               There is no query data because profiling is not enabled for the selected host. For information about how to
                               enable profiling, see <TextLink href="https://github.com/shatteredsilicon/ssm-doc/blob/1.x/docs/conf-mongodb.md" external>
                                 Configuring profiling in MongoDB
                               </TextLink> in SSM documentation.
                             </Alert>
-                          : <Alert title='' severity='warning'>No data. Please check ssm-client and database configurations on selected instance.</Alert>
+                          : sourceType === 'PostgreSQL'
+                            ? <Alert title='' severity='warning'>
+                                There is no query data because the PostgreSQL Server is not configured for monitoring. For details about the
+                                required configuration, see <TextLink href="https://github.com/shatteredsilicon/ssm-doc/blob/1.x/docs/conf-postgres.md" external>
+                                  Configuring PostgreSQL for Shattered Silicon Monitoring
+                                </TextLink> in SSM documentation.
+                              </Alert>
+                            : <Alert title='' severity='warning'>No data. Please check ssm-client and database configurations on selected instance.</Alert>
                   }
                 </Stack>
               </Stack>
