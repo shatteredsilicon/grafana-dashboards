@@ -11,7 +11,7 @@ import * as beautify from 'beautify';
 import { humanize } from "panels/utils";
 import { Sparkline } from "panels/Sparkline";
 import { LatencyChart } from "panels/LatencyChart";
-import { Data as InstanceData } from "panels/useInstance";
+import { Instance } from "panels/useInstance";
 
 import 'panels/hljs.scss';
 
@@ -22,7 +22,7 @@ declare const renderjson: any;
 export interface PostgreSQLQueryProps {
   queryID: string;
   timeRange: TimeRange;
-  instanceData: InstanceData;
+  instance: Instance;
   queryDetails: QueryDetails;
   onSizeChange: ()=>void;
 }
@@ -258,25 +258,25 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
   }, [queryExplain?.json, jsonExplainRef?.current, collapseOpenState?.['json'], collapseOpenState?.['json-explain-pre']]);
 
   useEffect(()=>{
-    if (props.instanceData.instance?.Agent?.UUID === undefined || props.instanceData.instance?.UUID === undefined) return;
+    if (props.instance.Agent?.UUID === undefined || props.instance.UUID === undefined) return;
 
     getQueryInfo(
-      props.instanceData.instance.Agent.UUID,
-      props.instanceData.instance.UUID
+      props.instance.Agent.UUID,
+      props.instance.UUID
     );
-  }, [props.queryDetails.Query, props.instanceData.instance]);
+  }, [props.queryDetails.Query, props.instance]);
 
   useEffect(()=>{
-    if (queryInfo === undefined || props.queryDetails.Example === undefined || props.instanceData.instance?.Agent?.UUID === undefined || props.instanceData.instance?.UUID === undefined) return;
+    if (queryInfo === undefined || props.queryDetails.Example === undefined || props.instance.Agent?.UUID === undefined || props.instance.UUID === undefined) return;
     
     getQueryExplain(
-      props.instanceData.instance.Agent.UUID,
-      props.instanceData.instance.UUID,
+      props.instance.Agent.UUID,
+      props.instance.UUID,
       props.queryDetails.Example.Db || '',
       props.queryDetails.Example.Query,
       typeof props.queryDetails.Example.Explain === 'string' ? props.queryDetails.Example.Explain : props.queryDetails.Example.Explain.String
     );
-  }, [queryInfo, props.queryDetails.Example, props.instanceData.instance]);
+  }, [queryInfo, props.queryDetails.Example, props.instance]);
 
   useEffect(()=>{
     props.onSizeChange();
@@ -466,7 +466,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
       updateTables(props.queryID, newTables)
         .then(res=>{
           if (!res.ok) return;
-          fetchQueryInfo(props.instanceData.instance!.Agent!.UUID, props.instanceData.instance!.UUID, props.queryDetails.Example?.Db, newTables, [])
+          fetchQueryInfo(props.instance.Agent!.UUID, props.instance.UUID, props.queryDetails.Example?.Db, newTables, [])
             .then(res => res.json())
             .then(res => JSON.parse(atob(res.Data)))
             .then((res: QueryInfoResult) => {
@@ -498,7 +498,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
       updateTables(props.queryID, newTables)
         .then(res=>{
           if (!res.ok) return;
-          fetchQueryInfo(props.instanceData.instance!.Agent!.UUID, props.instanceData.instance!.UUID, props.queryDetails.Example?.Db, newTables, [])
+          fetchQueryInfo(props.instance.Agent!.UUID, props.instance.UUID, props.queryDetails.Example?.Db, newTables, [])
             .then(res => res.json())
             .then(res => JSON.parse(atob(res.Data)))
             .then((res: QueryInfoResult) => {
@@ -531,7 +531,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
       updateProcedures(props.queryID, newProcedures)
         .then(res=>{
           if (!res.ok) return;
-          fetchQueryInfo(props.instanceData.instance!.Agent!.UUID, props.instanceData.instance!.UUID, props.queryDetails.Example?.Db, [], newProcedures)
+          fetchQueryInfo(props.instance.Agent!.UUID, props.instance.UUID, props.queryDetails.Example?.Db, [], newProcedures)
             .then(res => res.json())
             .then(res => JSON.parse(atob(res.Data)))
             .then((res: QueryInfoResult) => {

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef, ReactNode } from 'react';
+import { RefreshEvent } from '@grafana/runtime';
 import { formattedValueToString, getValueFormat, PanelProps } from '@grafana/data';
 import { Alert, Box, Button, Checkbox, Collapse, Combobox, IconButton, InlineLabel, Input, RadioButtonGroup, Stack, Text, useStyles2 } from '@grafana/ui';
 import { AgentDefaults, AgentLog, AgentStatus, QanSettingsOptions } from '../types';
-import { useInstance } from '../../useInstance';
+import { useInstance, Instance } from '../../useInstance';
 import { css } from '@emotion/css';
 import { formatDistanceToNow } from 'date-fns';
 import { useRDS } from 'panels/useRDS';
@@ -41,7 +42,7 @@ const getStyles = () => {
   }
 }
 
-export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
+export const QanSettingsPanel: React.FC<Props> = ({ eventBus, replaceVariables }) => {
   const styles = useStyles2(getStyles);
   const domRef = useRef<HTMLDivElement | null>(null);
 
@@ -74,6 +75,18 @@ export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
   const [filterOmit, setFilterOmit] = useState<string>();
 
   const instanceData = useInstance(replaceVariables);
+  const [sourceType, setSourceType] = useState<string>(replaceVariables('$type'));
+  useEffect(()=>{
+    const subscriber = eventBus.getStream(RefreshEvent).subscribe(event => {
+      setSourceType(replaceVariables('$type'));
+    })
+
+    return () => {
+      subscriber.unsubscribe();
+    }
+  }, [eventBus, replaceVariables]);
+  const [instance, setInstance] = useState<Instance>();
+  useEffect(()=>{ setInstance(instanceData?.instances.filter(inst => sourceType?.toLocaleLowerCase().includes(inst.Subsystem))?.[0]) }, [instanceData?.instances, sourceType])
   const rdsData = useRDS();
 
   function calculatePanelHeight() {
@@ -164,10 +177,10 @@ export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
   }
 
   useEffect(() => {
-    if (instanceData?.instance === undefined) { return; }
+    if (instance === undefined) { return; }
 
-    const agentUUID = instanceData?.instance?.Agent?.UUID;
-    const instanceUUID = instanceData?.instance?.UUID;
+    const agentUUID = instance.Agent?.UUID;
+    const instanceUUID = instance.UUID;
     if (agentUUID !== undefined && instanceUUID !== undefined){
       setIsSettingsLoaded(true);
       setSettings(undefined);
@@ -176,7 +189,7 @@ export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
     }
     reloadStatus();
     reloadLog();
-  }, [instanceData?.instance]);
+  }, [instance]);
 
   useEffect(() => {
     calculatePanelHeight();
@@ -197,7 +210,7 @@ export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
   }, [statusLoadedAt]);
 
   function reloadStatus() {
-    const agentUUID = instanceData?.instance?.Agent?.UUID;
+    const agentUUID = instance?.Agent?.UUID;
     if (agentUUID === undefined) { return; }
     setStatusLoadedAt(undefined);
     setStatus(undefined);
@@ -206,7 +219,7 @@ export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
   }
 
   function reloadLog() {
-    const agentUUID = instanceData?.instance?.Agent?.UUID;
+    const agentUUID = instance?.Agent?.UUID;
     if (agentUUID === undefined) { return; }
     const [begin, end] = getLogTimeRange();
     setLogLoadedAt(undefined);
@@ -215,8 +228,8 @@ export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
   }
 
   function applySettings() {
-    const agentUUID = instanceData?.instance?.Agent?.UUID;
-    const instanceUUID = instanceData?.instance?.UUID;
+    const agentUUID = instance?.Agent?.UUID;
+    const instanceUUID = instance?.UUID;
     if (agentUUID === undefined || instanceUUID === undefined) { return; }
     setisSettingsApplying(true);
     setApplySettingsAlert(undefined);
@@ -252,7 +265,7 @@ export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
   }
 
   function isRDS(): boolean {
-    return rdsData?.instances?.some(inst => inst.agent.qan_db_instance_uuid === instanceData?.instance?.UUID) || false;
+    return rdsData?.instances?.some(inst => inst.agent.qan_db_instance_uuid === instance?.UUID) || false;
   }
 
   useEffect(()=>{
@@ -265,7 +278,7 @@ export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
 
   return (
     <div ref={domRef}>
-      {instanceData?.instance &&
+      {instance &&
         <Collapse
           collapsible
           label={<Text element='h4'>Settings</Text>}
@@ -284,11 +297,11 @@ export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
                       <Stack grow={1} direction='column'>
                         <Stack direction='row'>
                           <Box flex='0 0 30%'><Text element='p' textAlignment='right'>DSN:</Text></Box>
-                          <Box flex='0 0 70%'><Text element='p'>{instanceData?.instance.DSN.split('/?')[0]}</Text></Box>
+                          <Box flex='0 0 70%'><Text element='p'>{instance.DSN.split('/?')[0]}</Text></Box>
                         </Stack>
                         <Stack direction='row'>
                           <Box flex='0 0 30%'><Text element='p' textAlignment='right'>Version:</Text></Box>
-                          <Box flex='0 0 70%'><Text element='p'>{instanceData?.instance.Version + ' ' + instanceData?.instance.Distro}</Text></Box>
+                          <Box flex='0 0 70%'><Text element='p'>{instance.Version + ' ' + instance.Distro}</Text></Box>
                         </Stack>
                         <Stack direction='row'>
                           <Box flex='0 0 30%'><Text element='p' textAlignment='right'>Collect interval:</Text></Box>
@@ -357,8 +370,8 @@ export const QanSettingsPanel: React.FC<Props> = ({ replaceVariables }) => {
                           <Box flex='0 0 30%'><Text element='p'>{settings?.qan?.RetainSlowLogs !== undefined ? settings.qan.RetainSlowLogs : 'N/A'}</Text></Box>
                           <Box flex='0 0 30%'><Text element='p'>{''}</Text></Box>
                         </Stack>
-                        {(instanceData?.instance.Distro.toLowerCase().indexOf('percona') !== -1
-                          || !instanceData?.instance.Version.startsWith('5.5'))
+                        {(instance.Distro.toLowerCase().indexOf('percona') !== -1
+                          || !instance.Version.startsWith('5.5'))
                           && (
                             <>
                               <Stack direction='row'>

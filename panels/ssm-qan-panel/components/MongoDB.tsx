@@ -11,7 +11,7 @@ import * as beautify from 'beautify';
 import { humanize } from "panels/utils";
 import { Sparkline } from "panels/Sparkline";
 import { LatencyChart } from "panels/LatencyChart";
-import { Data as InstanceData } from "panels/useInstance";
+import { Instance } from "panels/useInstance";
 
 import 'panels/hljs.scss';
 
@@ -22,7 +22,7 @@ declare const renderjson: any;
 export interface MongoDBQueryProps {
   queryID: string;
   timeRange: TimeRange;
-  instanceData: InstanceData;
+  instance: Instance
   queryDetails: QueryDetails;
   onSizeChange: ()=>void;
 }
@@ -173,16 +173,16 @@ export const MongoDBQuery: React.FC<MongoDBQueryProps> = (props) => {
   }, [queryExplain?.json, jsonExplainRef?.current, collapseOpenState?.['json'], collapseOpenState?.['json-explain-pre']]);
 
   useEffect(()=>{
-    if (props.queryDetails.Example === undefined || props.instanceData.instance?.Agent?.UUID === undefined || props.instanceData.instance?.UUID === undefined) return;
+    if (props.queryDetails.Example === undefined || props.instance.Agent?.UUID === undefined || props.instance.UUID === undefined) return;
     
     getQueryExplain(
-      props.instanceData.instance.Agent.UUID,
-      props.instanceData.instance.UUID,
+      props.instance.Agent.UUID,
+      props.instance.UUID,
       props.queryDetails.Example.Db || '',
       props.queryDetails.Example.Query,
       typeof props.queryDetails.Example.Explain === 'string' ? props.queryDetails.Example.Explain : props.queryDetails.Example.Explain.String
     );
-  }, [props.queryDetails.Example, props.instanceData.instance]);
+  }, [props.queryDetails.Example, props.instance]);
 
   useEffect(()=>{
     props.onSizeChange();

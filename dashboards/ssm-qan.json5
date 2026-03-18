@@ -422,21 +422,21 @@ sum( \n\
                     "expr": "\
 sum( \n\
     ( \n\
-        max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) \n\
+        max_over_time(mysql_global_status_threads_connected{instance=~\"$host\", job=~\"(?i)$type\"}[$interval]) \n\
         or \n\
-        max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m]) \n\
+        max_over_time(mysql_global_status_threads_connected{instance=~\"$host\", job=~\"(?i)$type\"}[5m]) \n\
     ) \n\
     or \n\
     ( \n\
-        max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[$interval]) \n\
+        max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\", job=~\"(?i)$type\"}[$interval]) \n\
         or \n\
-        max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[5m]) \n\
+        max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\", job=~\"(?i)$type\"}[5m]) \n\
     ) \n\
     or \n\
     ( \n\
-        max_over_time(pg_stat_database_numbackends{instance=~\"$host\",datname=\"postgres\"}[$interval]) \n\
+        max_over_time(pg_stat_database_numbackends{instance=~\"$host\",datname=\"postgres\", job=~\"(?i)$type\"}[$interval]) \n\
         or \n\
-        max_over_time(pg_stat_database_numbackends{instance=~\"$host\",datname=\"postgres\"}[5m]) \n\
+        max_over_time(pg_stat_database_numbackends{instance=~\"$host\",datname=\"postgres\", job=~\"(?i)$type\"}[5m]) \n\
     ) \n\
 ) \n\
 ",
@@ -449,9 +449,9 @@ sum( \n\
                 {
                     "expr": "\
 sum( \n\
-    max_over_time(mysql_global_status_threads_running{instance=~\"$host\"}[$interval]) \n\
+    max_over_time(mysql_global_status_threads_running{instance=~\"$host\", job=~\"(?i)$type\"}[$interval]) \n\
     or \n\
-    max_over_time(mysql_global_status_threads_running{instance=~\"$host\"}[5m]) \n\
+    max_over_time(mysql_global_status_threads_running{instance=~\"$host\", job=~\"(?i)$type\"}[5m]) \n\
 ) \n\
 ",
                     "format": "time_series",
@@ -464,47 +464,47 @@ sum( \n\
                     "expr": "\
 sum( \n\
     ( \n\
-        rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
+        rate(mysql_global_status_queries{instance=~\"$host\", job=~\"(?i)$type\"}[$interval]) \n\
         or \n\
-        rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
+        rate(mysql_global_status_queries_total{instance=~\"$host\", job=~\"(?i)$type\"}[$interval]) \n\
         or \n\
-        irate(mysql_global_status_queries{instance=~\"$host\"}[5m]) \n\
+        irate(mysql_global_status_queries{instance=~\"$host\", job=~\"(?i)$type\"}[5m]) \n\
         or \n\
-        irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
+        irate(mysql_global_status_queries_total{instance=~\"$host\", job=~\"(?i)$type\"}[5m]) \n\
     ) \n\
     or \n\
     ( \n\
         sum( \n\
-            rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
+            rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\", job=~\"(?i)$type\"}[$interval]) \n\
         ) \n\
         or \n\
         sum( \n\
-            irate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[5m]) \n\
+            irate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\", job=~\"(?i)$type\"}[5m]) \n\
         ) \n\
     ) \n\
     or \n\
     ( \n\
         sum( \n\
             ( \n\
-                rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) \n\
+                rate(pg_stat_database_xact_commit{instance=~\"$host\", job=~\"(?i)$type\"}[$interval]) \n\
                 or \n\
-                rate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[$interval]) \n\
+                rate(pg_stat_database_xact_commit_total{instance=~\"$host\", job=~\"(?i)$type\"}[$interval]) \n\
             ) + ( \n\
-                rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
+                rate(pg_stat_database_xact_rollback{instance=~\"$host\", job=~\"(?i)$type\"}[$interval]) \n\
                 or \n\
-                rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
+                rate(pg_stat_database_xact_rollback_total{instance=~\"$host\", job=~\"(?i)$type\"}[$interval]) \n\
             ) \n\
         ) \n\
         or \n\
         sum( \n\
             ( \n\
-                irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) \n\
+                irate(pg_stat_database_xact_commit{instance=~\"$host\", job=~\"(?i)$type\"}[5m]) \n\
                 or \n\
-                irate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[5m]) \n\
+                irate(pg_stat_database_xact_commit_total{instance=~\"$host\", job=~\"(?i)$type\"}[5m]) \n\
             ) + ( \n\
-                irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]) \n\
+                irate(pg_stat_database_xact_rollback{instance=~\"$host\", job=~\"(?i)$type\"}[5m]) \n\
                 or \n\
-                irate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[5m]) \n\
+                irate(pg_stat_database_xact_rollback_total{instance=~\"$host\", job=~\"(?i)$type\"}[5m]) \n\
             ) \n\
         ) \n\
     ) \n\
@@ -631,6 +631,38 @@ UNION   \n\
                 "refresh": 1,
                 "regex": "",
                 "sort": 1,
+                "tagValuesQuery": "",
+                "tags": [],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
+            },
+            {
+                "allValue": null,
+                "current": {},
+                "datasource": "QAN-API",
+                "hide": 0,
+                "includeAll": false,
+                "label": "Type",
+                "multi": false,
+                "name": "type",
+                "options": [],
+                "query": "\
+SELECT \n\
+    CASE \n\
+        WHEN `subsystem_id` = 3 THEN 'MySQL' \n\
+        WHEN `subsystem_id` = 4 THEN 'MongoDB' \n\
+        WHEN `subsystem_id` = 5 THEN 'PostgreSQL' \n\
+        ELSE NULL \n\
+    END AS subsystem \n\
+FROM `ssm`.`instances`  \n\
+WHERE `subsystem_id` IN (3, 4, 5)  \n\
+    AND (`deleted` IS NULL OR `deleted` < '1971-01-01 00:00:01') \n\
+    AND name IN (${host}) \n\
+; \n\
+",
+                "refresh": 1,
+                "regex": "",
                 "tagValuesQuery": "",
                 "tags": [],
                 "tagsQuery": "",

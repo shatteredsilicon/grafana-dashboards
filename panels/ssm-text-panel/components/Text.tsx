@@ -148,7 +148,7 @@ export const TextPanel: React.FC<Props> = ({options, timeRange, width, height, r
   }
 
   async function queryReports(timeRange: TimeRange, load: number): Promise<QueryReport[]> {
-    return fetch(`/qan-api/qan/summary-queries?begin=${timeRange.from.toISOString().replace(/Z$/, '')}&end=${timeRange.to.toISOString().replace(/Z$/, '')}&load=${load}&${instanceData?.instances.map(instance => `uuids[]=${instance.UUID}`).join('&')}`, {
+    return fetch(`/qan-api/qan/summary-queries?begin=${timeRange.from.toISOString().replace(/Z$/, '')}&end=${timeRange.to.toISOString().replace(/Z$/, '')}&load=${load}&${instanceData?.mysqlInstances.map(instance => `uuids[]=${instance.UUID}`).join('&')}`, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -160,7 +160,7 @@ export const TextPanel: React.FC<Props> = ({options, timeRange, width, height, r
     if (!options.report) return;
 
     (window as any).downloadReport = async ({delay = 5000, from = 'now-7d', to = 'now', load = 0.01}) => {
-      if (!instanceData?.instances.length) {
+      if (!instanceData?.mysqlInstances.length) {
         console.log('instance data is missing or not loaded yet');
         return;
       }
@@ -222,7 +222,7 @@ export const TextPanel: React.FC<Props> = ({options, timeRange, width, height, r
     return () => {
       delete (window as any).downloadReport;
     };
-  }, [timeRange, onChangeTimeRange, instanceData?.instances, options.report]);
+  }, [timeRange, onChangeTimeRange, instanceData?.mysqlInstances, options.report]);
 
   return (
     <div ref={domRef} className={styles.containStrict}>
