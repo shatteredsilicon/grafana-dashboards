@@ -29,6 +29,7 @@
     "@zip.js/zip.js": "^2.8.23",
     "babel-loader": "^10.1.1",
     "beautify": "https://github.com/shatteredsilicon/Beautify",
+    "brace-expansion": "^5.0.5",
     "copy-webpack-plugin": "^14.0.0",
     "css-loader": "^7.1.4",
     "file-saver-es": "^2.0.5",
@@ -39,7 +40,9 @@
     "lodash": "^4.17.23",
     "markdown-escape": "^2.0.0",
     "mustache": "^4.2.0",
+    "picomatch": "^4.0.4",
     "remarkable": "^2.0.1",
+    "serialize-javascript": "^7.0.5",
     "style-loader": "^4.0.0",
     "ts-node": "^10.9.2",
     "webpack": "^5.105.4"
