@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { PanelProps } from '@grafana/data';
+import { PanelProps, dateTimeFormat } from '@grafana/data';
 import { QANMessage, QANOptions, QANProfile, QueryDetails } from '../types';
 import { humanize, setDynamicPanelHeight } from 'panels/utils';
 import { Sparkline } from 'panels/Sparkline';
@@ -28,7 +28,7 @@ const getStyles = (_: any, width: number) => {
     `,
     row: css`
       display: grid;
-      grid-template-columns: 1fr 9fr 7fr 10fr 9fr;
+      grid-template-columns: 1fr 8fr 6fr 9fr 7fr 5fr;
       min-height: 40px;
       width: 100%;
     `,
@@ -43,6 +43,9 @@ const getStyles = (_: any, width: number) => {
       width: 100%;
       border-bottom: 1px solid #292929;
       border-right: 1px solid #292929;
+    `,
+    sortCell: css`
+      cursor: pointer;
     `,
     hide: css`
       overflow: hidden;
@@ -116,7 +119,7 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, even
   useEffect(() => {
     if ((_.isEqual(prevTimeRange, timeRange) && _.isEqual(_.omit(queryParams, 'queryID'), _.omit(prevQueryParams, 'queryID')) && _.isEqual(prevInstances, instances)) || !instances?.length) { return; }
 
-    loadQueries(undefined, true);
+    loadQueries(true);
     setPrevQueryParams(queryParams);
     setPrevTimeRange(timeRange);
     setPrevInstances(instances);
@@ -154,19 +157,18 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, even
       })
   }
 
-  function loadQueries(sortKey?: string, reset: boolean = false) {
+  function loadQueries(reset: boolean = false) {
     if (reset) { setIsProfileLoading(true); } else { setIsMoreProfileLoading(true); }
     reset && setProfile(undefined);
 
     const search = isSearchQuery() ? queryParams!.search! : '';
     const firstSeen = queryParams?.firstSeen;
-    const sortQueriesBy = sortKey || queryParams?.sortBy || '';
 
     const searchValue = btoa(
       search.replace(/%([0-9A-F]{2})/g,
         (match, p1) => String.fromCharCode(Number('0x' + p1)))
     );
-    fetch(`/qan-api/qan/profile?begin=${timeRange.from.toISOString().replace(/Z$/, '')}&end=${timeRange.to.toISOString().replace(/Z$/, '')}&offset=${reset || profile === undefined || profile.Query === null ? 0 : (profile.Query.length - 1)}&first_seen=${String(!!firstSeen)}&search=${searchValue}&sort_by=${sortQueriesBy}&${instances?.map(instance => `uuids[]=${instance.UUID}`).join('&')}`, {
+    fetch(`/qan-api/qan/profile?begin=${timeRange.from.toISOString().replace(/Z$/, '')}&end=${timeRange.to.toISOString().replace(/Z$/, '')}&offset=${reset || profile === undefined || profile.Query === null ? 0 : (profile.Query.length - 1)}&first_seen=${String(!!firstSeen)}&search=${searchValue}${queryParams?.sortBy ? `&sort_by=${queryParams?.sortBy}` : ''}&${instances?.map(instance => `uuids[]=${instance.UUID}`).join('&')}`, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -198,6 +200,11 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, even
   function setQueryID(v: string) {
     setQueryParam({ 'queryID': v });
     setQueryParams(queryParams === undefined ? undefined : { ...queryParams, queryID: v });
+  }
+
+  function setSortBy(v?: string) {
+    v !== undefined && setQueryParam({ 'sort_by': v });
+    setQueryParams(queryParams === undefined ? undefined : { ...queryParams, sortBy: v });
   }
 
   function isSearchQuery() {
@@ -261,9 +268,30 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, even
               <div className={styles.row}>
                 <div className={styles.cell}>#</div>
                 <div className={styles.cell}>Query Abstract</div>
-                <div className={styles.cell}>Load</div>
-                <div className={styles.cell}>Count</div>
-                <div className={styles.cell}>Latency</div>
+                <div className={`${styles.cell} ${styles.sortCell}`} onClick={()=>{ queryParams?.sortBy === 'load' ? setSortBy(undefined) : setSortBy('load') }}>
+                  <Stack direction='row' justifyContent='space-between' width='100%'>
+                    <span>Load</span>
+                    {queryParams?.sortBy === 'load' && <span><Icon name='arrow-down' /></span>}
+                  </Stack>
+                </div>
+                <div className={`${styles.cell} ${styles.sortCell}`} onClick={()=>{ queryParams?.sortBy === 'count' ? setSortBy(undefined) : setSortBy('count') }}>
+                  <Stack direction='row' justifyContent='space-between' width='100%'>
+                    <span>Count</span>
+                    {queryParams?.sortBy === 'count' && <span><Icon name='arrow-down' /></span>}
+                  </Stack>
+                </div>
+                <div className={`${styles.cell} ${styles.sortCell}`} onClick={()=>{ queryParams?.sortBy === 'latency' ? setSortBy(undefined) : setSortBy('latency') }}>
+                  <Stack direction='row' justifyContent='space-between' width='100%'>
+                    <span>Latency</span>
+                    {queryParams?.sortBy === 'latency' && <span><Icon name='arrow-down' /></span>}
+                  </Stack>
+                </div>
+                <div className={`${styles.cell} ${styles.sortCell}`} onClick={()=>{ queryParams?.sortBy === 'first_seen' ? setSortBy(undefined) : setSortBy('first_seen') }}>
+                  <Stack direction='row' justifyContent='space-between' width='100%'>
+                    <span>First Seen</span>
+                    {queryParams?.sortBy === 'first_seen' && <span><Icon name='arrow-down' /></span>}
+                  </Stack>
+                </div>
               </div>
               {profile?.Query?.length && profile.Query.length > 1 &&
                 profile?.Query?.map((q, i) => {
@@ -325,6 +353,7 @@ export const QANPanel: React.FC<Props> = ({ timeRange, data, width, height, even
                           />
                         </Stack>
                       </div>
+                      <div className={styles.cell}>{q.Rank ? dateTimeFormat(q.FirstSeen, {format: 'YYYY-MM-DD HH:mm:ss'}) : ''}</div>
                     </div>
                   );
                 })
