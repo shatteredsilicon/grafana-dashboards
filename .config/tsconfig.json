@@ -9,10 +9,13 @@
     "alwaysStrict": true,
     "declaration": false,
     "rootDir": "../",
-    "baseUrl": "../",
+    "paths": {
+      "panels/*": ["../panels/*"]
+    },
     "typeRoots": ["../node_modules/@types", "../panels"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "noUncheckedSideEffectImports": false,
     "types": ["node"]
   },
   "ts-node": {
