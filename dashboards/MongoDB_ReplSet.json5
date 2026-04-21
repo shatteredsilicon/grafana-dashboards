@@ -1017,12 +1017,16 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "mongodb_mongod_replset_member_uptime{instance=~\"$host\"}\n* on (name) group_right(state) (max_over_time(mongodb_mongod_replset_my_name[$interval]) or max_over_time(mongodb_mongod_replset_my_name[5m]))",
+            "expr": "\
+label_replace(label_replace(mongodb_mongod_replset_member_uptime{instance=~\"$host\"}, \"member_idx\", \"$1\", \"name\", \"(.*)\"), \"member_state\", \"$1\", \"state\", \"(.*)\") \n\
+or \n\
+mongodb_members_uptime{instance=~\"$host\"} \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,
-            "legendFormat": "{{ instance }} - {{state}}",
+            "legendFormat": "{{ member_idx }} - {{ member_state }}",
             "metric": "",
             "refId": "J",
             "step": 300
@@ -1220,7 +1224,9 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "mongodb_mongod_replset_member_ping_ms{instance=~\"$host\"}\n* on (name) group_right(state) (max_over_time(mongodb_mongod_replset_my_name[$interval]) or max_over_time(mongodb_mongod_replset_my_name[5m]))",
+            "expr": "\
+max by (name) (mongodb_mongod_replset_member_ping_ms{instance=~\"$host\", state!=\"(not reachable/healthy)\"}) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",

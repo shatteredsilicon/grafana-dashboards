@@ -1982,7 +1982,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_extra_info_page_faults_total{instance=~\"$host\"}[$interval]) or irate(mongodb_mongod_extra_info_page_faults_total{instance=~\"$host\"}[5m])",
+            "expr": "rate(mongodb_mongod_extra_info_page_faults_total{instance=~\"$host\"}[$interval]) or rate(mongodb_extra_info_page_faults_total{instance=~\"$host\"}[$interval])",
             "hide": false,
             "interval": "$interval",
             "intervalFactor": 1,

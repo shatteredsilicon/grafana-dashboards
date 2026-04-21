@@ -1242,7 +1242,20 @@ sum( \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "sum by () (max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) or \nmax_over_time(mongodb_mongod_connections{instance=~\"$host\",state=\"current\"}[$interval]) or\nsum by (instance) (max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[$interval])))",
+            "expr": "\n\
+sum by () ( \n\
+  max_over_time( \n\
+    mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) \n\
+    or \n\
+    max_over_time(mongodb_mongod_connections{instance=~\"$host\",state=\"current\"}[$interval]) \n\
+    or \n\
+    max_over_time(mongodb_connections{instance=~\"$host\",state=\"current\"}[$interval]) \n\
+    or \n\
+    sum by (instance) ( \n\
+      max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[$interval] \n\
+    ) \n\
+  ) \n\
+)",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1325,10 +1338,6 @@ sum by () ( \n\
     rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
     or \n\
     rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
-    or \n\
-    irate(mysql_global_status_queries{instance=~\"$host\"}[5m]) \n\
-    or \n\
-    irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
   ) \n\
   or \n\
   ( \n\
@@ -1337,7 +1346,7 @@ sum by () ( \n\
     ) \n\
     or \n\
     sum( \n\
-      irate(mongodb_mongod_op_counters_total{instance=~\"$host\",type!=\"command\"}[5m]) \n\
+      rate(mongodb_mongod_op_counters_total{instance=~\"$host\",type!=\"command\"}[$interval]) \n\
     ) \n\
   ) \n\
   or \n\
@@ -1351,18 +1360,6 @@ sum by () ( \n\
         rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
         or \n\
         rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
-      ) \n\
-    ) \n\
-    or \n\
-    sum( \n\
-      ( \n\
-        irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) \n\
-        or \n\
-        irate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[5m]) \n\
-      ) + ( \n\
-        irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]) \n\
-        or \n\
-        irate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[5m]) \n\
       ) \n\
     ) \n\
   ) \n\
@@ -1689,7 +1686,16 @@ sum by () ( \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "avg(mysql_global_status_uptime{instance=~\"$host\"} or \nmongodb_mongod_instance_uptime_seconds {instance=~\"$host\"} or \n(time() - process_start_time_seconds{instance=~\"$host\",job=~\"postgresql\"}))",
+            "expr": "\n\
+avg( \n\
+  mysql_global_status_uptime{instance=~\"$host\"} \n\
+  or \n\
+  mongodb_mongod_instance_uptime_seconds{instance=~\"$host\"} \n\
+  or \n\
+  ( \n\
+    time() - process_start_time_seconds{instance=~\"$host\",job=~\"postgresql\"} \n\
+  ) \n\
+)",
             "format": "time_series",
             "instant": false,
             "interval": "5m",
@@ -2520,23 +2526,17 @@ max ( \n\
 sum( \n\
   ( \n\
     max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) \n\
-    or \n\
-    max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[5m]) \n\
   ) \n\
   or \n\
   ( \n\
     max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[$interval]) \n\
     or \n\
-    max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[5m]) \n\
+    max_over_time(mongodb_connections{instance=~\"$host\", state=\"current\"}[$interval]) \n\
   ) \n\
   or \n\
   ( \n\
     sum by (instance) ( \n\
       max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[$interval]) \n\
-    ) \n\
-    or \n\
-    sum by (instance) ( \n\
-      max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[5m]) \n\
     ) \n\
   ) \n\
 ) \n\
@@ -2634,10 +2634,6 @@ sum( \n\
     rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
     or \n\
     rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
-    or \n\
-    irate(mysql_global_status_queries{instance=~\"$host\"}[5m]) \n\
-    or \n\
-    irate(mysql_global_status_queries_total{instance=~\"$host\"}[5m]) \n\
   ) \n\
   or \n\
   ( \n\
@@ -2646,7 +2642,7 @@ sum( \n\
     ) \n\
     or \n\
     sum( \n\
-      irate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[5m]) \n\
+      rate(mongodb_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
     ) \n\
   ) \n\
   or \n\
@@ -2660,18 +2656,6 @@ sum( \n\
         rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
         or \n\
         rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
-      ) \n\
-    ) \n\
-    or \n\
-    sum( \n\
-      ( \n\
-        irate(pg_stat_database_xact_commit{instance=~\"$host\"}[5m]) \n\
-        or \n\
-        irate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[5m]) \n\
-      ) + ( \n\
-        irate(pg_stat_database_xact_rollback{instance=~\"$host\"}[5m]) \n\
-        or \n\
-        irate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[5m]) \n\
       ) \n\
     ) \n\
   ) \n\
@@ -2937,7 +2921,18 @@ sum( \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "topk(1,(mysql_global_status_uptime{instance=~\"$host\"} or \nmongodb_mongod_instance_uptime_seconds {instance=~\"$host\"} or \n(time() - process_start_time_seconds{instance=~\"$host\",job=~\"postgresql\"})))",
+            "expr": "\n\
+topk(1, \n\
+  ( \n\
+    mysql_global_status_uptime{instance=~\"$host\"} \n\
+    or \n\
+    mongodb_mongod_instance_uptime_seconds{instance=~\"$host\"} \n\
+    or \n\
+    ( \n\
+      time() - process_start_time_seconds{instance=~\"$host\",job=~\"postgresql\"} \n\
+    ) \n\
+  ) \n\
+)",
             "format": "time_series",
             "interval": "5m",
             "intervalFactor": 1,
