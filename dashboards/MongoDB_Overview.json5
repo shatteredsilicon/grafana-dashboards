@@ -205,7 +205,13 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) or \nirate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[5m]) or \nrate(mongodb_mongos_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) or \nirate(mongodb_mongos_op_counters_total{instance=~\"$host\", type!=\"command\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongos_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
+or \n\
+rate(mongodb_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -341,7 +347,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "mongodb_mongod_connections{instance=~\"$host\", state=\"current\"} or\nmongodb_mongos_connections{instance=~\"$host\", state=\"current\"}",
+            "expr": "mongodb_mongod_connections{instance=~\"$host\", state=\"current\"} or\nmongodb_mongos_connections{instance=~\"$host\", state=\"current\"} or\nmongodb_connections{instance=~\"$host\", state=\"current\"}",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -1229,7 +1235,13 @@ irate(mongodb_mongos_metrics_get_last_error_wtime_total_milliseconds_total{insta
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_asserts_total{instance=~\"$host\"}[$interval]) or \nirate(mongodb_mongod_asserts_total{instance=~\"$host\"}[5m]) or\nrate(mongodb_mongos_asserts_total{instance=~\"$host\"}[$interval]) or \nirate(mongodb_mongos_asserts_total{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_asserts_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongos_asserts_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_asserts_total{instance=~\"$host\"}[$interval]) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -1331,7 +1343,13 @@ irate(mongodb_mongos_metrics_get_last_error_wtime_total_milliseconds_total{insta
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "rate(mongodb_mongod_extra_info_page_faults_total{instance=~\"$host\"}[$interval]) or \nirate(mongodb_mongod_extra_info_page_faults_total{instance=~\"$host\"}[5m]) or\nrate(mongodb_mongos_extra_info_page_faults_total{instance=~\"$host\"}[$interval]) or \nirate(mongodb_mongos_extra_info_page_faults_total{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mongodb_mongod_extra_info_page_faults_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_mongos_extra_info_page_faults_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+rate(mongodb_extra_info_page_faults_total{instance=~\"$host\"}[$interval]) \n\
+",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -1498,7 +1516,7 @@ irate(mongodb_mongos_metrics_get_last_error_wtime_total_milliseconds_total{insta
           "multiFormat": "glob",
           "name": "host",
           "options": [],
-          "query": "label_values({__name__=~\"mongodb_mongod_connections|mongodb_up\", cluster=~\"$cluster\"}, instance)",
+          "query": "label_values({__name__=~\"mongodb_mongod_connections|mongodb_connections|mongodb_up\", cluster=~\"$cluster\"}, instance)",
           "refresh": 2,
           "regex": "",
           "skipUrlSync": false,
