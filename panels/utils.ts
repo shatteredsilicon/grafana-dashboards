@@ -1,6 +1,12 @@
-import { Field, FieldType } from "@grafana/data";
+import { css } from "@emotion/css";
+import { Field, FieldType, GrafanaTheme2 } from "@grafana/data";
 import * as moment from 'moment';
 import numeral from 'numeral';
+
+export const GRAFANA_GRID_CELL_HEIGHT = 30;
+export const GRAFANA_GRID_CELL_VMARGIN = 8;
+export const GRAFANA_GRID_CELL_GAP = 8;
+export const GRAFANA_GRID_COLUMN_COUNT = 24;
 
 export function setDynamicPanelHeight(domRef: React.MutableRefObject<HTMLElement | null>) {
   const panel = domRef.current?.closest('[class$="panel-container"]') as HTMLElement;
@@ -101,4 +107,28 @@ export function humanize(input: number, name: string): string {
   }
   return String(res).replace('<0.00', '<0.01');
 
+}
+
+/**
+ * This translates grid height dimensions to real pixels
+ */
+export function translateGrafanaGridHeight(gridHeight: number): number {
+  return gridHeight * (GRAFANA_GRID_CELL_HEIGHT + GRAFANA_GRID_CELL_VMARGIN) - GRAFANA_GRID_CELL_VMARGIN;
+}
+
+export const getGrafanaGridStyles = (theme: GrafanaTheme2, width: number) => {
+  return {
+    grid: css`
+      display: grid;
+      width: ${width}px;
+      grid-template-columns: repeat(${GRAFANA_GRID_COLUMN_COUNT}, 1fr);
+      grid-auto-rows: min-content;
+      gap: ${GRAFANA_GRID_CELL_GAP}px;
+    `
+  };
+};
+
+export function translateGrafanaGridWidth(width: number, gridWidth: number): number {
+  const unitWidth = (width - (GRAFANA_GRID_COLUMN_COUNT - 1) * GRAFANA_GRID_CELL_GAP) / GRAFANA_GRID_COLUMN_COUNT;
+  return gridWidth * unitWidth + (gridWidth - 1) * GRAFANA_GRID_CELL_GAP;
 }

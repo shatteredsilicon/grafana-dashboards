@@ -456,273 +456,249 @@
         "type": "ssm-update-panel"
       },
       {
-        "collapsed": false,
-        "datasource": {
-          "type": "prometheus"
-        },
+        "transparent": true,
         "gridPos": {
-          "h": 1,
+          "h": 10,
           "w": 24,
           "x": 0,
           "y": 14
         },
-        "panels": [],
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "refId": "A"
-          }
-        ],
-        "title": "Environment Overview",
-        "type": "row"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "decimals": 0,
-        "editable": true,
-        "error": false,
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 0,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "System Overview",
-            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range"
-          }
-        ],
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 0,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": null
-                },
-                {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 70
-                },
-                {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": 90
-                }
-              ]
-            },
-            "unit": "percent",
-            "links": [
-              {
-                "targetBlank": true,
-                "title": "System Overview",
-                "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range"
-              }
-            ]
-          },
-          "overrides": []
-        },
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 24
-          }
-        },
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-avg by () ( \n\
-  ( \n\
-    sum by (instance,cpu) ( \n\
-      ( \n\
-        clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
-          or \n\
-          rate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
-          1 \n\
-        ) \n\
-      ) \n\
-      or \n\
-      ( \n\
-        clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
-          or \n\
-          irate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
-          1 \n\
-        ) \n\
-      ) \n\
-    ) \n\
-  ) * 100 \n\
-  or \n\
-  sum by () ( \n\
-    avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\"}[$interval]) \n\
-    or \n\
-    avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\"}[5m]) \n\
-  ) \n\
-) \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "CPU Busy",
-        "type": "stat",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "decimals": 0,
-        "editable": true,
-        "error": false,
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 2,
-          "y": 15
-        },
         "interval": "$interval",
         "links": [],
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
+        "maxDataPoints": 100,
+        "options": {
+          "title": "Environment Overview",
+          "header": [
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "links": [
+                {
+                  "targetBlank": true,
+                  "title": "System Overview",
+                  "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": null
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 70
+                      },
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": 90
+                      }
+                    ]
+                  },
+                  "unit": "percent",
+                  "links": [
+                    {
+                      "targetBlank": true,
+                      "title": "System Overview",
+                      "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range"
+                    }
+                  ]
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "text": {
+                  "valueSize": 24
+                }
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      avg by () ( \n\
+        ( \n\
+          sum by (instance,cpu) ( \n\
+            ( \n\
+              clamp_max( \n\
+                rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
+                or \n\
+                rate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
+                1 \n\
+              ) \n\
+            ) \n\
+            or \n\
+            ( \n\
+              clamp_max( \n\
+                irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
+                or \n\
+                irate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
+                1 \n\
+              ) \n\
+            ) \n\
+          ) \n\
+        ) * 100 \n\
+        or \n\
+        sum by () ( \n\
+          avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\"}[$interval]) \n\
+          or \n\
+          avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\"}[5m]) \n\
+        ) \n\
+      ) \n\
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "title": "CPU Busy",
+              "type": "stat",
+              "valueMaps": [
+                {
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
+                }
+              ],
+              "valueName": "current"
             },
-            "decimals": 0,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": null
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 10
+                      },
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": 20
+                      }
+                    ]
+                  },
+                  "unit": "percent"
                 },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": null
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
                 },
+                "textMode": "value",
+                "text": {
+                  "valueSize": 24
+                }
+              },
+              "targets": [
                 {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 10
-                },
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "avg by () (((node_memory_MemAvailable{instance=~\"$host\"} or node_memory_MemAvailable_bytes{instance=~\"$host\"}) or ((node_memory_MemFree{instance=~\"$host\"} or node_memory_MemFree_bytes{instance=~\"$host\"}) + ((node_memory_Buffers{instance=~\"$host\"} or node_memory_Buffers_bytes{instance=~\"$host\"}) or up * 0) + ((node_memory_Cached{instance=~\"$host\"} or node_memory_Cached_bytes{instance=~\"$host\"}) or up * 0))) / (node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"})) * 100",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "title": "Mem Avail",
+              "type": "stat",
+              "valueMaps": [
                 {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": 20
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
                 }
               ]
             },
-            "unit": "percent"
-          },
-          "overrides": []
-        },
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 24
-          }
-        },
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "avg by () (((node_memory_MemAvailable{instance=~\"$host\"} or node_memory_MemAvailable_bytes{instance=~\"$host\"}) or ((node_memory_MemFree{instance=~\"$host\"} or node_memory_MemFree_bytes{instance=~\"$host\"}) + ((node_memory_Buffers{instance=~\"$host\"} or node_memory_Buffers_bytes{instance=~\"$host\"}) or up * 0) + ((node_memory_Cached{instance=~\"$host\"} or node_memory_Cached_bytes{instance=~\"$host\"}) or up * 0))) / (node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"})) * 100",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "Mem Avail",
-        "type": "stat",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ]
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
           "defaults": {
             "color": {
               "fixedColor": "rgb(31, 120, 193)",
@@ -767,2182 +743,1998 @@ avg by () ( \n\
             "unit": "Bps"
           },
           "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 4,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "Disk Performance",
-            "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range"
-          }
-        ],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-sum by () ( \n\
-  rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
-  or \n\
-  rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
-  or \n\
-  irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
-  or \n\
-  irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
-  or \n\
-  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
-  or \n\
-  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
-) \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "Disk Reads",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "rgb(31, 120, 193)",
-              "mode": "fixed"
-            },
-            "decimals": 1,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
+              },
+              "links": [
                 {
-                  "color": "#6d1f62",
-                  "value": null
-                },
-                {
-                  "color": "#962d82",
-                  "value": 10000000
-                },
-                {
-                  "color": "#ba43a9",
-                  "value": 100000000
+                  "targetBlank": true,
+                  "title": "Disk Performance",
+                  "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range"
                 }
-              ]
-            },
-            "unit": "Bps"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 6,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-sum by () ( \n\
-  rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 \n\
-  or \n\
-  rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) * 1024 \n\
-  or \n\
-  irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 \n\
-  or \n\
-  irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) * 1024 \n\
-  or \n\
-  avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
-  or \n\
-  avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
-) \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "Disk Writes",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 0,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
+              ],
+              "options": {
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
                 },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
+                "textMode": "value"
+              },
+              "targets": [
                 {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": null
-                },
-                {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 0.8
-                },
-                {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": 0.9
-                }
-              ]
-            },
-            "unit": "percentunit",
-            "links": [
-              {
-                "targetBlank": true,
-                "title": "Disk Space",
-                "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range"
-              }
-            ]
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 8,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "Disk Space",
-            "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range"
-          }
-        ],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 24
-          }
-        },
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-avg( \n\
-  max by (instance) ( \n\
-    1 - ( \n\
-      node_filesystem_free{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
-      or \n\
-      node_filesystem_free_bytes{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
-    ) / ( \n\
-      node_filesystem_size{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
-      or \n\
-      node_filesystem_size_bytes{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
-    ) \n\
-  ) \n\
-) \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "Disk Usage",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "rgb(31, 120, 193)",
-              "mode": "fixed"
-            },
-            "decimals": 1,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "percentage",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unit": "Bps"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 10,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-sum( \n\
-  rate(node_network_receive_bytes{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
-  or \n\
-  rate(node_network_receive_bytes_total{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
-  or \n\
-  irate(node_network_receive_bytes{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
-  or \n\
-  irate(node_network_receive_bytes_total{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
-  or \n\
-  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
-  or \n\
-  max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
-) + sum( \n\
-  rate(node_network_transmit_bytes{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
-  or \n\
-  rate(node_network_transmit_bytes_total{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
-  or \n\
-  irate(node_network_transmit_bytes{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
-  or \n\
-  irate(node_network_transmit_bytes_total{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
-  or \n\
-  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
-  or \n\
-  max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
-) \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "Network IO",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "rgb(31, 120, 193)",
-              "mode": "fixed"
-            },
-            "links": [
-              {
-                "targetBlank": true,
-                "title": "MySQL Overview",
-                "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range"
-              }
-            ],
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unit": "short"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 12,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "MySQL Overview",
-            "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range"
-          },
-          {
-            "targetBlank": true,
-            "title": "MongoDB Overview",
-            "url": "/graph/d/ssm-mongodb-overview/mongodb-overview?$__url_time_range"
-          }
-        ],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 24
-          }
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\n\
-sum by () ( \n\
-  max_over_time( \n\
-    mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) \n\
-    or \n\
-    max_over_time(mongodb_mongod_connections{instance=~\"$host\",state=\"current\"}[$interval]) \n\
-    or \n\
-    max_over_time(mongodb_connections{instance=~\"$host\",state=\"current\"}[$interval]) \n\
-    or \n\
-    sum by (instance) ( \n\
-      max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[$interval] \n\
-    ) \n\
-  ) \n\
-)",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "DB Conns",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "rgb(31, 120, 193)",
-              "mode": "fixed"
-            },
-            "decimals": 2,
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unit": "short"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 14,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 20
-          }
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-sum by () ( \n\
-  ( \n\
-    rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
-    or \n\
-    rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
-  ) \n\
-  or \n\
-  ( \n\
-    sum( \n\
-      rate(mongodb_mongod_op_counters_total{instance=~\"$host\",type!=\"command\"}[$interval]) \n\
-    ) \n\
-    or \n\
-    sum( \n\
-      rate(mongodb_mongod_op_counters_total{instance=~\"$host\",type!=\"command\"}[$interval]) \n\
-    ) \n\
-  ) \n\
-  or \n\
-  ( \n\
-    sum( \n\
-      ( \n\
-        rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) \n\
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      sum by () ( \n\
+        rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
         or \n\
-        rate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[$interval]) \n\
-      ) + ( \n\
-        rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
+        rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
         or \n\
-        rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
+        irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
+        or \n\
+        irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
+        or \n\
+        avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+        or \n\
+        avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
       ) \n\
-    ) \n\
-  ) \n\
-) \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "DB QPS",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
                 }
-              ]
+              ],
+              "title": "Disk Reads",
+              "type": "stat"
             },
-            "unit": "none"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 16,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 24
-          }
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "expr": "(count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or (1-absent((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
-            "format": "time_series",
-            "instant": true,
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "Virtual CPUs",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 2,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "rgb(31, 120, 193)",
+                    "mode": "fixed"
+                  },
+                  "decimals": 1,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#6d1f62",
+                        "value": null
+                      },
+                      {
+                        "color": "#962d82",
+                        "value": 10000000
+                      },
+                      {
+                        "color": "#ba43a9",
+                        "value": 100000000
+                      }
+                    ]
+                  },
+                  "unit": "Bps"
                 },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
                 },
+                "textMode": "value"
+              },
+              "targets": [
                 {
-                  "color": "red",
-                  "value": 80
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      sum by () ( \n\
+        rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 \n\
+        or \n\
+        rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+        or \n\
+        irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 \n\
+        or \n\
+        irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) * 1024 \n\
+        or \n\
+        avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+        or \n\
+        avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+      ) \n\
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
                 }
-              ]
+              ],
+              "title": "Disk Writes",
+              "type": "stat"
             },
-            "unit": "bytes"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 18,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "expr": "sum by () ((node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"}))",
-            "format": "time_series",
-            "instant": true,
-            "interval": "5m",
-            "intervalFactor": 1,
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "RAM",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "description": "AVG   Uptime for  `All`",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 1,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": null
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 0.8
+                      },
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": 0.9
+                      }
+                    ]
+                  },
+                  "unit": "percentunit",
+                  "links": [
+                    {
+                      "targetBlank": true,
+                      "title": "Disk Space",
+                      "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range"
+                    }
+                  ]
                 },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": null
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
                 },
-                {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 3600
-                },
-                {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": 86400
+                "textMode": "value",
+                "text": {
+                  "valueSize": 24
                 }
-              ]
-            },
-            "unit": "s"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 20,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "mean"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "expr": "avg(((node_time{instance=~\"$host\"} or node_time_seconds{instance=~\"$host\"}) - (node_boot_time{instance=~\"$host\"} or node_boot_time_seconds{instance=~\"$host\"})) or rdsosmetrics_uptime{instance=~\"$host\"})",
-            "format": "time_series",
-            "instant": true,
-            "interval": "5m",
-            "intervalFactor": 1,
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "Host uptime",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "description": "AVG for  `All`",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 1,
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
+              },
+              "links": [
                 {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": null
-                },
-                {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 3600
-                },
-                {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": 86400
+                  "targetBlank": true,
+                  "title": "Disk Space",
+                  "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range"
                 }
-              ]
-            },
-            "unit": "s"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 22,
-          "y": 15
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\n\
-avg( \n\
-  mysql_global_status_uptime{instance=~\"$host\"} \n\
-  or \n\
-  mongodb_mongod_instance_uptime_seconds{instance=~\"$host\"} \n\
-  or \n\
-  ( \n\
-    time() - process_start_time_seconds{instance=~\"$host\",job=~\"postgresql\"} \n\
-  ) \n\
-)",
-            "format": "time_series",
-            "instant": false,
-            "interval": "5m",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "title": "DB uptime",
-        "type": "stat"
-      },
-      {
-        "collapsed": false,
-        "datasource": {
-          "type": "prometheus"
-        },
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 18
-        },
-        "panels": [],
-        "repeat": "host",
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "refId": "A"
-          }
-        ],
-        "type": "row",
-        "title": "$host"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "decimals": 0,
-        "editable": true,
-        "error": false,
-        "format": "percent",
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 0,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "System Overview",
-            "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&var-host=$host&$__all_variables"
-          }
-        ],
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 0,
-            "mappings": [
-              {
-                "options": {
-                  "-1": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "value"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
+              ],
+              "targets": [
                 {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": null
-                },
-                {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 70
-                },
-                {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": 90
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      avg( \n\
+        max by (instance) ( \n\
+          1 - ( \n\
+            node_filesystem_free{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+            or \n\
+            node_filesystem_free_bytes{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+          ) / ( \n\
+            node_filesystem_size{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+            or \n\
+            node_filesystem_size_bytes{fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+          ) \n\
+        ) \n\
+      ) \n\
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
                 }
-              ]
+              ],
+              "title": "Disk Usage",
+              "type": "stat"
             },
-            "links": [
-              {
-                "targetBlank": true,
-                "title": "System Overview",
-                "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&var-host=$host&$__all_variables"
-              }
-            ],
-            "unit": "percent"
-          },
-          "overrides": []
-        },
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 24
-          }
-        },
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "rgb(31, 120, 193)",
+                    "mode": "fixed"
+                  },
+                  "decimals": 1,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "percentage",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "Bps"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value"
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      sum( \n\
+        rate(node_network_receive_bytes{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
+        or \n\
+        rate(node_network_receive_bytes_total{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
+        or \n\
+        irate(node_network_receive_bytes{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
+        or \n\
+        irate(node_network_receive_bytes_total{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
+        or \n\
+        max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
+        or \n\
+        max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
+      ) + sum( \n\
+        rate(node_network_transmit_bytes{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
+        or \n\
+        rate(node_network_transmit_bytes_total{instance=~\"$host\",device!=\"lo\"}[$interval]) \n\
+        or \n\
+        irate(node_network_transmit_bytes{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
+        or \n\
+        irate(node_network_transmit_bytes_total{instance=~\"$host\",device!=\"lo\"}[5m]) \n\
+        or \n\
+        max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
+        or \n\
+        max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
+      ) \n\
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "title": "Network IO",
+              "type": "stat"
             },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-clamp_max( \n\
-  avg by (instance) ( \n\
-    sum by (cpu) ( \n\
-      ( \n\
-        clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "rgb(31, 120, 193)",
+                    "mode": "fixed"
+                  },
+                  "links": [
+                    {
+                      "targetBlank": true,
+                      "title": "MySQL Overview",
+                      "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range"
+                    }
+                  ],
+                  "mappings": [],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "short"
+                },
+                "overrides": []
+              },
+              "links": [
+                {
+                  "targetBlank": true,
+                  "title": "MySQL Overview",
+                  "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range"
+                },
+                {
+                  "targetBlank": true,
+                  "title": "MongoDB Overview",
+                  "url": "/graph/d/ssm-mongodb-overview/mongodb-overview?$__url_time_range"
+                }
+              ],
+              "options": {
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "text": {
+                  "valueSize": 24
+                }
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\n\
+      sum by () ( \n\
+        max_over_time( \n\
+          mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) \n\
           or \n\
-          rate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
-          1 \n\
+          max_over_time(mongodb_mongod_connections{instance=~\"$host\",state=\"current\"}[$interval]) \n\
+          or \n\
+          max_over_time(mongodb_connections{instance=~\"$host\",state=\"current\"}[$interval]) \n\
+          or \n\
+          sum by (instance) ( \n\
+            max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[$interval] \n\
+          ) \n\
+        ) \n\
+      )",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "title": "DB Conns",
+              "type": "stat"
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "rgb(31, 120, 193)",
+                    "mode": "fixed"
+                  },
+                  "decimals": 2,
+                  "mappings": [],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "short"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "text": {
+                  "valueSize": 20
+                }
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      sum by () ( \n\
+        ( \n\
+          rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
+          or \n\
+          rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          sum( \n\
+            rate(mongodb_mongod_op_counters_total{instance=~\"$host\",type!=\"command\"}[$interval]) \n\
+          ) \n\
+          or \n\
+          sum( \n\
+            rate(mongodb_mongod_op_counters_total{instance=~\"$host\",type!=\"command\"}[$interval]) \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          sum( \n\
+            ( \n\
+              rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) \n\
+              or \n\
+              rate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[$interval]) \n\
+            ) + ( \n\
+              rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
+              or \n\
+              rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
+            ) \n\
+          ) \n\
+        ) \n\
+      ) \n\
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "title": "DB QPS",
+              "type": "stat"
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "none"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "none",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "text": {
+                  "valueSize": 24
+                }
+              },
+              "targets": [
+                {
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "expr": "(count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or (1-absent((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
+                  "format": "time_series",
+                  "instant": true,
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "title": "Virtual CPUs",
+              "type": "stat"
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 2,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "bytes"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "none",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value"
+              },
+              "targets": [
+                {
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "expr": "sum by () ((node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"}))",
+                  "format": "time_series",
+                  "instant": true,
+                  "interval": "5m",
+                  "intervalFactor": 1,
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "title": "RAM",
+              "type": "stat"
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "description": "AVG   Uptime for  `All`",
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": null
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 3600
+                      },
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": 86400
+                      }
+                    ]
+                  },
+                  "unit": "s"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "mean"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value"
+              },
+              "targets": [
+                {
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "expr": "avg(((node_time{instance=~\"$host\"} or node_time_seconds{instance=~\"$host\"}) - (node_boot_time{instance=~\"$host\"} or node_boot_time_seconds{instance=~\"$host\"})) or rdsosmetrics_uptime{instance=~\"$host\"})",
+                  "format": "time_series",
+                  "instant": true,
+                  "interval": "5m",
+                  "intervalFactor": 1,
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "title": "Host uptime",
+              "type": "stat"
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "description": "AVG for  `All`",
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "mappings": [],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": null
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 3600
+                      },
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": 86400
+                      }
+                    ]
+                  },
+                  "unit": "s"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value"
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\n\
+      avg( \n\
+        mysql_global_status_uptime{instance=~\"$host\"} \n\
+        or \n\
+        mongodb_mongod_instance_uptime_seconds{instance=~\"$host\"} \n\
+        or \n\
+        ( \n\
+          time() - process_start_time_seconds{instance=~\"$host\",job=~\"postgresql\"} \n\
+        ) \n\
+      )",
+                  "format": "time_series",
+                  "instant": false,
+                  "interval": "5m",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "title": "DB uptime",
+              "type": "stat"
+            }
+          ],
+          "repeat": "host",
+          "row": [
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "links": [
+                {
+                  "targetBlank": true,
+                  "title": "System Overview",
+                  "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&var-host=$host&$__all_variables"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "-1": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": null
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 70
+                      },
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": 90
+                      }
+                    ]
+                  },
+                  "links": [
+                    {
+                      "targetBlank": true,
+                      "title": "System Overview",
+                      "url": "/graph/d/ssm-system-overview/system-overview?$__url_time_range&var-host=$host&$__all_variables"
+                    }
+                  ],
+                  "unit": "percent",
+                  "min": 0,
+                  "max": 100
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "text": {
+                  "valueSize": 24
+                }
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      clamp_max( \n\
+        avg by (instance) ( \n\
+          sum by (cpu) ( \n\
+            ( \n\
+              clamp_max( \n\
+                rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
+                or \n\
+                rate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
+                1 \n\
+              ) \n\
+            ) \n\
+            or \n\
+            ( \n\
+              clamp_max( \n\
+                irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
+                or \n\
+                irate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
+                1 \n\
+              ) \n\
+            ) \n\
+          ) \n\
+        ), \n\
+        1 \n\
+      ) * 100 \n\
+      or \n\
+      sum by () ( \n\
+        avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\", mode!=\"total\", mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[$interval]) \n\
+        or \n\
+        avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[5m]) \n\
+      ) \n\
+      or \n\
+      vector(-1) \n\
+      ",
+                  "format": "time_series",
+                  "hide": false,
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "type": "stat",
+              "valueMaps": [
+                {
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
+                }
+              ]
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": null
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 10
+                      },
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": 20
+                      }
+                    ]
+                  },
+                  "unit": "percent",
+                  "min": 0,
+                  "max": 100
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "text": {
+                  "valueSize": 24
+                }
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "((node_memory_MemAvailable{instance=~\"$host\"} or node_memory_MemAvailable_bytes{instance=~\"$host\"}) or \n((node_memory_MemFree{instance=~\"$host\"} or node_memory_MemFree_bytes{instance=~\"$host\"}) + ((node_memory_Buffers{instance=~\"$host\"} or node_memory_Buffers_bytes{instance=~\"$host\"}) or up * 0) + ((node_memory_Cached{instance=~\"$host\"} or node_memory_Cached_bytes{instance=~\"$host\"}) or up * 0))) / \n(node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"}) * 100",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "type": "stat",
+              "valueMaps": [
+                {
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
+                }
+              ]
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "rgb(31, 120, 193)",
+                    "mode": "fixed"
+                  },
+                  "decimals": 1,
+                  "links": [
+                    {
+                      "targetBlank": true,
+                      "title": "Disk Performance",
+                      "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&var-host=$host&$__all_variables"
+                    }
+                  ],
+                  "mappings": [
+                    {
+                      "options": {
+                        "-1": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#0a437c",
+                        "value": null
+                      },
+                      {
+                        "color": "#1f78c1",
+                        "value": 10000000
+                      },
+                      {
+                        "color": "#5195ce",
+                        "value": 100000000
+                      }
+                    ]
+                  },
+                  "unit": "Bps"
+                },
+                "overrides": []
+              },
+              "links": [
+                {
+                  "targetBlank": true,
+                  "title": "Disk Performance",
+                  "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&var-host=$host&$__all_variables"
+                }
+              ],
+              "options": {
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value"
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      avg( \n\
+        rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
+        or \n\
+        rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+        or \n\
+        irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
+        or \n\
+        irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
+        or \n\
+        avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+        or \n\
+        avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+      ) \n\
+      or \n\
+      vector(-1) \n\
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "type": "stat"
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "rgb(31, 120, 193)",
+                    "mode": "fixed"
+                  },
+                  "decimals": 1,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#6d1f62",
+                        "value": null
+                      },
+                      {
+                        "color": "#962d82",
+                        "value": 10000000
+                      },
+                      {
+                        "color": "#ba43a9",
+                        "value": 100000000
+                      }
+                    ]
+                  },
+                  "unit": "Bps"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value"
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 \n\
+      or \n\
+      rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) * 1024 \n\
+      or \n\
+      irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 \n\
+      or \n\
+      irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) * 1024 \n\
+      or \n\
+      avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
+      or \n\
+      avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "type": "stat"
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "links": [
+                {
+                  "targetBlank": true,
+                  "title": "Disk Space",
+                  "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range&var-host=$host&$__all_variables"
+                }
+              ],
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "options": {
+                        "-1": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": null
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 0.8
+                      },
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": 0.9
+                      }
+                    ]
+                  },
+                  "links": [
+                    {
+                      "targetBlank": true,
+                      "title": "Disk Space",
+                      "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range&var-host=$host&$__all_variables"
+                    }
+                  ],
+                  "unit": "percentunit",
+                  "min": 0,
+                  "max": 1
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "text": {
+                  "valueSize": 24
+                }
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      max ( \n\
+        1 - ( \n\
+          node_filesystem_free{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+          or \n\
+          node_filesystem_free_bytes{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+        ) / ( \n\
+          node_filesystem_size{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+          or \n\
+          node_filesystem_size_bytes{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
+        ) \n\
+      ) \n\
+      ",
+                  "format": "time_series",
+                  "hide": false,
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "type": "stat",
+              "valueMaps": [
+                {
+                  "op": "=",
+                  "text": "N/A",
+                  "value": "null"
+                }
+              ]
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "rgb(31, 120, 193)",
+                    "mode": "fixed"
+                  },
+                  "decimals": 1,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "percentage",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "Bps"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value"
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      ( \n\
+        sum( \n\
+          rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+          or \n\
+          rate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+          or \n\
+          irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+          or \n\
+          irate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+          max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+          max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
+        ) \n\
+      ) + ( \n\
+        sum( \n\
+          rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+          or \n\
+          rate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
+          or \n\
+          irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+          or \n\
+          irate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+          max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        sum( \n\
+          max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
+        ) \n\
+      ) \n\
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "type": "stat"
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "rgb(31, 120, 193)",
+                    "mode": "fixed"
+                  },
+                  "links": [
+                    {
+                      "targetBlank": true,
+                      "title": "MySQL Overview",
+                      "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range&var-host=$host&$__all_variables"
+                    }
+                  ],
+                  "mappings": [
+                    {
+                      "options": {
+                        "-1": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "short"
+                },
+                "overrides": []
+              },
+              "links": [
+                {
+                  "targetBlank": true,
+                  "title": "MySQL Overview",
+                  "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range&var-host=$host&$__all_variables"
+                },
+                {
+                  "targetBlank": true,
+                  "title": "MongoDB Overview",
+                  "url": "/graph/d/ssm-mongodb-overview/mongodb-overview?$__url_time_range&var-host=$host&$__all_variables"
+                }
+              ],
+              "options": {
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "text": {
+                  "valueSize": 24
+                }
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\n\
+      sum( \n\
+        ( \n\
+          max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[$interval]) \n\
+          or \n\
+          max_over_time(mongodb_connections{instance=~\"$host\", state=\"current\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          sum by (instance) ( \n\
+            max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[$interval]) \n\
+          ) \n\
         ) \n\
       ) \n\
       or \n\
-      ( \n\
-        clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
+      vector(-1) \n\
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
+                }
+              ],
+              "type": "stat"
+            },
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "fixedColor": "rgb(31, 120, 193)",
+                    "mode": "fixed"
+                  },
+                  "decimals": 2,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
+                  },
+                  "unit": "short"
+                },
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "none",
+                "graphMode": "area",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "text": {
+                  "valueSize": 20
+                }
+              },
+              "targets": [
+                {
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\
+      sum( \n\
+        ( \n\
+          rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
           or \n\
-          irate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
-          1 \n\
+          rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          sum( \n\
+            rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
+          ) \n\
+          or \n\
+          sum( \n\
+            rate(mongodb_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
+          ) \n\
+        ) \n\
+        or \n\
+        ( \n\
+          sum( \n\
+            ( \n\
+              rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) \n\
+              or \n\
+              rate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[$interval]) \n\
+            ) + ( \n\
+              rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
+              or \n\
+              rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
+            ) \n\
+          ) \n\
         ) \n\
       ) \n\
-    ) \n\
-  ), \n\
-  1 \n\
-) * 100 \n\
-or \n\
-sum by () ( \n\
-  avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\", mode!=\"total\", mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[$interval]) \n\
-  or \n\
-  avg_over_time(node_cpu_average{instance=~\"$host\",mode!=\"idle\",mode!=\"total\",mode!=\"\",job=~\"rds-enhanced|snmp|linux\"}[5m]) \n\
-) \n\
-or \n\
-vector(-1) \n\
-",
-            "format": "time_series",
-            "hide": false,
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "type": "stat",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ]
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "decimals": 0,
-        "editable": true,
-        "error": false,
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 2,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [],
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 0,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": null
-                },
-                {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 10
-                },
-                {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": 20
+      ",
+                  "format": "time_series",
+                  "interval": "$interval",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "node_mem",
+                  "refId": "A",
+                  "step": 300
                 }
-              ]
+              ],
+              "type": "stat"
             },
-            "unit": "percent"
-          },
-          "overrides": []
-        },
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 24
-          }
-        },
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "((node_memory_MemAvailable{instance=~\"$host\"} or node_memory_MemAvailable_bytes{instance=~\"$host\"}) or \n((node_memory_MemFree{instance=~\"$host\"} or node_memory_MemFree_bytes{instance=~\"$host\"}) + ((node_memory_Buffers{instance=~\"$host\"} or node_memory_Buffers_bytes{instance=~\"$host\"}) or up * 0) + ((node_memory_Cached{instance=~\"$host\"} or node_memory_Cached_bytes{instance=~\"$host\"}) or up * 0))) / \n(node_memory_MemTotal{instance=~\"$host\"} or node_memory_MemTotal_bytes{instance=~\"$host\"}) * 100",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "type": "stat",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ]
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "rgb(31, 120, 193)",
-              "mode": "fixed"
-            },
-            "decimals": 1,
-            "links": [
-              {
-                "targetBlank": true,
-                "title": "Disk Performance",
-                "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&var-host=$host&$__all_variables"
-              }
-            ],
-            "mappings": [
-              {
-                "options": {
-                  "-1": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "value"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "targets": [
                 {
-                  "color": "#0a437c",
-                  "value": null
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "expr": "min_over_time((count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
+                  "format": "time_series",
+                  "instant": true,
+                  "interval": "5m",
+                  "intervalFactor": 1,
+                  "refId": "A",
+                  "step": 300
                 },
                 {
-                  "color": "#1f78c1",
-                  "value": 10000000
-                },
-                {
-                  "color": "#5195ce",
-                  "value": 100000000
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "expr": "max_over_time((count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
+                  "format": "time_series",
+                  "instant": true,
+                  "interval": "5m",
+                  "intervalFactor": 1,
+                  "refId": "B",
+                  "step": 300
                 }
-              ]
+              ],
+              "type": "ssm-rangestat-panel"
             },
-            "unit": "Bps"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 4,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "Disk Performance",
-            "url": "/graph/d/ssm-disk-performance/disk-performance?$__url_time_range&var-host=$host&$__all_variables"
-          }
-        ],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-avg( \n\
-  rate(node_vmstat_pgpgin{instance=~\"$host\"}[$interval]) * 1024 \n\
-  or \n\
-  rate(node_vmstat_pgpgin_total{instance=~\"$host\"}[$interval]) * 1024 \n\
-  or \n\
-  irate(node_vmstat_pgpgin{instance=~\"$host\"}[5m]) * 1024 \n\
-  or \n\
-  irate(node_vmstat_pgpgin_total{instance=~\"$host\"}[5m]) * 1024 \n\
-  or \n\
-  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
-  or \n\
-  avg_over_time(rdsosmetrics_diskIO_readKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
-) \n\
-or \n\
-vector(-1) \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "rgb(31, 120, 193)",
-              "mode": "fixed"
-            },
-            "decimals": 1,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "#6d1f62",
-                  "value": null
-                },
-                {
-                  "color": "#962d82",
-                  "value": 10000000
-                },
-                {
-                  "color": "#ba43a9",
-                  "value": 100000000
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "decimals": 2,
+                  "unit": "bytes"
                 }
-              ]
-            },
-            "unit": "Bps"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 6,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-rate(node_vmstat_pgpgout{instance=~\"$host\"}[$interval]) * 1024 \n\
-or \n\
-rate(node_vmstat_pgpgout_total{instance=~\"$host\"}[$interval]) * 1024 \n\
-or \n\
-irate(node_vmstat_pgpgout{instance=~\"$host\"}[5m]) * 1024 \n\
-or \n\
-irate(node_vmstat_pgpgout_total{instance=~\"$host\"}[5m]) * 1024 \n\
-or \n\
-avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[$interval]) * 1024 \n\
-or \n\
-avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5m]) * 1024 \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "decimals": 0,
-        "editable": true,
-        "error": false,
-        "format": "percent",
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 8,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "Disk Space",
-            "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range&var-host=$host&$__all_variables"
-          }
-        ],
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 0,
-            "mappings": [
-              {
-                "options": {
-                  "-1": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "value"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
+              },
+              "targets": [
                 {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": null
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "expr": "min_over_time(node_memory_MemTotal{instance=~\"$host\"}[1h:2m]) or min_over_time(node_memory_MemTotal_bytes{instance=~\"$host\"}[1h:2m])",
+                  "format": "time_series",
+                  "instant": true,
+                  "interval": "5m",
+                  "intervalFactor": 1,
+                  "refId": "A",
+                  "step": 300
                 },
                 {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 0.8
-                },
-                {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": 0.9
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "expr": "max_over_time(node_memory_MemTotal{instance=~\"$host\"}[1h:2m]) or max_over_time(node_memory_MemTotal_bytes{instance=~\"$host\"}[1h:2m])",
+                  "format": "time_series",
+                  "instant": true,
+                  "interval": "5m",
+                  "intervalFactor": 1,
+                  "refId": "B",
+                  "step": 300
                 }
-              ]
+              ],
+              "type": "ssm-rangestat-panel"
             },
-            "links": [
-              {
-                "targetBlank": true,
-                "title": "Disk Space",
-                "url": "/graph/d/ssm-disk-space/disk-space?$__url_time_range&var-host=$host&$__all_variables"
-              }
-            ],
-            "unit": "percentunit"
-          },
-          "overrides": []
-        },
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 24
-          }
-        },
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-max ( \n\
-  1 - ( \n\
-    node_filesystem_free{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
-    or \n\
-    node_filesystem_free_bytes{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
-  ) / ( \n\
-    node_filesystem_size{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
-    or \n\
-    node_filesystem_size_bytes{instance=~\"$host\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs\", mountpoint!~\"/boot|/boot/efi|/dev|/proc|/sys\"} \n\
-  ) \n\
-) \n\
-",
-            "format": "time_series",
-            "hide": false,
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "type": "stat",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ]
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "rgb(31, 120, 193)",
-              "mode": "fixed"
-            },
-            "decimals": 1,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": null
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 3600
+                      },
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": 86400
+                      }
+                    ]
+                  },
+                  "unit": "s"
                 },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "percentage",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
                 },
+                "textMode": "value"
+              },
+              "targets": [
                 {
-                  "color": "red",
-                  "value": 80
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "((node_time{instance=~\"$host\"} or node_time_seconds{instance=~\"$host\"}) - (node_boot_time{instance=~\"$host\"} or node_boot_time_seconds{instance=~\"$host\"})) or rdsosmetrics_uptime{instance=~\"$host\"}",
+                  "format": "time_series",
+                  "interval": "5m",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "",
+                  "refId": "A",
+                  "step": 300
                 }
-              ]
+              ],
+              "type": "stat"
             },
-            "unit": "Bps"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 10,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-( \n\
-  sum( \n\
-    rate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
-    or \n\
-    rate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
-    or \n\
-    irate(node_network_receive_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
-    or \n\
-    irate(node_network_receive_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
-  ) \n\
-  or \n\
-  sum( \n\
-    max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[$interval]) \n\
-  ) \n\
-  or \n\
-  sum( \n\
-    max_over_time(rdsosmetrics_network_rx{instance=~\"$host\"}[5m]) \n\
-  ) \n\
-) + ( \n\
-  sum( \n\
-    rate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
-    or \n\
-    rate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[$interval]) \n\
-    or \n\
-    irate(node_network_transmit_bytes{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
-    or \n\
-    irate(node_network_transmit_bytes_total{instance=~\"$host\", device!=\"lo\"}[5m]) \n\
-  ) \n\
-  or \n\
-  sum( \n\
-    max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[$interval]) \n\
-  ) \n\
-  or \n\
-  sum( \n\
-    max_over_time(rdsosmetrics_network_tx{instance=~\"$host\"}[5m]) \n\
-  ) \n\
-) \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "rgb(31, 120, 193)",
-              "mode": "fixed"
-            },
-            "links": [
-              {
-                "targetBlank": true,
-                "title": "MySQL Overview",
-                "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range&var-host=$host&$__all_variables"
-              }
-            ],
-            "mappings": [
-              {
-                "options": {
-                  "-1": {
-                    "text": "N/A"
-                  }
+            {
+              "datasource": {
+                "type": "prometheus"
+              },
+              "width": 2,
+              "height": 3,
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 1,
+                  "mappings": [
+                    {
+                      "options": {
+                        "match": "null",
+                        "result": {
+                          "text": "N/A"
+                        }
+                      },
+                      "type": "special"
+                    }
+                  ],
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "rgba(245, 54, 54, 0.9)",
+                        "value": null
+                      },
+                      {
+                        "color": "rgba(237, 129, 40, 0.89)",
+                        "value": 3600
+                      },
+                      {
+                        "color": "rgba(50, 172, 45, 0.97)",
+                        "value": 86400
+                      }
+                    ]
+                  },
+                  "unit": "s"
                 },
-                "type": "value"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
+                "overrides": []
+              },
+              "options": {
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "center",
+                "orientation": "horizontal",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
                 },
+                "textMode": "value"
+              },
+              "targets": [
                 {
-                  "color": "red",
-                  "value": 80
+                  "calculatedInterval": "10m",
+                  "datasource": {
+                    "type": "prometheus"
+                  },
+                  "datasourceErrors": {},
+                  "errors": {},
+                  "expr": "\n\
+      topk(1, \n\
+        ( \n\
+          mysql_global_status_uptime{instance=~\"$host\"} \n\
+          or \n\
+          mongodb_mongod_instance_uptime_seconds{instance=~\"$host\"} \n\
+          or \n\
+          ( \n\
+            time() - process_start_time_seconds{instance=~\"$host\",job=~\"postgresql\"} \n\
+          ) \n\
+        ) \n\
+      )",
+                  "format": "time_series",
+                  "interval": "5m",
+                  "intervalFactor": 1,
+                  "legendFormat": "",
+                  "metric": "",
+                  "refId": "A",
+                  "step": 300
                 }
-              ]
-            },
-            "unit": "short"
-          },
-          "overrides": []
+              ],
+              "type": "stat"
+            }
+          ]
         },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 12,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [
-          {
-            "targetBlank": true,
-            "title": "MySQL Overview",
-            "url": "/graph/d/ssm-mysql-overview/mysql-overview?$__url_time_range&var-host=$host&$__all_variables"
-          },
-          {
-            "targetBlank": true,
-            "title": "MongoDB Overview",
-            "url": "/graph/d/ssm-mongodb-overview/mongodb-overview?$__url_time_range&var-host=$host&$__all_variables"
-          }
-        ],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 24
-          }
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\n\
-sum( \n\
-  ( \n\
-    max_over_time(mysql_global_status_threads_connected{instance=~\"$host\"}[$interval]) \n\
-  ) \n\
-  or \n\
-  ( \n\
-    max_over_time(mongodb_mongod_connections{instance=~\"$host\", state=\"current\"}[$interval]) \n\
-    or \n\
-    max_over_time(mongodb_connections{instance=~\"$host\", state=\"current\"}[$interval]) \n\
-  ) \n\
-  or \n\
-  ( \n\
-    sum by (instance) ( \n\
-      max_over_time(pg_stat_database_numbackends{instance=~\"$host\"}[$interval]) \n\
-    ) \n\
-  ) \n\
-) \n\
-or \n\
-vector(-1) \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "rgb(31, 120, 193)",
-              "mode": "fixed"
-            },
-            "decimals": 2,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unit": "short"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 14,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "none",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value",
-          "text": {
-            "valueSize": 20
-          }
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\
-sum( \n\
-  ( \n\
-    rate(mysql_global_status_queries{instance=~\"$host\"}[$interval]) \n\
-    or \n\
-    rate(mysql_global_status_queries_total{instance=~\"$host\"}[$interval]) \n\
-  ) \n\
-  or \n\
-  ( \n\
-    sum( \n\
-      rate(mongodb_mongod_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
-    ) \n\
-    or \n\
-    sum( \n\
-      rate(mongodb_op_counters_total{instance=~\"$host\", type!=\"command\"}[$interval]) \n\
-    ) \n\
-  ) \n\
-  or \n\
-  ( \n\
-    sum( \n\
-      ( \n\
-        rate(pg_stat_database_xact_commit{instance=~\"$host\"}[$interval]) \n\
-        or \n\
-        rate(pg_stat_database_xact_commit_total{instance=~\"$host\"}[$interval]) \n\
-      ) + ( \n\
-        rate(pg_stat_database_xact_rollback{instance=~\"$host\"}[$interval]) \n\
-        or \n\
-        rate(pg_stat_database_xact_rollback_total{instance=~\"$host\"}[$interval]) \n\
-      ) \n\
-    ) \n\
-  ) \n\
-) \n\
-",
-            "format": "time_series",
-            "interval": "$interval",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "node_mem",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 16,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "expr": "min_over_time((count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
-            "format": "time_series",
-            "instant": true,
-            "interval": "5m",
-            "intervalFactor": 1,
-            "refId": "A",
-            "step": 300
-          },
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "expr": "max_over_time((count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
-            "format": "time_series",
-            "instant": true,
-            "interval": "5m",
-            "intervalFactor": 1,
-            "refId": "B",
-            "step": 300
-          }
-        ],
-        "type": "ssm-rangestat-panel"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 18,
-          "y": 19
-        },
-        "fieldConfig": {
-          "defaults": {
-            "decimals": 2,
-            "unit": "bytes"
-          }
-        },
-        "interval": "$interval",
-        "links": [],
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "expr": "min_over_time(node_memory_MemTotal{instance=~\"$host\"}[1h:2m]) or min_over_time(node_memory_MemTotal_bytes{instance=~\"$host\"}[1h:2m])",
-            "format": "time_series",
-            "instant": true,
-            "interval": "5m",
-            "intervalFactor": 1,
-            "refId": "A",
-            "step": 300
-          },
-          {
-            "datasource": {
-              "type": "prometheus"
-            },
-            "expr": "max_over_time(node_memory_MemTotal{instance=~\"$host\"}[1h:2m]) or max_over_time(node_memory_MemTotal_bytes{instance=~\"$host\"}[1h:2m])",
-            "format": "time_series",
-            "instant": true,
-            "interval": "5m",
-            "intervalFactor": 1,
-            "refId": "B",
-            "step": 300
-          }
-        ],
-        "type": "ssm-rangestat-panel"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 1,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": null
-                },
-                {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 3600
-                },
-                {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": 86400
-                }
-              ]
-            },
-            "unit": "s"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 20,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "((node_time{instance=~\"$host\"} or node_time_seconds{instance=~\"$host\"}) - (node_boot_time{instance=~\"$host\"} or node_boot_time_seconds{instance=~\"$host\"})) or rdsosmetrics_uptime{instance=~\"$host\"}",
-            "format": "time_series",
-            "interval": "5m",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "type": "prometheus"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "decimals": 1,
-            "mappings": [
-              {
-                "options": {
-                  "match": "null",
-                  "result": {
-                    "text": "N/A"
-                  }
-                },
-                "type": "special"
-              }
-            ],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "rgba(245, 54, 54, 0.9)",
-                  "value": null
-                },
-                {
-                  "color": "rgba(237, 129, 40, 0.89)",
-                  "value": 3600
-                },
-                {
-                  "color": "rgba(50, 172, 45, 0.97)",
-                  "value": 86400
-                }
-              ]
-            },
-            "unit": "s"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 2,
-          "x": 22,
-          "y": 19
-        },
-        "interval": "$interval",
-        "links": [],
-        "maxDataPoints": 100,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "none",
-          "justifyMode": "auto",
-          "orientation": "horizontal",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "textMode": "value"
-        },
-        "pluginVersion": "9.5.7",
-        "targets": [
-          {
-            "calculatedInterval": "10m",
-            "datasource": {
-              "type": "prometheus"
-            },
-            "datasourceErrors": {},
-            "errors": {},
-            "expr": "\n\
-topk(1, \n\
-  ( \n\
-    mysql_global_status_uptime{instance=~\"$host\"} \n\
-    or \n\
-    mongodb_mongod_instance_uptime_seconds{instance=~\"$host\"} \n\
-    or \n\
-    ( \n\
-      time() - process_start_time_seconds{instance=~\"$host\",job=~\"postgresql\"} \n\
-    ) \n\
-  ) \n\
-)",
-            "format": "time_series",
-            "interval": "5m",
-            "intervalFactor": 1,
-            "legendFormat": "",
-            "metric": "",
-            "refId": "A",
-            "step": 300
-          }
-        ],
-        "type": "stat"
+        "targets": [],
+        "type": "ssm-sortable-repeat-rows-panel"
       }
     ],
     "refresh": "",
