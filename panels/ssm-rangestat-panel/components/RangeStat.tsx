@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormattedValue, LoadingState, PanelProps } from '@grafana/data';
+import { DataFrame, FormattedValue, LoadingState, PanelProps } from '@grafana/data';
 import { BigValue, BigValueJustifyMode, BigValueTextMode, useTheme2 } from '@grafana/ui';
 import { RangeStatOptions } from '../types';
 import { getValueField } from 'panels/utils';
@@ -7,13 +7,24 @@ import { getValueField } from 'panels/utils';
 interface Props extends PanelProps<RangeStatOptions> { }
 
 export const RangeStatPanel: React.FC<Props> = ({ data, width, height }) => {
+  return <RangeStat state={data.state} series={data.series} width={width} height={height} />
+}
+
+interface RangeStatProps {
+  width: number;
+  height: number;
+  state: LoadingState;
+  series: DataFrame[];
+}
+
+export const RangeStat: React.FC<RangeStatProps> = ({ state, series, width, height }) => {
   const [content, setContent] = useState<string>('N/A');
 
   useEffect(()=>{
-    if (data.state !== LoadingState.Done) { return };
+    if (state !== LoadingState.Done) { return };
 
     const formattedValues: FormattedValue[] = [];
-    for (const serie of data.series) {
+    for (const serie of series) {
       const field = getValueField(serie.fields);
 
       const formattedValue = field && field.display && field.display(field.values[field.values.length-1]);
@@ -29,7 +40,7 @@ export const RangeStatPanel: React.FC<Props> = ({ data, width, height }) => {
     } else if (formattedValues.length > 0) {
       setContent(`${formattedValues[0].text}${formattedValues[0].suffix !== undefined ? ' ' + formattedValues[0].suffix : ''}`);
     }
-  }, [data])
+  }, [state, series])
 
   return (
     <BigValue

@@ -92,6 +92,17 @@
     "script-loader": "^0.7.2",
     "tslib": "2.8.1"
   },
+  "overrides": {
+    "uuid": "~14.0.0",
+    "serialize-javascript": "~7.0.5",
+    "lodash": "~4.18.0",
+    "minimatch": "~10.2.3",
+    "picomatch": "~4.0.4",
+    "@remix-run/router": "~1.23.2",
+    "dompurify": "~3.4.0",
+    "immutable": "~5.1.5",
+    "react-router": "~7.12.0"
+  },
   "eslintConfig": {
     "rules": {
       "no-var": 0
