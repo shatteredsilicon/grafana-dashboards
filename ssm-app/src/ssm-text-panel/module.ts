@@ -360,7 +360,17 @@ class SSMTextPanelCtrl extends MetricsPanelCtrl {
       })
     })
       .then<{ [key: string]: any }>(res => res.json())
-      .then<string>(res => atob(res?.['Data'] as string).replace(/\\n/g, '\n').replace(/\\t/g, '\t').slice(1, -1));
+      .then<string>(res => {
+        if (res?.['Error']) {
+          console.log('WARNING: failed to download summary report: ', res?.['Error']);
+          return '';
+        }
+        return atob((res?.['Data'] ?? '') as string).replace(/\\n/g, '\n').replace(/\\t/g, '\t').slice(1, -1);
+      })
+      .catch(e => {
+        console.log('WARNING: failed to downlod summary report: ', e);
+        return '';
+      });
   }
 }
 
