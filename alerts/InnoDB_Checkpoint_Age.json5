@@ -83,5 +83,6 @@
   "title": "InnoDB Checkpoint Age - {{ .Instance }}",
   "uid": "ssm-innodb-checkpoint-age-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 6
+  "panelID": 6,
+  "category": "mysql"
 }

@@ -54,7 +54,7 @@
         "conditions": [
           {
             "evaluator": {
-              "params": [450000000000000],
+              "params": ["{{ mul 1.1 .InitialValue }}"],
               "type": "gt"
             },
             "operator": {
@@ -87,5 +87,6 @@
   "title": "Total Database Size - {{ .Instance }}",
   "uid": "ssm-total-database-size-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 10
+  "panelID": 10,
+  "category": "mysql"
 }

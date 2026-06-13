@@ -67,5 +67,6 @@
   "title": "MySQL Connections - {{ .Instance }}",
   "uid": "ssm-mysql-connections-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 5
+  "panelID": 5,
+  "category": "mysql"
 }

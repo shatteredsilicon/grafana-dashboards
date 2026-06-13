@@ -100,5 +100,6 @@ clamp_max( \n\
   "title": "CPU Usage - {{ .Instance }}",
   "uid": "ssm-cpu-usage-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 1
+  "panelID": 1,
+  "category": "system"
 }

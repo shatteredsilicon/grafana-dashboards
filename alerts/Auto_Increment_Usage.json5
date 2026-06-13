@@ -67,5 +67,6 @@
   "title": "Top 5 Auto Increment Usage - {{ .Instance }}",
   "uid": "ssm-top-5-auto-increment-usage-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 14
+  "panelID": 14,
+  "category": "mysql"
 }

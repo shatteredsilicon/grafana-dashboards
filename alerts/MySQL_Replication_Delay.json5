@@ -67,5 +67,6 @@
   "title": "MySQL Replication Delay - {{ .Instance }}",
   "uid": "ssm-mysql-replication-delay-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 9
+  "panelID": 9,
+  "category": "mysql"
 }
