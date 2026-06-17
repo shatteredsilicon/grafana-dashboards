@@ -83,5 +83,6 @@
   "title": "MySQL Open Tables - {{ .Instance }}",
   "uid": "ssm-mysql-open-tables-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 7
+  "panelID": 7,
+  "category": "mysql"
 }

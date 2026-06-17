@@ -67,5 +67,6 @@
   "title": "InnoDB Transactions - {{ .Instance }}",
   "uid": "ssm-innodb-transactions-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 4
+  "panelID": 4,
+  "category": "mysql"
 }

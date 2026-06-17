@@ -83,5 +83,6 @@ avg by (device) ( \n\
   "title": "Disk IO Utilization - {{ .Instance }}",
   "uid": "ssm-disk-io-utilization-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 2
+  "panelID": 2,
+  "category": "system"
 }

@@ -10,24 +10,12 @@
       },
       "datasourceUid": "{{ .DatasourceUID }}",
       "model": {
-        "expr": "\
-1 - ( \n\
-  ( \n\
-    node_filesystem_free{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-    or \n\
-    node_filesystem_free_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-  ) / ( \n\
-    node_filesystem_size{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-    or \n\
-    node_filesystem_size_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-  ) \n\
-) \n\
-",
+        "expr": "rate(mongodb_mongod_wiredtiger_transactions_checkpoint_milliseconds_total{instance=~\"{{ .Instance }}\"}[5m])",
         "hide": false,
         "intervalMs": 1000,
         "maxDataPoints": 43200,
         "refId": "A",
-        "legendFormat": "{{ `{{ mountpoint }}` }}",
+        "legendFormat": "Checkpoint Time",
         "datasource": {
           "type": "prometheus",
           "uid": "{{ .DatasourceUID }}"
@@ -46,7 +34,7 @@
         "conditions": [
           {
             "evaluator": {
-              "params": [0.91],
+              "params": [500],
               "type": "gt"
             },
             "operator": {
@@ -57,7 +45,7 @@
             },
             "reducer": {
               "params": [],
-              "type": "avg"
+              "type": "last"
             },
             "type": "query"
           }
@@ -76,9 +64,9 @@
   ],
   "for": "5m",
   "ruleGroup": "{{ .Instance }}",
-  "title": "Mountpoint Usage - {{ .Instance }}",
-  "uid": "ssm-mountpoint-usage-{{ .Instance }}",
+  "title": "MongoDB WiredTiger Checkpoint Time  - {{ .Instance }}",
+  "uid": "ssm-mongodb-wiredtiger-checkpoint-time-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 11,
-  "category": "system"
+  "panelID": 22,
+  "category": "mongodb"
 }

@@ -10,24 +10,12 @@
       },
       "datasourceUid": "{{ .DatasourceUID }}",
       "model": {
-        "expr": "\
-1 - ( \n\
-  ( \n\
-    node_filesystem_free{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-    or \n\
-    node_filesystem_free_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-  ) / ( \n\
-    node_filesystem_size{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-    or \n\
-    node_filesystem_size_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-  ) \n\
-) \n\
-",
+        "expr": "(max(mongodb_mongod_replset_member_optime_date{state=\"PRIMARY\"}) - min(mongodb_mongod_replset_member_optime_date{state=\"SECONDARY\"} * on (instance) group_left mongodb_mongod_replset_my_name{instance=~\"{{ .Instance }}\"})) or vector(0)",
         "hide": false,
         "intervalMs": 1000,
         "maxDataPoints": 43200,
         "refId": "A",
-        "legendFormat": "{{ `{{ mountpoint }}` }}",
+        "legendFormat": "Lag",
         "datasource": {
           "type": "prometheus",
           "uid": "{{ .DatasourceUID }}"
@@ -46,7 +34,7 @@
         "conditions": [
           {
             "evaluator": {
-              "params": [0.91],
+              "params": [120],
               "type": "gt"
             },
             "operator": {
@@ -76,9 +64,9 @@
   ],
   "for": "5m",
   "ruleGroup": "{{ .Instance }}",
-  "title": "Mountpoint Usage - {{ .Instance }}",
-  "uid": "ssm-mountpoint-usage-{{ .Instance }}",
+  "title": "MongoDB Replication Lag - {{ .Instance }}",
+  "uid": "ssm-mongodb-replication-lag-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 11,
-  "category": "system"
+  "panelID": 16,
+  "category": "mongodb"
 }

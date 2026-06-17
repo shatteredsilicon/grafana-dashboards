@@ -111,5 +111,6 @@ min( \n\
   "title": "InnoDB Buffer Pool Hit Rate - {{ .Instance }}",
   "uid": "ssm-innodb-buffer-pool-hit-rate-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 13
+  "panelID": 13,
+  "category": "mysql"
 }

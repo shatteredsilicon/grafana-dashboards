@@ -11,23 +11,25 @@
       "datasourceUid": "{{ .DatasourceUID }}",
       "model": {
         "expr": "\
-1 - ( \n\
-  ( \n\
-    node_filesystem_free{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-    or \n\
-    node_filesystem_free_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-  ) / ( \n\
-    node_filesystem_size{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-    or \n\
-    node_filesystem_size_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
+avg_over_time(sum(mongodb_mongod_global_lock_client{instance=~\"{{ .Instance }}\", type!=\"total\"})[5m:]) / scalar( \n\
+  count( \n\
+    ( \n\
+      node_cpu{instance=~\"{{ .Instance }}\",mode=~\"user\"} \n\
+      or \n\
+      node_cpu_seconds_total{instance=~\"{{ .Instance }}\",mode=~\"user\"} \n\
+    ) \n\
   ) \n\
-) \n\
+  or \n\
+  sum(rdsosmetrics_General_numVCPUs{instance=~\"{{ .Instance }}\"}) \n\
+  or \n\
+  count(hrProcessorLoad{instance=~\"{{ .Instance }}\"}) \n\
+) * 100 \n\
 ",
         "hide": false,
         "intervalMs": 1000,
         "maxDataPoints": 43200,
         "refId": "A",
-        "legendFormat": "{{ `{{ mountpoint }}` }}",
+        "legendFormat": "Avg Threads Running Load %",
         "datasource": {
           "type": "prometheus",
           "uid": "{{ .DatasourceUID }}"
@@ -46,8 +48,8 @@
         "conditions": [
           {
             "evaluator": {
-              "params": [0.91],
-              "type": "gt"
+              "params": [99],
+              "type": "gte"
             },
             "operator": {
               "type": "and"
@@ -57,7 +59,7 @@
             },
             "reducer": {
               "params": [],
-              "type": "avg"
+              "type": "last"
             },
             "type": "query"
           }
@@ -76,9 +78,9 @@
   ],
   "for": "5m",
   "ruleGroup": "{{ .Instance }}",
-  "title": "Mountpoint Usage - {{ .Instance }}",
-  "uid": "ssm-mountpoint-usage-{{ .Instance }}",
+  "title": "MongoDB Client Thread Activity - {{ .Instance }}",
+  "uid": "ssm-mongodb-client-thread-activity-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 11,
-  "category": "system"
+  "panelID": 18,
+  "category": "mongodb"
 }

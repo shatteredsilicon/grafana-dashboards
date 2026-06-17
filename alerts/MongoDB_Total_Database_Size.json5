@@ -11,23 +11,18 @@
       "datasourceUid": "{{ .DatasourceUID }}",
       "model": {
         "expr": "\
-1 - ( \n\
-  ( \n\
-    node_filesystem_free{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-    or \n\
-    node_filesystem_free_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-  ) / ( \n\
-    node_filesystem_size{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-    or \n\
-    node_filesystem_size_bytes{instance=~\"{{ .Instance }}\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|squashfs\"} \n\
-  ) \n\
-) \n\
-",
+( \n\
+  sum(mongodb_mongod_db_data_size_bytes{instance=~\"{{ .Instance }}\"}) \n\
+  or on() vector(0) \n\
+) + ( \n\
+  sum(mongodb_mongod_db_index_size_bytes{instance=~\"{{ .Instance }}\"}) \n\
+  or on() vector(0) \n\
+)",
         "hide": false,
         "intervalMs": 1000,
         "maxDataPoints": 43200,
         "refId": "A",
-        "legendFormat": "{{ `{{ mountpoint }}` }}",
+        "legendFormat": "Total Size",
         "datasource": {
           "type": "prometheus",
           "uid": "{{ .DatasourceUID }}"
@@ -46,7 +41,7 @@
         "conditions": [
           {
             "evaluator": {
-              "params": [0.91],
+              "params": ["{{ mul 1.1 .InitialValue }}"],
               "type": "gt"
             },
             "operator": {
@@ -76,9 +71,9 @@
   ],
   "for": "5m",
   "ruleGroup": "{{ .Instance }}",
-  "title": "Mountpoint Usage - {{ .Instance }}",
-  "uid": "ssm-mountpoint-usage-{{ .Instance }}",
+  "title": "MongoDB Total Database Size - {{ .Instance }}",
+  "uid": "ssm-mongodb-total-database-size-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 11,
-  "category": "system"
+  "panelID": 17,
+  "category": "mongodb"
 }

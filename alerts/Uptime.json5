@@ -67,5 +67,6 @@
   "title": "Uptime - {{ .Instance }}",
   "uid": "ssm-uptime-{{ .Instance }}",
   "dashboardUID": "ssm-health-check",
-  "panelID": 12
+  "panelID": 12,
+  "category": "system"
 }
