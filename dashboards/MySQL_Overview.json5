@@ -4430,6 +4430,165 @@ irate(mysql_global_status_opened_table_definitions_total{instance=~\"$host\"}[5m
           "x": 0,
           "y": 134
         },
+        "panels": [],
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "refId": "A"
+          }
+        ],
+        "title": "ICP Match Rate",
+        "type": "row"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "decimals": 2,
+        "editable": true,
+        "error": false,
+        "fill": 2,
+        "grid": {},
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 135
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 20,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 2,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "min": 0,
+            "unit": "short",
+            "thresholds": {}
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "ICP Efficiency"
+              },
+              "properties": [
+                {
+                  "id": "custom.axisPlacement",
+                  "value": "right"
+                },
+                {
+                  "id": "unit",
+                  "value": "percentunit"
+                }
+              ]
+            }
+          ]
+        },
+        "links": [],
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean",
+              "max",
+              "min"
+            ],
+            "displayMode": "table",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=\"icp_attempts\"}[$interval])",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "icp_attempts",
+            "refId": "A",
+            "step": 300
+          },
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=\"icp_match\"}[$interval])",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "icp_match",
+            "refId": "B",
+            "step": 300
+          },
+          {
+            "datasource": {
+              "type": "prometheus"
+            },
+            "expr": "1 - (rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=\"icp_match\"}[$interval]) / on(instance) rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=\"icp_attempts\"}[$interval]))",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "ICP Efficiency",
+            "refId": "C",
+            "step": 300
+          }
+        ],
+        "title": "ICP Match Rate",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "datasource": {
+          "type": "prometheus"
+        },
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 142
+        },
         "id": 395,
         "panels": [],
         "targets": [
@@ -4460,7 +4619,7 @@ irate(mysql_global_status_opened_table_definitions_total{instance=~\"$host\"}[5m
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 135
+          "y": 143
         },
         "id": 31,
         "legend": {
@@ -4598,7 +4757,7 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 135
+          "y": 143
         },
         "height": "250px",
         "id": 37,
@@ -4755,7 +4914,7 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 142
+          "y": 150
         },
         "height": "",
         "id": 2,
@@ -4955,7 +5114,7 @@ clamp_max( \n\
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 142
+          "y": 150
         },
         "height": "250px",
         "id": 36,
@@ -5139,7 +5298,7 @@ sum( \n\
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 149
+          "y": 157
         },
         "height": "250px",
         "id": 21,
@@ -5298,7 +5457,7 @@ sum( \n\
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 149
+          "y": 157
         },
         "id": 38,
         "legend": {
