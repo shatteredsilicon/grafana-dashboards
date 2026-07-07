@@ -1,6 +1,6 @@
 import { Alert, Button, ButtonGroup, Collapse, Icon, InlineField, Input, RenderUserContentAsHTML, Stack, Text, useStyles2 } from "@grafana/ui";
 import React, { useEffect, useRef, useState } from "react";
-import { QueryDetails } from "../types";
+import { QueryDetails, QueryInfo, QueryMetaData } from "../types";
 import { css } from "@emotion/css";
 import { TimeRange, AppEvents } from "@grafana/data";
 // @ts-ignore
@@ -41,21 +41,6 @@ interface Table {
 interface Procedure {
   DB: string
   Name: string
-}
-
-interface ShowIndexRow {
-	KeyName:      string;
-  IdxScan:      number;
-  IdxTupRead:   number;
-  IdxTupFetch:  number;
-}
-
-interface QueryInfo {
-  Type: DBObjectType;
-  Create: string;
-  Status: Record<string, any>;
-  Index: Record<string, ShowIndexRow>;
-  Errors: Array<string>;
 }
 
 interface QueryInfoResult {
@@ -224,6 +209,7 @@ const getStyles = () => {
 }
 
 export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
+  const domRef = useRef<HTMLDivElement | null>(null);
   const jsonExplainRef = useRef<HTMLDivElement | null>(null);
   const styles = useStyles2(getStyles);
 
@@ -260,10 +246,14 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
   useEffect(()=>{
     if (props.instance.Agent?.UUID === undefined || props.instance.UUID === undefined) return;
 
-    getQueryInfo(
-      props.instance.Agent.UUID,
-      props.instance.UUID
-    );
+    if (props.queryDetails.Query?.Metadata || props.instance.Disconnected) {
+      props.queryDetails.Query?.Metadata && handleMetadata(props.queryDetails.Query.Metadata);
+    } else {
+      getQueryInfo(
+        props.instance.Agent.UUID,
+        props.instance.UUID
+      );
+    }
   }, [props.queryDetails.Query, props.instance]);
 
   useEffect(()=>{
@@ -283,13 +273,13 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
   }, [isQueryInfoLoading, isExplainLoading, collapseOpenState, tableIndex, viewIndex, procedureIndex]);
 
   useEffect(()=>{
-    if (!jsonExplainRef.current) return;
+    if (!domRef.current) return;
 
     const observer = new MutationObserver(() => {
       props.onSizeChange();
     });
 
-    observer.observe(jsonExplainRef.current, {
+    observer.observe(domRef.current, {
       attributes: true, // Observe attribute changes
       childList: true,  // Observe direct child additions/removals
       subtree: true,    // Observe changes in descendants as well
@@ -297,7 +287,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
     });
 
     return () => observer.disconnect();
-  }, [jsonExplainRef?.current])
+  }, [domRef?.current])
 
   function fetchQueryInfo(agentUUID: string, dbServerUUID: string, dbName: string | undefined, tables: Array<Table>, procedures: Array<Procedure>) {
     const url = `/qan-api/agents/${agentUUID}/cmd`;
@@ -326,6 +316,25 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
       body: JSON.stringify(params)
     })
   }
+
+    function handleMetadata(metadata: QueryMetaData) {
+      metadata.Tables ?? [];
+      metadata.Views ?? [];
+      metadata.Procedures ?? [];
+
+      const info: Record<string, QueryInfo> = {};
+      setTables(metadata.Tables ?? []);
+      setViews(metadata.Views ?? []);
+      setProcedures(metadata.Procedures ?? []);
+
+      metadata.Tables?.forEach(t => info[`${t.Db}.${t.Table}`] = t.QueryInfo);
+      metadata.Views?.forEach(v => info[`${v.Db}.${v.Table}`] = v.QueryInfo);
+      metadata.Procedures?.forEach(p => info[`${p.DB}.${p.Name}`] = p.QueryInfo);
+
+      setQueryInfo({
+        Info: info
+      });
+    }
 
   function getQueryInfo(agentUUID: string, dbServerUUID: string) {
     setIsQueryInfoLoading(true);
@@ -367,6 +376,25 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
 
   function getQueryExplain(agentUUID: string, dbServerUUID: string, dbName: string, query: string, withExplain: string) {
     const url = `/qan-api/agents/${agentUUID}/cmd`;
+
+    const explainJSON = withExplain ? JSON.parse(withExplain) : null;
+    if (explainJSON) {
+      const res = explainJSON as QueryExplain;
+
+      try {
+        res.json = JSON.parse(res.JSON);
+        setJSONExplainError(undefined);
+      } catch(err: any) {
+        setJSONExplainError(err.message);
+      }
+
+      setQueryExplain(res);
+      return;
+    }
+
+    if (props.instance.Disconnected) {
+      return;
+    }
 
     const data = {
       UUID: dbServerUUID,
@@ -555,7 +583,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
   }
 
   return (
-    <Stack direction='column' width='100%' gap={2}>
+    <Stack direction='column' width='100%' gap={2} ref={domRef}>
       <Stack direction='row' justifyContent='space-between'>
         <Text element='h3'>{props.queryDetails.Query !== undefined ? props.queryDetails.Query.Abstract : 'Server Summary'}</Text>
         {props.queryDetails.Query?.Id && <Text element='h3'>{props.queryDetails.Query.Id}</Text>}
@@ -773,9 +801,12 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                     <>
                       <Stack direction='row' justifyContent='space-between' width='100%' alignItems='center' wrap gap={1}>
                         <Text element='h3'>TABLES</Text>
-                        <InlineField label='DB and table'>
-                          <Input width={40} value={dbTableInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBTable()}>ADD</Button>} placeholder='`database-name`.`table-name`' onChange={e=>setDBTableInput(e.currentTarget.value)} />
-                        </InlineField>
+                        {props.instance.Disconnected
+                          ? <></>
+                          : <InlineField label='DB and table'>
+                              <Input width={40} value={dbTableInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBTable()}>ADD</Button>} placeholder='`database-name`.`table-name`' onChange={e=>setDBTableInput(e.currentTarget.value)} />
+                            </InlineField>
+                        }
                       </Stack>
                       <Stack direction='row' justifyContent='flex-start' wrap gap={2}>
                         {tables.map((t,i) => (
@@ -785,7 +816,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                           </ButtonGroup>
                         ))}
                       </Stack>
-                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`].Create || queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors?.find(e => e.startsWith('SHOW CREATE TABLE'))
+                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Create || queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors?.find(e => e.startsWith('SHOW CREATE TABLE'))
                         ? <Collapse
                             isOpen={collapseOpenState?.['table-create'] === undefined ? true : collapseOpenState['table-create']}
                             onToggle={()=>toggleCollapse('table-create')}
@@ -811,7 +842,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                               : <Stack direction='row' justifyContent='center'>
                                   <Stack minWidth='40%' maxWidth='80%'>
                                     <Alert title='' severity='warning'>
-                                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors.find(e => e.startsWith('SHOW CREATE TABLE'))}
+                                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors?.find(e => e.startsWith("Can't get definition"))}
                                     </Alert>
                                   </Stack>
                                 </Stack>
@@ -819,7 +850,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                           </Collapse>
                         : <></>
                       }
-                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`].Status || queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors?.find(e => e.startsWith('SHOW TABLE STATUS'))
+                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Status || queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors?.find(e => e.startsWith("Can't get STATUS information"))
                         ? <Collapse
                             isOpen={collapseOpenState?.['status'] === undefined ? true : collapseOpenState['status']}
                             onToggle={()=>toggleCollapse('status')}
@@ -857,7 +888,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                               : <Stack direction='row' justifyContent='center'>
                                   <Stack minWidth='40%' maxWidth='80%'>
                                     <Alert title='' severity='warning'>
-                                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors.find(e => e.startsWith('SHOW TABLE STATUS'))}
+                                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors?.find(e => e.startsWith("Can't get STATUS information"))}
                                     </Alert>
                                   </Stack>
                                 </Stack>
@@ -865,7 +896,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                           </Collapse>
                         : <></>
                       }
-                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`].Index || queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors?.find(e => e.startsWith('SHOW INDEX FROM'))
+                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Index || queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors?.find(e => e.startsWith("Can't get INDEX information"))
                         ? <Collapse
                             isOpen={collapseOpenState?.['indexes'] === undefined ? true : collapseOpenState['indexes']}
                             onToggle={()=>toggleCollapse('indexes')}
@@ -899,7 +930,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                               : <Stack direction='row' justifyContent='center'>
                                   <Stack minWidth='40%' maxWidth='80%'>
                                     <Alert title='' severity='warning'>
-                                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors.find(e => e.startsWith('SHOW INDEX FROM'))}
+                                      {queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`]?.Errors?.find(e => e.startsWith("Can't get INDEX information"))}
                                     </Alert>
                                   </Stack>
                                 </Stack>
@@ -913,9 +944,12 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                     <>
                       <Stack direction='row' justifyContent='space-between' width='100%' alignItems='center' wrap gap={1}>
                         <Text element='h3'>PROCEDURES</Text>
-                        <InlineField label='DB and name'>
-                          <Input width={40} value={dbProcedureInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBProcedure()}>ADD</Button>} placeholder='`database-name`.`procedure-name`' onChange={e=>setDBProcedureInput(e.currentTarget.value)} />
-                        </InlineField>
+                        {props.instance.Disconnected
+                          ? <></>
+                          : <InlineField label='DB and name'>
+                              <Input width={40} value={dbProcedureInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBProcedure()}>ADD</Button>} placeholder='`database-name`.`procedure-name`' onChange={e=>setDBProcedureInput(e.currentTarget.value)} />
+                            </InlineField>
+                        }
                       </Stack>
                       <Stack direction='row' justifyContent='flex-start' gap={2}>
                         {procedures.map((t,i) => (
@@ -936,7 +970,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                         className={styles.card}
                         collapsible
                       >
-                        {queryInfo.Info[`${procedures[procedureIndex].DB}.${procedures[procedureIndex].Name}`].Create
+                        {queryInfo.Info[`${procedures[procedureIndex].DB}.${procedures[procedureIndex].Name}`]?.Create
                           ? <div className={styles.dataOutput}>
                               <pre>
                                 <code>
@@ -950,7 +984,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                           : <Stack direction='row' justifyContent='center'>
                               <Stack minWidth='40%' maxWidth='80%'>
                                 <Alert title='' severity='warning'>
-                                  {queryInfo.Info[`${procedures[procedureIndex].DB}.${procedures[procedureIndex].Name}`]?.Errors.find(e => e.startsWith('SHOW CREATE PROCEDURE'))}
+                                  {queryInfo.Info[`${procedures[procedureIndex].DB}.${procedures[procedureIndex].Name}`]?.Errors?.find(e => e.startsWith("Can't get definition"))}
                                 </Alert>
                               </Stack>
                             </Stack>
@@ -962,9 +996,12 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                     <>
                       <Stack direction='row' justifyContent='space-between' width='100%' alignItems='center' gap={1}>
                         <Text element='h3'>VIEWS</Text>
-                        <InlineField label='DB and name'>
-                          <Input width={40} value={dbViewInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBView()}>ADD</Button>} placeholder='`database-name`.`view-name`' onChange={e=>setDBViewInput(e.currentTarget.value)} />
-                        </InlineField>
+                        {props.instance.Disconnected
+                          ? <></>
+                          : <InlineField label='DB and name'>
+                              <Input width={40} value={dbViewInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBView()}>ADD</Button>} placeholder='`database-name`.`view-name`' onChange={e=>setDBViewInput(e.currentTarget.value)} />
+                            </InlineField>
+                        }
                       </Stack>
                       <Stack direction='row' justifyContent='flex-start' gap={2}>
                         {views.map((t, i) => (
@@ -985,7 +1022,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                         className={styles.card}
                         collapsible
                       >
-                        {queryInfo.Info[`${views[viewIndex].Db}.${views[viewIndex].Table}`].Create
+                        {queryInfo.Info[`${views[viewIndex].Db}.${views[viewIndex].Table}`]?.Create
                           ? <div className={styles.dataOutput}>
                               <pre>
                                 <code>
@@ -999,7 +1036,7 @@ export const PostgreSQLQuery: React.FC<PostgreSQLQueryProps> = (props) => {
                           : <Stack direction='row' justifyContent='center'>
                               <Stack minWidth='40%' maxWidth='80%'>
                                 <Alert title='' severity='warning'>
-                                  {queryInfo.Info[`${views[viewIndex].Db}.${views[viewIndex].Table}`]?.Errors.find(e => e.startsWith('SHOW CREATE TABLE'))}
+                                  {queryInfo.Info[`${views[viewIndex].Db}.${views[viewIndex].Table}`]?.Errors?.find(e => e.startsWith("Can't get definition"))}
                                 </Alert>
                               </Stack>
                             </Stack>

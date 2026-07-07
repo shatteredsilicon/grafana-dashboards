@@ -19,6 +19,7 @@ export interface Instance {
   Subsystem: string;
   UUID: string;
   Version: string;
+  Disconnected: boolean;
   Agent?: Instance | null;
 }
 

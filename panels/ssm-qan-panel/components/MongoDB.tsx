@@ -153,6 +153,7 @@ const getStyles = () => {
 }
 
 export const MongoDBQuery: React.FC<MongoDBQueryProps> = (props) => {
+  const domRef = useRef<HTMLDivElement | null>(null);
   const jsonExplainRef = useRef<HTMLDivElement | null>(null);
   const styles = useStyles2(getStyles);
 
@@ -189,13 +190,13 @@ export const MongoDBQuery: React.FC<MongoDBQueryProps> = (props) => {
   }, [isExplainLoading, collapseOpenState]);
 
   useEffect(()=>{
-    if (!jsonExplainRef.current) return;
+    if (!domRef.current) return;
 
     const observer = new MutationObserver(() => {
       props.onSizeChange();
     });
 
-    observer.observe(jsonExplainRef.current, {
+    observer.observe(domRef.current, {
       attributes: true, // Observe attribute changes
       childList: true,  // Observe direct child additions/removals
       subtree: true,    // Observe changes in descendants as well
@@ -203,10 +204,29 @@ export const MongoDBQuery: React.FC<MongoDBQueryProps> = (props) => {
     });
 
     return () => observer.disconnect();
-  }, [jsonExplainRef?.current])
+  }, [domRef?.current])
 
   function getQueryExplain(agentUUID: string, dbServerUUID: string, dbName: string, query: string, withExplain: string) {
     const url = `/qan-api/agents/${agentUUID}/cmd`;
+
+    const explainJSON = withExplain ? JSON.parse(withExplain) : null;
+    if (explainJSON) {
+      const res = explainJSON as QueryExplain;
+
+      try {
+        res.json = typeof res.JSON === 'string' ? JSON.parse(res.JSON) : res.JSON;
+        setJSONExplainError(undefined);
+      } catch(err: any) {
+        setJSONExplainError(err.message);
+      }
+
+      setQueryExplain(res);
+      return;
+    }
+
+    if (props.instance.Disconnected) {
+      return;
+    }
 
     const data = {
       UUID: dbServerUUID,
@@ -262,7 +282,7 @@ export const MongoDBQuery: React.FC<MongoDBQueryProps> = (props) => {
   }
 
   return (
-    <Stack direction='column' width='100%' gap={2}>
+    <Stack direction='column' width='100%' gap={2} ref={domRef}>
       <Stack direction='row' justifyContent='space-between'>
         <Text element='h3'>{props.queryDetails.Query !== undefined ? props.queryDetails.Query.Abstract : 'Server Summary'}</Text>
         {props.queryDetails.Query?.Id && <Text element='h3'>{props.queryDetails.Query.Id}</Text>}
