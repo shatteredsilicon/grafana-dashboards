@@ -1,6 +1,6 @@
 import { Alert, Button, ButtonGroup, Collapse, Icon, InlineField, Input, RenderUserContentAsHTML, Stack, Text, useStyles2 } from "@grafana/ui";
 import React, { useEffect, useRef, useState } from "react";
-import { QueryDetails } from "../types";
+import { QueryDetails, QueryInfoResult, DBObjectType, QueryMetaData, QueryInfo, Table, Procedure, ShowIndexRow } from "../types";
 import { css } from "@emotion/css";
 import { TimeRange, AppEvents, dateTimeFormat } from "@grafana/data";
 // @ts-ignore
@@ -28,57 +28,6 @@ export interface MySQLQueryProps {
   instances: Instance[];
   queryDetails: QueryDetails;
   onSizeChange: ()=>void;
-}
-
-enum DBObjectType {
-  TypeDBTable = 0,
-  TypeDBProcedure,
-  TypeDBView
-}
-
-interface Table {
-  Db: string
-  Table: string
-}
-
-interface Procedure {
-  DB: string
-  Name: string
-}
-
-interface ShowIndexRow {
-  Table:        string;
-	NonUnique:    boolean;
-	KeyName:      string;
-	SeqInIndex:   number;
-	ColumnName:   string;
-	Collation?:    string;
-	Cardinality?:  number;
-	SubPart?:      number;
-	Packed?:       string;
-	Null?:         string;
-	IndexType:    string;
-	Comment?:      string;
-	IndexComment?: string;
-	Visible?:      string;
-}
-
-interface QueryInfo {
-  Type: DBObjectType;
-  Create: string;
-  Status: Record<string, any>;
-  Index: Record<string, ShowIndexRow[]>;
-  Errors: Array<string>;
-}
-
-interface GuessDB {
-  DB: string;
-  IsAmbiguous: boolean;
-}
-
-interface QueryInfoResult {
-  GuessDB: GuessDB | null;
-  Info: Record<string, QueryInfo>;
 }
 
 interface ExplainRow {
@@ -253,6 +202,7 @@ const getStyles = () => {
 }
 
 export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
+  const domRef = useRef<HTMLDivElement | null>(null);
   const jsonExplainRef = useRef<HTMLDivElement | null>(null);
   const styles = useStyles2(getStyles);
 
@@ -292,10 +242,14 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
   useEffect(()=>{
     if (props.instance.Agent?.UUID === undefined || props.instance.UUID === undefined) return;
 
-    getQueryInfo(
-      props.instance.Agent.UUID,
-      props.instance.UUID
-    );
+    if (props.queryDetails.Query?.Metadata || props.instance.Disconnected) {
+      props.queryDetails.Query?.Metadata && handleMetadata(props.queryDetails.Query.Metadata);
+    } else {
+      getQueryInfo(
+        props.instance.Agent.UUID,
+        props.instance.UUID
+      );
+    }
   }, [props.queryDetails.Query, props.instance]);
 
   useEffect(()=>{
@@ -319,13 +273,13 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
   }, [isQueryInfoLoading, isExplainLoading, collapseOpenState, tableIndex, viewIndex, procedureIndex]);
 
   useEffect(()=>{
-    if (!jsonExplainRef.current) return;
+    if (!domRef.current) return;
 
     const observer = new MutationObserver(() => {
       props.onSizeChange();
     });
 
-    observer.observe(jsonExplainRef.current, {
+    observer.observe(domRef.current, {
       attributes: true, // Observe attribute changes
       childList: true,  // Observe direct child additions/removals
       subtree: true,    // Observe changes in descendants as well
@@ -333,7 +287,7 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
     });
 
     return () => observer.disconnect();
-  }, [jsonExplainRef?.current])
+  }, [domRef?.current])
 
   function fetchQueryInfo(agentUUID: string, dbServerUUID: string, tables: Array<Table>, procedures: Array<Procedure>) {
     const url = `/qan-api/agents/${agentUUID}/cmd`;
@@ -360,6 +314,26 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
       },
       body: JSON.stringify(params)
     })
+  }
+
+  function handleMetadata(metadata: QueryMetaData) {
+    metadata.Tables ?? [];
+    metadata.Views ?? [];
+    metadata.Procedures ?? [];
+
+    const info: Record<string, QueryInfo> = {};
+    setTables(metadata.Tables ?? []);
+    setViews(metadata.Views ?? []);
+    setProcedures(metadata.Procedures ?? []);
+
+    metadata.Tables?.forEach(t => info[`${t.Db}.${t.Table}`] = t.QueryInfo);
+    metadata.Tables?.forEach(v => info[`${v.Db}.${v.Table}`] = v.QueryInfo);
+    metadata.Procedures?.forEach(p => info[`${p.DB}.${p.Name}`] = p.QueryInfo);
+
+    setQueryInfo({
+      Info: info,
+      GuessDB: metadata.GuessDB
+    });
   }
 
   function getQueryInfo(agentUUID: string, dbServerUUID: string) {
@@ -411,12 +385,31 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
   function getQueryExplain(agentUUID: string, dbServerUUID: string, dbName: string, query: string, withExplain: string) {
     const url = `/qan-api/agents/${agentUUID}/cmd`;
 
+    const explainJSON = withExplain ? JSON.parse(withExplain) : null;
+    if (explainJSON) {
+      const res = explainJSON as QueryExplain;
+
+      try {
+        res.json = JSON.parse(res.JSON);
+        setJSONExplainError(undefined);
+      } catch(err: any) {
+        setJSONExplainError(err.message);
+      }
+
+      setQueryExplain(res);
+      return;
+    }
+
+    if (props.instance.Disconnected) {
+      return;
+    }
+
     const data = {
       UUID: dbServerUUID,
       Db: dbName,
       Query: query,
       Convert: true,  // agent will convert if not SELECT and MySQL <= 5.5 or >= 5.6 but no privs
-      WithExplainRows: withExplain ? JSON.parse(withExplain) as ExplainRow[] : []
+      WithExplainRows: explainJSON ? explainJSON as ExplainRow[] : []
     };
 
     const params = {
@@ -458,7 +451,7 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
     dbServerUUIDs.forEach(uuid => {
       params.append('uuids[]', uuid);
     });
-    
+
     setIsUserSourceLoading(true);
     fetch(`/qan-api/qan/query/${queryID}/user-sources?${params.toString()}`)
       .then(res => res.json())
@@ -672,7 +665,7 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
   }
 
   return (
-    <Stack direction='column' width='100%' gap={2}>
+    <Stack direction='column' width='100%' gap={2} ref={domRef}>
       <Stack direction='row' justifyContent='space-between'>
         <Text element='h3'>{props.queryDetails.Query !== undefined ? props.queryDetails.Query.Abstract : 'Server Summary'}</Text>
         {props.queryDetails.Query?.Id && <Text element='h3'>{props.queryDetails.Query.Id}</Text>}
@@ -1719,9 +1712,12 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
                     <>
                       <Stack direction='row' justifyContent='space-between' width='100%' alignItems='center' wrap gap={1}>
                         <Text element='h3'>TABLES</Text>
-                        <InlineField label='DB and table'>
-                          <Input width={40} value={dbTableInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBTable()}>ADD</Button>} placeholder='`database-name`.`table-name`' onChange={e=>setDBTableInput(e.currentTarget.value)} />
-                        </InlineField>
+                        {props.instance.Disconnected
+                          ? <></>
+                          : <InlineField label='DB and table'>
+                              <Input width={40} value={dbTableInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBTable()}>ADD</Button>} placeholder='`database-name`.`table-name`' onChange={e=>setDBTableInput(e.currentTarget.value)} />
+                            </InlineField>
+                        }
                       </Stack>
                       <Stack direction='row' justifyContent='flex-start' wrap gap={2}>
                         {tables.map((t,i) => (
@@ -1836,7 +1832,7 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
                                     <div>Null</div>
                                     <div>Comment</div>
                                   </div>
-                                  {Object.entries(queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`].Index).map(([k, indexes]) => indexes.map((index, i) => {
+                                  {Object.entries(queryInfo.Info[`${tables[tableIndex].Db}.${tables[tableIndex].Table}`].Index).map(([k, indexes]) => (indexes as ShowIndexRow[]).map((index, i) => {
                                     return (
                                       <div className={styles.row}>
                                         <div>{ i === 0 ? k : ''}</div>
@@ -1869,9 +1865,12 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
                     <>
                       <Stack direction='row' justifyContent='space-between' width='100%' alignItems='center' wrap gap={1}>
                         <Text element='h3'>PROCEDURES</Text>
-                        <InlineField label='DB and name'>
-                          <Input width={40} value={dbProcedureInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBProcedure()}>ADD</Button>} placeholder='`database-name`.`procedure-name`' onChange={e=>setDBProcedureInput(e.currentTarget.value)} />
-                        </InlineField>
+                        {props.instance.Disconnected
+                          ? <></>
+                          : <InlineField label='DB and name'>
+                              <Input width={40} value={dbProcedureInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBProcedure()}>ADD</Button>} placeholder='`database-name`.`procedure-name`' onChange={e=>setDBProcedureInput(e.currentTarget.value)} />
+                            </InlineField>
+                        }
                       </Stack>
                       <Stack direction='row' justifyContent='flex-start' gap={2}>
                         {procedures.map((t,i) => (
@@ -1918,9 +1917,12 @@ export const MySQLQuery: React.FC<MySQLQueryProps> = (props) => {
                     <>
                       <Stack direction='row' justifyContent='space-between' width='100%' alignItems='center' gap={1}>
                         <Text element='h3'>VIEWS</Text>
-                        <InlineField label='DB and name'>
-                          <Input width={40} value={dbViewInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBView()}>ADD</Button>} placeholder='`database-name`.`view-name`' onChange={e=>setDBViewInput(e.currentTarget.value)} />
-                        </InlineField>
+                        {props.instance.Disconnected
+                          ? <></>
+                          : <InlineField label='DB and name'>
+                              <Input width={40} value={dbViewInput} addonAfter={<Button variant='secondary' fill='outline' onClick={()=>addDBView()}>ADD</Button>} placeholder='`database-name`.`view-name`' onChange={e=>setDBViewInput(e.currentTarget.value)} />
+                            </InlineField>
+                        }
                       </Stack>
                       <Stack direction='row' justifyContent='flex-start' gap={2}>
                         {views.map((t, i) => (
