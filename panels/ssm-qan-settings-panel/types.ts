@@ -30,6 +30,7 @@ interface AgentDefaultsQan extends Partial<AgentDefaultsMySQLQan> {
   RetainSlowLogs?: number;
   SlowLogRotation?: boolean;
   ExampleQueries?: boolean;
+  ExampleResolution?: ExampleResolution;
   ReportLimit: number;
   FilterOmit: string[];
   FilterAllow: string[];
@@ -96,4 +97,11 @@ export interface AgentLog {
   Level: AgentLogLevel;
   Service: string;
   Msg: string;
+}
+
+export enum ExampleResolution {
+  OFF = -1,
+  DAY = 0,
+  HOUR = 1,
+  MINUTE = 2
 }
