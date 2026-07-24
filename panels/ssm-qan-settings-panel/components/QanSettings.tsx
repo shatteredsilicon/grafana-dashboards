@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, ReactNode } from 'react';
 import { RefreshEvent } from '@grafana/runtime';
 import { formattedValueToString, getValueFormat, PanelProps } from '@grafana/data';
 import { Alert, Box, Button, Checkbox, Collapse, Combobox, IconButton, InlineLabel, Input, RadioButtonGroup, Stack, Text, useStyles2 } from '@grafana/ui';
-import { AgentDefaults, AgentLog, AgentStatus, QanSettingsOptions } from '../types';
+import { AgentDefaults, AgentLog, AgentStatus, QanSettingsOptions, ExampleResolution } from '../types';
 import { useInstance, Instance } from '../../useInstance';
 import { css } from '@emotion/css';
 import { formatDistanceToNow } from 'date-fns';
@@ -71,6 +71,7 @@ export const QanSettingsPanel: React.FC<Props> = ({ eventBus, replaceVariables }
 
   const [collectInterval, setCollectInterval] = useState<number>(1);
   const [showQueryExample, setShowQueryExample] = useState<boolean>();
+  const [exampleResolution, setExampleResolution] = useState<ExampleResolution>(ExampleResolution.DAY);
   const [collectFrom, setCollectFrom] = useState<string>();
   const [filterOmit, setFilterOmit] = useState<string>();
 
@@ -122,6 +123,7 @@ export const QanSettingsPanel: React.FC<Props> = ({ eventBus, replaceVariables }
         setCollectFrom(res.qan?.CollectFrom  === 'rds-slowlog' ? 'slowlog' : res.qan?.CollectFrom);
         res.qan?.Interval !== undefined && setCollectInterval(res.qan.Interval / 60);
         setShowQueryExample(res.qan?.ExampleQueries);
+        setExampleResolution(res.qan?.ExampleQueries ? (res.qan?.ExampleResolution ?? ExampleResolution.DAY) : ExampleResolution.OFF)
         res.qan?.FilterOmit !== undefined && setFilterOmit(res.qan?.FilterOmit?.join(','));
       })
       .catch(err=>{
@@ -246,6 +248,7 @@ export const QanSettingsPanel: React.FC<Props> = ({ eventBus, replaceVariables }
           UUID: instanceUUID,
           Interval: collectInterval * 60,
           ExampleQueries: showQueryExample,
+          ExampleResolution: exampleResolution,
           CollectFrom: collectFrom === 'slowlog' && isRDS() ? 'rds-slowlog' : collectFrom,
           FilterOmit: filterOmit?.trim().split(',') || []
         }))
@@ -305,15 +308,46 @@ export const QanSettingsPanel: React.FC<Props> = ({ eventBus, replaceVariables }
                         </Stack>
                         <Stack direction='row'>
                           <Box flex='0 0 30%'><Text element='p' textAlignment='right'>Collect interval:</Text></Box>
-                          <Stack direction='column' flex='0 0 70%'>
+                          <Box flex='0 0 70%'>
                             <Stack>
                               <Input type='number' min={1} max={60} value={collectInterval} onChange={e=>setCollectInterval(parseInt(e.currentTarget.value))} />
                               <InlineLabel width='auto'>minutes (from 1 to 60)</InlineLabel>
                             </Stack>
-                            <Stack>
-                              <Checkbox label='Send real query examples' value={showQueryExample} onChange={e=>setShowQueryExample(e.currentTarget.checked)} />
-                            </Stack>
-                          </Stack>
+                          </Box>
+                        </Stack>
+                        <Stack direction='row'>
+                          <Box flex='0 0 30%'><Text element='p' textAlignment='right'>Example Resolution:</Text></Box>
+                          <Box flex='0 0 70%'>
+                            <RadioButtonGroup
+                              value={exampleResolution}
+                              options={[
+                                {
+                                  label: 'OFF',
+                                  value: ExampleResolution.OFF
+                                },
+                                {
+                                  label: 'Day',
+                                  value: ExampleResolution.DAY
+                                },
+                                {
+                                  label: 'Hour',
+                                  value: ExampleResolution.HOUR
+                                },
+                                {
+                                  label: 'Minute',
+                                  value: ExampleResolution.MINUTE
+                                }
+                              ]}
+                              onChange={v => {
+                                if ( v === ExampleResolution.OFF) {
+                                  setShowQueryExample(false);
+                                } else {
+                                  setShowQueryExample(true);
+                                }
+                                setExampleResolution(v)
+                              }}
+                            />
+                          </Box>
                         </Stack>
                         <Stack direction='row'>
                           <Box flex='0 0 30%'><Text element='p' textAlignment='right'>Collect from:</Text></Box>
