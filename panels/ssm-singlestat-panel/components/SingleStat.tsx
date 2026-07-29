@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FieldSparkline, GrafanaTheme2, LoadingState, PanelProps, reduceField, ReducerID } from '@grafana/data';
-import { Sparkline, useStyles2, useTheme2 } from '@grafana/ui';
+import { Sparkline, TextLink, useStyles2, useTheme2 } from '@grafana/ui';
 import { SingleStatOptions } from '../types';
 import { getTimeField, getValueField } from 'panels/utils';
 import { css } from '@emotion/css';
@@ -54,7 +54,6 @@ export const SingleStatPanel: React.FC<Props> = ({ options, data, width, height 
 
   useEffect(()=>{
     if (data.state !== LoadingState.Done || !data.series) { return }
-
 
     const valueSeries = data.series.find(s => options.descSeriesRefID !== s.refId ) || data.series[0];
     const valueField = getValueField(valueSeries.fields);
@@ -132,7 +131,17 @@ export const SingleStatPanel: React.FC<Props> = ({ options, data, width, height 
         <div className={styles.valueWrapper}>
           <div className={styles.prefix}>{options.prefix}</div>
           <div className={styles.value}>
-            {valueStr}
+            {options.link && valueStr !== 'N/A'
+              ? <TextLink
+                  external
+                  href={options.link}
+                  variant='h1'
+                  inline={false}
+                >
+                  {valueStr}
+                </TextLink>
+              : valueStr
+            }
           </div>
           <div className={styles.postfix}>{options.postfix}</div>
         </div>
