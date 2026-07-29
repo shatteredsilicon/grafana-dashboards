@@ -27,4 +27,5 @@ export interface SingleStatOptions {
     maxValue: number;
     show: boolean;
   };
+  link: string;
 };

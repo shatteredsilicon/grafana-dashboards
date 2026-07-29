@@ -7248,6 +7248,233 @@ or on() vector(-1) \n\
           "refId": "A"
         }
       ],
+      "title": "MySQL Relay Lag",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 139
+      },
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+( \n\
+  ( \n\
+    mysql_slave_status_seconds_behind_master{instance=~\"$host\"} \n\
+    or \n\
+    mysql_slave_status_seconds_behind_source{instance=~\"$host\"} \n\
+  ) / ( \n\
+    ( \n\
+      mysql_slave_status_relay_log_space{instance=~\"$host\"} \n\
+      or \n\
+      mysql_slave_status_relay_log_space_total{instance=~\"$host\"} \n\
+    ) / (1024*1024*1024) \n\
+  ) \n\
+) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": " {{ connection_name }} {{ channel_name }} ",
+          "metric": "",
+          "refId": "A",
+          "step": 300
+        }
+      ],
+      "title": "MySQL Relay Lag",
+      "description": "Note: If you do not see any metric, try setting: ``collect.slave_status = 1`` in the mysqld_exporter config file.",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 139
+      },
+      "hideTimeOverride": false,
+      "interval": "$interval",
+      "links": [],
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "-1": {
+                  "text": "N/A"
+                },
+                "1": {
+                  "text": "st-sideload-relay"
+                }
+              },
+              "type": "value"
+            }
+          ]
+        }
+      },
+      "options": {
+        "colors": [
+          "rgb(24, 27, 31)"
+        ],
+        "valueFontSize": "150%",
+        "colorBackground": true,
+        "link": "https://github.com/shatteredsilicon/silicon-toolkit/blob/master/bin/st-sideload-relay"
+      },
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+vector(1) \n\
+and on() ( \n\
+  max( \n\
+    max_over_time( \n\
+      ( \n\
+        ( \n\
+          mysql_slave_status_seconds_behind_master{instance=~\"$host\"} \n\
+          or \n\
+          mysql_slave_status_seconds_behind_source{instance=~\"$host\"} \n\
+        ) / ( \n\
+          ( \n\
+            mysql_slave_status_relay_log_space{instance=~\"$host\"} \n\
+            or \n\
+            mysql_slave_status_relay_log_space_total{instance=~\"$host\"} \n\
+          ) / (1024*1024*1024) \n\
+        ) \n\
+      )[1w:] \n\
+    ) \n\
+  ) > 300 \n\
+  or \n\
+  max( \n\
+    avg_over_time( \n\
+      ( \n\
+        ( \n\
+          mysql_slave_status_seconds_behind_master{instance=~\"$host\"} \n\
+          or \n\
+          mysql_slave_status_seconds_behind_source{instance=~\"$host\"} \n\
+        ) / ( \n\
+          ( \n\
+            mysql_slave_status_relay_log_space{instance=~\"$host\"} \n\
+            or \n\
+            mysql_slave_status_relay_log_space_total{instance=~\"$host\"} \n\
+          ) / (1024*1024*1024) \n\
+        ) \n\
+      )[1w:] \n\
+    ) \n\
+  ) > 60 \n\
+) \n\
+or on() vector(-1) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "A",
+          "step": 300
+        }
+      ],
+      "title": "Recommend",
+      "type": "ssm-singlestat-panel"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 147
+      },
+      "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "Theoretical Memory Usage",
       "type": "row"
     },
@@ -7259,7 +7486,7 @@ or on() vector(-1) \n\
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 139
+        "y": 148
       },
       "hideTimeOverride": false,
       "interval": "$interval",
@@ -7565,7 +7792,7 @@ or on() vector(0) \n\
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 139
+        "y": 148
       },
       "links": [],
       "options": {
@@ -7711,7 +7938,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} * ( \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 147
+        "y": 156
       },
       "links": [],
       "targets": [
@@ -7832,7 +8059,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 155
+        "y": 164
       },
       "links": [],
       "targets": [
@@ -7907,7 +8134,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 163
+        "y": 172
       },
       "links": [],
       "targets": [
@@ -7966,7 +8193,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 171
+        "y": 180
       },
       "links": [],
       "targets": [
@@ -8009,7 +8236,7 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 179
+        "y": 188
       },
       "links": [],
       "targets": [
