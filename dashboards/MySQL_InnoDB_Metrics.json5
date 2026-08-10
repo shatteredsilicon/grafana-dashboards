@@ -547,13 +547,33 @@ irate(mysql_engine_innodb_trx_id_counter_total{instance=~\"$host\"}[5m]) \n\
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "rate(mysql_global_status_innodb_row_ops_total{instance=~\"$host\"}[$interval]) or irate(mysql_global_status_innodb_row_ops_total{instance=~\"$host\"}[5m])",
+            "expr": "\
+rate(mysql_global_status_innodb_row_ops_total{instance=~\"$host\"}[$interval]) \n\
+or \n\
+(rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=~\"delete|update\"}[$interval]) unless on() mysql_global_status_innodb_row_ops_total{instance=~\"$host\"}) \n\
+",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
-            "legendFormat": "Rows {{ operation }}",
+            "legendFormat": "Rows {{ operation }}{{ handler }}",
             "metric": "",
             "refId": "A",
+            "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "sum(rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=~\"read_.*\"}[$interval])) unless on() mysql_global_status_innodb_row_ops_total{instance=~\"$host\"}",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Rows read",
+            "metric": "",
+            "refId": "B",
             "step": 300
           }
         ],

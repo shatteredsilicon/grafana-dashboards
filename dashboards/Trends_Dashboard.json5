@@ -1027,6 +1027,54 @@ irate(mysql_global_status_questions_total{instance=~\"$host\"}[5m] offset 1w) \n
             "metric": "",
             "refId": "C",
             "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "sum(rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=~\"read_.*\"}[$interval])) unless on() mysql_global_status_innodb_row_ops_total{instance=~\"$host\"}",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Rows read",
+            "metric": "",
+            "refId": "D",
+            "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "sum(rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=~\"read_.*\"}[$interval] offset 1d)) unless on() (mysql_global_status_innodb_row_ops_total{instance=~\"$host\"} offset 1d)",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Rows read 1d ago",
+            "metric": "",
+            "refId": "E",
+            "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "sum(rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=~\"read_.*\"}[$interval] offset 1w)) unless on() (mysql_global_status_innodb_row_ops_total{instance=~\"$host\"} offset 1w)",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Rows read 1w ago",
+            "metric": "",
+            "refId": "F",
+            "step": 300
           }
         ],
         "thresholds": [],
@@ -1148,6 +1196,54 @@ irate(mysql_global_status_questions_total{instance=~\"$host\"}[5m] offset 1w) \n
             "legendFormat": "Rows inserted+updated+deleted 1w ago",
             "metric": "",
             "refId": "C",
+            "step": 300
+          },
+                    {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "sum(rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=~\"delete|update\"}[$interval])) unless on() mysql_global_status_innodb_row_ops_total{instance=~\"$host\"}",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Rows delete+update",
+            "metric": "",
+            "refId": "D",
+            "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "sum(rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=~\"delete|update\"}[$interval] offset 1d)) unless on() (mysql_global_status_innodb_row_ops_total{instance=~\"$host\"} offset 1d)",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Rows delete+update 1d ago",
+            "metric": "",
+            "refId": "E",
+            "step": 300
+          },
+          {
+            "calculatedInterval": "2m",
+            "datasource": {
+              "type": "prometheus"
+            },
+            "datasourceErrors": {},
+            "errors": {},
+            "expr": "sum(rate(mysql_global_status_handlers_total{instance=~\"$host\", handler=~\"delete|update\"}[$interval] offset 1w)) unless on() (mysql_global_status_innodb_row_ops_total{instance=~\"$host\"} offset 1w)",
+            "format": "time_series",
+            "interval": "$interval",
+            "intervalFactor": 1,
+            "legendFormat": "Rows delete+update 1w ago",
+            "metric": "",
+            "refId": "F",
             "step": 300
           }
         ],
