@@ -928,6 +928,114 @@ or \n\
         }
       },
       {
+        "datasource": {
+          "type": "prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "normal"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 17
+        },
+        "options": {
+          "legend": {
+            "calcs": [
+              "mean",
+              "min",
+              "max"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true
+          },
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "editorMode": "code",
+            "expr": "avg_over_time(mysql_slave_threads_busy_state{instance=\"2e4a56047ad8\", name=~\"slave_io|slave_sql|replica_io|replica_sql\"}[5m]) and on(instance, name, thread_id) mysql_slave_threads_busy_state@end()",
+            "hide": false,
+            "legendFormat": "{{ name }}",
+            "range": true,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "dfq0zfb13gq9sc"
+            },
+            "editorMode": "code",
+            "expr": "avg_over_time(mysql_slave_threads_busy_state{instance=\"2e4a56047ad8\", name!~\"slave_io|slave_sql|replica_io|replica_sql\"}[5m]) and on(instance, name, thread_id) mysql_slave_threads_busy_state@end()",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "{{ name }} {{ thread_id }}",
+            "range": true,
+            "refId": "B"
+          }
+        ],
+        "title": "MySQL Slave Thread Utilization",
+        "type": "timeseries"
+      },
+      {
         "aliasColors": {},
         "bars": false,
         "dashLength": 10,
@@ -945,7 +1053,7 @@ or \n\
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 17
+          "y": 24
         },
         "hiddenSeries": false,
         "legend": {
@@ -1061,7 +1169,7 @@ or \n\
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 17
+          "y": 24
         },
         "hiddenSeries": false,
         "legend": {
@@ -1167,7 +1275,7 @@ or \n\
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 24
+          "y": 31
         },
         "hiddenSeries": false,
         "legend": {
@@ -1283,7 +1391,7 @@ or \n\
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 24
+          "y": 31
         },
         "hiddenSeries": false,
         "legend": {
@@ -1388,7 +1496,7 @@ or \n\
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 31
+          "y": 38
         },
         "legend": {
           "alignAsTable": true,
@@ -1535,7 +1643,7 @@ or \n\
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 31
+          "y": 38
         },
         "legend": {
           "alignAsTable": true,
@@ -1656,7 +1764,7 @@ or \n\
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 38
+          "y": 45
         },
         "legend": {
           "alignAsTable": true,
@@ -1859,7 +1967,7 @@ or \n\
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 38
+          "y": 45
         },
         "legend": {
           "alignAsTable": true,
@@ -1984,7 +2092,7 @@ irate(mysql_global_variables_binlog_cache_size_count{instance=~\"$host\"}[5m]) \
           "h": 7,
           "w": 12,
           "x": 0,
-          "y": 45
+          "y": 52
         },
         "legend": {
           "alignAsTable": true,
@@ -2187,7 +2295,7 @@ or \n\
           "h": 7,
           "w": 12,
           "x": 12,
-          "y": 45
+          "y": 52
         },
         "legend": {
           "alignAsTable": true,
