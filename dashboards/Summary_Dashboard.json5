@@ -254,8 +254,6 @@ clamp_max( \n\
       avg by (mode) ( \n\
         ( \n\
           clamp_max( \n\
-            rate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[$interval]) \n\
-            or \n\
             rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[$interval]), \n\
             1 \n\
           ) \n\
@@ -263,8 +261,6 @@ clamp_max( \n\
         or \n\
         ( \n\
           clamp_max( \n\
-            irate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[5m]) \n\
-            or \n\
             irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[5m]), \n\
             1 \n\
           ) \n\
@@ -298,8 +294,6 @@ clamp_max( \n\
     sum by (cpu) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
           1 \n\
         ) \n\
@@ -307,8 +301,6 @@ clamp_max( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
           1 \n\
         ) \n\
@@ -905,8 +897,6 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
             "expr": "\
 ( \n\
   ( \n\
-    rate(node_disk_read_time_ms{device!~\"dm-.+\", instance=~\"$host\"}[$interval]) \n\
-    or \n\
     rate(node_disk_read_time_ms_total{device!~\"dm-.+\", instance=~\"$host\"}[$interval]) \n\
     or \n\
     rate(node_disk_read_time_seconds_total{device!~\"dm-.+\", instance=~\"$host\"}[$interval]) * 1000 \n\
@@ -919,8 +909,6 @@ avg_over_time(rdsosmetrics_diskIO_writeKbPS{instance=~\"$host\",device=~\"rdsdev
 or \n\
 ( \n\
   ( \n\
-    irate(node_disk_read_time_ms{device!~\"dm-.+\", instance=~\"$host\"}[5m]) \n\
-    or \n\
     irate(node_disk_read_time_ms_total{device!~\"dm-.+\", instance=~\"$host\"}[5m]) \n\
     or \n\
     irate(node_disk_read_time_seconds_total{device!~\"dm-.+\", instance=~\"$host\"}[5m]) * 1000 \n\
@@ -954,8 +942,6 @@ avg_over_time(aws_rds_read_latency_average{instance=~\"$host\"}[5m]) \n\
             "expr": "\
 ( \n\
   ( \n\
-    rate(node_disk_write_time_ms{device!~\"dm-.+\", instance=~\"$host\"}[$interval]) \n\
-    or \n\
     rate(node_disk_write_time_ms_total{device!~\"dm-.+\", instance=~\"$host\"}[$interval]) \n\
     or \n\
     rate(node_disk_write_time_seconds_total{device!~\"dm-.+\", instance=~\"$host\"}[$interval]) * 1000 \n\
@@ -968,8 +954,6 @@ avg_over_time(aws_rds_read_latency_average{instance=~\"$host\"}[5m]) \n\
 or \n\
 ( \n\
   ( \n\
-    irate(node_disk_write_time_ms{device!~\"dm-.+\", instance=~\"$host\"}[5m]) \n\
-    or \n\
     irate(node_disk_write_time_ms_total{device!~\"dm-.+\", instance=~\"$host\"}[5m]) \n\
     or \n\
     irate(node_disk_write_time_seconds_total{device!~\"dm-.+\", instance=~\"$host\"}[5m]) * 1000 \n\

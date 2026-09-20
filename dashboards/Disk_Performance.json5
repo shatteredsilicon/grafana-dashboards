@@ -243,8 +243,6 @@
             "expr": "\
 ( \n\
   ( \n\
-    rate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
-    or \n\
     rate(node_disk_read_time_ms_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
     or \n\
     rate(node_disk_read_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval]) * 1000 \n\
@@ -257,8 +255,6 @@
 or \n\
 ( \n\
   ( \n\
-    irate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
-    or \n\
     irate(node_disk_read_time_ms_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
     or \n\
     irate(node_disk_read_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) * 1000 \n\
@@ -296,8 +292,6 @@ avg_over_time(rdsosmetrics_diskIO_readLatency{instance=~\"$host\"}[5m]) \n\
             "expr": "\
 ( \n\
   ( \n\
-    rate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
-    or \n\
     rate(node_disk_write_time_ms_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
     or \n\
     rate(node_disk_write_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[$interval]) * 1000 \n\
@@ -310,8 +304,6 @@ avg_over_time(rdsosmetrics_diskIO_readLatency{instance=~\"$host\"}[5m]) \n\
 or \n\
 ( \n\
   ( \n\
-    irate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
-    or \n\
     irate(node_disk_write_time_ms_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
     or \n\
     irate(node_disk_write_time_seconds_total{device=~\"$device\", instance=~\"$host\"}[5m]) * 1000 \n\
@@ -748,11 +740,7 @@ or \n\
             "datasourceErrors": {},
             "errors": {},
             "expr": "\
-rate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) / 1000 \n\
-or \n\
 rate(node_disk_read_time_ms_total{device=~\"$device\", instance=~\"$host\"}[$interval]) / 1000 \n\
-or \n\
-irate(node_disk_read_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) / 1000 \n\
 or \n\
 irate(node_disk_read_time_ms_total{device=~\"$device\", instance=~\"$host\"}[5m]) / 1000 \n\
 or \n\
@@ -782,11 +770,7 @@ sum( \n\
             "datasourceErrors": {},
             "errors": {},
             "expr": "\
-rate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[$interval]) / 1000 \n\
-or \n\
 rate(node_disk_write_time_ms_total{device=~\"$device\", instance=~\"$host\"}[$interval]) / 1000 \n\
-or \n\
-irate(node_disk_write_time_ms{device=~\"$device\", instance=~\"$host\"}[5m]) / 1000 \n\
 or \n\
 irate(node_disk_write_time_ms_total{device=~\"$device\", instance=~\"$host\"}[5m]) / 1000 \n\
 or \n\
@@ -1016,8 +1000,6 @@ rdsosmetrics_diskIO_util{device=~\"$device\", instance=~\"$host\"} / 100 \n\
             "expr": "\
 ( \n\
   1 + ( \n\
-    rate(node_disk_reads_merged{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
-    or \n\
     rate(node_disk_reads_merged_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
   ) / ( \n\
     rate(node_disk_reads_completed{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
@@ -1028,8 +1010,6 @@ rdsosmetrics_diskIO_util{device=~\"$device\", instance=~\"$host\"} / 100 \n\
 or \n\
 ( \n\
   1 + ( \n\
-    irate(node_disk_reads_merged{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
-    or \n\
     irate(node_disk_reads_merged_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
   ) / ( \n\
     irate(node_disk_reads_completed{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
@@ -1068,8 +1048,6 @@ or \n\
             "expr": "\
 ( \n\
   1 + ( \n\
-    rate(node_disk_writes_merged{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
-    or \n\
     rate(node_disk_writes_merged_total{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
   ) / ( \n\
     rate(node_disk_writes_completed{device=~\"$device\", instance=~\"$host\"}[$interval]) \n\
@@ -1080,8 +1058,6 @@ or \n\
 or \n\
 ( \n\
   1 + ( \n\
-    irate(node_disk_writes_merged{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
-    or \n\
     irate(node_disk_writes_merged_total{device=~\"$device\", instance=~\"$host\"}[5m]) \n\
   ) / ( \n\
     irate(node_disk_writes_completed{device=~\"$device\", instance=~\"$host\"}[5m]) \n\

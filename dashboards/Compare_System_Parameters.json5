@@ -609,7 +609,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "min_over_time((count((node_cpu{instance=~\"$host\",mode=~\"system\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"system\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
+            "expr": "min_over_time((count(node_cpu_seconds_total{instance=~\"$host\",mode=~\"system\"}) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
             "format": "time_series",
             "interval": "",
             "intervalFactor": 2,
@@ -623,7 +623,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "max_over_time((count((node_cpu{instance=~\"$host\",mode=~\"system\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"system\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
+            "expr": "max_over_time((count(node_cpu_seconds_total{instance=~\"$host\",mode=~\"system\"}) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
             "format": "time_series",
             "interval": "",
             "intervalFactor": 2,
@@ -808,7 +808,7 @@
             },
             "datasourceErrors": {},
             "errors": {},
-            "expr": "(avg_over_time(node_procs_running{instance=~\"$host\"}[$interval])-1) / scalar(count((node_cpu{mode=\"user\", instance=~\"$host\"} or node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"}))) or (avg_over_time(node_procs_running{instance=~\"$host\"}[5m])-1) / scalar(count((node_cpu{mode=\"user\", instance=~\"$host\"} or node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"})))",
+            "expr": "(avg_over_time(node_procs_running{instance=~\"$host\"}[$interval])-1) / scalar(count(node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"})) or (avg_over_time(node_procs_running{instance=~\"$host\"}[5m])-1) / scalar(count(node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"}))",
             "format": "time_series",
             "hide": false,
             "interval": "$interval",
@@ -966,7 +966,7 @@
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "count((node_cpu{mode=\"user\", instance=~\"$host\"} or node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"}))",
+            "expr": "count(node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"})",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1157,8 +1157,6 @@ clamp_max( \n\
     avg by (mode) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[$interval]) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[$interval]), \n\
           1 \n\
         ) \n\
@@ -1166,8 +1164,6 @@ clamp_max( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[5m]) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[5m]), \n\
           1 \n\
         ) \n\
@@ -1196,8 +1192,6 @@ clamp_max( \n\
     sum  by (cpu) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
           1 \n\
         ) \n\
@@ -1205,8 +1199,6 @@ clamp_max( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
           1 \n\
         ) \n\
@@ -1337,11 +1329,7 @@ clamp_max( \n\
               "type": "prometheus"
             },
             "expr": "\
-rate(node_intr{instance=~\"$host\"}[$interval]) \n\
-or \n\
 rate(node_intr_total{instance=~\"$host\"}[$interval]) \n\
-or \n\
-irate(node_intr{instance=~\"$host\"}[5m]) \n\
 or \n\
 irate(node_intr_total{instance=~\"$host\"}[5m]) \n\
 ",
@@ -1357,16 +1345,10 @@ irate(node_intr_total{instance=~\"$host\"}[5m]) \n\
             },
             "expr": "\
 ( \n\
-  rate(node_intr{instance=~\"$host\"}[$interval]) \n\
-  or \n\
   rate(node_intr_total{instance=~\"$host\"}[$interval]) \n\
-  or \n\
-  irate(node_intr{instance=~\"$host\"}[5m]) \n\
   or \n\
   irate(node_intr_total{instance=~\"$host\"}[5m]) \n\
 ) / scalar( \n\
-  count(node_cpu{mode=\"user\", instance=~\"$host\"}) \n\
-  or \n\
   count(node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"}) \n\
 ) \n\
 ",
@@ -1486,11 +1468,7 @@ irate(node_intr_total{instance=~\"$host\"}[5m]) \n\
               "type": "prometheus"
             },
             "expr": "\
-rate(node_context_switches{instance=~\"$host\"}[$interval]) \n\
-or \n\
 rate(node_context_switches_total{instance=~\"$host\"}[$interval]) \n\
-or \n\
-irate(node_context_switches{instance=~\"$host\"}[5m]) \n\
 or \n\
 irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
 ",
@@ -1509,18 +1487,12 @@ irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
             },
             "expr": "\
 ( \n\
-  rate(node_context_switches{instance=~\"$host\"}[$interval]) \n\
-  or \n\
   rate(node_context_switches_total{instance=~\"$host\"}[$interval]) \n\
-  or \n\
-  irate(node_context_switches{instance=~\"$host\"}[5m]) \n\
   or \n\
   irate(node_context_switches_total{instance=~\"$host\"}[5m]) \n\
 ) / scalar( \n\
   count( \n\
     ( \n\
-      node_cpu{mode=\"user\", instance=~\"$host\"} \n\
-      or \n\
       node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
     ) \n\
   ) \n\
@@ -3132,8 +3104,6 @@ irate(rdsosmetrics_diskIO_util{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5
             "expr": "\
 ( \n\
   ( \n\
-    rate(node_disk_read_time_ms{instance=~\"$host\"}[$interval]) \n\
-    or \n\
     rate(node_disk_read_time_ms_total{instance=~\"$host\"}[$interval]) \n\
     or \n\
     rate(node_disk_read_time_seconds_total{instance=~\"$host\"}[$interval])*1000 \n\
@@ -3146,8 +3116,6 @@ irate(rdsosmetrics_diskIO_util{instance=~\"$host\",device=~\"rdsdev|rdstemp\"}[5
 or \n\
 ( \n\
   ( \n\
-    irate(node_disk_read_time_ms{instance=~\"$host\"}[5m]) \n\
-    or \n\
     irate(node_disk_read_time_ms_total{instance=~\"$host\"}[5m]) \n\
     or \n\
     irate(node_disk_read_time_seconds_total{instance=~\"$host\"}[5m])*1000 \n\
@@ -3181,8 +3149,6 @@ avg_over_time(aws_rds_read_latency_average{instance=~\"$host\"}[5m]) \n\
             "expr": "\
 ( \n\
   ( \n\
-    rate(node_disk_write_time_ms{instance=~\"$host\"}[$interval]) \n\
-    or \n\
     rate(node_disk_write_time_ms_total{instance=~\"$host\"}[$interval]) \n\
     or \n\
     rate(node_disk_write_time_seconds_total{instance=~\"$host\"}[$interval])*1000 \n\
@@ -3195,8 +3161,6 @@ avg_over_time(aws_rds_read_latency_average{instance=~\"$host\"}[5m]) \n\
 or \n\
 ( \n\
   ( \n\
-    irate(node_disk_write_time_ms{instance=~\"$host\"}[5m]) \n\
-    or \n\
     irate(node_disk_write_time_ms_total{instance=~\"$host\"}[5m]) \n\
     or \n\
     irate(node_disk_write_time_seconds_total{instance=~\"$host\"}[5m])*1000 \n\
@@ -3337,11 +3301,7 @@ or \n\
             "datasourceErrors": {},
             "errors": {},
             "expr": "\
-rate(node_disk_read_time_ms{instance=~\"$host\"}[$interval])/1000 \n\
-or \n\
 rate(node_disk_read_time_ms_total{instance=~\"$host\"}[$interval])/1000 \n\
-or \n\
-irate(node_disk_read_time_ms{instance=~\"$host\"}[5m])/1000 \n\
 or \n\
 irate(node_disk_read_time_ms_total{instance=~\"$host\"}[5m])/1000 \n\
 or \n\
@@ -3366,11 +3326,7 @@ irate(node_disk_read_time_seconds_total{instance=~\"$host\"}[5m]) \n\
             "datasourceErrors": {},
             "errors": {},
             "expr": "\
-rate(node_disk_write_time_ms{instance=~\"$host\"}[$interval])/1000 \n\
-or \n\
 rate(node_disk_write_time_ms_total{instance=~\"$host\"}[$interval])/1000 \n\
-or \n\
-irate(node_disk_write_time_ms{instance=~\"$host\"}[5m])/1000 \n\
 or \n\
 irate(node_disk_write_time_ms_total{instance=~\"$host\"}[5m])/1000 \n\
 or \n\

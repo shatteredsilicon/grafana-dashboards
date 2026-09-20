@@ -558,8 +558,6 @@
           sum by (instance,cpu) ( \n\
             ( \n\
               clamp_max( \n\
-                rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
-                or \n\
                 rate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
                 1 \n\
               ) \n\
@@ -567,8 +565,6 @@
             or \n\
             ( \n\
               clamp_max( \n\
-                irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
-                or \n\
                 irate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
                 1 \n\
               ) \n\
@@ -1368,7 +1364,7 @@
                   "datasource": {
                     "type": "prometheus"
                   },
-                  "expr": "(count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or (1-absent((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
+                  "expr": "(count(node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) or (1-absent(node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
                   "format": "time_series",
                   "instant": true,
                   "interval": "$interval",
@@ -1700,8 +1696,6 @@
           sum by (cpu) ( \n\
             ( \n\
               clamp_max( \n\
-                rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
-                or \n\
                 rate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
                 1 \n\
               ) \n\
@@ -1709,8 +1703,6 @@
             or \n\
             ( \n\
               clamp_max( \n\
-                irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
-                or \n\
                 irate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
                 1 \n\
               ) \n\
@@ -2501,7 +2493,7 @@
                   "datasource": {
                     "type": "prometheus"
                   },
-                  "expr": "min_over_time((count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
+                  "expr": "min_over_time((count(node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
                   "format": "time_series",
                   "instant": true,
                   "interval": "5m",
@@ -2513,7 +2505,7 @@
                   "datasource": {
                     "type": "prometheus"
                   },
-                  "expr": "max_over_time((count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
+                  "expr": "max_over_time((count(node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))[1h:2m])",
                   "format": "time_series",
                   "instant": true,
                   "interval": "5m",
@@ -2828,7 +2820,7 @@
           "multiFormat": "regex values",
           "name": "host",
           "options": [],
-          "query": "query_result(count by (instance) (last_over_time({__name__=~\"node_load1|process_start_time_seconds|node_cpu|node_cpu_seconds_total|node_cpu_average\"}[$__range])))",
+          "query": "query_result(count by (instance) (last_over_time({__name__=~\"node_load1|process_start_time_seconds|node_cpu_seconds_total|node_cpu_average\"}[$__range])))",
           "refresh": 2,
           "refresh_on_load": false,
           "regex": "/instance=\"(.*)\"/",

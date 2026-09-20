@@ -2938,8 +2938,6 @@ and on() ( \n\
   ) >= 0 \n\
   and \n\
   ( \n\
-    max(node_cpu{instance=~\"$host\"}) \n\
-    or \n\
     max(node_cpu_seconds_total{instance=~\"$host\"}) \n\
     or \n\
     max(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
@@ -3033,8 +3031,6 @@ and on() ( \n\
   ) >= 0 \n\
   and \n\
   ( \n\
-    max(node_cpu{instance=~\"$host\"}) \n\
-    or \n\
     max(node_cpu_seconds_total{instance=~\"$host\"}) \n\
     or \n\
     max(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\
@@ -3096,8 +3092,6 @@ and on() ( \n\
   ) >= 0 \n\
   and \n\
   ( \n\
-    max(node_cpu{instance=~\"$host\"}) \n\
-    or \n\
     max(node_cpu_seconds_total{instance=~\"$host\"}) \n\
     or \n\
     max(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) \n\

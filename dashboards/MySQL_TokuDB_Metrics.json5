@@ -7277,8 +7277,6 @@ clamp_max( \n\
     avg by (mode) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[$interval]) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[$interval]), \n\
           1 \n\
         ) \n\
@@ -7286,8 +7284,6 @@ clamp_max( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[5m]) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[5m]), \n\
           1 \n\
         ) \n\
@@ -7319,8 +7315,6 @@ clamp_max( \n\
     sum by (cpu) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
           1 \n\
         ) \n\
@@ -7328,8 +7322,6 @@ clamp_max( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
           1 \n\
         ) \n\
@@ -7449,7 +7441,7 @@ clamp_max( \n\
                 },
                 "datasourceErrors": {},
                 "errors": {},
-                "expr": "(avg_over_time(node_procs_running{instance=~\"$host\"}[$interval])-1) / scalar(count((node_cpu{mode=\"user\", instance=~\"$host\"} or node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"}))) or (avg_over_time(node_procs_running{instance=~\"$host\"}[5m])-1) / scalar(count((node_cpu{mode=\"user\", instance=~\"$host\"} or node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"})))",
+                "expr": "(avg_over_time(node_procs_running{instance=~\"$host\"}[$interval])-1) / scalar(count(node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"})) or (avg_over_time(node_procs_running{instance=~\"$host\"}[5m])-1) / scalar(count(node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"}))",
                 "format": "time_series",
                 "hide": false,
                 "interval": "$interval",
@@ -7473,8 +7465,6 @@ clamp_max( \n\
     sum  by (cpu) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
           1 \n\
         ) \n\
@@ -7482,8 +7472,6 @@ clamp_max( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
           1 \n\
         ) \n\

@@ -238,8 +238,6 @@ avg( \n\
       irate(process_cpu_seconds_total{job!=\"prometheus\",instance=~\"$host\"}[5m]) \n\
     ) by (instance) \n\
   ) / count( \n\
-    node_cpu{mode=\"user\",instance=~\"$host\"} \n\
-    or \n\
     node_cpu_seconds_total{mode=\"user\",instance=~\"$host\"} \n\
   ) by (instance) \n\
 ) by () * 100 \n\
@@ -601,8 +599,6 @@ avg( \n\
     irate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[5m]) \n\
   ) by (instance) \n\
 ) / count( \n\
-  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
-  or \n\
   node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
 ) by (instance) * 100 \n\
 ",
@@ -1085,7 +1081,7 @@ avg( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "((sum(rate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[$interval])) by (instance) \nor sum(irate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[5m])) by (instance)) \n/ count((node_cpu{instance=~\"$host\",mode=\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=\"user\"})) by (instance)*100) or \nsum by () ((max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[$interval]) or max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[5m])))",
+            "expr": "((sum(rate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[$interval])) by (instance) \nor sum(irate(process_cpu_seconds_total{instance=~\"$host\",job!=\"prometheus\",job!=\"grafana\"}[5m])) by (instance)) \n/ count(node_cpu_seconds_total{instance=~\"$host\",mode=\"user\"}) by (instance)*100) or \nsum by () ((max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[$interval]) or max_over_time(node_cpu_average{instance=~\"$host\", mode=\"total\"}[5m])))",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -1435,7 +1431,7 @@ avg( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or (1-absent((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
+            "expr": "(count(node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) or (1-absent(node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}))) + sum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"} or up * 0) + sum(count(hrProcessorLoad{instance=~\"$host\"}) or up * 0)",
             "format": "time_series",
             "instant": true,
             "interval": "$interval",

@@ -3519,8 +3519,6 @@ avg by () ( \n\
     sum by (instance,cpu) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
           1 \n\
         ) \n\
@@ -3528,8 +3526,6 @@ avg by () ( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
           1 \n\
         ) \n\
@@ -3649,7 +3645,7 @@ avg by () ( \n\
             "datasource": {
               "type": "prometheus"
             },
-            "expr": "(avg_over_time(node_procs_running{instance=~\"$host\"}[$interval])-1) / scalar(count((node_cpu{mode=\"user\", instance=~\"$host\"} or node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"}))) or (avg_over_time(node_procs_running{instance=~\"$host\"}[5m])-1) / scalar(count((node_cpu{mode=\"user\", instance=~\"$host\"} or node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"})))",
+            "expr": "(avg_over_time(node_procs_running{instance=~\"$host\"}[$interval])-1) / scalar(count(node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"})) or (avg_over_time(node_procs_running{instance=~\"$host\"}[5m])-1) / scalar(count(node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"}))",
             "format": "time_series",
             "interval": "$interval",
             "intervalFactor": 1,
@@ -3666,8 +3662,6 @@ clamp_max( \n\
     sum by (cpu) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
           1 \n\
         ) \n\
@@ -3675,8 +3669,6 @@ clamp_max( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
           1 \n\
         ) \n\
