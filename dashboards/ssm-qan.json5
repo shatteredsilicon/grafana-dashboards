@@ -193,8 +193,6 @@ avg( \n\
                 avg by (mode) ( \n\
                     ( \n\
                         clamp_max( \n\
-                            rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]) \n\
-                            or \n\
                             rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"iowait\"}[$interval]), \n\
                             1 \n\
                         ) \n\
@@ -202,8 +200,6 @@ avg( \n\
                     or \n\
                     ( \n\
                         clamp_max( \n\
-                            irate(node_cpu{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[5m]) \n\
-                            or \n\
                             irate(node_cpu_seconds_total{instance=~\"$host\",cpu=\"$cpu\",mode!=\"idle\",mode!=\"iowait\"}[5m]), \n\
                             1 \n\
                         ) \n\

@@ -242,8 +242,6 @@
     irate(process_cpu_seconds_total{instance=~\"$host\",job=\"linux\"}[5m]) \n\
   ) by () \n\
 ) / count( \n\
-  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
-  or \n\
   node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
 ) * 100 \n\
 ",
@@ -801,8 +799,6 @@
     irate(process_cpu_seconds_total{instance=~\"$host\",job=\"mysql\"}[5m]) \n\
   ) by () \n\
 ) / count( \n\
-  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
-  or \n\
   node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
 ) * 100 \n\
 ",
@@ -1576,8 +1572,6 @@
     irate(process_cpu_seconds_total{instance=~\"$host\",job=\"mongodb\"}[5m]) \n\
   ) by () \n\
 ) / count( \n\
-  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
-  or \n\
   node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
 ) * 100 \n\
 ",
@@ -2310,8 +2304,6 @@
     irate(process_cpu_seconds_total{instance=~\"$host\",job=\"proxysql\"}[5m]) \n\
   ) by () \n\
 ) / count( \n\
-  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
-  or \n\
   node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
 ) * 100 \n\
 ",
@@ -3087,8 +3079,6 @@
     irate(process_cpu_seconds_total{instance=~\"$host\",job=\"postgresql\"}[5m]) \n\
   ) by () \n\
 ) / count( \n\
-  node_cpu{mode=\"user\", instance=~\"$host\"} \n\
-  or \n\
   node_cpu_seconds_total{mode=\"user\", instance=~\"$host\"} \n\
 ) * 100 \n\
 ",

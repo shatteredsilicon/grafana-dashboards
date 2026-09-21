@@ -233,8 +233,6 @@ avg by (instance) ( \n\
     sum by (mode) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[$interval]) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[$interval]), \n\
           1 \n\
         ) \n\
@@ -242,8 +240,6 @@ avg by (instance) ( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[5m]) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[5m]), \n\
           1 \n\
         ) \n\
@@ -289,8 +285,6 @@ avg by (instance) ( \n\
     sum by (mode) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[$interval] offset 1d) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[$interval] offset 1d), \n\
           1 \n\
         ) \n\
@@ -298,8 +292,6 @@ avg by (instance) ( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[5m] offset 1d) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[5m] offset 1d), \n\
           1 \n\
         ) \n\
@@ -345,8 +337,6 @@ avg by (instance) ( \n\
     sum by (mode) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[$interval] offset 1w) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[$interval] offset 1w), \n\
           1 \n\
         ) \n\
@@ -354,8 +344,6 @@ avg by (instance) ( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=~\"$host\",mode!=\"idle\"}[5m] offset 1w) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\"}[5m] offset 1w), \n\
           1 \n\
         ) \n\

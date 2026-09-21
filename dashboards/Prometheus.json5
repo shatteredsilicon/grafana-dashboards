@@ -263,8 +263,6 @@
     irate(process_cpu_seconds_total{job=\"prometheus\"}[5m]) \n\
   ) by () \n\
 ) / count( \n\
-  node_cpu{mode=\"user\", instance=\"ssm-server\"} \n\
-  or \n\
   node_cpu_seconds_total{mode=\"user\", instance=\"ssm-server\"} \n\
 ) * 100 \n\
 ",
@@ -902,7 +900,7 @@ max(irate(prometheus_tsdb_head_samples_appended_total[5m])) \n\
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "count((node_cpu{mode=\"user\", instance=\"ssm-server\"} or node_cpu_seconds_total{mode=\"user\", instance=\"ssm-server\"}))",
+                "expr": "count(node_cpu_seconds_total{mode=\"user\", instance=\"ssm-server\"})",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -914,7 +912,7 @@ max(irate(prometheus_tsdb_head_samples_appended_total[5m])) \n\
                 "datasource": {
                   "type": "prometheus"
                 },
-                "expr": "count((node_cpu{mode=\"user\", instance=\"ssm-server\"} or node_cpu_seconds_total{mode=\"user\", instance=\"ssm-server\"}))*0.75",
+                "expr": "count(node_cpu_seconds_total{mode=\"user\", instance=\"ssm-server\"})*0.75",
                 "format": "time_series",
                 "interval": "$interval",
                 "intervalFactor": 1,
@@ -4663,8 +4661,6 @@ clamp_max( \n\
     sum by (mode) ( \n\
       ( \n\
         clamp_max( \n\
-          rate(node_cpu{instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[$interval]) \n\
-          or \n\
           rate(node_cpu_seconds_total{instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[$interval]), \n\
           1 \n\
         ) \n\
@@ -4672,8 +4668,6 @@ clamp_max( \n\
       or \n\
       ( \n\
         clamp_max( \n\
-          irate(node_cpu{instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[5m]) \n\
-          or \n\
           irate(node_cpu_seconds_total{instance=\"ssm-server\",mode!='idle',mode!=\"iowait\"}[5m]), \n\
           1 \n\
         ) \n\

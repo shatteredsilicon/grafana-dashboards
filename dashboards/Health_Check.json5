@@ -230,8 +230,6 @@ clamp_max( \n\
       avg by (mode) ( \n\
         ( \n\
           clamp_max( \n\
-            rate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"\"}[1m]) \n\
-            or \n\
             rate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"\"}[1m]), \n\
             1 \n\
           ) \n\
@@ -239,8 +237,6 @@ clamp_max( \n\
         or \n\
         ( \n\
           clamp_max( \n\
-            irate(node_cpu{instance=~\"$host\",mode!=\"idle\",mode!=\"\"}[5m]) \n\
-            or \n\
             irate(node_cpu_seconds_total{instance=~\"$host\",mode!=\"idle\",mode!=\"\"}[5m]), \n\
             1 \n\
           ) \n\
@@ -990,7 +986,7 @@ rdsosmetrics_diskIO_util{device=~\"$device\", instance=~\"$host\"} / 100 \n\
           "step": 20
         },
         {
-          "expr": "(count((node_cpu{instance=~\"$host\",mode=~\"user\"} or node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"})) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))*2",
+          "expr": "(count(node_cpu_seconds_total{instance=~\"$host\",mode=~\"user\"}) or \nsum(rdsosmetrics_General_numVCPUs{instance=~\"$host\"}) or count(hrProcessorLoad{instance=~\"$host\"}))*2",
           "format": "time_series",
           "interval": "5m",
           "intervalFactor": 1,
@@ -2323,7 +2319,7 @@ mysql_global_variables_innodb_log_file_size{instance=~\"$host\"} \n\
           "multiFormat": "regex values",
           "name": "host",
           "options": [],
-          "query": "label_values({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total|aws_rds_disk_queue_depth_average|rdsosmetrics_diskIO_readLatency|node_cpu|node_cpu_seconds_total|node_cpu_average|mysql_global_status_threads_connected|mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total|mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age|mysql_global_variables_table_open_cache|mysql_slave_status_seconds_behind_master|mysql_slave_status_seconds_behind_source|mysql_info_schema_table_size|mysql_binlog_size_bytes|node_filesystem_size(_bytes)?\"}, instance)",
+          "query": "label_values({__name__=~\"node_disk_reads_completed|node_disk_reads_completed_total|aws_rds_disk_queue_depth_average|rdsosmetrics_diskIO_readLatency|node_cpu_seconds_total|node_cpu_average|mysql_global_status_threads_connected|mysql_info_schema_innodb_metrics_recovery_log_lsn_checkpoint_age_total|mysql_info_schema_innodb_metrics_log_log_lsn_checkpoint_age|mysql_global_variables_table_open_cache|mysql_slave_status_seconds_behind_master|mysql_slave_status_seconds_behind_source|mysql_info_schema_table_size|mysql_binlog_size_bytes|node_filesystem_size(_bytes)?\"}, instance)",
           "refresh": 2,
           "refresh_on_load": false,
           "regex": "",
