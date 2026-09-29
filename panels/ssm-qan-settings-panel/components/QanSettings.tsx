@@ -120,7 +120,7 @@ export const QanSettingsPanel: React.FC<Props> = ({ eventBus, replaceVariables }
       })
       .then((res: AgentDefaults) => {
         setSettings(res);
-        setCollectFrom(res.qan?.CollectFrom  === 'rds-slowlog' ? 'slowlog' : res.qan?.CollectFrom);
+        setCollectFrom(res.qan?.CollectFrom);
         res.qan?.Interval !== undefined && setCollectInterval(res.qan.Interval / 60);
         setShowQueryExample(res.qan?.ExampleQueries);
         setExampleResolution(res.qan?.ExampleQueries ? (res.qan?.ExampleResolution ?? ExampleResolution.DAY) : ExampleResolution.OFF)
@@ -249,7 +249,7 @@ export const QanSettingsPanel: React.FC<Props> = ({ eventBus, replaceVariables }
           Interval: collectInterval * 60,
           ExampleQueries: showQueryExample,
           ExampleResolution: exampleResolution,
-          CollectFrom: collectFrom === 'slowlog' && isRDS() ? 'rds-slowlog' : collectFrom,
+          CollectFrom: collectFrom,
           FilterOmit: filterOmit?.trim().split(',') || []
         }))
       })
@@ -353,17 +353,34 @@ export const QanSettingsPanel: React.FC<Props> = ({ eventBus, replaceVariables }
                           <Box flex='0 0 30%'><Text element='p' textAlignment='right'>Collect from:</Text></Box>
                           <Box flex='0 0 70%'>
                             <Combobox
-                              value={collectFrom}
-                              options={[
-                                {
-                                  label: 'Slow log',
-                                  value: 'slowlog'
-                                },
-                                {
-                                  label: 'Performance Schema',
-                                  value: 'perfschema'
+                              value={collectFrom?.split(',').sort((a, _) => a === 'slowlog' ? -1 : 1).join(',')}
+                              options={
+                                isRDS()
+                                  ? [
+                                      {
+                                        label: 'Slow log',
+                                        value: 'rds-slowlog'
+                                      },
+                                      {
+                                        label: 'Performance Schema',
+                                        value: 'perfschema'
+                                      }
+                                    ]
+                                  : [
+                                      {
+                                        label: 'Slow log + Performance Schema',
+                                        value: 'slowlog,perfschema'
+                                      },
+                                      {
+                                        label: 'Slow log',
+                                        value: 'slowlog'
+                                      },
+                                      {
+                                        label: 'Performance Schema',
+                                        value: 'perfschema'
+                                      },
+                                    ]
                                 }
-                              ]}
                               onChange={option=>setCollectFrom(option.value)}
                             />
                           </Box>
