@@ -17,6 +17,7 @@ import { defaultCodeOptions, Options, QueryReport, TextMode, TuningReport, Tunin
 import { humanize } from 'panels/utils';
 
 import reportMD from '../report.md';
+import { ToolReport } from 'panels/types';
 
 interface Props extends PanelProps<Options> { }
 
@@ -156,10 +157,24 @@ export const TextPanel: React.FC<Props> = ({options, timeRange, width, height, r
       .then<QueryReport[]>(res => res.json())
   }
 
+  async function toolReport(instance: string, type: string): Promise<ToolReport> {
+    return fetch(`/managed/v0/nodes/${instance}/tool-report?type=${type}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then<ToolReport>(res => res.json());
+  }
+
+  async function toolReports(): Promise<ToolReport[]> {
+    return Promise.all([toolReport(instanceData?.mysqlInstances[0].Name!, 'pt-duplicate-key-checker'), toolReport(instanceData?.mysqlInstances[0]?.Name!, 'st-unused-key-checker')]);
+  }
+
   useEffect(() => {
     if (!options.report) return;
 
-    (window as any).downloadReport = async ({delay = 5000, from = 'now-7d', to = 'now', load = 0.01}) => {
+    (window as any).downloadReport = async ({delay = 5000, from = 'now-7d', to = 'now', load = 0.01} = {}) => {
       if (!instanceData?.mysqlInstances.length) {
         console.log('instance data is missing or not loaded yet');
         return;
@@ -180,8 +195,9 @@ export const TextPanel: React.FC<Props> = ({options, timeRange, width, height, r
 
       const tuningPromise = tuningReports(zip, delay);
       const queryPromise = queryReports(timeRange, load);
+      const toolPromise = toolReports();
 
-      const [tReports, qReports] = await Promise.all([tuningPromise, queryPromise]);
+      const [tReports, qReports, tlReports] = await Promise.all([tuningPromise, queryPromise, toolPromise]);
 
       Mustache.escape = function(text) {return text;};
       zip.file(
@@ -191,6 +207,7 @@ export const TextPanel: React.FC<Props> = ({options, timeRange, width, height, r
           {
             'tuning_reports': tReports,
             'query_reports': qReports,
+            'tool_reports': tlReports,
             'images_func': function() {
               return `|${this.images.map(()=>'').join('|')}|\n|${this.images.map(()=>':---:').join('|')}|\n|${this.images.map((image: TuningReportImage)=>`![${image.filename}](${image.filename})`).join('|')}|`;
             },

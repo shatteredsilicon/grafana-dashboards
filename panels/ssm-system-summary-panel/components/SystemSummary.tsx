@@ -4,6 +4,7 @@ import { Alert, Button, Collapse, Icon, Stack, TextLink } from '@grafana/ui';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { SystemSummaryOptions } from '../types';
+import { ToolReport } from 'panels/types';
 import { Subsystem, useInstance } from '../../useInstance';
 
 interface Props extends PanelProps<SystemSummaryOptions> { }
@@ -78,35 +79,22 @@ export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
 
     for (let i = 0; i < instanceData.instances.length; i++) {
       if (i == 0) {
-        fetch(`/qan-api/agents/${instanceData?.instances[i].Agent?.UUID}/cmd`, {
-          method: 'PUT',
+        fetch(`/managed/v0/nodes/${instanceData?.instances[i].Name}/tool-report?type=pt-summary`, {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            AgentUUID: instanceData?.instances[i].Agent?.UUID,
-            Service: 'query',
-            Cmd: 'Summary',
-            Data: btoa(JSON.stringify({ UUID: instanceData.instances[i].ParentUUID }))
-          })
+          }
         })
-          .then(res => res.json())
           .then(res => {
-            if (!res['Error']) {
-              return res;
-            }
-            let err = res['Error'];
-            if (res['Error']?.includes('Executable file not found in $PATH')) {
-              err = ' - Please install `pt-summary`.';
-            }
-
-            throw new Error(err);
+            if (res.ok) return res.json();
+            throw new Error(res.statusText);
           })
-          .then(res => {
-            let str = window.atob(res['Data']);
-            str = str.replace(/\\n/g, '\n');
-            str = str.replace(/\\t/g, '\t');
-            return str.slice(1, -1);
+          .then((res: ToolReport) => {
+            if (res === undefined || Object.keys(res).length === 0) throw new Error("There is no system summary for this instance");
+
+            let report = res.payload.replace(/\\n/g, '\n');
+            report = report.replace(/\\t/g, '\t');
+            return report.slice(1, -1);
           })
           .then(res => setServerSummary(res))
           .catch(err => setServerSummaryError(err.message))
@@ -119,41 +107,25 @@ export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
         continue;
       }
 
-      fetch(`/qan-api/agents/${instanceData?.instances[i].Agent?.UUID}/cmd`, {
-        method: 'PUT',
+      fetch(`/managed/v0/nodes/${instanceData?.instances[i].Name}/tool-report?type=${instanceData.instances[i].Subsystem === Subsystem.MySQL ? 'pt-mysql-summary' : 'pt-mongodb-summary'}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          AgentUUID: instanceData?.instances[i].Agent?.UUID,
-          Service: 'query',
-          Cmd: 'Summary',
-          Data: btoa(JSON.stringify({ UUID: instanceData.instances[i].UUID }))
-        })
+        }
       })
-        .then(res => res.json())
         .then(res => {
-          if (!res['Error']) {
-            return res;
-          }
-          let err = res['Error'];
-          if (res['Error']?.includes('Executable file not found in $PATH')) {
-              err = ` - Please install ${instanceData.instances[i].Subsystem === Subsystem.MySQL ? '`pt-mysql-summary`' : '`pt-mongodb-summary`'}.`;
-          }
-          if (res['Error'] === 'Unknown command: Summary') {
-              err = ' - Please update your `ssm-client`.';
-          }
-
-          throw new Error(err);
+          if (res.ok) return res.json();
+          throw new Error(res.statusText)
         })
-        .then(res => {
-          let str = window.atob(res['Data']);
-          str = str.replace(/\\n/g, '\n');
-          str = str.replace(/\\t/g, '\t');
-          return str.slice(1, -1);
+        .then((res: ToolReport) => {
+          if (res === undefined || Object.keys(res).length === 0) throw new Error(`There is no ${instanceData.instances[i].Subsystem} summary for this instance`);
+
+          let report = res.payload.replace(/\\n/g, '\n');
+          report = report.replace(/\\t/g, '\t');
+          return report.slice(1, -1);
         })
         .then(res => instanceData.instances[i].Subsystem === Subsystem.MySQL ? setMySQLSummary(res) : setMongoSummary(res))
-        .catch(err => instanceData.instances[i].Subsystem === Subsystem.MySQL ? setMySQLSummaryError(err) : setMongoSummaryError(err.message))
+        .catch(err => instanceData.instances[i].Subsystem === Subsystem.MySQL ? setMySQLSummaryError(err.message) : setMongoSummaryError(err.message))
         .finally(() => {
           instanceData.instances[i].Subsystem === Subsystem.MySQL ? setIsMySQLSummaryLoaded(true) : setIsMongoSummaryLoaded(true);
         });
@@ -190,17 +162,18 @@ export const SystemSummaryPanel: React.FC<Props> = ({ replaceVariables }) => {
           </TextLink>
         </Alert>
       }
-        {instanceData?.instances.length &&
-          <Collapse collapsible label='System Summary' isOpen={isServerSummaryOpen} onToggle={toggleServerSummaryOpen}>
-            {isServerSummaryLoaded
-              ? (
-                  serverSummaryError
-                    ? <Alert title='' security='error'>{ serverSummaryError }</Alert>
-                    : <pre>{ serverSummary }</pre>
-                )
-              : <Icon name="fa fa-spinner" />
-            }
-          </Collapse>
+        {instanceData?.instances.length
+          ? <Collapse collapsible label='System Summary' isOpen={isServerSummaryOpen} onToggle={toggleServerSummaryOpen}>
+              {isServerSummaryLoaded
+                ? (
+                    serverSummaryError
+                      ? <Alert title='' security='error'>{ serverSummaryError }</Alert>
+                      : <pre>{ serverSummary }</pre>
+                  )
+                : <Icon name="fa fa-spinner" />
+              }
+            </Collapse>
+          : <></>
         }
         {instanceData?.instances.findIndex(inst => inst.Subsystem === Subsystem.MySQL) !== -1 &&
           <Collapse collapsible label='MySQL Summary' isOpen={isMySQLSummaryOpen} onToggle={toggleMySQLSummaryOpen}>

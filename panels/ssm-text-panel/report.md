@@ -33,3 +33,14 @@ Count: {{query_count_func}}
 ---
 
 {{/query_reports}}
+
+## Toolkit Summary
+
+{{#tool_reports}}
+```
+# {{type}} #######
+
+{{payload}}
+
+```
+{{/tool_reports}}
