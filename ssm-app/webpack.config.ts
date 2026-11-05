@@ -66,6 +66,10 @@ module.exports = {
         type: 'asset/source', // tells webpack to load the content as a string
       },
       {
+        test: /\.(png|jpg|jpeg|gif)$/i,
+        type: 'url-loader', // Inlines everything as a Base64 Data URL
+      },
+      {
         parser: {
           system: false
         }

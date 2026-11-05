@@ -1,3 +1,9 @@
+| | |
+|---|---|
+| | ![](ss-logo.png){width=99%} |
+
+# Onboarding / Performance Report: {{instance}}
+
 ## Tuning
 
 {{#tuning_reports}}
@@ -7,15 +13,17 @@
 - current: {{current}}
 - proposed: {{proposed}}
 
-![]({{image.filename}}){width="100%"}
+![]({{image.filename}}){width="100%"} {{^conclusion}}{{delimiter}}{{/conclusion}}
+{{#conclusion}}
+
+{{conclusion}} {{delimiter}}
+{{/conclusion}}
 
 {{/tuning_reports}}
 
 ## Query
 
 {{#query_reports}}
-
----
 
 ### {{abstract}} / {{checksum}}
 
@@ -30,7 +38,7 @@ Average time: {{query_time_avg_func}}
 
 Count: {{query_count_func}}
 
----
+\newpage
 
 {{/query_reports}}
 
