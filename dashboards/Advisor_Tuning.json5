@@ -10349,7 +10349,6 @@ mysql_global_variables_max_connections{instance=~\"$host\"} \n\
       "format": "bytes"
     }
   ],
-  "refresh": "1m",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [
