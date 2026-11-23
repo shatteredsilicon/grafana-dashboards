@@ -44,6 +44,18 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js$/,
+        enforce: 'pre',
+        use: [
+          {
+            loader: 'source-map-loader',
+            options: {
+              filterSourceMappingUrl: () => 'remove',
+            },
+          },
+        ],
+      },
+      {
         exclude: /(node_modules)/,
         test: /\.(js|jsx|ts|tsx)$/,
         use: {
