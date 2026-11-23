@@ -184,7 +184,10 @@
           "datasource": {
             "type": "prometheus"
           },
-          "refId": "A"
+          "refId": "A",
+          "expr": "up{instance=\"$host\"}",
+          "format": "time_series",
+          "interval": "$interval"
         }
       ],
       "type": "ssm-text-panel",
@@ -282,7 +285,8 @@
           "calcs": [
             "mean",
             "max",
-            "min"
+            "min",
+            "last"
           ],
           "displayMode": "table",
           "placement": "bottom",
@@ -3987,6 +3991,30 @@ clamp( \n\
     and \n\
     on() ( \n\
       max_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    ceil( \n\
+      mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
+    ) \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
+      ) == 0 \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
         mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
       ) < ( \n\
         mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
@@ -4016,18 +4044,6 @@ clamp( \n\
           or \n\
           max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m])) / 100 \n\
         ) < 0.75 \n\
-      ) \n\
-    ) \n\
-  ) \n\
-  or \n\
-  on() ( \n\
-    mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
-    and \n\
-    on() ( \n\
-      max_over_time( \n\
-        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
-      ) != min_over_time( \n\
-        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
       ) \n\
     ) \n\
   ) \n\
@@ -4170,6 +4186,30 @@ clamp( \n\
     and \n\
     on() ( \n\
       max_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    ceil( \n\
+      mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
+    ) \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
+      ) == 0 \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
         mysql_engine_innodb_pending_reads{instance=~\"$host\"}[1w] \n\
       ) < ( \n\
         mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} / 2 \n\
@@ -4199,18 +4239,6 @@ clamp( \n\
           or \n\
           max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m])) / 100 \n\
         ) < 0.75 \n\
-      ) \n\
-    ) \n\
-  ) \n\
-  or \n\
-  on() ( \n\
-    mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"} \n\
-    and \n\
-    on() ( \n\
-      max_over_time( \n\
-        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
-      ) != min_over_time( \n\
-        mysql_global_variables_innodb_read_io_threads{instance=~\"$host\"}[1w] \n\
       ) \n\
     ) \n\
   ) \n\
@@ -4589,6 +4617,30 @@ clamp( \n\
     and \n\
     on() ( \n\
       max_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    ceil( \n\
+      mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
+    ) \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
+      ) == 0 \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
         mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
       ) < ( \n\
         mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
@@ -4618,18 +4670,6 @@ clamp( \n\
           or \n\
           max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m])) / 100 \n\
         ) < 0.75 \n\
-      ) \n\
-    ) \n\
-  ) \n\
-  or \n\
-  on() ( \n\
-    mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
-    and \n\
-    on() ( \n\
-      max_over_time( \n\
-        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
-      ) != min_over_time( \n\
-        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
       ) \n\
     ) \n\
   ) \n\
@@ -4762,6 +4802,30 @@ clamp( \n\
     and \n\
     on() ( \n\
       max_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) != min_over_time( \n\
+        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
+      ) \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    ceil( \n\
+      mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
+    ) \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
+        mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
+      ) == 0 \n\
+    ) \n\
+  ) \n\
+  or \n\
+  on() ( \n\
+    mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
+    and \n\
+    on() ( \n\
+      max_over_time( \n\
         mysql_engine_innodb_pending_writes{instance=~\"$host\"}[1w] \n\
       ) < ( \n\
         mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} / 2 \n\
@@ -4791,18 +4855,6 @@ clamp( \n\
           or \n\
           max(max_over_time(rdsosmetrics_diskIO_util{instance=~\"$host\", device=~\"$device\"}[5m])) / 100 \n\
         ) < 0.75 \n\
-      ) \n\
-    ) \n\
-  ) \n\
-  or \n\
-  on() ( \n\
-    mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"} \n\
-    and \n\
-    on() ( \n\
-      max_over_time( \n\
-        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
-      ) != min_over_time( \n\
-        mysql_global_variables_innodb_write_io_threads{instance=~\"$host\"}[1w] \n\
       ) \n\
     ) \n\
   ) \n\
@@ -5438,7 +5490,8 @@ or on() vector(-2) \n\
           "calcs": [
             "mean",
             "max",
-            "min"
+            "min",
+            "last"
           ],
           "displayMode": "table",
           "placement": "bottom",
@@ -5483,6 +5536,28 @@ or on() vector(-2) \n\
           "legendFormat": "Index Size",
           "metric": "",
           "refId": "A",
+          "step": 300
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "\
+( \n\
+  node_memory_MemTotal{instance=\"$host\"} \n\
+  or \n\
+  node_memory_MemTotal_bytes{instance=\"$host\"} \n\
+) \n\
+",
+          "format": "time_series",
+          "interval": "$interval",
+          "intervalFactor": 1,
+          "legendFormat": "RAM",
+          "metric": "",
+          "refId": "B",
           "step": 300
         }
       ],
@@ -6216,7 +6291,8 @@ or on() vector(-3) \n\
           "calcs": [
             "mean",
             "max",
-            "min"
+            "min",
+            "last"
           ],
           "displayMode": "table",
           "placement": "bottom",
