@@ -2,7 +2,11 @@
 |---|---|
 | | ![](ss-logo.png){width=99%} |
 
-# Onboarding / Performance Report: {{instance}}
+# Onboarding / Performance Report:
+
+# {{instance}}
+
+\newpage
 
 ## Tuning
 
